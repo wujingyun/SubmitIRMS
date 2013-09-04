@@ -1,6 +1,6 @@
-<%-- 
-    Document   : index
-    Created on : Sep 1, 2013, 3:02:08 PM
+<%--
+    Document   : Register
+    Created on : Sep 2, 2013, 1:41:51 PM
     Author     : WU JINGYUN
 --%>
 
@@ -12,7 +12,8 @@
         <title>JSP Page</title>
     </head>
     <body>
+        
         <h1>Hello World!</h1>
-        <h2>hehehe</h2>
+     
     </body>
 </html>
