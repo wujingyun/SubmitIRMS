@@ -29,9 +29,10 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @Entity
 
-@NamedQueries(
+@NamedQueries({
     @NamedQuery(name = "getAllCustomers", query = "SELECT c FROM Customer c ORDER BY c.customerId ASC")
-)
+})
+
 
 public class Customer implements Serializable 
 {
@@ -41,6 +42,11 @@ public class Customer implements Serializable
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long customerId;
     @Column(length = 32)
+
+
+    private String Username;
+    @Column(length = 32)
+    private String PW;
     private String firstName;
     @Column(length = 32)
     private String lastName;
@@ -55,10 +61,20 @@ public class Customer implements Serializable
     @Column(length = 16)
     private String mobilePhoneNumber;
     private Integer loyaltyPointBalance;
-
     private Timestamp registrationTimestamp;
         
-    
+    public void create(String Username, String firstName, String lastName, String address, String email,  
+            String mobilePhoneCountryCode, String moilePhoneNumber) {
+       this.setUserName(Username);
+       this.setFirstName(firstName);
+       this.setLastName(lastName);
+       this.setAddress(address);
+       this.setEmail(email);
+       this.setPassword(password);
+       this.setMobilePhoneCountryCode(mobilePhoneCountryCode);
+       this.setMobilePhoneNumber(mobilePhoneNumber);
+       
+    }
 
     
     
@@ -95,7 +111,13 @@ public class Customer implements Serializable
         return "entity.Customer[ customerId=" + customerId + " ]";
     }
 
-    
+      public void getUserName(String Username) {
+        this.Username = Username;
+    }
+      
+        public void setUserName(String Username) {
+        this.Username = Username;
+    }
     
     public String getFirstName() {
         return firstName;
