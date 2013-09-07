@@ -10,6 +10,8 @@ import java.util.Calendar;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -20,16 +22,18 @@ import javax.persistence.Query;
  */
 @Stateless
 
-public class CustomerSessionBean implements CustomerSessionBeanRemote
+public class CustomerBean implements CustomerBeanRemote
 {
     @PersistenceContext
-    private EntityManager em;
-    
+    EntityManager em;
+    Customer customer;
+   
     //@EJB
     //SmsSessionBeanLocal smsSessionBeanLocal;
     
     
-    
+      
+   
     @Override
     public List<Customer> getAllCustomers()
     {
@@ -40,16 +44,30 @@ public class CustomerSessionBean implements CustomerSessionBeanRemote
     
     
     
-    /*  @Override
-  public Long createCustomer(Customer customer)
+      @Override
+  public Long createCustomer(String Username, String firstName, String lastName, String address, String email, String password, 
+            String mobilePhoneCountryCode, String moilePhoneNumber, Integer lotaltyPointBalance)
     {
         try
-        {
-            customer.setPassword(RandomPasswordGenerator.Password());
+        {customer = em.find(Customer.class, Username);
+        
+        if (customer != null) {
+           
+        System.out.println("Username already exist");
+        } 
+        else {
+            customer = new Customer ();
+           
+           customer.create(Username, firstName, lastName, address, email, mobilePhoneCountryCode, moilePhoneNumber);
+        }
+        
+            //customer.setPassword(RandomPasswordGenerator.Password());
             customer.setLoyaltyPointBalance(0);
-            customer.setCustomerTier(CustomerTier.CLASSIC);
+          //  customer.setCustomerTier(CustomerTier.CLASSIC);
             customer.setRegistrationTimestamp(new Timestamp(Calendar.getInstance().getTimeInMillis()));
-
+ 
+        
+        
             em.persist(customer);
             em.flush();
             em.refresh(customer);
@@ -62,7 +80,7 @@ public class CustomerSessionBean implements CustomerSessionBeanRemote
         {
             return null;
         }
-    }*/
+    }
     
     
     
@@ -71,4 +89,5 @@ public class CustomerSessionBean implements CustomerSessionBeanRemote
     {
         em.merge(customer);        
     }*/
+
 }
