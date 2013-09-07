@@ -21,12 +21,12 @@ import javax.persistence.OneToMany;
 public class Mall implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long MallID;
     
     @OneToMany(mappedBy="mall")
-    private Collection<Shop> shops = new
-            ArrayList <Shop>();
+    private Collection<Unit> units = new
+            ArrayList <Unit>();
     
     public Long getMallID() {
         return MallID;
@@ -36,11 +36,11 @@ public class Mall implements Serializable {
         this.MallID = MallID;
     }
     
-     public Collection<Shop> getShops(){
-        return shops;
+     public Collection<Unit> getUnits(){
+        return units;
     }
-     public void setShops (Collection<Shop> shops){
-          this.shops = shops;
+     public void setUnits (Collection<Unit> units){
+          this.units = units;
      }
      
 }

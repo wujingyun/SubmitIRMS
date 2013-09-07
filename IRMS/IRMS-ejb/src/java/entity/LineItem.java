@@ -22,10 +22,11 @@ import javax.persistence.ManyToOne;
 
 public class LineItem implements Serializable {
     @Id
-    @GeneratedValue (strategy = GenerationType.AUTO)
+    @GeneratedValue (strategy = GenerationType.SEQUENCE)
     private Long saleTransactionId;
     @Id
     private Integer itemNo;
+    
     private Integer quantity;
     @Column(precision = 19, scale = 4)
     private BigDecimal unitPrice;

@@ -34,10 +34,7 @@ public class Shop implements Serializable {
     
     @OneToOne
     private Contract contract;
-    
-    @ManyToOne
-    private Mall mall;
-    
+      
     @OneToOne(mappedBy="shop")
     private ShopOwner shopOwner;
     
@@ -95,12 +92,6 @@ public class Shop implements Serializable {
         this.contract=contract;
     }
     
-    public Mall getMall(){
-        return mall;
-    }
-    public void setMall(Mall mall){
-        this.mall=mall;
-    }
     
     public ShopOwner getShopOwner(){
         return shopOwner;
