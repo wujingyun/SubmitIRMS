@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -22,12 +23,23 @@ public class Unit implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String UnitNo;
+    private boolean unitAvailability;
+    
     
     @ManyToOne
     private Mall mall;
     
+    @OneToOne
+    private Shop shop;
+    
     public Long getId() {
         return id;
+    }
+    
+    public Unit(){}
+    
+    public void createUnit(String UnitNo){
+        this.UnitNo=UnitNo;
     }
 
     public void setId(Long id) {
@@ -49,4 +61,22 @@ public class Unit implements Serializable {
     public void setMall(Mall mall){
         this.mall=mall;
     }
+
+    public Shop getShop() {
+        return shop;
+    }
+
+    public void setShop(Shop shop) {
+        this.shop = shop;
+    }
+
+    public boolean isUnitAvailability() {
+        return unitAvailability;
+    }
+
+    public void setUnitAvailability(boolean unitAvailability) {
+        this.unitAvailability = unitAvailability;
+    }
+    
+    
 }

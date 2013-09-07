@@ -20,14 +20,32 @@ import javax.persistence.OneToOne;
 public class ShopOwner implements Serializable {
    
     @Id
-    @GeneratedValue (strategy = GenerationType.SEQUENCE)
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long ShopOwnerID;
     
-    private String Name;
+    private String UserName;
     private String Password;
+    // status, tenant name ,ic contact number.
+    boolean status;
+    private String tenantName;
+    private String IC;
+    private String contactNumber;
     
-    @OneToOne
-    private Shop shop;
+    @OneToOne(mappedBy="shopTenant")
+    private Contract contract;
+    
+    public ShopOwner(){}
+    
+    public void createShopOwner(String UserName, String Password,boolean status
+            ,String tenantName,String IC,String contactNumber){
+        this.setUserName(UserName);
+        this.setPassword(Password);
+        this.setStatus(status);
+        this.setTenantName(tenantName);
+        this.setIC(IC);
+        this.setContactNumber(contactNumber);
+    }
+    
     
     public Long getShopOwnerID() {
         return ShopOwnerID;
@@ -37,11 +55,11 @@ public class ShopOwner implements Serializable {
         this.ShopOwnerID = ShopOwnerID;
     }
 
-    public String getName(){
-        return Name;
+    public String getUserName(){
+        return UserName;
     }
-    public void setName(String Name){
-        this.Name = Name;
+    public void setUserName(String UserName){
+        this.UserName = UserName;
     }
     
     public String getPassword(){
@@ -50,12 +68,45 @@ public class ShopOwner implements Serializable {
     public void setPassword(String Password){
         this.Password=Password;
     }
-    
-    public Shop getShop(){
-        return shop;
+
+    public boolean isStatus() {
+        return status;
     }
-    public void setShop(Shop shop){
-        this.shop=shop;
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public String getTenantName() {
+        return tenantName;
+    }
+
+    public void setTenantName(String tenantName) {
+        this.tenantName = tenantName;
+    }
+
+    public String getIC() {
+        return IC;
+    }
+
+    public void setIC(String IC) {
+        this.IC = IC;
+    }
+
+    public String getContactNumber() {
+        return contactNumber;
+    }
+
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
+    }
+
+    public Contract getContract() {
+        return contract;
+    }
+
+    public void setContract(Contract contract) {
+        this.contract = contract;
     }
     
 }

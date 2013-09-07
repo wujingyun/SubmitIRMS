@@ -23,26 +23,41 @@ import javax.persistence.OneToOne;
 public class Shop implements Serializable {
    
     @Id
-    @GeneratedValue (strategy = GenerationType.SEQUENCE)
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long ShopID;
     
     private String Name;
     private String Owner;
-    private String Bill;
     private String UnitNo;
     private String totalArea;
+    private String description;
+    // operating hours, descrition created after signing contract
+    private String storeContact;
     
-    @OneToOne
-    private Contract contract;
-      
     @OneToOne(mappedBy="shop")
-    private ShopOwner shopOwner;
+    private Contract contract;
     
     @OneToMany(mappedBy="shop")
     private Collection<ProductItem> productItems =
             new ArrayList <ProductItem>();
     
+    @OneToMany
+    private Collection<Bill> bills = new ArrayList<Bill>();
     
+    @OneToOne(mappedBy="unit")
+    private Unit unit;
+    
+    public Shop(){}
+    public void createShop(String Name,String Owner,String UnitNo,String totalArea
+            ,String description,String storeContact){
+        this.setName(Name);
+        this.setOwner(Owner);
+        this.setUnitNo(UnitNo);
+        this.setTotalArea(totalArea);
+        this.setDescription(description);
+        this.setStoreContact(storeContact);
+    }
+       
     public Long getShopID() {
         return  ShopID;
     }
@@ -64,12 +79,6 @@ public class Shop implements Serializable {
         this.Owner=Owner;
     }
     
-    public String getBill(){
-        return Bill;
-    }
-    public void setBill(String Bill){
-        this.Bill =Bill;
-    }
     
     public String getUnitNo(){
         return UnitNo;
@@ -93,18 +102,45 @@ public class Shop implements Serializable {
     }
     
     
-    public ShopOwner getShopOwner(){
-        return shopOwner;
-    }
-    public void setShopOwner(ShopOwner shopOwner){
-        this.shopOwner=shopOwner;
-    }
-    
-     public void setProductItem (Collection<ProductItem> productItems){
+     public void setProductItems (Collection<ProductItem> productItems){
         this.productItems=productItems;
     }
 
-    public Collection<ProductItem> getReservations(){
+    public Collection<ProductItem> getProductItems(){
         return productItems;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getStoreContact() {
+        return storeContact;
+    }
+
+    public void setStoreContact(String storeContact) {
+        this.storeContact = storeContact;
+    }
+
+    public Collection<Bill> getBills() {
+        return bills;
+    }
+
+    public void setBills(Collection<Bill> bills) {
+        this.bills = bills;
+    }
+
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
+    
+    
 }

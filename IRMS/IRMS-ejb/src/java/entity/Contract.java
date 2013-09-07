@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
 /**
@@ -16,14 +17,16 @@ import javax.persistence.Temporal;
 public class Contract implements Serializable {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.SEQUENCE)
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long ContractId;
     
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar DateOfExecution;
     
+    private String ContractType;
     private String Landlord;
     private String Tenant;
+    private String IdentityCard;
     private String TenantTradeName;
     private String UnitNo;
     private String NameOfShoppingCenter;
@@ -34,9 +37,40 @@ public class Contract implements Serializable {
     private String TenantAddress;
     private String LandlordContact;
     private String TenantContact;
-    private String BrokerForLandlord;
-    private String BrokerForTenant;
-    private String Guarantor;
+    private String upfrontRentalDeposit;
+    
+    @OneToOne
+    private ShopOwner shopTenant;
+    
+    @OneToOne
+    private Shop shop;
+    
+    
+    public void createContract(String ContractType,String Landlord,String Tenant,
+            String IdentityCard,String TenantTradeName,String UnitNo,
+            String NameOfShoppingCenter,String FloorArea,String Purpose
+            ,String MinimumRent,String RentRate,String TenantAddress,String LandlordContact
+            ,String TenantContact,String upfrontRentalDeposit){
+        this.setContractType(ContractType);
+        this.setLandlord(Landlord);
+        this.setTenant(Tenant);
+        this.setIdentityCard(IdentityCard);
+        this.setTenantTradeName(TenantTradeName);
+        this.setUnitNo(UnitNo);
+        this.setNameOfShoppingCenter(NameOfShoppingCenter);
+        this.setFloorArea(FloorArea);
+        this.setPurpose(Purpose);
+        this.setMinimumRent(MinimumRent);
+        this.setRentRate(RentRate);
+        this.setTenantAddress(TenantAddress);
+        this.setLandlordContact(LandlordContact);
+        this.setTenantContact(TenantContact);
+        this.setUpfrontRentalDeposit(upfrontRentalDeposit);     
+    }    
+    
+    public Contract(){
+        
+    }
     
     public Long getId() {
         return ContractId;
@@ -45,7 +79,7 @@ public class Contract implements Serializable {
     public void setId(Long ContractId) {
         this.ContractId = ContractId;
     }
-
+     
     public Calendar getDateOfExecution(){
         return DateOfExecution;
     }
@@ -66,6 +100,7 @@ public class Contract implements Serializable {
     public void setTenant(String Tenant){
         this.Tenant=Tenant;
     }
+
     
     public String TenantTradeName(){
         return TenantTradeName;
@@ -137,25 +172,43 @@ public class Contract implements Serializable {
         this.TenantContact=TenantContact;
     }
     
-    public String getBrokerForLandlord(){
-        return BrokerForLandlord;
-    }    
-    public void setBrokerForLandlord(String BrokerForLandlord){
-        this.BrokerForLandlord=BrokerForLandlord;
+    public String getUpfrontRentalDeposit(){
+        return upfrontRentalDeposit;
     }
-    
-    public String getBrokerForTenant(){
-        return BrokerForTenant;
+    public void setUpfrontRentalDeposit(String upfrontRentalDeposit){
+        this.upfrontRentalDeposit=upfrontRentalDeposit;
     }
-    public void setBrokerForTenant(String BrokerForTenant){
-        this.BrokerForTenant=BrokerForTenant;
+
+    public String getIdentityCard() {
+        return IdentityCard;
     }
-    
-    public String getGuarantor(){
-        return Guarantor;
+
+    public void setIdentityCard(String IdentityCard) {
+        this.IdentityCard = IdentityCard;
     }
-    public void setGuarantor(String Guarantor){
-        this.Guarantor= Guarantor;
+
+    public String getContractType() {
+        return ContractType;
+    }
+
+    public void setContractType(String ContractType) {
+        this.ContractType = ContractType;
+    }
+
+    public Shop getShop() {
+        return shop;
+    }
+
+    public void setShop(Shop shop) {
+        this.shop = shop;
+    }
+
+    public ShopOwner getShopTenant() {
+        return shopTenant;
+    }
+
+    public void setShopTenant(ShopOwner shopTenant) {
+        this.shopTenant = shopTenant;
     }
     
 }
