@@ -13,6 +13,10 @@
                     <file>${libs.MySQLDriver.classpath}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
+                <library dirs="200">
+                    <file>${libs.primefaces.classpath}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
             </web-module-libraries>
             <web-module-additional-libraries/>
             <source-roots>
@@ -32,5 +36,11 @@
                 <id>dist</id>
             </reference>
         </references>
+        <spring-data xmlns="http://www.netbeans.org/ns/spring-data/1">
+            <config-files/>
+            <config-file-groups>
+                <config-file-group name="Default Group"/>
+            </config-file-groups>
+        </spring-data>
     </configuration>
 </project>
