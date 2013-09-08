@@ -7,6 +7,7 @@ package entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,10 +29,9 @@ public class Shop implements Serializable {
     
     private String Name;
     private String Owner;
-    private String UnitNo;
     private String totalArea;
     private String description;
-    // operating hours, descrition created after signing contract
+    private String operatinghours;
     private String storeContact;
     
     @OneToOne(mappedBy="shop")
@@ -42,18 +42,22 @@ public class Shop implements Serializable {
             new ArrayList <ProductItem>();
     
     @OneToMany
-    private Collection<Bill> bills = new ArrayList<Bill>();
+    private Collection<ShopBill> bills = new ArrayList<ShopBill>();
     
-    @OneToOne(mappedBy="unit")
-    private Unit unit;
+    @OneToMany(mappedBy="shop")
+    private Collection<Unit> units =
+            new ArrayList<Unit>();
     
     public Shop(){}
-    public void createShop(String Name,String Owner,String UnitNo,String totalArea
-            ,String description,String storeContact){
+    public void createShop(String Name,String Owner,String totalArea){
         this.setName(Name);
         this.setOwner(Owner);
-        this.setUnitNo(UnitNo);
         this.setTotalArea(totalArea);
+     //   this.setDescription(description);
+      //  this.setStoreContact(storeContact);
+    }
+    
+    public void updateShopInfo(String description, String storeContact){
         this.setDescription(description);
         this.setStoreContact(storeContact);
     }
@@ -78,14 +82,15 @@ public class Shop implements Serializable {
     public void setOwner(String Owner){
         this.Owner=Owner;
     }
-    
-    
-    public String getUnitNo(){
-        return UnitNo;
+
+    public Collection<Unit> getUnits() {
+        return units;
     }
-    public void setUnitNo(String UnitNo){
-        this.UnitNo = UnitNo;
+
+    public void setUnits(Collection<Unit> units) {
+        this.units = units;
     }
+  
     
     public String getTotalArea(){
         return totalArea;
@@ -126,20 +131,22 @@ public class Shop implements Serializable {
         this.storeContact = storeContact;
     }
 
-    public Collection<Bill> getBills() {
+    public Collection<ShopBill> getBills() {
         return bills;
     }
 
-    public void setBills(Collection<Bill> bills) {
+    public void setBills(Collection<ShopBill> bills) {
         this.bills = bills;
     }
 
-    public Unit getUnit() {
-        return unit;
+  
+
+    public String getOperatinghours() {
+        return operatinghours;
     }
 
-    public void setUnit(Unit unit) {
-        this.unit = unit;
+    public void setOperatinghours(String operatinghours) {
+        this.operatinghours = operatinghours;
     }
     
     

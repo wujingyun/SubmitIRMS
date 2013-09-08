@@ -17,7 +17,7 @@ import javax.persistence.Temporal;
  * @author wangxiahao
  */
 @Entity
-public class Bill implements Serializable {
+public class ShopBill implements Serializable {
   
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +28,7 @@ public class Bill implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar dateIssued;
     
-    public Bill(){}
+    public ShopBill(){}
     
     public void createBill(String RentalFee,String Commision){
         this.setRentalFee(RentalFee);

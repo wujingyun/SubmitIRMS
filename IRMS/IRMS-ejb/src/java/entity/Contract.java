@@ -1,11 +1,15 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
@@ -23,12 +27,14 @@ public class Contract implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar DateOfExecution;
     
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Calendar DateOfExpiry;
+    
     private String ContractType;
     private String Landlord;
     private String Tenant;
     private String IdentityCard;
     private String TenantTradeName;
-    private String UnitNo;
     private String NameOfShoppingCenter;
     private String FloorArea;
     private String Purpose;
@@ -45,9 +51,13 @@ public class Contract implements Serializable {
     @OneToOne
     private Shop shop;
     
+    @OneToMany(mappedBy="contract")
+    private Collection<Unit> units = new ArrayList<Unit>();
+    
+    
     
     public void createContract(String ContractType,String Landlord,String Tenant,
-            String IdentityCard,String TenantTradeName,String UnitNo,
+            String IdentityCard,String TenantTradeName,
             String NameOfShoppingCenter,String FloorArea,String Purpose
             ,String MinimumRent,String RentRate,String TenantAddress,String LandlordContact
             ,String TenantContact,String upfrontRentalDeposit){
@@ -56,7 +66,6 @@ public class Contract implements Serializable {
         this.setTenant(Tenant);
         this.setIdentityCard(IdentityCard);
         this.setTenantTradeName(TenantTradeName);
-        this.setUnitNo(UnitNo);
         this.setNameOfShoppingCenter(NameOfShoppingCenter);
         this.setFloorArea(FloorArea);
         this.setPurpose(Purpose);
@@ -65,8 +74,21 @@ public class Contract implements Serializable {
         this.setTenantAddress(TenantAddress);
         this.setLandlordContact(LandlordContact);
         this.setTenantContact(TenantContact);
-        this.setUpfrontRentalDeposit(upfrontRentalDeposit);     
+        this.setUpfrontRentalDeposit(upfrontRentalDeposit); 
+     
     }    
+    
+    public void renewThisContract(String FloorArea,String Purpose
+            ,String MinimumRent,String RentRate,String TenantAddress,String LandlordContact
+            ,String TenantContact,String upfrontRentalDeposit){
+        this.setFloorArea(FloorArea);
+        this.setMinimumRent(MinimumRent);
+        this.setRentRate(RentRate);
+        this.setTenantAddress(TenantAddress);
+        this.setLandlordContact(LandlordContact);
+        this.setTenantContact(TenantContact);
+        this.setUpfrontRentalDeposit(upfrontRentalDeposit); 
+    }
     
     public Contract(){
         
@@ -108,13 +130,15 @@ public class Contract implements Serializable {
     public void setTenantTradeName(String TenantTradeName){
         this.TenantTradeName=TenantTradeName;
     }
-    
-    public String UnitNo(){
-        return UnitNo;
+
+    public Collection<Unit> getUnits() {
+        return units;
     }
-    public void setUnitNo(String UnitNo){
-        this.UnitNo=UnitNo;
+
+    public void setUnits(Collection<Unit> units) {
+        this.units = units;
     }
+        
     
     public String getNameOfShoppingCenter(){
         return NameOfShoppingCenter;
@@ -209,6 +233,14 @@ public class Contract implements Serializable {
 
     public void setShopTenant(ShopOwner shopTenant) {
         this.shopTenant = shopTenant;
+    }
+
+    public Calendar getDateOfExpiry() {
+        return DateOfExpiry;
+    }
+
+    public void setDateOfExpiry(Calendar DateOfExpiry) {
+        this.DateOfExpiry = DateOfExpiry;
     }
     
 }

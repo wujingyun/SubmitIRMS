@@ -21,30 +21,28 @@ public class Unit implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     private String UnitNo;
-    private boolean unitAvailability;
+    
+    private boolean unitAvailability =true;
     
     
     @ManyToOne
     private Mall mall;
     
-    @OneToOne
+    @ManyToOne
     private Shop shop;
     
-    public Long getId() {
-        return id;
-    }
+    @ManyToOne
+    private Contract contract;
     
+   
     public Unit(){}
     
-    public void createUnit(String UnitNo){
+    public void createUnit(String UnitNo,boolean unitAvailability){
         this.UnitNo=UnitNo;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+ 
     
     public String getUnitNo(){
         return UnitNo;
@@ -70,12 +68,20 @@ public class Unit implements Serializable {
         this.shop = shop;
     }
 
-    public boolean isUnitAvailability() {
+  public boolean isUnitAvailability() {
         return unitAvailability;
     }
 
     public void setUnitAvailability(boolean unitAvailability) {
         this.unitAvailability = unitAvailability;
+    }
+
+    public Contract getContract() {
+        return contract;
+    }
+
+    public void setContract(Contract contract) {
+        this.contract = contract;
     }
     
     
