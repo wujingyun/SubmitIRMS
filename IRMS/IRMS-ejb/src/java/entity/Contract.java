@@ -78,9 +78,10 @@ public class Contract implements Serializable {
      
     }    
     
-    public void renewThisContract(String FloorArea,String Purpose
+    public void renewThisContract( String IdentityCard,String FloorArea,String Purpose
             ,String MinimumRent,String RentRate,String TenantAddress,String LandlordContact
-            ,String TenantContact,String upfrontRentalDeposit){
+            ,String TenantContact,String upfrontRentalDeposit,String TenantTradeName){
+        this.setPurpose(Purpose);
         this.setFloorArea(FloorArea);
         this.setMinimumRent(MinimumRent);
         this.setRentRate(RentRate);
@@ -88,6 +89,8 @@ public class Contract implements Serializable {
         this.setLandlordContact(LandlordContact);
         this.setTenantContact(TenantContact);
         this.setUpfrontRentalDeposit(upfrontRentalDeposit); 
+        this.setIdentityCard(IdentityCard);
+        this.setTenantTradeName(TenantTradeName);
     }
     
     public Contract(){
