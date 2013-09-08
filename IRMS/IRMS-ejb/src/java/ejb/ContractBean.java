@@ -33,12 +33,14 @@ public class ContractBean implements ContractBeanRemote {
     private Shop shopEntity;
     private Unit unitEntity;
     private ShopOwner tenant;
+    
     public ContractBean(){
     }
     
+   
    public void signContract(String ContractType,String Landlord,String Tenant,
             String IdentityCard,String TenantTradeName,List UnitNo,
-            String NameOfShoppingCenter,String FloorArea,String Purpose
+            String NameOfShoppingCenter,String Purpose
             ,String MinimumRent,String RentRate,String TenantAddress,String LandlordContact
             ,String TenantContact,String upfrontRentalDeposit)throws ExistException{
             
@@ -49,15 +51,11 @@ public class ContractBean implements ContractBeanRemote {
             shopEntity = new Shop();
             tenant     = new ShopOwner();
             
-        for (Iterator it = UnitNo.iterator(); it.hasNext();) {
-            String singleUnit = (String)it.next();
-            unitEntity = em.find(Unit.class, singleUnit);      
-            if(unitEntity.isUnitAvailability()!=true)
-                throw new ExistException("The unit has been taken！");
-        } 
+        if(UnitAvailabilityCheck(UnitNo) ==false)
+            throw new ExistException("The unit has been taken！");
            
             contractEntity.createContract(ContractType, Landlord, Tenant, IdentityCard,
-                    TenantTradeName, NameOfShoppingCenter, FloorArea,
+                    TenantTradeName, NameOfShoppingCenter,
                     Purpose, MinimumRent, RentRate, TenantAddress, 
                     LandlordContact, TenantContact, upfrontRentalDeposit);                        
             
@@ -65,17 +63,22 @@ public class ContractBean implements ContractBeanRemote {
             contractEntity.setDateOfExecution(cal);
             Calendar futureCal = Calendar.getInstance();
             futureCal.add(Calendar.YEAR, 1);
-            contractEntity.setDateOfExpiry(cal);
-                      
+            contractEntity.setDateOfExpiry(futureCal);
+            
+            unitEntity     = new Unit();
+            int totalArea;
+                totalArea = 0;
             for (Iterator it = UnitNo.iterator(); it.hasNext();){
                String result = (String)it.next();
-               unitEntity.setUnitNo(result);
+               unitEntity = em.find(Unit.class, result);  
                unitEntity.setUnitAvailability(false);
+               totalArea +=unitEntity.getUnitSpace();
                unitEntity.setContract(contractEntity);
                contractEntity.getUnits().add(unitEntity);
+               em.refresh(unitEntity);
            }
-      
-            shopEntity.createShop(TenantTradeName, Tenant, FloorArea);
+            contractEntity.setFloorArea(totalArea);
+            shopEntity.createShop(TenantTradeName, Tenant, totalArea);
          
             randomPassword = randomPassGeneration();
             tenant.createShopOwner(Tenant+IdentityCard, randomPassword, true, Tenant, 
@@ -88,7 +91,7 @@ public class ContractBean implements ContractBeanRemote {
                            
             em.persist(contractEntity);
             em.persist(shopEntity);
-            em.persist(tenant);
+            em.persist(tenant);          
             em.flush();             
     }
    
@@ -105,23 +108,54 @@ public class ContractBean implements ContractBeanRemote {
             q.setParameter("ic",IdentityCard);
             q.setParameter("tradename", TenantTradeName);
             contractEntity= (Contract)q.getSingleResult();
-            
-            
-            contractEntity.renewThisContract(IdentityCard,FloorArea, Purpose, MinimumRent,
-                    RentRate, TenantAddress, LandlordContact, 
-                    TenantContact, upfrontRentalDeposit,TenantTradeName);
+                       
+            contractEntity.renewThisContract(IdentityCard,Purpose
+            ,MinimumRent,RentRate, TenantAddress, LandlordContact
+            ,TenantContact, upfrontRentalDeposit,TenantTradeName);
+                       
             Calendar cal = Calendar.getInstance();
             contractEntity.setDateOfExecution(cal);
-            Calendar futureCal = Calendar.getInstance();
+            Calendar futureCal = contractEntity.getDateOfExpiry();
             futureCal.add(Calendar.YEAR, 1);
-            contractEntity.setDateOfExpiry(cal);
+            contractEntity.setDateOfExpiry(futureCal);
             
+            unitEntity     = new Unit();
+            int totalArea;
+                totalArea = 0;
+            for (Iterator it = UnitNo.iterator(); it.hasNext();){
+               String result = (String)it.next();
+               unitEntity = em.find(Unit.class, result);  
+               unitEntity.setUnitAvailability(false);
+               totalArea +=unitEntity.getUnitSpace();
+               unitEntity.setContract(contractEntity);
+               contractEntity.getUnits().add(unitEntity);
+               em.refresh(unitEntity);
+               em.flush();
+           }
+             contractEntity.setFloorArea(totalArea);
+             contractEntity.getShop().renewShop(totalArea);
+             em.persist(contractEntity);
+             em.persist(shopEntity);
+             em.flush();
+       //     shopEntity.updateShop(TenantTradeName, Tenant, FloorArea);
        
    }
    public void terminateContract(){
        
    }
    
+   
+   public boolean UnitAvailabilityCheck(List UnitNo){
+        unitEntity     = new Unit();
+        for (Iterator it = UnitNo.iterator(); it.hasNext();) {
+            String singleUnit = (String)it.next();
+            unitEntity = em.find(Unit.class, singleUnit);      
+            if(unitEntity.isUnitAvailability()!=true)
+                return false;
+            
+        } 
+        return true;
+   } 
    public String randomPassGeneration(){
         String uuid = UUID.randomUUID().toString();
         String pass = uuid.substring(0,8);
