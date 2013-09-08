@@ -29,8 +29,6 @@ public class Unit implements Serializable {
     @ManyToOne
     private Mall mall;
     
-    @ManyToOne
-    private Shop shop;
     
     @ManyToOne
     private Contract contract;
@@ -41,8 +39,6 @@ public class Unit implements Serializable {
     public void createUnit(String UnitNo,boolean unitAvailability){
         this.UnitNo=UnitNo;
     }
-
- 
     
     public String getUnitNo(){
         return UnitNo;
@@ -60,14 +56,7 @@ public class Unit implements Serializable {
         this.mall=mall;
     }
 
-    public Shop getShop() {
-        return shop;
-    }
-
-    public void setShop(Shop shop) {
-        this.shop = shop;
-    }
-
+ 
   public boolean isUnitAvailability() {
         return unitAvailability;
     }

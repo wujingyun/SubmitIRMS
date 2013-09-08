@@ -44,9 +44,7 @@ public class Shop implements Serializable {
     @OneToMany
     private Collection<ShopBill> bills = new ArrayList<ShopBill>();
     
-    @OneToMany(mappedBy="shop")
-    private Collection<Unit> units =
-            new ArrayList<Unit>();
+   
     
     public Shop(){}
     public void createShop(String Name,String Owner,String totalArea){
@@ -83,13 +81,6 @@ public class Shop implements Serializable {
         this.Owner=Owner;
     }
 
-    public Collection<Unit> getUnits() {
-        return units;
-    }
-
-    public void setUnits(Collection<Unit> units) {
-        this.units = units;
-    }
   
     
     public String getTotalArea(){
