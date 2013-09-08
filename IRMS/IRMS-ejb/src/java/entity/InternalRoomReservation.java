@@ -9,22 +9,45 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
- * @author WU JINGYUN
+ * @author Yang Zhennan
  */
 @Entity
-public class NewEntity implements Serializable {
+public class InternalRoomReservation extends RoomReservation implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @ManyToOne
+    private Staff staff;
+    @ManyToOne
+    private InternalRoomRequest internalRoomRequest;
 
+    public Staff getStaff() {
+        return staff;
+    }
+
+    public void setStaff(Staff staff) {
+        this.staff = staff;
+    }
+
+    public InternalRoomRequest getInternalRoomRequest() {
+        return internalRoomRequest;
+    }
+
+    public void setInternalRoomRequest(InternalRoomRequest internalRoomRequest) {
+        this.internalRoomRequest = internalRoomRequest;
+    }
+   
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -39,10 +62,10 @@ public class NewEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof NewEntity)) {
+        if (!(object instanceof InternalRoomReservation)) {
             return false;
         }
-        NewEntity other = (NewEntity) object;
+        InternalRoomReservation other = (InternalRoomReservation) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -51,7 +74,7 @@ public class NewEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.NewEntity[ id=" + id + " ]";
+        return "entity.InternalRoomReservation[ id=" + id + " ]";
     }
     
 }
