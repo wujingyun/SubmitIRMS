@@ -66,6 +66,7 @@ public class LogbookBean implements LogbookBeanRemote {
        logEntry.create(description, contactPerson, contactNumber, category, category);
        logEntry.setLogbook(logbook);
        logbook.getLogEntries().add(logEntry);
+       logbook.setLogEntries(logbook.getLogEntries());
        em.persist(logEntry);
     }
 

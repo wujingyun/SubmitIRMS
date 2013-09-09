@@ -21,6 +21,6 @@ public interface LogbookBeanRemote {
     public void addLogEntry(String hotelName, String description, String contactPerson, String contactNumber, String category) throws ExistException;
     public void editLogEntry(String hotelName, Long entryId, String description, String contactPerson, String contactNumber, String category, String status)throws ExistException;
     public void removeLogEntry(Long logEntryId) throws ExistException;
-    public Collection<Logbook> getLogbooks();
+    public Collection<Logbook> getLogbooks(); 
     public Collection<LogEntry> getLogEntries(String hotelName) throws ExistException;
 }

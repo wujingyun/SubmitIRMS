@@ -8,7 +8,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -82,7 +81,7 @@ public class Logbook implements Serializable {
         return logEntries;
     }
 
-    public void setLogEntry(Collection<LogEntry> logEntries) {
+    public void setLogEntries(Collection<LogEntry> logEntries) {
         this.logEntries = logEntries;
     }
     

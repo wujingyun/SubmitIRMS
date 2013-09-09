@@ -57,29 +57,29 @@ public class HotelRoomBean implements HotelRoomBeanRemote {
     }
 
     @Override
-    public void addRoom(String hotelName, Integer floorNumber, Integer roomNumber, String type, String description, double rate) throws ExistException {
+    public void addRoom(String hotelName, Integer roomNumber, String type, String description, double rate) throws ExistException {
        hotel=em.find(Hotel.class, hotelName);
        if(hotel==null)
            throw new ExistException("HOTEL NOT EXIST.");
-       room=hotel.findRoom(floorNumber, roomNumber);
+       room=hotel.findRoom(roomNumber);
        if(room!=null)
            throw new ExistException("ROOM ALREADY EXISTS.");
        room=new Room();
-       room.create(floorNumber, roomNumber, type, description, rate);
+       room.create(roomNumber, type, description, rate);
        room.setHotel(hotel);
        hotel.getRooms().add(room);
+       hotel.setRooms(hotel.getRooms());
        em.persist(room);
     }
 
     @Override
-    public void editRoom(String hotelName, Integer floorNumber, Integer roomNumber, String type, String description, double rate) throws ExistException {
+    public void editRoom(String hotelName, Integer roomNumber, String type, String description, double rate) throws ExistException {
        hotel=em.find(Hotel.class, hotelName);
        if(hotel==null)
            throw new ExistException("HOTEL NOT EXIST.");
-       room=hotel.findRoom(floorNumber, roomNumber);
+       room=hotel.findRoom(roomNumber);
        if(room==null)
            throw new ExistException("ROOM NOT EXIST.");
-       room.setFloorNumber(floorNumber);
        room.setRoomNumber(roomNumber);
        room.setType(type);
        room.setDescription(description);
@@ -88,11 +88,11 @@ public class HotelRoomBean implements HotelRoomBeanRemote {
     }
 
     @Override
-    public void removeRoom(String hotelName, Integer floorNumber, Integer roomNumber) throws ExistException {
+    public void removeRoom(String hotelName, Integer roomNumber) throws ExistException {
        hotel=em.find(Hotel.class, hotelName);
        if(hotel==null)
            throw new ExistException("HOTEL NOT EXIST.");
-       room=hotel.findRoom(floorNumber, roomNumber);
+       room=hotel.findRoom(roomNumber);
        if(room==null)
            throw new ExistException("ROOM NOT EXIST.");
        hotel.getRooms().remove(room);
@@ -114,6 +114,7 @@ public class HotelRoomBean implements HotelRoomBeanRemote {
        miniBarItem.setPrice(price);
        miniBarItem.setHotel(hotel);
        hotel.getMiniBarItems().add(miniBarItem);
+       hotel.setMiniBarItems(hotel.getMiniBarItems());
        em.persist(miniBarItem);
     }
 
@@ -145,11 +146,11 @@ public class HotelRoomBean implements HotelRoomBeanRemote {
     }
 
     @Override
-    public void updateRoomAvailability(String hotelName, Integer floorNumber, Integer roomNumber, String availabilityStatus) throws ExistException{
+    public void updateRoomAvailability(String hotelName, Integer roomNumber, String availabilityStatus) throws ExistException{
        hotel=em.find(Hotel.class, hotelName);
        if(hotel==null)
            throw new ExistException("HOTEL NOT EXIST.");
-       room=hotel.findRoom(floorNumber, roomNumber);
+       room=hotel.findRoom(roomNumber);
        if(room==null)
            throw new ExistException("ROOM NOT EXIST.");
        room.setAvailabilityStatus(availabilityStatus);
@@ -157,11 +158,11 @@ public class HotelRoomBean implements HotelRoomBeanRemote {
     }
 
     @Override
-    public void updateHousekeepingStatus(String hotelName, Integer floorNumber, Integer roomNumber, String housekeepingStatus) throws ExistException {
+    public void updateHousekeepingStatus(String hotelName, Integer roomNumber, String housekeepingStatus) throws ExistException {
        hotel=em.find(Hotel.class, hotelName);
        if(hotel==null)
            throw new ExistException("HOTEL NOT EXIST.");
-       room=hotel.findRoom(floorNumber, roomNumber);
+       room=hotel.findRoom(roomNumber);
        if(room==null)
            throw new ExistException("ROOM NOT EXIST.");
        room.setHousekeepingStatus(housekeepingStatus);

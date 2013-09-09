@@ -52,12 +52,12 @@ public class Hotel implements Serializable {
         this.setTelNumber(telNumber);
     }
     
-    public Room findRoom(Integer floorNumber, Integer roomNumber){
+    public Room findRoom(Integer roomNumber){
         Room room;
         ArrayList allRooms=(ArrayList)this.getRooms();
         for(int i=0; i<allRooms.size();i++){
             room=(Room)allRooms.get(i);
-            if(room.getFloorNumber()==floorNumber&&room.getRoomNumber()==roomNumber)
+            if(room.getRoomNumber()==roomNumber)
                 return room;
         }
         return null;

@@ -26,18 +26,20 @@ public class ComplaintEntry implements Serializable {
     @ManyToOne
     private ComplaintRegister complaintRegister;
     private String customerName;
-    private String roomNumber;
+    private Integer roomNumber;
     private String contact;
     private String description;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar dateTime;
     private String status;
     
-    public void create(String customerName, String roomNumber, String contact, String description){
+    public void create(String customerName, Integer roomNumber, String contact, String description, String status){
         this.setCustomerName(customerName);
         this.setRoomNumber(roomNumber);
         this.setContact(contact);
         this.setDescription(description);
+        this.setStatus(status);
+        this.setDateTime(Calendar.getInstance());
     }
 
     public ComplaintRegister getComplaintRegister() {
@@ -56,11 +58,11 @@ public class ComplaintEntry implements Serializable {
         this.customerName = customerName;
     }
 
-    public String getRoomNumber() {
+    public Integer getRoomNumber() {
         return roomNumber;
     }
 
-    public void setRoomNumber(String roomNumber) {
+    public void setRoomNumber(Integer roomNumber) {
         this.roomNumber = roomNumber;
     }
 

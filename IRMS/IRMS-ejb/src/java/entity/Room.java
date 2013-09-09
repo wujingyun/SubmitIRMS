@@ -26,7 +26,6 @@ public class Room implements Serializable {
     private Long id;
     @ManyToOne
     private Hotel hotel;
-    private Integer floorNumber;
     private Integer roomNumber;
     private String type;
     private String description;
@@ -39,8 +38,7 @@ public class Room implements Serializable {
     public Room() {
     }
     
-    public void create(Integer floorNumber, Integer roomNumber, String type, String description, double rate){
-        this.setFloorNumber(floorNumber);
+    public void create(Integer roomNumber, String type, String description, double rate){
         this.setRoomNumber(roomNumber);
         this.setType(type);
         this.setDescription(description);
@@ -52,14 +50,6 @@ public class Room implements Serializable {
 
     public void setHotel(Hotel hotel) {
         this.hotel = hotel;
-    }
-
-    public Integer getFloorNumber() {
-        return floorNumber;
-    }
-
-    public void setFloorNumber(Integer floorNumber) {
-        this.floorNumber = floorNumber;
     }
 
     public Integer getRoomNumber() {

@@ -36,6 +36,10 @@ public class ComplaintRegister implements Serializable {
     public ComplaintRegister() {
     }
     
+    public void create(){
+        this.setDateCreated(Calendar.getInstance());
+    }
+    
     public Hotel getHotel() {
         return hotel;
     }
