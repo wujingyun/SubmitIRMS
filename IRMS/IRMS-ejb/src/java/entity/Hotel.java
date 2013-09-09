@@ -73,6 +73,28 @@ public class Hotel implements Serializable {
         return null;
     }
     
+    public DiscountScheme findDiscountScheme(String name){
+        DiscountScheme discountScheme;
+        ArrayList allDiscountSchemes=(ArrayList) this.getDiscountSchemes();
+        for(int i=0; i<allDiscountSchemes.size(); i++){
+            discountScheme=(DiscountScheme)allDiscountSchemes.get(i);
+            if(discountScheme.getName().equals(name));
+                return discountScheme;
+        }
+        return null;
+    }
+    
+    public RoomService findRoomService(String name){
+        RoomService roomService;
+        ArrayList allRoomServices=(ArrayList) this.getRoomServices();
+        for(int i=0; i<allRoomServices.size(); i++){
+            roomService=(RoomService)allRoomServices.get(i);
+            if(roomService.getName().equals(name))
+                return roomService;
+        }
+        return null;
+    }
+    
     public String getName() {
         return name;
     }

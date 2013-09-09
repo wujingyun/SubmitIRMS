@@ -9,6 +9,7 @@ import entity.LogEntry;
 import entity.Logbook;
 import exception.ExistException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -80,6 +81,7 @@ public class LogbookBean implements LogbookBeanRemote {
        logEntry.setContactNumber(contactNumber);
        logEntry.setCategory(category);
        logEntry.setStatus(status);
+       logEntry.setDateTime(Calendar.getInstance());
        em.persist(logEntry);
     }
 
@@ -88,6 +90,8 @@ public class LogbookBean implements LogbookBeanRemote {
        logEntry=em.find(LogEntry.class, entryId);
        if(logEntry==null)
            throw new ExistException("LOGENTRY NOT EXIST.");
+       logbook.getLogEntries().remove(logEntry);
+       logbook.setLogEntries(logbook.getLogEntries());
        em.remove(logEntry);
     }
 

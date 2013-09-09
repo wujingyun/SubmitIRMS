@@ -7,10 +7,9 @@ package ejb;
 import entity.ComplaintEntry;
 import entity.ComplaintRegister;
 import entity.Hotel;
-import entity.LogEntry;
-import entity.Logbook;
 import exception.ExistException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -86,6 +85,7 @@ public class ComplaintRegisterBean implements ComplaintRegisterBeanRemote {
        complaintEntry.setContact(contact);
        complaintEntry.setDescription(description);
        complaintEntry.setStatus(status);
+       complaintEntry.setDateTime(Calendar.getInstance());
        em.persist(complaintEntry);
     }
 
@@ -94,6 +94,8 @@ public class ComplaintRegisterBean implements ComplaintRegisterBeanRemote {
        complaintEntry=em.find(ComplaintEntry.class, complaintId);
        if(complaintEntry==null)
            throw new ExistException("COMPLAINT ENTRY NOT EXIST.");
+       complaintRegister.getComplaintEntries().remove(complaintEntry);
+       complaintRegister.setComplaintEntries(complaintRegister.getComplaintEntries());
        em.remove(complaintEntry);
     }
 

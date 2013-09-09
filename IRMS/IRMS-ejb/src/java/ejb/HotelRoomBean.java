@@ -1,3 +1,4 @@
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -96,6 +97,7 @@ public class HotelRoomBean implements HotelRoomBeanRemote {
        if(room==null)
            throw new ExistException("ROOM NOT EXIST.");
        hotel.getRooms().remove(room);
+       hotel.setRooms(hotel.getRooms());
        em.remove(room);
     }
 
@@ -142,6 +144,7 @@ public class HotelRoomBean implements HotelRoomBeanRemote {
        if(miniBarItem==null)
            throw new ExistException("MINIBARITEM NOT EXIST.");
        hotel.getMiniBarItems().remove(miniBarItem);
+       hotel.setMiniBarItems(hotel.getMiniBarItems());
        em.remove(miniBarItem);
     }
 

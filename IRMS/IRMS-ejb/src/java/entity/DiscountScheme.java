@@ -35,12 +35,14 @@ public class DiscountScheme implements Serializable {
     public DiscountScheme() {
     }
 
-    public void create(Hotel hotel, String name, double discountRate){
-        this.setHotel(hotel);
+    public void create(String name, String eligibility, String description, double discountRate){
         this.setName(name);
+        this.setEligibility(eligibility);
+        this.setDescription(description);
         this.setDiscountRate(discountRate);
         this.setDateCreated(Calendar.getInstance());
     }
+    
     public Hotel getHotel() {
         return hotel;
     }
