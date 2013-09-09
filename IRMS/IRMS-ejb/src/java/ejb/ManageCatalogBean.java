@@ -4,9 +4,11 @@
  */
 package ejb;
 
+import entity.ConciergeOrder;
 import entity.Contract;
 import entity.Hotel;
 import entity.Shop;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import javax.ejb.Stateless;
@@ -25,6 +27,8 @@ public class ManageCatalogBean implements ManageCatalogBeanRemote {
     EntityManager em;
     Contract contractEntity;
     Shop shop;
+    ConciergeOrder deliveryOrder;
+    
     //find the category of the shop stored in contract
 
     public void viewTenancyMix() {
@@ -53,8 +57,14 @@ public class ManageCatalogBean implements ManageCatalogBeanRemote {
         shop.setDescription(description);
     }
     
-    public void deliveryItem(String customerName,String customerID,String contactNumber
-            ,String status,Integer numOfItems,Hotel hotel) {
-        
+    public void deliveryItem(String customerName, String customerID, 
+            String contactNumber, Integer numOfItems, String description) {
+            deliveryOrder = new ConciergeOrder();
+            deliveryOrder.create(customerName, customerID, contactNumber, numOfItems, description);
+            Calendar cal = Calendar.getInstance();
+            deliveryOrder.setOrderTime(cal);
+            deliveryOrder.setStatus("In the Shopping Mall");
+            
+            
     }
 }
