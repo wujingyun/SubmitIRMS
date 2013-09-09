@@ -70,8 +70,6 @@ public class ManageTenantBean implements ManageTenantBeanRemote {
         em.persist(bill);
         em.flush();
     }
-    
-    
 
     public void EditBillStatus(String BillID) {
         bill = new ShopBill();
