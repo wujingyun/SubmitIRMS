@@ -4,6 +4,7 @@
  */
 package ejb;
 
+import entity.LogEntry;
 import entity.Logbook;
 import exception.ExistException;
 import java.util.Collection;

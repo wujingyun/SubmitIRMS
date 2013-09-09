@@ -103,6 +103,12 @@ public class LogbookBean implements LogbookBeanRemote {
 
     @Override
     public Collection<LogEntry> getLogEntries(String hotelName) throws ExistException {
-        
+       hotel=em.find(Hotel.class, hotelName);
+       if(hotel==null)
+           throw new ExistException("HOTEL NOT EXIST.");
+       logbook=hotel.getLogbook();
+       if(logbook==null)
+           throw new ExistException("LOGBOOK NOT EXIST.");
+       return logbook.getLogEntries();
     }
 }
