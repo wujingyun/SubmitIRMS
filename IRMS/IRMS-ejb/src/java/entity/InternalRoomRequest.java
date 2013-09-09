@@ -38,6 +38,17 @@ public class InternalRoomRequest implements Serializable {
     private Integer headcount;
     private String remark;
 
+    public InternalRoomRequest() {
+    }
+    
+    public void create(String hotelName, Calendar startDate, Calendar endDate, Integer headcount, String remark){
+        this.setHotelName(hotelName);
+        this.setStartDate(startDate);
+        this.setEndDate(endDate);
+        this.setHeadcount(headcount);
+        this.setRemark(remark);
+    }
+
     public Staff getStaff() {
         return staff;
     }

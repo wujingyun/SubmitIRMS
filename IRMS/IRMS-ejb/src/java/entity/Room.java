@@ -5,6 +5,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,11 +31,21 @@ public class Room implements Serializable {
     private String type;
     private String description;
     private double rate;
+    private String availabilityStatus;
+    private String housekeepingStatus;
     @OneToMany(mappedBy="room")
-    private Collection<RoomReservation> roomReservations;
-    @OneToMany(mappedBy="room")
-    private Collection<ConciergeOrder> conciergeOrders;
-            
+    private Collection<RoomReservation> roomReservations=new ArrayList();
+
+    public Room() {
+    }
+    
+    public void create(Integer floorNumber, Integer roomNumber, String type, String description, double rate){
+        this.setFloorNumber(floorNumber);
+        this.setRoomNumber(roomNumber);
+        this.setType(type);
+        this.setDescription(description);
+        this.setRate(rate);
+    }
     public Hotel getHotel() {
         return hotel;
     }
@@ -83,20 +94,28 @@ public class Room implements Serializable {
         this.rate = rate;
     }
 
+    public String getAvailabilityStatus() {
+        return availabilityStatus;
+    }
+
+    public void setAvailabilityStatus(String availabilityStatus) {
+        this.availabilityStatus = availabilityStatus;
+    }
+
+    public String getHousekeepingStatus() {
+        return housekeepingStatus;
+    }
+
+    public void setHousekeepingStatus(String housekeepingStatus) {
+        this.housekeepingStatus = housekeepingStatus;
+    }
+
     public Collection<RoomReservation> getRoomReservations() {
         return roomReservations;
     }
 
     public void setRoomReservations(Collection<RoomReservation> roomReservations) {
         this.roomReservations = roomReservations;
-    }
-
-    public Collection<ConciergeOrder> getConciergeOrders() {
-        return conciergeOrders;
-    }
-
-    public void setConciergeOrders(Collection<ConciergeOrder> conciergeOrders) {
-        this.conciergeOrders = conciergeOrders;
     }
 
     public Long getId() {

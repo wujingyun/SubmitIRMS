@@ -5,6 +5,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -27,7 +29,23 @@ public class RoomServiceOrder implements Serializable {
     private Collection<RoomService> roomServices;
     @ManyToOne
     private AccommodationBill accommodationBill;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Calendar orderTime;
     private double total;
+
+    public RoomServiceOrder() {
+    }
+    
+    public void create(double total){
+        this.setTotal(total);
+    }
+    public Calendar getOrderTime() {
+        return orderTime;
+    }
+
+    public void setOrderTime(Calendar orderTime) {
+        this.orderTime = orderTime;
+    }
 
     public Collection<RoomService> getRoomServices() {
         return roomServices;

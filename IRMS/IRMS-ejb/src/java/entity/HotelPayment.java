@@ -30,6 +30,13 @@ public class HotelPayment implements Serializable {
     private Calendar dateTime;
     private String status;
 
+    public HotelPayment() {
+    }
+    
+    public void create(double amount){
+        this.setAmount(amount);
+    }
+
     public HotelTransaction getHotelTransaction() {
         return hotelTransaction;
     }

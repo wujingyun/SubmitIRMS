@@ -5,6 +5,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,19 +29,49 @@ public class Hotel implements Serializable {
     private String telNumber;
     private String description;
     @OneToMany(mappedBy="hotel")
-    private Collection<Room> rooms;
+    private Collection<Room> rooms=new ArrayList();
     @OneToMany(mappedBy="hotel")
-    private Collection<RoomService> roomServices;
+    private Collection<RoomService> roomServices=new ArrayList();
     @OneToMany(mappedBy="hotel")
-    private Collection<MiniBarItem> miniBarItems;
+    private Collection<MiniBarItem> miniBarItems=new ArrayList();
     @OneToOne
     private Logbook logbook;
     @OneToOne
     private ComplaintRegister complaintRegister;
     @OneToMany(mappedBy="hotel")
-    private Collection<ConciergeOrder> conciergeOrders;
+    private Collection<ConciergeOrder> conciergeOrders=new ArrayList();
     @OneToMany(mappedBy="hotel")
-    private Collection<DiscountScheme> discountSchemes;
+    private Collection<DiscountScheme> discountSchemes=new ArrayList();
+
+    public Hotel() {
+    }
+    
+    public void create(String name, String address, String telNumber){
+        this.setName(name);
+        this.setAddress(address);
+        this.setTelNumber(telNumber);
+    }
+    
+    public Room findRoom(Integer floorNumber, Integer roomNumber){
+        Room room;
+        ArrayList allRooms=(ArrayList)this.getRooms();
+        for(int i=0; i<allRooms.size();i++){
+            room=(Room)allRooms.get(i);
+            if(room.getFloorNumber()==floorNumber&&room.getRoomNumber()==roomNumber)
+                return room;
+        }
+        return null;
+    }
+    public MiniBarItem findMiniBarItem(String name){
+        MiniBarItem item;
+        ArrayList allItems=(ArrayList)this.getMiniBarItems();
+        for(int i=0; i<allItems.size();i++){
+            item=(MiniBarItem)allItems.get(i);
+            if(item.getName().equals(name))
+                return item;
+        }
+        return null;
+    }
     
     public String getName() {
         return name;

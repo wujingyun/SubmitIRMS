@@ -28,14 +28,22 @@ public class ConciergeOrder implements Serializable {
     private String contactNumber;
     @ManyToOne
     private Hotel hotel;
-    @ManyToOne
-    private Room room;
     private Integer numOfItems;
     private String description;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar orderTime;
     private String status;
 
+    public ConciergeOrder() {
+    }
+
+    public void create(String customerName, String customerID, String contactNumber, Integer numOfItems, String description){
+        this.setCustomerName(customerName);
+        this.setCustomerID(customerID);
+        this.setContactNumber(contactNumber);
+        this.setNumOfItems(numOfItems);
+        this.setDescription(description);
+    }
     public String getCustomerName() {
         return customerName;
     }
@@ -66,14 +74,6 @@ public class ConciergeOrder implements Serializable {
 
     public void setHotel(Hotel hotel) {
         this.hotel = hotel;
-    }
-
-    public Room getRoom() {
-        return room;
-    }
-
-    public void setRoom(Room room) {
-        this.room = room;
     }
 
     public Integer getNumOfItems() {

@@ -10,7 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 
 /**
@@ -18,61 +18,68 @@ import javax.persistence.Temporal;
  * @author Yang Zhennan
  */
 @Entity
-public class HotelTransaction implements Serializable {
+public class ComplaintEntry implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @OneToOne
-    private AccommodationBill accommodationBill;
-    @OneToOne(mappedBy="hotelTransaction")
-    private HotelPayment hotelPayment;
-    private double creditCardNumber; 
-    private double amount;
+    @ManyToOne
+    private ComplaintRegister complaintRegister;
+    private String customerName;
+    private String roomNumber;
+    private String contact;
+    private String description;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar dateTime;
     private String status;
-
-    public HotelTransaction() {
+    
+    public void create(String customerName, String roomNumber, String contact, String description){
+        this.setCustomerName(customerName);
+        this.setRoomNumber(roomNumber);
+        this.setContact(contact);
+        this.setDescription(description);
     }
 
-    public void create(double creditCardNumber, double amount){
-        this.setCreditCardNumber(creditCardNumber);
-        this.setAmount(amount);
+    public ComplaintRegister getComplaintRegister() {
+        return complaintRegister;
+    }
+
+    public void setComplaintRegister(ComplaintRegister complaintRegister) {
+        this.complaintRegister = complaintRegister;
     }
     
-    public AccommodationBill getAccommodationBill() {
-        return accommodationBill;
+     public String getCustomerName() {
+        return customerName;
     }
 
-    public void setAccommodationBill(AccommodationBill accommodationBill) {
-        this.accommodationBill = accommodationBill;
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 
-    public HotelPayment getHotelPayment() {
-        return hotelPayment;
+    public String getRoomNumber() {
+        return roomNumber;
     }
 
-    public void setHotelPayment(HotelPayment hotelPayment) {
-        this.hotelPayment = hotelPayment;
+    public void setRoomNumber(String roomNumber) {
+        this.roomNumber = roomNumber;
     }
 
-    public double getCreditCardNumber() {
-        return creditCardNumber;
+    public String getContact() {
+        return contact;
     }
 
-    public void setCreditCardNumber(double creditCardNumber) {
-        this.creditCardNumber = creditCardNumber;
+    public void setContact(String contact) {
+        this.contact = contact;
     }
 
-    public double getAmount() {
-        return amount;
+    public String getDescription() {
+        return description;
     }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
+    public void setDescription(String description) {
+        this.description = description;
     }
-
+    
     public Calendar getDateTime() {
         return dateTime;
     }
@@ -80,7 +87,6 @@ public class HotelTransaction implements Serializable {
     public void setDateTime(Calendar dateTime) {
         this.dateTime = dateTime;
     }
-
     public String getStatus() {
         return status;
     }
@@ -88,7 +94,7 @@ public class HotelTransaction implements Serializable {
     public void setStatus(String status) {
         this.status = status;
     }
-    
+
     public Long getId() {
         return id;
     }
@@ -107,10 +113,10 @@ public class HotelTransaction implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof HotelTransaction)) {
+        if (!(object instanceof ComplaintEntry)) {
             return false;
         }
-        HotelTransaction other = (HotelTransaction) object;
+        ComplaintEntry other = (ComplaintEntry) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -119,7 +125,7 @@ public class HotelTransaction implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Transaction[ id=" + id + " ]";
+        return "entity.ComplaintEntry[ id=" + id + " ]";
     }
     
 }

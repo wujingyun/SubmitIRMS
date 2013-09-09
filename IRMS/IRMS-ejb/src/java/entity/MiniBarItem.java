@@ -26,9 +26,18 @@ public class MiniBarItem implements Serializable {
     private Hotel hotel;
     private String name;
     private String description;
-    private String quantity;
-    private String price;
+    private Integer quantity;
+    private double price;
 
+    public MiniBarItem() {
+    }
+    
+    public void create(String name, String description, Integer quantity, double price){
+        this.setName(name);
+        this.setDescription(description);
+        this.setQuantity(quantity);
+        this.setPrice(price);
+    }
     public Hotel getHotel() {
         return hotel;
     }
@@ -53,19 +62,19 @@ public class MiniBarItem implements Serializable {
         this.description = description;
     }
 
-    public String getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(String quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
-    public String getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(double price) {
         this.price = price;
     }
     

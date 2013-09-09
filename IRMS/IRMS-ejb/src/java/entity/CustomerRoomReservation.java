@@ -24,6 +24,9 @@ public class CustomerRoomReservation extends RoomReservation implements Serializ
     @ManyToOne
     private Customer customer;
 
+    public CustomerRoomReservation() {
+    }
+
     public Customer getCustomer() {
         return customer;
     }

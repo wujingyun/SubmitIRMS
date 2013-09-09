@@ -5,6 +5,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -23,6 +25,8 @@ public class AccommodationBill implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Calendar dateTime;
     @OneToMany
     private Collection<RoomReservation> roomReservations;
     @OneToMany
@@ -37,6 +41,21 @@ public class AccommodationBill implements Serializable {
     private String incidentalCharges[][];
     private double total;
 
+    public AccommodationBill() {
+    }
+    
+    public void create(double total){
+        this.setTotal(total);      
+    }
+
+    public Calendar getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(Calendar dateTime) {
+        this.dateTime = dateTime;
+    }
+    
     public Collection<RoomReservation> getRoomReservations() {
         return roomReservations;
     }

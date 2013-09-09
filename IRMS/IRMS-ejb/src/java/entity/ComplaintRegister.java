@@ -5,11 +5,14 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
@@ -25,14 +28,14 @@ public class ComplaintRegister implements Serializable {
     private Long id;
     @OneToOne(mappedBy="complaintRegister")
     private Hotel hotel;
-    private String customerName;
-    private String roomNumber;
-    private String contact;
-    private String description;
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar dateTime;
-    private String status;
-         
+    private Calendar dateCreated;
+    @OneToMany(mappedBy="complaintRegister")
+    private Collection<ComplaintEntry> complaintEntries=new ArrayList();
+
+    public ComplaintRegister() {
+    }
+    
     public Hotel getHotel() {
         return hotel;
     }
@@ -41,51 +44,20 @@ public class ComplaintRegister implements Serializable {
         this.hotel = hotel;
     }
 
-    public String getCustomerName() {
-        return customerName;
+    public Calendar getDateCreated() {
+        return dateCreated;
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
+    public void setDateCreated(Calendar dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
-    public String getRoomNumber() {
-        return roomNumber;
+    public Collection<ComplaintEntry> getComplaintEntries() {
+        return complaintEntries;
     }
 
-    public void setRoomNumber(String roomNumber) {
-        this.roomNumber = roomNumber;
-    }
-
-    public String getContact() {
-        return contact;
-    }
-
-    public void setContact(String contact) {
-        this.contact = contact;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    
-    public Calendar getDateTime() {
-        return dateTime;
-    }
-
-    public void setDateTime(Calendar dateTime) {
-        this.dateTime = dateTime;
-    }
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
+    public void setComplaintEntries(Collection<ComplaintEntry> complaintEntries) {
+        this.complaintEntries = complaintEntries;
     }
 
     public Long getId() {

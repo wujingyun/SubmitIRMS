@@ -5,11 +5,15 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
@@ -25,28 +29,37 @@ public class Logbook implements Serializable {
     private Long id;
     @OneToOne(mappedBy="logbook")
     private Hotel hotel;
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar dateTime;
     private String description;
-    private String contactPerson;
-    private String contactNumber;
-    private String category;
-    private String status;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Calendar dateCreated;
+    @OneToMany(mappedBy="logbook")
+    private Collection<LogEntry> logEntries=new ArrayList();
 
+    public Logbook() {
+    }
+    
+    public void create(String description){
+        this.setDescription(description);
+        this.setDateCreated(Calendar.getInstance());
+    }
+    
+    public LogEntry findEntry(Long entryId){
+        LogEntry entry;
+        ArrayList entries=(ArrayList) this.getLogEntries();
+        for(int i=0; i<entries.size(); i++){
+            entry=(LogEntry) entries.get(i);
+            if(entry.getId()==entryId)
+                return entry; 
+        }
+        return null;
+    }
+    
     public Hotel getHotel() {
         return hotel;
     }
 
     public void setHotel(Hotel hotel) {
         this.hotel = hotel;
-    }
-
-    public Calendar getDateTime() {
-        return dateTime;
-    }
-
-    public void setDateTime(Calendar dateTime) {
-        this.dateTime = dateTime;
     }
 
     public String getDescription() {
@@ -57,36 +70,20 @@ public class Logbook implements Serializable {
         this.description = description;
     }
 
-    public String getContactPerson() {
-        return contactPerson;
+    public Calendar getDateCreated() {
+        return dateCreated;
     }
 
-    public void setContactPerson(String contactPerson) {
-        this.contactPerson = contactPerson;
+    public void setDateCreated(Calendar dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
-    public String getContactNumber() {
-        return contactNumber;
+    public Collection<LogEntry> getLogEntries() {
+        return logEntries;
     }
 
-    public void setContactNumber(String contactNumber) {
-        this.contactNumber = contactNumber;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
+    public void setLogEntry(Collection<LogEntry> logEntries) {
+        this.logEntries = logEntries;
     }
     
     public Long getId() {

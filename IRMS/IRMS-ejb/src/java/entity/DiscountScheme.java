@@ -5,11 +5,13 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -27,7 +29,18 @@ public class DiscountScheme implements Serializable {
     private String eligibility;
     private String description;
     private double discountRate;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Calendar dateCreated;
 
+    public DiscountScheme() {
+    }
+
+    public void create(Hotel hotel, String name, double discountRate){
+        this.setHotel(hotel);
+        this.setName(name);
+        this.setDiscountRate(discountRate);
+        this.setDateCreated(Calendar.getInstance());
+    }
     public Hotel getHotel() {
         return hotel;
     }
@@ -66,6 +79,14 @@ public class DiscountScheme implements Serializable {
 
     public void setDiscountRate(double discountRate) {
         this.discountRate = discountRate;
+    }
+
+    public Calendar getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Calendar dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
     public Long getId() {

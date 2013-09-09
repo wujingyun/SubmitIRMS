@@ -26,14 +26,24 @@ public class RoomReservation implements Serializable {
     @ManyToOne
     private Room room;
     @Temporal(javax.persistence.TemporalType.DATE)
+    private Calendar dateReserved;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar startDate;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar endDate;
     private String remark;
     private double total;
     private String paymentStatus;
-    private String paymentAmount;
+    private double paymentAmount;
     private String roomAllocationStatus;
+
+    public RoomReservation(){
+    }
+    
+    public void create(Calendar startDate, Calendar endDate){
+           this.setStartDate(startDate);
+           this.setEndDate(endDate);
+    }
     
     public Room getRoom() {
         return room;
@@ -41,6 +51,14 @@ public class RoomReservation implements Serializable {
 
     public void setRoom(Room room) {
         this.room = room;
+    }
+
+    public Calendar getDateReserved() {
+        return dateReserved;
+    }
+
+    public void setDateReserved(Calendar dateReserved) {
+        this.dateReserved = dateReserved;
     }
 
     public Calendar getStartDate() {
@@ -83,11 +101,11 @@ public class RoomReservation implements Serializable {
         this.paymentStatus = paymentStatus;
     }
 
-    public String getPaymentAmount() {
+    public double getPaymentAmount() {
         return paymentAmount;
     }
 
-    public void setPaymentAmount(String paymentAmount) {
+    public void setPaymentAmount(double paymentAmount) {
         this.paymentAmount = paymentAmount;
     }
     

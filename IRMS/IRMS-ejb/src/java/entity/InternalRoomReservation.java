@@ -26,6 +26,9 @@ public class InternalRoomReservation extends RoomReservation implements Serializ
     @ManyToOne
     private InternalRoomRequest internalRoomRequest;
 
+    public InternalRoomReservation() {
+    }
+
     public Staff getStaff() {
         return staff;
     }

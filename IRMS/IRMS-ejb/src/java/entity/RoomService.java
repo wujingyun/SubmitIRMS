@@ -25,8 +25,16 @@ public class RoomService implements Serializable {
     private Hotel hotel;
     private String name;
     private String description;
-    private String price;
+    private double price;
 
+    public RoomService() {
+    }
+
+    public void create(String name, String description, double price){
+        this.setName(name);
+        this.setDescription(description);
+        this.setPrice(price);
+    }
     public Hotel getHotel() {
         return hotel;
     }
@@ -51,11 +59,11 @@ public class RoomService implements Serializable {
         this.description = description;
     }
 
-    public String getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
