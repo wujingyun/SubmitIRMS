@@ -36,8 +36,8 @@ public class Contract implements Serializable {
     private String IdentityCard;
     private String TenantTradeName;
     private String NameOfShoppingCenter;
-    private String FloorArea;
-    private String Purpose;
+    private int FloorArea;
+    private String Purpose;// category of the shop
     private String MinimumRent;
     private String RentRate;
     private String TenantAddress;
@@ -58,7 +58,7 @@ public class Contract implements Serializable {
     
     public void createContract(String ContractType,String Landlord,String Tenant,
             String IdentityCard,String TenantTradeName,
-            String NameOfShoppingCenter,String FloorArea,String Purpose
+            String NameOfShoppingCenter,String Purpose
             ,String MinimumRent,String RentRate,String TenantAddress,String LandlordContact
             ,String TenantContact,String upfrontRentalDeposit){
         this.setContractType(ContractType);
@@ -67,7 +67,7 @@ public class Contract implements Serializable {
         this.setIdentityCard(IdentityCard);
         this.setTenantTradeName(TenantTradeName);
         this.setNameOfShoppingCenter(NameOfShoppingCenter);
-        this.setFloorArea(FloorArea);
+  //      this.setFloorArea(FloorArea);
         this.setPurpose(Purpose);
         this.setMinimumRent(MinimumRent);
         this.setRentRate(RentRate);
@@ -78,11 +78,11 @@ public class Contract implements Serializable {
      
     }    
     
-    public void renewThisContract( String IdentityCard,String FloorArea,String Purpose
+    public void renewThisContract( String IdentityCard,String Purpose
             ,String MinimumRent,String RentRate,String TenantAddress,String LandlordContact
             ,String TenantContact,String upfrontRentalDeposit,String TenantTradeName){
         this.setPurpose(Purpose);
-        this.setFloorArea(FloorArea);
+     
         this.setMinimumRent(MinimumRent);
         this.setRentRate(RentRate);
         this.setTenantAddress(TenantAddress);
@@ -150,10 +150,10 @@ public class Contract implements Serializable {
         this.NameOfShoppingCenter=NameOfShoppingCenter;
     }
     
-    public String getFloorArea(){
+    public int getFloorArea(){
         return FloorArea;
     }
-    public void setFloorArea(String FloorArea){
+    public void setFloorArea(int FloorArea){
         this.FloorArea=FloorArea;
     }
     

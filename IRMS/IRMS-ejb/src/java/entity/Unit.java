@@ -18,60 +18,63 @@ import javax.persistence.OneToOne;
  */
 @Entity
 public class Unit implements Serializable {
-
+    
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String UnitNo;
-    
-    private boolean unitAvailability =true;
-    
-    
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    private String unitNo;
+    private int unitSpace;
+    private boolean unitAvailability = true;
     @ManyToOne
     private Mall mall;
-    
-    
     @ManyToOne
     private Contract contract;
     
-   
-    public Unit(){}
-    
-    public void createUnit(String UnitNo,boolean unitAvailability){
-        this.UnitNo=UnitNo;
+    public Unit() {
     }
     
-    public String getUnitNo(){
-        return UnitNo;
+    public void createUnit(String unitNo, int unitSpace) {
+        this.unitNo = unitNo;
+        this.setUnitAvailability(true);
+        this.setUnitSpace(unitSpace);
     }
     
-    public void setUnitNo(String UnitNo){
-        this.UnitNo=UnitNo;
+    public String getUnitNo() {
+        return unitNo;
     }
     
-    public Mall getMall(){
+    public void setUnitNo(String unitNo) {
+        this.unitNo = unitNo;
+    }
+    
+    public Mall getMall() {
         return mall;
     }
     
-    public void setMall(Mall mall){
-        this.mall=mall;
+    public void setMall(Mall mall) {
+        this.mall = mall;
     }
-
- 
-  public boolean isUnitAvailability() {
+    
+    public boolean isUnitAvailability() {
         return unitAvailability;
     }
-
+    
     public void setUnitAvailability(boolean unitAvailability) {
         this.unitAvailability = unitAvailability;
     }
-
+    
     public Contract getContract() {
         return contract;
     }
-
+    
     public void setContract(Contract contract) {
         this.contract = contract;
     }
     
+    public int getUnitSpace() {
+        return unitSpace;
+    }
     
+    public void setUnitSpace(int unitSpace) {
+        this.unitSpace = unitSpace;
+    }
 }

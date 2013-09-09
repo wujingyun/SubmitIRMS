@@ -22,17 +22,19 @@ public class ShopBill implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long BillID;
-    private String RentalFee;
-    private String Commision;
+    private double RentalFee;
+    private double Commision;
+    private boolean billStatus;
     
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar dateIssued;
     
     public ShopBill(){}
     
-    public void createBill(String RentalFee,String Commision){
+    public void createBill(double RentalFee,double Commision){
         this.setRentalFee(RentalFee);
         this.setCommision(Commision);
+        this.setBillStatus(true);
     }
     
     
@@ -44,17 +46,17 @@ public class ShopBill implements Serializable {
         this.BillID = BillID;
     }
     
-    public String getRentalFee(){
+    public double getRentalFee(){
         return RentalFee;
     }
-    public void setRentalFee(String RentalFee){
+    public void setRentalFee(double RentalFee){
         this.RentalFee=RentalFee;
     }    
     
-    public String getCommision(){
+    public double getCommision(){
         return Commision;
     }
-    public void setCommision(String Commision){
+    public void setCommision(double Commision){
         this.Commision=Commision;
     }
     
@@ -63,6 +65,14 @@ public class ShopBill implements Serializable {
     }
     public void setDateIssued(Calendar dateIssued){
         this.dateIssued=dateIssued;
+    }
+
+    public boolean isBillStatus() {
+        return billStatus;
+    }
+
+    public void setBillStatus(boolean billStatus) {
+        this.billStatus = billStatus;
     }
     
 }

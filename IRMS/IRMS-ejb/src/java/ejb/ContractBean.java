@@ -6,6 +6,7 @@ package ejb;
 
 import entity.Contract;
 import entity.Shop;
+import entity.ShopBill;
 import entity.ShopOwner;
 import entity.Unit;
 import exception.ExistException;
@@ -33,6 +34,7 @@ public class ContractBean implements ContractBeanRemote {
     private Shop shopEntity;
     private Unit unitEntity;
     private ShopOwner tenant;
+    private ShopBill shopBill;
     
     public ContractBean(){
     }
@@ -68,6 +70,7 @@ public class ContractBean implements ContractBeanRemote {
             unitEntity     = new Unit();
             int totalArea;
                 totalArea = 0;
+                
             for (Iterator it = UnitNo.iterator(); it.hasNext();){
                String result = (String)it.next();
                unitEntity = em.find(Unit.class, result);  
@@ -77,11 +80,12 @@ public class ContractBean implements ContractBeanRemote {
                contractEntity.getUnits().add(unitEntity);
                em.refresh(unitEntity);
            }
+            
             contractEntity.setFloorArea(totalArea);
             shopEntity.createShop(TenantTradeName, Tenant, totalArea);
          
             randomPassword = randomPassGeneration();
-            tenant.createShopOwner(Tenant+IdentityCard, randomPassword, true, Tenant, 
+            tenant.createShopOwner(Tenant+IdentityCard, randomPassword, Tenant, 
                       IdentityCard, TenantContact);
             
             contractEntity.setShop(shopEntity);
@@ -122,6 +126,15 @@ public class ContractBean implements ContractBeanRemote {
             unitEntity     = new Unit();
             int totalArea;
                 totalArea = 0;
+         
+            for(Iterator it = contractEntity.getUnits().iterator();it.hasNext();){
+                unitEntity = (Unit)it.next();
+                unitEntity.setUnitAvailability(true);
+                contractEntity.getUnits().remove(unitEntity);
+                em.flush();
+            }    
+                
+                
             for (Iterator it = UnitNo.iterator(); it.hasNext();){
                String result = (String)it.next();
                unitEntity = em.find(Unit.class, result);  
@@ -140,8 +153,40 @@ public class ContractBean implements ContractBeanRemote {
        //     shopEntity.updateShop(TenantTradeName, Tenant, FloorArea);
        
    }
-   public void terminateContract(){
-       
+   public void terminateContract(String IdentityCard,String TenantTradeName) throws ExistException{
+       contractEntity = new Contract();
+       shopBill = new ShopBill();
+       shopEntity = new Shop();
+       tenant = new ShopOwner();
+       Query q =em.createQuery("SELECT * FROM contract WHERE identitycard = :ic AND"
+                    + "tenanttradename = :tradename");
+            q.setParameter("ic",IdentityCard);
+            q.setParameter("tradename", TenantTradeName);
+            contractEntity= (Contract)q.getSingleResult();
+            
+            
+            for(Iterator it = contractEntity.getShop().getBills().iterator();it.hasNext();){
+                shopBill =(ShopBill)it.next();
+                if(shopBill.isBillStatus()==true) throw new ExistException("the shopBill is"
+                        + "not settled");
+            }
+            
+             for(Iterator it = contractEntity.getUnits().iterator();it.hasNext();){
+                unitEntity = (Unit)it.next();
+                unitEntity.setUnitAvailability(true);
+                contractEntity.getUnits().remove(unitEntity);
+                em.flush();
+            }
+             shopEntity =contractEntity.getShop();
+             em.remove(shopEntity);
+             contractEntity.setShop(null);
+       //      shopEntity.setContract(null);
+             
+             tenant =contractEntity.getShopTenant();
+             contractEntity.setTenant(null);
+             tenant.setContract(null);
+             em.remove(contractEntity);
+             em.flush();             
    }
    
    

@@ -24,6 +24,8 @@ public class Mall implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long MallID;
     private String mallName;
+    private int mallSize;
+   
     
     @OneToMany(mappedBy="mall")
     private Collection<Unit> units = new
@@ -33,6 +35,7 @@ public class Mall implements Serializable {
     
     public void createMall(String mallName ){
         this.mallName=mallName;
+        mallSize= 20000;
     }
     
     public Long getMallID() {
@@ -56,6 +59,14 @@ public class Mall implements Serializable {
 
     public void setMallName(String mallName) {
         this.mallName = mallName;
+    }
+
+    public int getMallSize() {
+        return mallSize;
+    }
+
+    public void setMallSize(int mallSize) {
+        this.mallSize = mallSize;
     }
      
 }

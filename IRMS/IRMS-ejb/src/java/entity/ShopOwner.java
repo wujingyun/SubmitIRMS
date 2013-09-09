@@ -36,11 +36,11 @@ public class ShopOwner implements Serializable {
     
     public ShopOwner(){}
     
-    public void createShopOwner(String UserName, String Password,boolean status
+    public void createShopOwner(String UserName, String Password
             ,String tenantName,String IC,String contactNumber){
         this.setUserName(UserName);
         this.setPassword(Password);
-        this.setStatus(status);
+        this.setStatus(true);
         this.setTenantName(tenantName);
         this.setIC(IC);
         this.setContactNumber(contactNumber);
