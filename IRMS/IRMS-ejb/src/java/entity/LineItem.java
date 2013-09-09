@@ -22,7 +22,7 @@ import javax.persistence.ManyToOne;
 
 public class LineItem implements Serializable {
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue (strategy = GenerationType.TABLE)
     private Long saleTransactionId;
     @Id
     private Integer itemNo;

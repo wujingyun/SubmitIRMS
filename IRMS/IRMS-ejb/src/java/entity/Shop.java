@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,7 +30,7 @@ public class Shop implements Serializable {
     
     private String Name;
     private String Owner;
-    private String totalArea;
+    private int totalArea;
     private String description;
     private String operatinghours;
     private String storeContact;
@@ -41,15 +42,13 @@ public class Shop implements Serializable {
     private Collection<ProductItem> productItems =
             new ArrayList <ProductItem>();
     
-    @OneToMany
+    @OneToMany(cascade={CascadeType.REMOVE})
     private Collection<ShopBill> bills = new ArrayList<ShopBill>();
     
-    @OneToMany(mappedBy="shop")
-    private Collection<Unit> units =
-            new ArrayList<Unit>();
+   
     
     public Shop(){}
-    public void createShop(String Name,String Owner,String totalArea){
+    public void createShop(String Name,String Owner,int totalArea){
         this.setName(Name);
         this.setOwner(Owner);
         this.setTotalArea(totalArea);
@@ -60,6 +59,11 @@ public class Shop implements Serializable {
     public void updateShopInfo(String description, String storeContact){
         this.setDescription(description);
         this.setStoreContact(storeContact);
+    }
+    
+    public void renewShop(int totalArea){
+        this.setTotalArea(totalArea);
+        
     }
        
     public Long getShopID() {
@@ -83,19 +87,12 @@ public class Shop implements Serializable {
         this.Owner=Owner;
     }
 
-    public Collection<Unit> getUnits() {
-        return units;
-    }
-
-    public void setUnits(Collection<Unit> units) {
-        this.units = units;
-    }
   
     
-    public String getTotalArea(){
+    public int getTotalArea(){
         return totalArea;
     }
-    public void setTotalArea(String totalArea){
+    public void setTotalArea(int totalArea){
         this.totalArea=totalArea;
     }
     
