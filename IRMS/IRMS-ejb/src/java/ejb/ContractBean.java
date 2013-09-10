@@ -133,7 +133,7 @@ public class ContractBean implements ContractBeanRemote {
                 contractEntity.getUnits().remove(unitEntity);
                 em.flush();
             }    
-                
+             
                 
             for (Iterator it = UnitNo.iterator(); it.hasNext();){
                String result = (String)it.next();

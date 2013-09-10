@@ -52,6 +52,7 @@ public class ManageTenantBean implements ManageTenantBeanRemote {
         return shop;
     }
    
+   
     // create one bill and relate it to one shop
     public void creatBill(double RentalFee, double commission, String ShopName,
             String shopOwner) {
