@@ -25,10 +25,12 @@ public class ManageTenantBean implements ManageTenantBeanRemote {
     ShopBill bill;
     Shop shop;
     double commisionRate = 0.3;
+    Calendar dateIssued;
    // double commissionFee;
-    // check on jasper report
+    
+    // check on jasper report not included in the first system release.
     public void generateQuarterlyReport(){
-        
+    
     }
     
     

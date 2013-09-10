@@ -9,8 +9,10 @@ import entity.Contract;
 import entity.Hotel;
 import entity.Shop;
 import exception.ExistException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -34,18 +36,11 @@ public class ManageCatalogBean implements ManageCatalogBeanRemote {
 
     public void viewTenancyMix() {
         contractEntity = new Contract();
-        Map<String, Integer> m = new HashMap<String, Integer>();
-        
-       
-        Query q = em.createQuery("SELECT * FROM contract c ");
-        
-        for (Object o : q.getResultList()) {
-            contractEntity = (Contract) o;
-            String category = contractEntity.getPurpose();
-            if (m.containsKey(category)) {
-       //         m.
-            }
-        }
+        List<String> categories = new ArrayList<String> ();
+    
+        Query q = em.createQuery("SELECT DISTINCT purpose, COUNT(contractid) FROM contract "
+                + "group by purpose");
+       categories =(List)q.getResultList();
     }
     
     public void editStoreInfo(String storeName, String description, String storeContact,String operatingHours) {
