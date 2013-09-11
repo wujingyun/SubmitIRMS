@@ -81,6 +81,7 @@ public class ManageMallSpaceBean implements ManageMallSpaceBeanRemote {
         
         mallEntity.getUnits().remove(unitEntity);
         em.remove(unitEntity);
+        em.flush();
     }
 
     public int currentUsedSpace() {

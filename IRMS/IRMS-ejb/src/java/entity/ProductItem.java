@@ -38,7 +38,21 @@ public class ProductItem implements Serializable {
     @ManyToOne
     private Shop shop;
     
+    public void createProductItem(String category,String name,String description
+            ,Integer quantityOnHand,BigDecimal unitPrice){
+        this.setCategory(category);
+        this.setName(name);
+        this.setDescription(description);
+        this.setQuantityOnHand(quantityOnHand);
+        this.setUnitPrice(unitPrice);
+    }
     
+    public void editProduct(String description,Integer quantityOnHand,BigDecimal unitPrice){   
+        this.setDescription(description);
+        this.setQuantityOnHand(quantityOnHand);
+        this.setUnitPrice(unitPrice);
+    }
+            
      public Long getProductItemId() {
         return productItemId;
     }
