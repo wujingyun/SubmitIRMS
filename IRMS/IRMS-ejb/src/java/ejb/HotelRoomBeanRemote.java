@@ -17,8 +17,8 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface HotelRoomBeanRemote {
-    public void addHotel(String name, String address, String telNumber)throws ExistException;
-    public void editHotel(String name, String address, String telNumber, String description)throws ExistException;
+    public void addHotel(String name, String address, String telNumber,  String description, Integer capacity, double overbookRate)throws ExistException;
+    public void editHotel(String name, String newName, String address, String telNumber,  String description, Integer capacity, double overbookRate)throws ExistException;
     public void removeHotel(String name) throws ExistException;
     public void addRoom(String hotelName, Integer roomNumber, String type, String description, double rate)throws ExistException;
     public void editRoom(String hotelName, Integer roomNumber, String type, String description, double rate)throws ExistException;

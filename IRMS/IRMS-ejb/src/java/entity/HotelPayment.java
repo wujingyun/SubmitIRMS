@@ -24,7 +24,8 @@ public class HotelPayment implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToOne
-    private HotelTransaction hotelTransaction;
+    private AccommodationBill accommodationBill;
+    private Integer creditCardNumber;
     private double amount;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar dateTime;
@@ -37,12 +38,20 @@ public class HotelPayment implements Serializable {
         this.setAmount(amount);
     }
 
-    public HotelTransaction getHotelTransaction() {
-        return hotelTransaction;
+    public AccommodationBill getAccommodationBill() {
+        return accommodationBill;
     }
 
-    public void setHotelTransaction(HotelTransaction hotelTransaction) {
-        this.hotelTransaction = hotelTransaction;
+    public void setAccommodationBill(AccommodationBill accommodationBill) {
+        this.accommodationBill = accommodationBill;
+    }
+
+    public Integer getCreditCardNumber() {
+        return creditCardNumber;
+    }
+
+    public void setCreditCardNumber(Integer creditCardNumber) {
+        this.creditCardNumber = creditCardNumber;
     }
 
     public double getAmount() {

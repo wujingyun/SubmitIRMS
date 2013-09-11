@@ -36,7 +36,7 @@ public class AccommodationBill implements Serializable {
     @OneToMany(mappedBy="accommodationBill")
     private Collection<RoomServiceOrder> roomServiceOrders;
     @OneToOne(mappedBy="accommodationBill")
-    private HotelTransaction hotelTransaction;
+    private HotelPayment hotelPayment;
     private double overseasCall[][];
     private String incidentalCharges[][];
     private double total;
@@ -88,12 +88,12 @@ public class AccommodationBill implements Serializable {
         this.roomServiceOrders = roomServiceOrders;
     }
 
-    public HotelTransaction getHotelTransaction() {
-        return hotelTransaction;
+    public HotelPayment getHotelPayment() {
+        return hotelPayment;
     }
 
-    public void setHotelTransaction(HotelTransaction hotelTransaction) {
-        this.hotelTransaction = hotelTransaction;
+    public void setHotelPayment(HotelPayment hotelPayment) {
+        this.hotelPayment = hotelPayment;
     }
 
     public double[][] getOverseasCall() {

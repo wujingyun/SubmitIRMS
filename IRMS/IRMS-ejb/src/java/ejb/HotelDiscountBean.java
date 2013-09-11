@@ -19,61 +19,73 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class HotelDiscountBean implements HotelDiscountBeanRemote {
+
     @PersistenceContext()
-     EntityManager em;
-     Hotel hotel;
-     DiscountScheme discountScheme;
-     
+    EntityManager em;
+    Hotel hotel;
+    DiscountScheme discountScheme;
+
+    public HotelDiscountBean() {
+    }
+
     @Override
     public void addDiscountScheme(String hotelName, String name, String eligibility, String description, double discountRate) throws ExistException {
-       hotel=em.find(Hotel.class, hotelName);
-       if(hotel==null)
-           throw new ExistException("HOTEL NOT EXIST.");
-       discountScheme=hotel.findDiscountScheme(name);
-       if(discountScheme!=null)
-           throw new ExistException("DISCOUNT SCHEME ALREADY EXISTS.");
-       discountScheme=new DiscountScheme();
-       discountScheme.create(name, eligibility, description, discountRate);
-       discountScheme.setHotel(hotel);
-       hotel.getDiscountSchemes().add(discountScheme);
-       hotel.setDiscountSchemes(hotel.getDiscountSchemes());
-       em.persist(discountScheme);
+        hotel = em.find(Hotel.class, hotelName);
+        if (hotel == null) {
+            throw new ExistException("HOTEL NOT EXIST.");
+        }
+        discountScheme = hotel.findDiscountScheme(name);
+        if (discountScheme != null) {
+            throw new ExistException("DISCOUNT SCHEME ALREADY EXISTS.");
+        }
+        discountScheme = new DiscountScheme();
+        discountScheme.create(name, eligibility, description, discountRate);
+        discountScheme.setHotel(hotel);
+        hotel.getDiscountSchemes().add(discountScheme);
+        hotel.setDiscountSchemes(hotel.getDiscountSchemes());
+        em.persist(discountScheme);
     }
 
     @Override
     public void editDiscountScheme(String hotelName, String name, String eligibility, String description, double discountRate) throws ExistException {
-       hotel=em.find(Hotel.class, hotelName);
-       if(hotel==null)
-           throw new ExistException("HOTEL NOT EXIST.");
-       discountScheme=hotel.findDiscountScheme(name);
-       if(discountScheme==null)
-           throw new ExistException("DISCOUNT SCHEME NOT EXIST.");
-       discountScheme.setName(name);
-       discountScheme.setEligibility(eligibility);
-       discountScheme.setDescription(description);
-       discountScheme.setDiscountRate(discountRate);
-       discountScheme.setDateCreated(Calendar.getInstance());
-       em.persist(discountScheme);
+        hotel = em.find(Hotel.class, hotelName);
+        if (hotel == null) {
+            throw new ExistException("HOTEL NOT EXIST.");
+        }
+        discountScheme = hotel.findDiscountScheme(name);
+        if (discountScheme == null) {
+            throw new ExistException("DISCOUNT SCHEME NOT EXIST.");
+        }
+        discountScheme.setName(name);
+        discountScheme.setEligibility(eligibility);
+        discountScheme.setDescription(description);
+        discountScheme.setDiscountRate(discountRate);
+        discountScheme.setDateCreated(Calendar.getInstance());
+        em.flush();
     }
 
     @Override
     public void removeDiscountScheme(String hotelName, String name) throws ExistException {
-       hotel=em.find(Hotel.class, hotelName);
-       if(hotel==null)
-           throw new ExistException("HOTEL NOT EXIST.");
-       discountScheme=hotel.findDiscountScheme(name);
-       if(discountScheme==null)
-           throw new ExistException("DISCOUNT SCHEME NOT EXIST.");
-       hotel.getDiscountSchemes().remove(discountScheme);
-       hotel.setDiscountSchemes(hotel.getDiscountSchemes());
-       em.remove(discountScheme);
+        hotel = em.find(Hotel.class, hotelName);
+        if (hotel == null) {
+            throw new ExistException("HOTEL NOT EXIST.");
+        }
+        discountScheme = hotel.findDiscountScheme(name);
+        if (discountScheme == null) {
+            throw new ExistException("DISCOUNT SCHEME NOT EXIST.");
+        }
+        hotel.getDiscountSchemes().remove(discountScheme);
+        hotel.setDiscountSchemes(hotel.getDiscountSchemes());
+        em.remove(discountScheme);
+        em.flush();
     }
 
     @Override
-    public Collection<DiscountScheme> getDiscountSchemes(String hotelName) throws ExistException{
-        hotel=em.find(Hotel.class, hotelName);
-        if(hotel==null)
+    public Collection<DiscountScheme> getDiscountSchemes(String hotelName) throws ExistException {
+        hotel = em.find(Hotel.class, hotelName);
+        if (hotel == null) {
             throw new ExistException("HOTEL NOT EXIST.");
+        }
         return hotel.getDiscountSchemes();
     }
 }

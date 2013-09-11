@@ -9,12 +9,15 @@ package entity;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -41,8 +44,15 @@ public class Customer implements Serializable
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long customerId;
-    @Column(length = 32)
-
+    //@Column(length = 32)
+    
+    @OneToMany(mappedBy="customer")
+    /*@JoinTable(
+            name="CUSTOMER_ROOMRESERVATION",
+            joinColumns={@JoinColumn(name="CUSTOMER_ID", referencedColumnName="ID")},
+            inverseJoinColumns={@JoinColumn(name="ROOMRESERVATION_ID", referencedColumnName="ID")}
+    )*/
+    private Collection<RoomReservation> roomReservations=new ArrayList();
 
     private String Username;
     @Column(length = 32)
@@ -84,6 +94,14 @@ public class Customer implements Serializable
 
     public void setCustomerId(Long customerId) {
         this.customerId = customerId;
+    }
+
+    public Collection<RoomReservation> getRoomReservations() {
+        return roomReservations;
+    }
+
+    public void setRoomReservations(Collection<RoomReservation> roomReservations) {
+        this.roomReservations = roomReservations;
     }
 
     @Override

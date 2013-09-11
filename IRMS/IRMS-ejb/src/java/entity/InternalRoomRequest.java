@@ -27,8 +27,8 @@ public class InternalRoomRequest implements Serializable {
     private Long id;
     @ManyToOne
     private Staff staff;
-    @OneToMany(mappedBy="internalRoomRequest")
-    private Collection<InternalRoomReservation> internalRoomReservations;
+    @OneToMany
+    private Collection<RoomReservation> internalRoomReservations;
     private String hotelName;
     private String roomRequested[][];
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -57,11 +57,11 @@ public class InternalRoomRequest implements Serializable {
         this.staff = staff;
     }
 
-    public Collection<InternalRoomReservation> getInternalRoomReservations() {
+    public Collection<RoomReservation> getInternalRoomReservations() {
         return internalRoomReservations;
     }
 
-    public void setInternalRoomReservations(Collection<InternalRoomReservation> internalRoomReservations) {
+    public void setInternalRoomReservations(Collection<RoomReservation> internalRoomReservations) {
         this.internalRoomReservations = internalRoomReservations;
     }
 

@@ -16,6 +16,7 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface ComplaintRegisterBeanRemote {
+    
     public void addComplaintRegister(String hotelName) throws ExistException;
     public void removeComplaintRegister(String hotelName) throws ExistException;
     public void addComplaintEntry(String hotelName, String customerName, Integer roomNumber, String contact, String description, String status) throws ExistException;

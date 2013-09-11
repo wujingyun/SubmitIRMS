@@ -22,89 +22,104 @@ import javax.persistence.Query;
  */
 @Stateless
 public class ComplaintRegisterBean implements ComplaintRegisterBeanRemote {
+
     @PersistenceContext()
-     EntityManager em;
-     Hotel hotel;
-     ComplaintRegister complaintRegister;
-     ComplaintEntry complaintEntry;
+    EntityManager em;
+    Hotel hotel;
+    ComplaintRegister complaintRegister;
+    ComplaintEntry complaintEntry;
+
+    public ComplaintRegisterBean() {
+    }
 
     @Override
     public void addComplaintRegister(String hotelName) throws ExistException {
-       hotel=em.find(Hotel.class, hotelName);
-       if(hotel==null)
-           throw new ExistException("HOTEL NOT EXIST.");
-       complaintRegister=hotel.getComplaintRegister();
-       if(complaintRegister!=null)
-           throw new ExistException("COMPLAINT REGISTER ALREADY EXISTS.");
-       complaintRegister=new ComplaintRegister();
-       complaintRegister.create();
-       complaintRegister.setHotel(hotel);
-       hotel.setComplaintRegister(complaintRegister);
-       em.persist(complaintRegister);
+        hotel = em.find(Hotel.class, hotelName);
+        if (hotel == null) {
+            throw new ExistException("HOTEL NOT EXIST.");
+        }
+        complaintRegister = hotel.getComplaintRegister();
+        if (complaintRegister != null) {
+            throw new ExistException("COMPLAINT REGISTER ALREADY EXISTS.");
+        }
+        complaintRegister = new ComplaintRegister();
+        complaintRegister.create();
+        complaintRegister.setHotel(hotel);
+        hotel.setComplaintRegister(complaintRegister);
+        em.persist(complaintRegister);
     }
 
     @Override
     public void removeComplaintRegister(String hotelName) throws ExistException {
-       hotel=em.find(Hotel.class, hotelName);
-       if(hotel==null)
-           throw new ExistException("HOTEL NOT EXIST.");
-       complaintRegister=hotel.getComplaintRegister();
-       if(complaintRegister==null)
-           throw new ExistException("COMPLAINT REGISTER NOT EXIST.");
-       hotel.setComplaintRegister(null);
-       em.remove(complaintRegister);
+        hotel = em.find(Hotel.class, hotelName);
+        if (hotel == null) {
+            throw new ExistException("HOTEL NOT EXIST.");
+        }
+        complaintRegister = hotel.getComplaintRegister();
+        if (complaintRegister == null) {
+            throw new ExistException("COMPLAINT REGISTER NOT EXIST.");
+        }
+        hotel.setComplaintRegister(null);
+        em.remove(complaintRegister);
+        em.flush();
     }
 
     @Override
     public void addComplaintEntry(String hotelName, String customerName, Integer roomNumber, String contact, String description, String status) throws ExistException {
-       hotel=em.find(Hotel.class, hotelName);
-       if(hotel==null)
-           throw new ExistException("HOTEL NOT EXIST.");
-       complaintRegister=hotel.getComplaintRegister();
-       if(complaintRegister==null)
-           throw new ExistException("COMPLAINT REGISTER NOT EXIST.");
-       complaintEntry=new ComplaintEntry();
-       complaintEntry.create(customerName, roomNumber, contact, description, status);
-       complaintEntry.setComplaintRegister(complaintRegister);
-       complaintRegister.getComplaintEntries().add(complaintEntry);
-       complaintRegister.setComplaintEntries(complaintRegister.getComplaintEntries());
-       em.persist(complaintRegister);
+        hotel = em.find(Hotel.class, hotelName);
+        if (hotel == null) {
+            throw new ExistException("HOTEL NOT EXIST.");
+        }
+        complaintRegister = hotel.getComplaintRegister();
+        if (complaintRegister == null) {
+            throw new ExistException("COMPLAINT REGISTER NOT EXIST.");
+        }
+        complaintEntry = new ComplaintEntry();
+        complaintEntry.create(customerName, roomNumber, contact, description, status);
+        complaintEntry.setComplaintRegister(complaintRegister);
+        complaintRegister.getComplaintEntries().add(complaintEntry);
+        complaintRegister.setComplaintEntries(complaintRegister.getComplaintEntries());
+        em.persist(complaintRegister);
     }
 
     @Override
     public void editComplaintEntry(String hotelName, String customerName, Integer roomNumber, String contact, String description, String status) throws ExistException {
-       hotel=em.find(Hotel.class, hotelName);
-       if(hotel==null)
-           throw new ExistException("HOTEL NOT EXIST.");
-       complaintRegister=hotel.getComplaintRegister();
-       if(complaintRegister==null)
-           throw new ExistException("COMPLAINT REGISTER NOT EXIST.");
-       complaintEntry=new ComplaintEntry();
-       complaintEntry.setCustomerName(customerName);
-       complaintEntry.setRoomNumber(roomNumber);
-       complaintEntry.setContact(contact);
-       complaintEntry.setDescription(description);
-       complaintEntry.setStatus(status);
-       complaintEntry.setDateTime(Calendar.getInstance());
-       em.persist(complaintEntry);
+        hotel = em.find(Hotel.class, hotelName);
+        if (hotel == null) {
+            throw new ExistException("HOTEL NOT EXIST.");
+        }
+        complaintRegister = hotel.getComplaintRegister();
+        if (complaintRegister == null) {
+            throw new ExistException("COMPLAINT REGISTER NOT EXIST.");
+        }
+        complaintEntry = new ComplaintEntry();
+        complaintEntry.setCustomerName(customerName);
+        complaintEntry.setRoomNumber(roomNumber);
+        complaintEntry.setContact(contact);
+        complaintEntry.setDescription(description);
+        complaintEntry.setStatus(status);
+        complaintEntry.setDateTime(Calendar.getInstance());
+        em.flush();
     }
 
     @Override
     public void removeComplaintEntry(Long complaintId) throws ExistException {
-       complaintEntry=em.find(ComplaintEntry.class, complaintId);
-       if(complaintEntry==null)
-           throw new ExistException("COMPLAINT ENTRY NOT EXIST.");
-       complaintRegister.getComplaintEntries().remove(complaintEntry);
-       complaintRegister.setComplaintEntries(complaintRegister.getComplaintEntries());
-       em.remove(complaintEntry);
+        complaintEntry = em.find(ComplaintEntry.class, complaintId);
+        if (complaintEntry == null) {
+            throw new ExistException("COMPLAINT ENTRY NOT EXIST.");
+        }
+        complaintRegister.getComplaintEntries().remove(complaintEntry);
+        complaintRegister.setComplaintEntries(complaintRegister.getComplaintEntries());
+        em.remove(complaintEntry);
+        em.flush();
     }
 
     @Override
     public Collection<ComplaintRegister> getComplaintRegisters() {
-        Query q=em.createNamedQuery("SELECT c FROM ComplaintRegister c");
-        Collection complaintRegisters=new ArrayList();
-        for(Object o: q.getResultList()){
-            ComplaintRegister c=(ComplaintRegister) o;
+        Query q = em.createNamedQuery("SELECT c FROM ComplaintRegister c");
+        Collection complaintRegisters = new ArrayList();
+        for (Object o : q.getResultList()) {
+            ComplaintRegister c = (ComplaintRegister) o;
             complaintRegisters.add(c);
         }
         return complaintRegisters;
@@ -112,13 +127,14 @@ public class ComplaintRegisterBean implements ComplaintRegisterBeanRemote {
 
     @Override
     public Collection<ComplaintEntry> getComplaintEntries(String hotelName) throws ExistException {
-       hotel=em.find(Hotel.class, hotelName);
-       if(hotel==null)
-           throw new ExistException("HOTEL NOT EXIST.");
-       complaintRegister=hotel.getComplaintRegister();
-       if(complaintRegister==null)
-           throw new ExistException("COMPLAINT REGISTER NOT EXIST.");
-       return complaintRegister.getComplaintEntries();
+        hotel = em.find(Hotel.class, hotelName);
+        if (hotel == null) {
+            throw new ExistException("HOTEL NOT EXIST.");
+        }
+        complaintRegister = hotel.getComplaintRegister();
+        if (complaintRegister == null) {
+            throw new ExistException("COMPLAINT REGISTER NOT EXIST.");
+        }
+        return complaintRegister.getComplaintEntries();
     }
-     
 }
