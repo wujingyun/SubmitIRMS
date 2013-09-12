@@ -108,7 +108,7 @@ public class HotelReservationBean implements HotelReservationBeanRemote {
     public boolean checkAvailability(String hotelName, String roomType, Integer quantity, Calendar startDate, Calendar endDate) throws ExistException {
         //check if there is a right type of room available during the period
         Integer countGuaranteed = new Integer(0);
-        Query q1 = em.createQuery("SELECT COUNT(roomNumber) FROM Room WHERE r.hotelName=:hotelName AND r.type=:roomType");
+        Query q1 = em.createQuery("SELECT COUNT(roomNumber) FROM Room WHERE r.hotelName=:hotelName AND r.type=:roomType AND r.availabilityStatus='available'");
         Integer numOfRooms = (Integer) q1.getSingleResult();
         Query q2 = em.createNamedQuery("SELECT r FROM RoomReservation WHERE r.hotelName=:hotelName AND r.roomType=:roomType AND r.type='Guaranteed' AND (r.startDate<=:endDate OR r.endDate>=:startDate)");
         for (Object o : q2.getResultList()) {
