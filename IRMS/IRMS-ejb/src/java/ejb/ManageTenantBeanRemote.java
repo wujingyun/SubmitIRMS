@@ -4,6 +4,7 @@
  */
 package ejb;
 
+import entity.Shop;
 import javax.ejb.Remote;
 
 /**
@@ -12,5 +13,9 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface ManageTenantBeanRemote {
-    
+    public double calculateCommission(double revenue);
+    public Shop viewBill(String ShopName,String shopOwner);
+    public void creatBill(double RentalFee, double commission, String ShopName,
+            String shopOwner) ;
+    public void EditBillStatus(String BillID);
 }

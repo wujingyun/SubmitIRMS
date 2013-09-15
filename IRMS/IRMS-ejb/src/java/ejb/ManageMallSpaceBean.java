@@ -32,6 +32,7 @@ public class ManageMallSpaceBean implements ManageMallSpaceBeanRemote {
 
   
 
+    @Override
     public Mall DisplayRepartitionMall(String mallName) {
         mallEntity = new Mall();
         Query q=em.createQuery("SELECT * FROM mall WHERE mallName = : mName");
@@ -40,7 +41,9 @@ public class ManageMallSpaceBean implements ManageMallSpaceBeanRemote {
 
         return mallEntity;       
     }
+    
 
+    @Override
     public void addNewUnit(String unitNo, int unitSpace, String mallName) throws MaxQuotaException {
         unitEntity = new Unit();
         int totalArea = currentUsedSpace();
@@ -65,6 +68,7 @@ public class ManageMallSpaceBean implements ManageMallSpaceBeanRemote {
         em.flush();
     }
 
+    @Override
     public void deleteUnit(String unitNo, String mallName) throws ExistException {
         unitEntity = new Unit();
         unitEntity = em.find(Unit.class, unitNo);
@@ -93,7 +97,8 @@ public class ManageMallSpaceBean implements ManageMallSpaceBeanRemote {
         }
         return result;
     }
-
+    
+    @Override
     public void createMall(String mallName) {
         mallEntity = new Mall();
         mallEntity.setMallName(mallName);
