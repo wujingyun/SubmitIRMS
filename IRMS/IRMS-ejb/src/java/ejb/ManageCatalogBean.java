@@ -46,6 +46,7 @@ public class ManageCatalogBean implements ManageCatalogBeanRemote {
        categories =(List)q.getResultList();
     }
     
+    @Override
     public void editStoreInfo(String storeName, String description, String storeContact,String operatingHours) {
         shop =new Shop();
         Query q = em.createQuery("SELECT * FROM shop WHERE name = : storeName");
@@ -57,6 +58,7 @@ public class ManageCatalogBean implements ManageCatalogBeanRemote {
         em.flush();
     }
     
+    @Override
     public void addProductItem(Long ShopID,String category,String name,String description
             ,Integer quantityOnHand,BigDecimal unitPrice) throws ExistException{
         shop = new Shop();
@@ -71,6 +73,7 @@ public class ManageCatalogBean implements ManageCatalogBeanRemote {
         em.flush();      
     }
     
+    @Override
     public void editProductItem(String category,String name,String description
             ,Integer quantityOnHand,BigDecimal unitPrice){
         Query q =em.createQuery("SELECT * FROM  productitem WHERE category = : type"
@@ -82,6 +85,7 @@ public class ManageCatalogBean implements ManageCatalogBeanRemote {
         em.flush();
     }
     
+    @Override
     public void deleteProductItem(String category,String name){
         Query q =em.createQuery("SELECT * FROM  productitem WHERE category = : type"
                 + "AND name = : theName");
@@ -97,6 +101,7 @@ public class ManageCatalogBean implements ManageCatalogBeanRemote {
         em.flush();
     }
     
+    @Override
     public void deliveryItem(String hotelName,String customerName, String customerID, 
             String contactNumber, Integer numOfItems, String description) {
             deliveryOrder = new ConciergeOrder();
@@ -115,6 +120,7 @@ public class ManageCatalogBean implements ManageCatalogBeanRemote {
             em.flush();
     }
     
+    @Override
     public boolean updateDeliveryOrder(String status, String ID) throws ExistException{
         deliveryOrder = new ConciergeOrder();
         deliveryOrder = em.find(ConciergeOrder.class, ID);

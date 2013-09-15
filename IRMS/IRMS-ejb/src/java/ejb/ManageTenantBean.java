@@ -34,12 +34,14 @@ public class ManageTenantBean implements ManageTenantBeanRemote {
     }
     
     
+    @Override
     public double calculateCommission(double revenue){
         double commissionFee;
        commissionFee = commisionRate * revenue;
         return commissionFee;
     }
     //view only bills from one shop
+    @Override
     public Shop viewBill(String ShopName,String shopOwner){
         shop = new Shop();
         Query q = em.createQuery("SELECT * FROM shop WHERE name = : storeName AND"
@@ -54,6 +56,7 @@ public class ManageTenantBean implements ManageTenantBeanRemote {
    
    
     // create one bill and relate it to one shop
+    @Override
     public void creatBill(double RentalFee, double commission, String ShopName,
             String shopOwner) {
         bill = new ShopBill();

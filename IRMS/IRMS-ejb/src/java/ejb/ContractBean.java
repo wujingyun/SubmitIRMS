@@ -40,6 +40,7 @@ public class ContractBean implements ContractBeanRemote {
     }
     
    
+    @Override
    public void signContract(String ContractType,String Landlord,String Tenant,
             String IdentityCard,String TenantTradeName,List UnitNo,
             String NameOfShoppingCenter,String Purpose
@@ -99,6 +100,7 @@ public class ContractBean implements ContractBeanRemote {
             em.flush();             
     }
    
+    @Override
    public void reNewContract(String IdentityCard,List UnitNo,String FloorArea,String Purpose
             ,String MinimumRent,String RentRate,String TenantAddress,String LandlordContact
             ,String TenantContact,String upfrontRentalDeposit,String TenantTradeName) {
@@ -153,6 +155,7 @@ public class ContractBean implements ContractBeanRemote {
        //     shopEntity.updateShop(TenantTradeName, Tenant, FloorArea);
        
    }
+    @Override
    public void terminateContract(String IdentityCard,String TenantTradeName) throws ExistException{
        contractEntity = new Contract();
        shopBill = new ShopBill();
