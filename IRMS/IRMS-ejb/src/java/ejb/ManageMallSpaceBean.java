@@ -28,7 +28,7 @@ public class ManageMallSpaceBean implements ManageMallSpaceBeanRemote {
     EntityManager em;
     Unit unitEntity;
     Mall mallEntity;
-    int maxArea = 20000;
+    int maxArea = 200000;
 
   
 
@@ -45,22 +45,28 @@ public class ManageMallSpaceBean implements ManageMallSpaceBeanRemote {
 
     @Override
     public void addNewUnit(String unitNo, int unitSpace, String mallName) throws MaxQuotaException {
+        System.out.println("public void unitNo:"+unitNo+" unitspace: "+ unitSpace+ " mallName: "+mallName);
         unitEntity = new Unit();
+        System.out.println("currentUsedSpace:");
         int totalArea = currentUsedSpace();
+        System.out.println("currentUsedSpace After : "+totalArea);
 
         if (totalArea > maxArea) {
             throw new MaxQuotaException(MaxQuotaException.getINSUFFICIENT_SPACE());
         }
 
         unitEntity.createUnit(unitNo, unitSpace);
+        System.out.println("createUnit: "+unitNo+" UnitSpace");
 
         em.persist(unitEntity);
+        System.out.println("currentUsedSpace After : ");
 
         mallEntity = new Mall();
-
-        Query q = em.createQuery("SELECT * FROM mall WHERE mallName = : "
-                + "mname");
-        q.setParameter("mname", mallName);
+        System.out.println("AddNewUnit:  query for mall : ");
+        /*Query q = em.createQuery("SELECT m FROM mall WHERE mallName = : "
+                + "mname");*/
+        Query q = em.createQuery("SELECT * FROM mall_name m");
+        
         mallEntity = (Mall) q.getSingleResult();
 
         mallEntity.getUnits().add(unitEntity);
@@ -90,11 +96,14 @@ public class ManageMallSpaceBean implements ManageMallSpaceBeanRemote {
 
     public int currentUsedSpace() {
         int result = 0;
-        Query q = em.createQuery("SELECT * FROM unit u");
+         System.out.println("public int currentUsedSpace: "+result);
+        Query q = em.createNativeQuery("SELECT * FROM unit u");
+        System.out.println("list size "+ q.getResultList().size());
         for (Object o : q.getResultList()) {
             unitEntity = (Unit) o;
             result += unitEntity.getUnitSpace();
         }
+        System.out.println("public int currentUsedSpace After: "+result);
         return result;
     }
     
@@ -102,5 +111,7 @@ public class ManageMallSpaceBean implements ManageMallSpaceBeanRemote {
     public void createMall(String mallName) {
         mallEntity = new Mall();
         mallEntity.setMallName(mallName);
+        mallEntity.setMallSize(maxArea);
+        em.persist(mallEntity);
     }
 }

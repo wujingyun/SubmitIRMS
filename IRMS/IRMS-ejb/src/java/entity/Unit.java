@@ -20,7 +20,6 @@ import javax.persistence.OneToOne;
 public class Unit implements Serializable {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
     private String unitNo;
     private int unitSpace;
     private boolean unitAvailability = true;
