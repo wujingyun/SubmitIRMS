@@ -29,6 +29,7 @@ public class MallSpaceManagedBean implements Serializable{
     private String newMall;
     
     private String unitNo;
+   
     private int unitSpace;
     
     public MallSpaceManagedBean() {
@@ -48,7 +49,7 @@ public class MallSpaceManagedBean implements Serializable{
     }
     public  void createUnit(ActionEvent event){
         try{
-            
+           
             mmsbr.addNewUnit(unitNo, unitSpace, mallName);
             System.out.println("ManagedBean add new unit: "+unitNo+" unitSpace:"+unitSpace+" MallName:"+mallName);
              FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,  

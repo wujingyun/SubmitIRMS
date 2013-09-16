@@ -21,6 +21,7 @@ public class Unit implements Serializable {
     
     @Id
     private String unitNo;
+    
     private int unitSpace;
     private boolean unitAvailability = true;
     @ManyToOne
@@ -30,9 +31,10 @@ public class Unit implements Serializable {
     
     public Unit() {
     }
+
     
     public void createUnit(String unitNo, int unitSpace) {
-        this.unitNo = unitNo;
+        this.setUnitNo(unitNo);
         this.setUnitAvailability(true);
         this.setUnitSpace(unitSpace);
     }

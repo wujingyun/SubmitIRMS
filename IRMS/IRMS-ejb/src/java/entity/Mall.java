@@ -19,7 +19,7 @@ import javax.persistence.Table;
  * @author wangxiahao
  */
 @Entity
-@Table(name = "mall_name")
+
 public class Mall implements Serializable {
 
     @Id
