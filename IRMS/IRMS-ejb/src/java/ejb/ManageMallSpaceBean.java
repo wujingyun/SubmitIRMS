@@ -10,6 +10,7 @@ import exception.ExistException;
 import exception.MaxQuotaException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 import javax.ejb.Stateless;
@@ -30,20 +31,40 @@ public class ManageMallSpaceBean implements ManageMallSpaceBeanRemote {
     Unit unitEntity;
     Mall mallEntity;
     int maxArea = 200000;
-
+    private List<String> units;
   
 
-    @Override
-    public Mall DisplayRepartitionMall(String mallName) {
+   // clear , a list of all the units will be passed to the front 
+   @Override
+   public List<String> DisplayRepartitionMall(String mallName) {
+        System.out.println("AddNewUnit:  query for mall : ");
+        String ejbql ="SELECT m FROM Mall m WHERE m.mallName =?1";       
+        Query q = em.createQuery(ejbql);
+        q.setParameter(1, "IRMall");
+        System.out.println("AddNewUnit:  query for mall After: ");
         mallEntity = new Mall();
-        Query q=em.createQuery("SELECT * FROM mall WHERE mallName = : mName");
-        q.setParameter("mName", mallName);
-        mallEntity =(Mall)q.getSingleResult();
-
-        return mallEntity;       
+        
+        System.out.println("AddNewUnit:  getting result for mall: ");
+        mallEntity = (Mall) q.getSingleResult();
+        System.out.println("Dispaly Mall Name: " +mallEntity.getMallName());
+        unitEntity = new Unit();
+        
+        units = new ArrayList();
+        for(Iterator it =mallEntity.getUnits().iterator();it.hasNext();){
+              
+             unitEntity = (Unit)it.next();
+             System.out.println("Dispaly unit No"+unitEntity.getUnitNo());
+             if(unitEntity.isUnitAvailability()==true){
+                 units.add(unitEntity.getUnitNo());
+             }
+         } 
+        for (String unit : units) {
+            System.out.println("Dispaly unit No : "+unit);
+        }
+        return units;       
     }
     
-
+    // finished addNewUnit
     @Override
     public void addNewUnit(String unitNo, int unitSpace, String mallName) throws MaxQuotaException {
         
@@ -97,7 +118,7 @@ public class ManageMallSpaceBean implements ManageMallSpaceBeanRemote {
         em.remove(unitEntity);
         em.flush();
     }
-
+    // cleared
     public int currentUsedSpace() {
         int result = 0;
         unitEntity =new Unit();
@@ -112,7 +133,7 @@ public class ManageMallSpaceBean implements ManageMallSpaceBeanRemote {
         em.flush();
         return result;
     }
-    
+    //cleared
     @Override
     public void createMall(String mallName) {
         mallEntity = new Mall();

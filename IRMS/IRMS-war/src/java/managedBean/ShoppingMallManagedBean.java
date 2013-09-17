@@ -13,6 +13,7 @@ import entity.ShopOwner;
 import entity.Unit;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -55,16 +56,18 @@ public class ShoppingMallManagedBean implements Serializable{
     private ShopOwner tenant;
     private Mall mall;
   //  private Unit units;
-    private static List<String> units = new ArrayList();
+    private List<String> units = new ArrayList();
     private List<String> selectedUnits;
     private Unit mallUnit;
     private static String mName="IRMall";
     
+   
   //  private Map<String,String> mallUnits;
     
-    public ShoppingMallManagedBean() {
-     
+    public ShoppingMallManagedBean() {        
     }
+
+      
     
      public void contractCreation(ActionEvent event){
          try{
@@ -81,17 +84,11 @@ public class ShoppingMallManagedBean implements Serializable{
          
      }
      
-     public void DisplayAvailableUnits(){
-         mall = (Mall)mmsbr.DisplayRepartitionMall(mName);
+     public List<String> getUnits(){
+            
+         units = mmsbr.DisplayRepartitionMall(mName);
  
-         mallUnit = new Unit();
-         for(Iterator it =mall.getUnits().iterator();it.hasNext();){
-             mallUnit= (Unit)it.next();
-             
-             if(mallUnit.isUnitAvailability()==true){
-                 units.add(mallUnit.getUnitNo());
-             }
-         }  
+         return units;
      } 
      
     public String getContractType() {
@@ -221,13 +218,10 @@ public class ShoppingMallManagedBean implements Serializable{
     public void setShopOwner(ShopOwner tenant) {
         this.tenant = tenant;
     }
-    public List<String> getUnits() {
-        return units;
-    }
 
     public void setUnits(List<String> units) {
         this.units = units;
-    }
+   }
 
     public Mall getMall() {
         return mall;

@@ -7,6 +7,7 @@ package ejb;
 import entity.Mall;
 import exception.ExistException;
 import exception.MaxQuotaException;
+import java.util.List;
 import javax.ejb.Remote;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -17,7 +18,7 @@ import javax.persistence.PersistenceContext;
  */
 @Remote
 public interface ManageMallSpaceBeanRemote {
-   public Mall DisplayRepartitionMall(String mallName);
+   public List<String> DisplayRepartitionMall(String mallName);
    public void addNewUnit(String unitNo, int unitSpace, String mallName) throws MaxQuotaException;
    public void deleteUnit(String unitNo, String mallName) throws ExistException;
    public void createMall(String mallName);
