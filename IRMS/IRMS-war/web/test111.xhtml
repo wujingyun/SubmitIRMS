@@ -4,7 +4,7 @@
 xmlns:ui="http://java.sun.com/jsf/facelets"
 xmlns:h="http://java.sun.com/jsf/html"
 xmlns:f="http://java.sun.com/jsf/core"
-template="./Templet/DefaultTemplet.xhtml">
+template="templet/DefaultTemplet.xhtml">
     
     <ui:define name="top">
         top
@@ -19,8 +19,16 @@ template="./Templet/DefaultTemplet.xhtml">
     </ui:define>
 
     <ui:define name="content">
-        content
-    </ui:define>
+       <h:dataTable cellpadding="3px" cellspacing="1px" styleClass="allaroundborder" headerClass="allaroundborder" columnClasses="allaroundborder" rowClasses="allaroundborder" value="#{eventDataTableBean.events}" var="event">
+<h:column>
+<f:facet name="header">
+<h:outputText value="Event ID" />
+</f:facet>
+<h:outputText value="#{shoppingMallManagedBean.landlord}" />
+</h:column>
 
+
+</h:dataTable>
+</ui:define>
 </ui:composition>
 
