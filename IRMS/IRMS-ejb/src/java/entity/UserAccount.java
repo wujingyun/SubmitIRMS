@@ -42,7 +42,7 @@ public class UserAccount implements Serializable {
   private String password;  
 
     @ManyToOne(targetEntity=UserRole.class)  
-    @JoinColumn(name="role_id", referencedColumnName="id") 
+ //   @JoinColumn(name="role_id", referencedColumnName="id") 
     public Collection<UserRole> userrole = new ArrayList<UserRole>();
  
      @OneToOne(cascade = {CascadeType.ALL})

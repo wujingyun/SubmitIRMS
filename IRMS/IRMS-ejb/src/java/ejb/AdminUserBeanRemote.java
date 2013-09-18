@@ -13,7 +13,7 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface AdminUserBeanRemote {
-    public boolean verifyPassword(long memId, String password);
+    public boolean verifyPassword(String userName, String password);
     public void register(String name, Collection role, String pw, String department, String phone_no, String email);
     public void terminate(long userId) ;
 }

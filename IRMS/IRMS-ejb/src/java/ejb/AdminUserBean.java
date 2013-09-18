@@ -58,13 +58,13 @@ public class AdminUserBean implements AdminUserBeanRemote {
 
       
 
- public boolean verifyPassword(long memId, String password){
+ public boolean verifyPassword(String userName, String password){
         Query q = em.createQuery("SELECT u from UserAccount u");
 
         for (Object o : q.getResultList()) {
             UserAccount u = (UserAccount) o;
                       //  System.out.println("========================================================1password");
-            if(u.getId().equals(memId)){
+            if(u.getUserName().equals(userName)){
             // System.out.println("========================================================2password");
                 if(u.getPassword().equals(password))
                 {    // System.out.println("========================================================3password");

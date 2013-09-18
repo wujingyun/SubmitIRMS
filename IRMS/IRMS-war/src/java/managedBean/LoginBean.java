@@ -13,6 +13,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpSession;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -25,7 +26,7 @@ public class LoginBean {
 
     
         @EJB
-    AdminUserBeanRemote cbr;
+    AdminUserBeanRemote aub;
   
 	private String username;
 	
@@ -37,10 +38,12 @@ public class LoginBean {
 		FacesMessage msg = null;
 		boolean loggedIn = false;
 		
-		if(username != null  && username.equals("admin") && password != null  && password.equals("admin")) 
+		if(username != null && password != null  && aub.verifyPassword(username, password)) 
                 {
 			loggedIn = true;
 			msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome", username);
+                       
+
 		} else {
 			loggedIn = false;
 			msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", "Invalid credentials");
@@ -48,6 +51,9 @@ public class LoginBean {
 		
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 		context.addCallbackParam("loggedIn", loggedIn);
+                
+                
+               
 	}
         
         public String getUsername() {
