@@ -6,7 +6,9 @@ package managedBean;
 
 import ejb.ManageMallSpaceBeanRemote;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -30,8 +32,10 @@ public class MallSpaceManagedBean implements Serializable{
     private String newMall;
     
     private String unitNo;
-   
+    private List<String> units = new ArrayList();
+    private List<String> selectedUnits;
     private int unitSpace;
+    private static String mName="IRMall";
     
     public MallSpaceManagedBean() {
     }
@@ -66,10 +70,9 @@ public class MallSpaceManagedBean implements Serializable{
     }
     
     public void deleteUnit(ActionEvent event){//not finished
-        try{
-           
-            mmsbr.deleteUnit(unitNo, mallName);
-            System.out.println("ManagedBean delete new unit: "+unitNo+" unitSpace:"+unitSpace+" MallName:"+mallName);
+        try{       
+            mmsbr.deleteUnit(getSelectedUnits());
+            
              FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,  
                  "New Unit deleted successfully", ""));
         }catch(Exception ex){
@@ -77,6 +80,22 @@ public class MallSpaceManagedBean implements Serializable{
                     "An error has occurred while deleting the new Unit: " + ex.getMessage(), ""));
         }
     }
+    
+    public List<String> getUnits(){
+            
+        
+         units = mmsbr.DisplayRepartitionMall(mName);
+         return units;
+     } 
+    
+    public List<String> getSelectedUnits() {
+        return selectedUnits;
+    }
+
+    public void setSelectedUnits(List<String> selectedUnits) {
+        this.selectedUnits = selectedUnits;
+    }
+ 
     public String getNewMall() {
         return newMall;
     }

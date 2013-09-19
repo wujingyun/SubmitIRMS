@@ -20,6 +20,6 @@ import javax.persistence.PersistenceContext;
 public interface ManageMallSpaceBeanRemote {
    public List<String> DisplayRepartitionMall(String mallName);
    public void addNewUnit(String unitNo, int unitSpace, String mallName) throws MaxQuotaException;
-   public void deleteUnit(String unitNo, String mallName) throws ExistException;
+   public void deleteUnit(List selectedUnits) throws ExistException ;
    public void createMall(String mallName);
 }

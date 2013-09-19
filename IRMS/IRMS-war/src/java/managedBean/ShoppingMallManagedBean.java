@@ -79,10 +79,36 @@ public class ShoppingMallManagedBean implements Serializable{
                  "New Contract created successfully", ""));
          }catch(Exception ex){
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,  
-                    "An error has occurred while creating the new book: " + ex.getMessage(), ""));
+                    "An error has occurred while creating the new contract: " + ex.getMessage(), ""));
          }
          
      }
+     
+     public void renewContract(ActionEvent event){
+         try{
+             cbr.reNewContract(IdentityCard,  getSelectedUnits(), Landlord, Purpose, 
+                     MinimumRent, RentRate, TenantAddress, 
+                     LandlordContact, TenantContact, 
+                     upfrontRentalDeposit, TenantTradeName);
+             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,  
+                 "Contract has been renewed successfully", ""));
+         }catch(Exception ex){
+             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,  
+                    "An error has occurred while renewing the new contract: " + ex.getMessage(), ""));
+         }
+     }
+     
+    public void terminateContract(ActionEvent event){
+        try{
+            
+            cbr.terminateContract(IdentityCard, TenantTradeName);
+             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,  
+                 "Contract has been terminated successfully", ""));
+        }catch(Exception ex){
+             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,  
+                    "An error has occurred while terminating the new contract: " + ex.getMessage(), ""));
+        }
+    }
      
      public List<String> getUnits(){
             
