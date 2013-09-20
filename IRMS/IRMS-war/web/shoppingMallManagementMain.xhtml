@@ -14,11 +14,7 @@ and open the template in the editor.
                      <title>Shopping Mall Management Main Page</title>
              </h:head>
             <h:form>
-               <p:commandButton id="navi" value="Navigation" type="button" /> 
-               <p:overlayPanel id="linkToHome" for="navi" hideEffect="fade">     
-                 <a href="manageContract.xhtml">Link</a>
-               </p:overlayPanel>  
-               
+               <p:commandButton id="navi" value="Navigation" type="button" />               
                 <p:panelMenu style="width:200px">
                      <p:submenu label="Navigations" > 
                          <p:submenu label="Links" icon="ui-icon-extlink">
@@ -28,9 +24,21 @@ and open the template in the editor.
                 </p:panelMenu> 
                 <br></br>
                 <br></br>   
-                   <p:tabMenu activeIndex="0">  
+                   <p:tabMenu activeIndex="0" style ="width: 200px">  
                   <p:menuitem value="Create Contract" url="/manageContract.xhtml" icon="ui-icon-star"/>     
-                    </p:tabMenu>                     
+                    </p:tabMenu>    
+                <p:tabMenu activeIndex="1" style ="width: 200px">  
+                  <p:menuitem value="Renew Contract" url="/renewContract.xhtml" icon="ui-icon-star"/>     
+                    </p:tabMenu>
+                <p:tabMenu activeIndex="3" style ="width: 200px">  
+                  <p:menuitem value="Terminate Contract" url="/terminateContract.xhtml" icon="ui-icon-star"/>     
+                    </p:tabMenu>
+                <p:tabMenu activeIndex="4" style ="width: 200px">  
+                  <p:menuitem value="Add Unit" url="/ShoppingMallSpace.xhtml" icon="ui-icon-star"/>     
+                    </p:tabMenu>  
+                <p:tabMenu activeIndex="5" style ="width: 200px">  
+                  <p:menuitem value="Delete Unit" url="/deleteUnits.xhtml" icon="ui-icon-star"/>     
+                    </p:tabMenu> 
             </h:form>           
          </f:view>
     </h:body>

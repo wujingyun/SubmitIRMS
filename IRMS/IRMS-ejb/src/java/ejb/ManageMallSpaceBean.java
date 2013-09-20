@@ -10,6 +10,7 @@ import exception.ExistException;
 import exception.MaxQuotaException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 import javax.ejb.Stateless;
@@ -30,20 +31,42 @@ public class ManageMallSpaceBean implements ManageMallSpaceBeanRemote {
     Unit unitEntity;
     Mall mallEntity;
     int maxArea = 200000;
-
+    private List<String> units;
   
 
-    @Override
-    public Mall DisplayRepartitionMall(String mallName) {
+   // clear , a list of all the units will be passed to the front 
+   @Override
+   public List<String> DisplayRepartitionMall(String mallName) {
+        System.out.println("AddNewUnit:  query for mall : ");
+        String ejbql ="SELECT m FROM Mall m WHERE m.mallName =?1";       
+        Query q = em.createQuery(ejbql);
+        q.setParameter(1, "IRMall");
+        System.out.println("AddNewUnit:  query for mall After: ");
         mallEntity = new Mall();
-        Query q=em.createQuery("SELECT * FROM mall WHERE mallName = : mName");
-        q.setParameter("mName", mallName);
-        mallEntity =(Mall)q.getSingleResult();
-
-        return mallEntity;       
+        
+        System.out.println("AddNewUnit:  getting result for mall: ");
+        mallEntity = (Mall) q.getSingleResult();
+        System.out.println("Dispaly Mall Name: " +mallEntity.getMallName());
+        unitEntity = new Unit();
+        
+        units = new ArrayList();
+        for(Iterator it =mallEntity.getUnits().iterator();it.hasNext();){
+              
+             unitEntity = (Unit)it.next();
+             System.out.println("Dispaly unit No"+unitEntity.getUnitNo());
+             if(unitEntity.isUnitAvailability()==true){
+                 units.add(unitEntity.getUnitNo());
+             }
+         } 
+        for (String unit : units) {
+            System.out.println("Dispaly unit No : "+unit);
+        }
+        return units;       
     }
+   
+   
     
-
+    // finished addNewUnit
     @Override
     public void addNewUnit(String unitNo, int unitSpace, String mallName) throws MaxQuotaException {
         
@@ -73,31 +96,37 @@ public class ManageMallSpaceBean implements ManageMallSpaceBeanRemote {
         mallEntity.getUnits().add(unitEntity);
         unitEntity.setMall(mallEntity);
         
-        System.out.println("Session Bean: Add new Unit: "+mallEntity.getMallName());
+        System.out.println("Session Bean: Add new Unit: "+mallEntity.getMallID());
         em.persist(unitEntity);
         em.flush();
     }
 
     @Override
-    public void deleteUnit(String unitNo, String mallName) throws ExistException {
-        unitEntity = new Unit();
-        unitEntity = em.find(Unit.class, unitNo);
-
-        if (unitEntity.getContract() != null) {
-            throw new ExistException("The unit has been taken,contract has not been terminated！");
-        }
-
-        String ejbql ="SELECT m FROM Mall m WHERE m.mallName =?1";       
+    public void deleteUnit(List selectedUnits) throws ExistException {
+        
+        String ejbql ="SELECT m FROM Mall m";       
         Query q = em.createQuery(ejbql);
-        q.setParameter(1, "IRMall");
         mallEntity = new Mall();
         mallEntity = (Mall) q.getSingleResult();
         
-        mallEntity.getUnits().remove(unitEntity);
+        for (Iterator it = selectedUnits.iterator(); it.hasNext();){
+        unitEntity = new Unit();
+        String result = (String)it.next();
+        unitEntity = em.find(Unit.class, result);
+        if (unitEntity.getContract() != null) {
+             System.out.println("contract ID"+unitEntity.getContract().getId());
+            throw new ExistException("The unit has been taken,contract has not been terminated！");
+        }
+        
+         mallEntity.getUnits().remove(unitEntity);
         em.remove(unitEntity);
+        
+        }     
+        
+        
         em.flush();
     }
-
+    // cleared
     public int currentUsedSpace() {
         int result = 0;
         unitEntity =new Unit();
@@ -112,7 +141,7 @@ public class ManageMallSpaceBean implements ManageMallSpaceBeanRemote {
         em.flush();
         return result;
     }
-    
+    //cleared
     @Override
     public void createMall(String mallName) {
         mallEntity = new Mall();

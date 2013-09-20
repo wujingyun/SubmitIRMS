@@ -21,6 +21,6 @@ public interface ContractBeanRemote {
             ,String TenantContact,String upfrontRentalDeposit)throws ExistException;
       public void reNewContract(String IdentityCard,List UnitNo,String FloorArea,String Purpose
             ,String MinimumRent,String RentRate,String TenantAddress,String LandlordContact
-            ,String TenantContact,String upfrontRentalDeposit,String TenantTradeName);
+            ,String TenantContact,String upfrontRentalDeposit,String TenantTradeName)throws ExistException;
       public void terminateContract(String IdentityCard,String TenantTradeName) throws ExistException;
 }

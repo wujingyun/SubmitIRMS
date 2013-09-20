@@ -39,7 +39,7 @@ public class ContractBean implements ContractBeanRemote {
     public ContractBean(){
     }
     
-   
+   //finished
     @Override
    public void signContract(String ContractType,String Landlord,String Tenant,
             String IdentityCard,String TenantTradeName,List UnitNo,
@@ -61,27 +61,31 @@ public class ContractBean implements ContractBeanRemote {
                     TenantTradeName, NameOfShoppingCenter,
                     Purpose, MinimumRent, RentRate, TenantAddress, 
                     LandlordContact, TenantContact, upfrontRentalDeposit);                        
-            
+            System.out.println("Contract signing : contractEntity 1: "+contractEntity.getPurpose());
             Calendar cal = Calendar.getInstance();
             contractEntity.setDateOfExecution(cal);
             Calendar futureCal = Calendar.getInstance();
             futureCal.add(Calendar.YEAR, 1);
             contractEntity.setDateOfExpiry(futureCal);
+            em.persist(contractEntity);
+            System.out.println("Contract signing : contractEntity 2: "+contractEntity.getId());
             
-            unitEntity     = new Unit();
             int totalArea;
                 totalArea = 0;
                 
             for (Iterator it = UnitNo.iterator(); it.hasNext();){
                String result = (String)it.next();
-               unitEntity = em.find(Unit.class, result);  
-               unitEntity.setUnitAvailability(false);
-               totalArea +=unitEntity.getUnitSpace();
-               unitEntity.setContract(contractEntity);
+               unitEntity     = new Unit();
+               unitEntity = em.find(Unit.class, result);
+               System.out.println("Contract signing : unitEntity: "+unitEntity.getUnitNo()+" Space: "+unitEntity.getUnitSpace());  
+               System.out.println("Contract signing : contractEntity: "+contractEntity.getPurpose());
                contractEntity.getUnits().add(unitEntity);
-               em.refresh(unitEntity);
+               unitEntity.setContract(contractEntity);
+               unitEntity.setUnitAvailability(false);             
+               totalArea +=unitEntity.getUnitSpace();
+             
            }
-            
+            System.out.println("Contract signing : size: "+contractEntity.getUnits().size()); 
             contractEntity.setFloorArea(totalArea);
             shopEntity.createShop(TenantTradeName, Tenant, totalArea);
          
@@ -95,26 +99,29 @@ public class ContractBean implements ContractBeanRemote {
             tenant.setContract(contractEntity);
                            
             em.persist(contractEntity);
+            System.out.println("Contract signing : contractEntity 2: "+contractEntity.getId());
             em.persist(shopEntity);
             em.persist(tenant);          
             em.flush();             
     }
-   
-    @Override
+   //
+   @Override
    public void reNewContract(String IdentityCard,List UnitNo,String FloorArea,String Purpose
             ,String MinimumRent,String RentRate,String TenantAddress,String LandlordContact
-            ,String TenantContact,String upfrontRentalDeposit,String TenantTradeName) {
+            ,String TenantContact,String upfrontRentalDeposit,String TenantTradeName) throws ExistException{
             unitEntity     = new Unit();
             contractEntity = new Contract();
             shopEntity = new Shop();
             tenant     = new ShopOwner();
-            
-            Query q =em.createQuery("SELECT * FROM contract WHERE identitycard = :ic AND"
-                    + "tenanttradename = :tradename");
-            q.setParameter("ic",IdentityCard);
-            q.setParameter("tradename", TenantTradeName);
+            System.out.println("SessionBean Mallspace :renewContract : ");
+            String ejbql ="SELECT c FROM Contract c WHERE c.IdentityCard =?1 AND c.TenantTradeName =?2";  
+            Query q = em.createQuery(ejbql);
+            q.setParameter(1,IdentityCard);
+            q.setParameter(2, TenantTradeName);
             contractEntity= (Contract)q.getSingleResult();
-                       
+            
+            if(contractEntity ==null)throw new ExistException("The contract does not exist!");  
+            
             contractEntity.renewThisContract(IdentityCard,Purpose
             ,MinimumRent,RentRate, TenantAddress, LandlordContact
             ,TenantContact, upfrontRentalDeposit,TenantTradeName);
@@ -133,6 +140,7 @@ public class ContractBean implements ContractBeanRemote {
                 unitEntity = (Unit)it.next();
                 unitEntity.setUnitAvailability(true);
                 contractEntity.getUnits().remove(unitEntity);
+                unitEntity.setContract(null);
                 em.flush();
             }    
              
@@ -149,8 +157,8 @@ public class ContractBean implements ContractBeanRemote {
            }
              contractEntity.setFloorArea(totalArea);
              contractEntity.getShop().renewShop(totalArea);
-             em.persist(contractEntity);
-             em.persist(shopEntity);
+            // em.persist(contractEntity);
+            // em.persist(shopEntity);
              em.flush();
        //     shopEntity.updateShop(TenantTradeName, Tenant, FloorArea);
        
@@ -161,11 +169,14 @@ public class ContractBean implements ContractBeanRemote {
        shopBill = new ShopBill();
        shopEntity = new Shop();
        tenant = new ShopOwner();
-       Query q =em.createQuery("SELECT * FROM contract WHERE identitycard = :ic AND"
-                    + "tenanttradename = :tradename");
-            q.setParameter("ic",IdentityCard);
-            q.setParameter("tradename", TenantTradeName);
+         System.out.println("SessionBean Mallspace :terminateContract : ");
+            String ejbql ="SELECT c FROM Contract c WHERE c.IdentityCard =?1 AND c.TenantTradeName =?2";  
+            Query q = em.createQuery(ejbql);
+            q.setParameter(1,IdentityCard);
+            q.setParameter(2, TenantTradeName);
             contractEntity= (Contract)q.getSingleResult();
+            
+            if(contractEntity ==null)throw new ExistException("The contract does not exist!"); 
             
             
             for(Iterator it = contractEntity.getShop().getBills().iterator();it.hasNext();){
@@ -176,8 +187,9 @@ public class ContractBean implements ContractBeanRemote {
             
              for(Iterator it = contractEntity.getUnits().iterator();it.hasNext();){
                 unitEntity = (Unit)it.next();
-                unitEntity.setUnitAvailability(true);
                 contractEntity.getUnits().remove(unitEntity);
+                unitEntity.setUnitAvailability(true);
+                unitEntity.setContract(null);
                 em.flush();
             }
              shopEntity =contractEntity.getShop();
@@ -191,6 +203,9 @@ public class ContractBean implements ContractBeanRemote {
              em.remove(contractEntity);
              em.flush();             
    }
+
+    
+    
    
    
    public boolean UnitAvailabilityCheck(List UnitNo){

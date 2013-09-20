@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+   <h:body>
+        <f:view> 
+             <h:head>
+        <title>Contract Management Module</title>
+             </h:head>
+            <h:form id="form2">
+                <p:panel header="Renew Contract">
+                <p:messages id="messagesStatus" redisplay="false" />
+                <br/>
+                    <h:panelGrid columns ="2" cellpadding ="5">   
+                            <p:row>
+                                <p:column>Identity Card:</p:column>
+                                <p:column><p:inputText value="#{shoppingMallManagedBean.identityCard}" required="true" requiredMessage="Identity Card is required" /></p:column>
+                            </p:row>
+                        
+                        <p:row>
+                        <p:selectCheckboxMenu value="#{shoppingMallManagedBean.selectedUnits}" label="Units" filter="true" filterMatchMode="startsWith" panelStyle="width:320px">
+                            <f:selectItems value="#{shoppingMallManagedBean.units}" /> 
+                        </p:selectCheckboxMenu>
+                        <p:separator style="margin-bottom:10px"/> 
+                        </p:row>
+                        
+                            <p:row>
+                                <p:column>Landlord:</p:column>
+                                <p:column><p:inputText value="#{shoppingMallManagedBean.landlord}" required="true" requiredMessage="LandLord is required" /></p:column>
+                            </p:row>
+                              
+                            <p:row>
+                                <p:column>Tenant Trade Name:</p:column>
+                                <p:column><p:inputText value="#{shoppingMallManagedBean.tenantTradeName}" required="true" requiredMessage="Tenant Trade Name is required" /></p:column>
+                            </p:row>
+
+                             <p:row>
+                                <p:column>Minimum Rent:</p:column>
+                                <p:column><p:inputText value="#{shoppingMallManagedBean.minimumRent}" required="true" requiredMessage="Minimum Rent is required" /></p:column>
+                            </p:row>   
+                                
+                                
+                             <p:row>
+                                <p:column>Rent Rate:</p:column>
+                                <p:column><p:inputText value="#{shoppingMallManagedBean.rentRate}" required="true" requiredMessage="Rent rate is required" /></p:column>
+                            </p:row> 
+                                
+                             <p:row>
+                                <p:column>Tenant Address:</p:column>
+                                <p:column><p:inputText value="#{shoppingMallManagedBean.tenantAddress}" required="true" requiredMessage="Tenant Address is required" /></p:column>
+                            </p:row>
+                        
+                             <p:row>
+                                <p:column>Category: </p:column>
+                                <p:selectOneMenu id="Category" value="#{shoppingMallManagedBean.purpose}">
+                                <f:selectItem itemLabel="Select One Category" itemValue =""/> 
+                                <f:selectItem itemLabel="Bags and Shoes" itemValue ="bags_shoes"/> 
+                                <f:selectItem itemLabel="Banks and ATMS" itemValue ="banks"/> 
+                                <f:selectItem itemLabel="Beauty Essentials" itemValue ="beauty"/> 
+                                <f:selectItem itemLabel="Cafes" itemValue ="cafe"/> 
+                                <f:selectItem itemLabel="Restaurants" itemValue ="restaurants"/> 
+                                <f:selectItem itemLabel="Hypermart" itemValue ="hypermart"/> 
+                                <f:selectItem itemLabel="Health, Spa and Beauty Services" itemValue ="health"/>
+                             </p:selectOneMenu> 
+                             </p:row>          
+                                
+                            <p:row>
+                                <p:column>Landlord Contact:</p:column>
+                                <p:column><p:inputText value="#{shoppingMallManagedBean.landlordContact}" required="true" requiredMessage="Landlord Contact is required" /></p:column>
+                            </p:row> 
+                            
+                            <p:row>
+                                <p:column>Tenant Contact:</p:column>
+                                <p:column><p:inputText value="#{shoppingMallManagedBean.tenantContact}" required="true" requiredMessage="Tenant Contact is required" /></p:column>
+                            </p:row>
+                            
+                            <p:row>
+                                <p:column>Upfront Rental Deposit:</p:column>
+                                <p:column><p:inputText value="#{shoppingMallManagedBean.upfrontRentalDeposit}" required="true" requiredMessage="Upfront Rental Deposit is required" /></p:column>
+                            </p:row>
+                        
+                             <p:row>
+                                 <p:column colspan="2"><p:commandButton value="Submit" icon="ui-icon-plus" actionListener="#{shoppingMallManagedBean.renewContract}"/></p:column>
+                             </p:row>
+  
+                    </h:panelGrid>
+                
+                </p:panel>
+            </h:form>        
+        </f:view>
+    </h:body>
+</html>

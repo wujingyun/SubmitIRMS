@@ -6,6 +6,9 @@ package managedBean;
 
 import ejb.ManageMallSpaceBeanRemote;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -29,16 +32,19 @@ public class MallSpaceManagedBean implements Serializable{
     private String newMall;
     
     private String unitNo;
-   
+    private List<String> units = new ArrayList();
+    private List<String> selectedUnits;
     private int unitSpace;
+    private static String mName="IRMall";
     
     public MallSpaceManagedBean() {
     }
     
     public  void createMall(ActionEvent event){
       try{
-        
+     
         mmsbr.createMall(newMall);
+        
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,  
                  "New Mall created successfully", ""));
       }catch(Exception ex){
@@ -47,10 +53,13 @@ public class MallSpaceManagedBean implements Serializable{
         }
     
     }
+    
+    
     public  void createUnit(ActionEvent event){
         try{
            
             mmsbr.addNewUnit(unitNo, unitSpace, mallName);
+            
             System.out.println("ManagedBean add new unit: "+unitNo+" unitSpace:"+unitSpace+" MallName:"+mallName);
              FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,  
                  "New Unit added successfully", ""));
@@ -59,7 +68,34 @@ public class MallSpaceManagedBean implements Serializable{
                     "An error has occurred while creating the new Unit: " + ex.getMessage(), ""));
         }
     }
+    
+    public void deleteUnit(ActionEvent event){//not finished
+        try{       
+            mmsbr.deleteUnit(getSelectedUnits());
+            
+             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,  
+                 "New Unit deleted successfully", ""));
+        }catch(Exception ex){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,  
+                    "An error has occurred while deleting the new Unit: " + ex.getMessage(), ""));
+        }
+    }
+    
+    public List<String> getUnits(){
+            
+        
+         units = mmsbr.DisplayRepartitionMall(mName);
+         return units;
+     } 
+    
+    public List<String> getSelectedUnits() {
+        return selectedUnits;
+    }
 
+    public void setSelectedUnits(List<String> selectedUnits) {
+        this.selectedUnits = selectedUnits;
+    }
+ 
     public String getNewMall() {
         return newMall;
     }
