@@ -1,8 +1,8 @@
 
 #top {
     position: relative;
-    background-color: #036fab;
-    color: white;
+   
+    color: black;
     padding: 5px;
     margin: 0px 0px 10px 0px;
 }
@@ -16,14 +16,14 @@
 
 #left {
     float: left;
-    background-color: #ece3a5;
+    background-color: white;
     padding: 5px;
     width: 150px;
 }
 
 #right {
     float: right;
-    background-color: #ece3a5;
+    background-color: white;
     padding: 5px;
     width: 150px;
 }
@@ -47,7 +47,7 @@
 }
 
 #top a:link, #top a:visited {
-  color: white;
+  color: #2E2E2D;
   font-weight : bold;
   text-decoration: none;
 }

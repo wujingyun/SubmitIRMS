@@ -41,19 +41,37 @@ public class UserAccount implements Serializable {
  @Length(min = 6, max = 32) 
   private String password;  
 
-    @ManyToOne(targetEntity=UserRole.class)  
+//    @ManyToOne(targetEntity=UserRole.class)  
  //   @JoinColumn(name="role_id", referencedColumnName="id") 
-    public Collection<UserRole> userrole = new ArrayList<UserRole>();
- 
+    //public Collection<UserRole> userrole = new ArrayList<UserRole>();
+ private long userrole;
      @OneToOne(cascade = {CascadeType.ALL})
     private UserContact contact; 
 
-  
-    public void create(String userName, String password, Collection userrole) {
+  private String division; 
+  private Boolean active;
+    public void create(String userName, String password, long userrole, String division,Boolean active) {
         this.setUserName(userName);
         this.setPassword(password);
-        this.setUserrole(userrole);
-        
+        this.setDivision(division);
+         this.setActive(active);
+          this.setUserrole(userrole);
+    }
+
+    public String getDivision() {
+        return division;
+    }
+
+    public void setDivision(String division) {
+        this.division = division;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public Boolean getActive() {
+        return active;
     }
     
     
@@ -80,11 +98,11 @@ public class UserAccount implements Serializable {
     }
 
 
-    public Collection<UserRole> getUserrole() {
+    public long getUserrole() {
         return userrole;
     }
 
-    public void setUserrole(Collection<UserRole> userrole) {
+    public void setUserrole(long userrole) {
         this.userrole = userrole;
     }
 

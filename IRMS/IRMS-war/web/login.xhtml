@@ -17,8 +17,11 @@
         else {
             dlg.hide();
             $('#loginLink').fadeOut();
+            window.location="http://localhost:8080/IRMS-war/manageContract2.xhtml" ;
         }
     }
+    
+   
 </script>
     <h:body>
 <h:form id="form">
@@ -32,21 +35,29 @@
 
 		<h:panelGrid columns="2" cellpadding="5">
 			<h:outputLabel for="username" value="Username:" />
-			<p:inputText value="#{loginBean.username}" 
+                        <p:inputText value="#{loginBean2.username}" 
 					id="username" required="true" label="username" />
 			
 			<h:outputLabel for="password" value="Password:" />
-			<h:inputSecret value="#{loginBean.password}" 
+			<h:inputSecret value="#{loginBean2.password}" 
 					id="password" required="true" label="password" />
 			
-			<f:facet name="footer">
+                        
+                        <f:facet name="footer">
 				<p:commandButton id="loginButton" value="Login" update="growl" 
-					actionListener="#{loginBean.login}" 
+					actionListener="#{loginBean2.login}" 
 					oncomplete="handleLoginRequest(xhr, status, args)"/>
 			</f:facet>
+                       
 		</h:panelGrid>
 		
     </p:dialog>
+   
+    
+    
+    
+    
+    
 </h:form>
     </h:body>
 </f:view>

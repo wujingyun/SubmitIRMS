@@ -20,12 +20,12 @@ public class UserContact implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String deparment;
+   
     private String phone;
     private String email;
     
-public void create(String deparment,String phone, String email  ) {
-        this.setDeparment(deparment);
+public void create(String phone, String email  ) {
+        
         this.setPhone(phone);
         this.setEmail(email);
         
@@ -39,10 +39,7 @@ public void create(String deparment,String phone, String email  ) {
         return id;
     }
 
-    public String getDeparment() {
-        return deparment;
-    }
-
+   
     public String getPhone() {
         return phone;
     }
@@ -55,9 +52,7 @@ public void create(String deparment,String phone, String email  ) {
         this.id = id;
     }
 
-    public void setDeparment(String deparment) {
-        this.deparment = deparment;
-    }
+  
 
     public void setPhone(String phone) {
         this.phone = phone;

@@ -3,8 +3,16 @@
   
     <context-param>   
   <param-name>primefaces.THEME</param-name>
-  <param-value>bootstrap</param-value> 
+  <param-value>aristo</param-value> 
 </context-param>
+
+
+<error-page>
+<exception-type>javax.faces.application.ViewExpiredException</exception-type>
+<location>/faces/login.xhtml</location>
+</error-page>
+
+
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -23,3 +31,6 @@
         <welcome-file>index.xhtml</welcome-file>
     </welcome-file-list>
 </web-app>
+
+
+ 

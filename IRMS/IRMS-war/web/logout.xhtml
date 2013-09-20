@@ -17,7 +17,11 @@
     </ui:define>
 
     <ui:define name="rightInsert">
-      
+      <h:panelGrid columns="2" cellpadding="5">
+			<h:outputLabel for="username" value="Username:" />
+			<p:inputText value="#{loginBean.username}" 
+					id="username" required="true" label="username" />
+		</h:panelGrid>
     </ui:define>
 
     <ui:define name="contentInsert">
