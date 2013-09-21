@@ -44,8 +44,8 @@ public class AccommodationBill implements Serializable {
     public AccommodationBill() {
     }
     
-    public void create(double total){
-        this.setTotal(total);      
+    public void create(){    
+        this.dateTime=Calendar.getInstance();
     }
 
     public Calendar getDateTime() {
