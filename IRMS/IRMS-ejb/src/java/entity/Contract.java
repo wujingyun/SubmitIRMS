@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -56,18 +57,16 @@ public class Contract implements Serializable {
     
     
     
-    public void createContract(String ContractType,String Landlord,String Tenant,
-            String IdentityCard,String TenantTradeName,
+    public void createContract(String ContractType,String Landlord,
+           String TenantTradeName,
             String NameOfShoppingCenter,String Purpose
-            ,String MinimumRent,String RentRate,String TenantAddress,String LandlordContact
-            ,String TenantContact,String upfrontRentalDeposit){
+            ,String MinimumRent,String RentRate,String LandlordContact
+           ,String upfrontRentalDeposit){
         this.setContractType(ContractType);
-        this.setLandlord(Landlord);
-        this.setTenant(Tenant);
-        this.setIdentityCard(IdentityCard);
+        this.setLandlord(Landlord);   
         this.setTenantTradeName(TenantTradeName);
         this.setNameOfShoppingCenter(NameOfShoppingCenter);
-  //      this.setFloorArea(FloorArea);
+        this.setFloorArea(FloorArea);
         this.setPurpose(Purpose);
         this.setMinimumRent(MinimumRent);
         this.setRentRate(RentRate);
@@ -76,7 +75,14 @@ public class Contract implements Serializable {
         this.setTenantContact(TenantContact);
         this.setUpfrontRentalDeposit(upfrontRentalDeposit); 
      
-    }    
+    }  
+    
+    public void createTenantInfo(String Tenant,String IdentityCard,String TenantAddress,String TenantContact){
+        this.setTenant(Tenant);
+        this.setIdentityCard(IdentityCard);
+        this.setTenantAddress(TenantAddress);
+        this.setTenantContact(TenantContact);
+    }
     
     public void renewThisContract( String IdentityCard,String Purpose
             ,String MinimumRent,String RentRate,String TenantAddress,String LandlordContact
@@ -96,7 +102,15 @@ public class Contract implements Serializable {
     public Contract(){
         
     }
-    
+
+    public Long getContractId() {
+        return ContractId;
+    }
+
+    public void setContractId(Long ContractId) {
+        this.ContractId = ContractId;
+    }
+
     public Long getId() {
         return ContractId;
     }

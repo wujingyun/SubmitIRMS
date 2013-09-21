@@ -8,6 +8,7 @@ import entity.Contract;
 import entity.Shop;
 import entity.ShopBill;
 import entity.ShopOwner;
+import entity.TenantRecordEntity;
 import entity.Unit;
 import exception.ExistException;
 import java.util.Calendar;
@@ -35,11 +36,22 @@ public class ContractBean implements ContractBeanRemote {
     private Unit unitEntity;
     private ShopOwner tenant;
     private ShopBill shopBill;
-    
+    private TenantRecordEntity tenantRecord;
+    private List<TenantRecordEntity> tenantList= new ArrayList();
     public ContractBean(){
     }
+   
+    /*public List<TenantRecordEntity> getExistingTenant (){
+        String ejbql ="SELECT t FROM TenantRecordEntity t";
+        Query q = em.createQuery(ejbql);
+        for(Object o: q.getResultList()){
+            TenantRecordEntity t =(TenantRecordEntity)o;
+            
+        }
+   }*/
     
-   //finished
+    
+   //
     @Override
    public void signContract(String ContractType,String Landlord,String Tenant,
             String IdentityCard,String TenantTradeName,List UnitNo,
@@ -53,14 +65,18 @@ public class ContractBean implements ContractBeanRemote {
             contractEntity = new Contract();
             shopEntity = new Shop();
             tenant     = new ShopOwner();
+            tenantRecord = new TenantRecordEntity();
             
         if(UnitAvailabilityCheck(UnitNo) ==false)
             throw new ExistException("The unit has been taken！");
            
-            contractEntity.createContract(ContractType, Landlord, Tenant, IdentityCard,
+            contractEntity.createContract(ContractType, Landlord,
                     TenantTradeName, NameOfShoppingCenter,
-                    Purpose, MinimumRent, RentRate, TenantAddress, 
-                    LandlordContact, TenantContact, upfrontRentalDeposit);                        
+                    Purpose, MinimumRent, RentRate, 
+                    LandlordContact, upfrontRentalDeposit);   
+            contractEntity.createTenantInfo(Tenant, IdentityCard, TenantAddress, TenantContact);
+            tenantRecord.createTenantInfo(Tenant, IdentityCard, TenantAddress, TenantContact);
+            em.persist(tenantRecord);
             System.out.println("Contract signing : contractEntity 1: "+contractEntity.getPurpose());
             Calendar cal = Calendar.getInstance();
             contractEntity.setDateOfExecution(cal);
@@ -104,6 +120,7 @@ public class ContractBean implements ContractBeanRemote {
             em.persist(tenant);          
             em.flush();             
     }
+    
    //
    @Override
    public void reNewContract(String IdentityCard,List UnitNo,String FloorArea,String Purpose

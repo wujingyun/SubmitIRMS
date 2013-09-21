@@ -12,6 +12,8 @@ and open the template in the editor.
              <h:head>
         <title>Contract Management Module</title>
              </h:head>
+
+           
             <h:form id="form1">
                 <p:panel header="Create Contract">
                 <p:messages id="messagesStatus" redisplay="false" />
@@ -29,16 +31,6 @@ and open the template in the editor.
                             <p:row>
                                 <p:column>Landlord:</p:column>
                                 <p:column><p:inputText value="#{shoppingMallManagedBean.landlord}" required="true" requiredMessage="LandLord is required" /></p:column>
-                            </p:row>
-                            
-                            <p:row>
-                                <p:column>Tenant:</p:column>
-                                <p:column><p:inputText value="#{shoppingMallManagedBean.tenant}" required="true" requiredMessage="Tenant is required" /></p:column>
-                            </p:row>
-                        
-                            <p:row>
-                                <p:column>Identity Card:</p:column>
-                                <p:column><p:inputText value="#{shoppingMallManagedBean.identityCard}" required="true" requiredMessage="Identity Card is required" /></p:column>
                             </p:row>
                             
                             <p:row>
@@ -83,11 +75,7 @@ and open the template in the editor.
                                 <p:column>Rent Rate:</p:column>
                                 <p:column><p:inputText value="#{shoppingMallManagedBean.rentRate}" required="true" requiredMessage="Rent rate is required" /></p:column>
                             </p:row> 
-                                
-                             <p:row>
-                                <p:column>Tenant Address:</p:column>
-                                <p:column><p:inputText value="#{shoppingMallManagedBean.rentRate}" required="true" requiredMessage="Tenant Address is required" /></p:column>
-                            </p:row> 
+                       
                                       
                                 
                             <p:row>
@@ -95,10 +83,7 @@ and open the template in the editor.
                                 <p:column><p:inputText value="#{shoppingMallManagedBean.landlordContact}" required="true" requiredMessage="Landlord Contact is required" /></p:column>
                             </p:row> 
                             
-                            <p:row>
-                                <p:column>Tenant Contact:</p:column>
-                                <p:column><p:inputText value="#{shoppingMallManagedBean.tenantContact}" required="true" requiredMessage="Tenant Contact is required" /></p:column>
-                            </p:row>
+                         
                             
                             <p:row>
                                 <p:column>Upfront Rental Deposit:</p:column>
@@ -111,7 +96,45 @@ and open the template in the editor.
                     </h:panelGrid>
                 
                 </p:panel>
-            </h:form>        
+            </h:form>  
+            
+            
+               <h:form id="form2">
+                <p:panel header="Record New Tenant Info">
+                <p:messages id="messagesStatus" redisplay="false" />
+                <br/>
+                    <h:panelGrid columns ="2" cellpadding ="5">
+                      
+                            <p:row>
+                                <p:column>Tenant:</p:column>
+                                <p:column><p:inputText value="#{shoppingMallManagedBean.tenant}" required="true" requiredMessage="Tenant is required" /></p:column>
+                            </p:row>
+                        
+                            <p:row>
+                                <p:column>Identity Card:</p:column>
+                                <p:column><p:inputText value="#{shoppingMallManagedBean.identityCard}" required="true" requiredMessage="Identity Card is required" /></p:column>
+                            </p:row>
+                     
+                          
+                             <p:row>
+                                <p:column>Tenant Address:</p:column>
+                                <p:column><p:inputText value="#{shoppingMallManagedBean.tenantAddress}" required="true" requiredMessage="Tenant Address is required" /></p:column>
+                            </p:row> 
+                                                           
+                            <p:row>
+                                <p:column>Tenant Contact:</p:column>
+                                <p:column><p:inputText value="#{shoppingMallManagedBean.tenantContact}" required="true" requiredMessage="Tenant Contact is required" /></p:column>
+                            </p:row>
+                                                       
+                             <p:row>
+                                 <p:column colspan="2"><p:commandButton value="Submit" icon="ui-icon-plus" actionListener="#{shoppingMallManagedBean.contractCreation}"  /></p:column>
+                            </p:row>
+                    </h:panelGrid>
+                
+                </p:panel>
+            </h:form>  
+            
+            
         </f:view>
     </h:body>
 </html>
