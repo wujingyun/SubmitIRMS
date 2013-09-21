@@ -12,5 +12,6 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface HotelCheckInOutBeanRemote {
-    
+    public void createAccommodationBillP();
+    public void 
 }

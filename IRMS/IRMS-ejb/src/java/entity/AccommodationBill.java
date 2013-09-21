@@ -27,8 +27,8 @@ public class AccommodationBill implements Serializable {
     private Long id;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar dateTime;
-    @OneToMany
-    private Collection<RoomReservation> roomReservations;
+    @OneToOne
+    private RoomReservation roomReservation;
     @OneToMany
     private Collection<DiscountScheme> discountSchemes;
     @OneToMany
@@ -56,12 +56,12 @@ public class AccommodationBill implements Serializable {
         this.dateTime = dateTime;
     }
     
-    public Collection<RoomReservation> getRoomReservations() {
-        return roomReservations;
+    public RoomReservation getRoomReservation() {
+        return roomReservation;
     }
 
-    public void setRoomReservations(Collection<RoomReservation> roomReservations) {
-        this.roomReservations = roomReservations;
+    public void setRoomReservation(RoomReservation roomReservation) {
+        this.roomReservation = roomReservation;
     }
 
     public Collection<DiscountScheme> getDiscountSchemes() {

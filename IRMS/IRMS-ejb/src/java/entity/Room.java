@@ -13,7 +13,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 /**
  *
@@ -21,6 +20,7 @@ import javax.persistence.OneToMany;
  */
 @Entity
 public class Room implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,18 +33,19 @@ public class Room implements Serializable {
     private double rate;
     private String availabilityStatus;//available/reserved/rennovation,etc
     private String housekeepingStatus;
-    @ManyToMany(mappedBy="rooms")
-    private Collection<RoomReservation> roomReservations=new ArrayList();
+    @ManyToMany(mappedBy = "rooms")
+    private Collection<RoomReservation> roomReservations = new ArrayList();
 
     public Room() {
     }
-    
-    public void create(Integer roomNumber, String type, String description, double rate){
+
+    public void create(Integer roomNumber, String type, String description, double rate) {
         this.setRoomNumber(roomNumber);
         this.setType(type);
         this.setDescription(description);
         this.setRate(rate);
     }
+
     public Hotel getHotel() {
         return hotel;
     }
@@ -141,5 +142,4 @@ public class Room implements Serializable {
     public String toString() {
         return "entity.Room[ id=" + id + " ]";
     }
-    
 }
