@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -101,7 +102,15 @@ public class Contract implements Serializable {
     public Contract(){
         
     }
-    
+
+    public Long getContractId() {
+        return ContractId;
+    }
+
+    public void setContractId(Long ContractId) {
+        this.ContractId = ContractId;
+    }
+
     public Long getId() {
         return ContractId;
     }

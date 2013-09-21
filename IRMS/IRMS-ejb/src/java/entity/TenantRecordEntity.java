@@ -25,8 +25,11 @@ public class TenantRecordEntity implements Serializable {
     private String IdentityCard;
      private String TenantAddress;
      private String TenantContact;
-    
      
+   public TenantRecordEntity (){
+       
+   }
+   
      
    public void createTenantInfo(String Tenant,String IdentityCard,String TenantAddress,String TenantContact){
         this.setTenant(Tenant);

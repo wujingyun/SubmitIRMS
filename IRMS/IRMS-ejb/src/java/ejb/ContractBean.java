@@ -37,10 +37,21 @@ public class ContractBean implements ContractBeanRemote {
     private ShopOwner tenant;
     private ShopBill shopBill;
     private TenantRecordEntity tenantRecord;
+    private List<TenantRecordEntity> tenantList= new ArrayList();
     public ContractBean(){
     }
+   
+    /*public List<TenantRecordEntity> getExistingTenant (){
+        String ejbql ="SELECT t FROM TenantRecordEntity t";
+        Query q = em.createQuery(ejbql);
+        for(Object o: q.getResultList()){
+            TenantRecordEntity t =(TenantRecordEntity)o;
+            
+        }
+   }*/
     
-   //finished
+    
+   //
     @Override
    public void signContract(String ContractType,String Landlord,String Tenant,
             String IdentityCard,String TenantTradeName,List UnitNo,
@@ -55,6 +66,7 @@ public class ContractBean implements ContractBeanRemote {
             shopEntity = new Shop();
             tenant     = new ShopOwner();
             tenantRecord = new TenantRecordEntity();
+            
         if(UnitAvailabilityCheck(UnitNo) ==false)
             throw new ExistException("The unit has been taken！");
            
