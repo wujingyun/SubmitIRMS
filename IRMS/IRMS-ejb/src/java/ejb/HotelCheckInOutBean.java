@@ -35,11 +35,33 @@ public class HotelCheckInOutBean implements HotelCheckInOutBeanRemote {
     public void createAccommodationBill(Long reservationId) throws ExistException {
         accommodationBill=new AccommodationBill();
         accommodationBill.create();
-        
+        roomReservation=em.find(RoomReservation.class,reservationId);
+        if(roomReservation==null){
+            throw new ExistException("ROOM RESERVATION NOT EXIST.");
+        }
+        accommodationBill.setRoomReservation(roomReservation);
+        double total=0+roomReservation.getTotal();
+        accommodationBill.setTotal(total);
+        em.persist(accommodationBill);
+    }
+
+    @Override
+    public void removeAccommodationBill(Long accommodationBillId) throws ExistException {
+        accommodationBill=em.find(AccommodationBill.class, accommodationBillId);
+        if(accommodationBill==null){
+            throw new ExistException("ACCOMMODATION BILL NOT EXIST.");
+        }
+        em.remove(accommodationBill);
+        em.flush();
     }
 
     @Override
     public void addCallCharge(Long accommodationBillId, double callRate, double callTime) throws ExistException {
+        accommodationBill=em.find(AccommodationBill.class, accommodationBillId);
+        if(accommodationBill==null){
+            throw new ExistException("ACCOMMODATION BILL NOT EXIST.");
+        }
+        //accommodationBill.getOverseasCall()
     }
 
     @Override

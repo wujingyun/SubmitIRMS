@@ -14,6 +14,7 @@ import javax.ejb.Remote;
 @Remote
 public interface HotelCheckInOutBeanRemote {
     public void createAccommodationBill(Long reservationId) throws ExistException;
+    public void removeAccommodationBill(Long accommodationBillId) throws ExistException;
     public void addCallCharge(Long accommodationBillId, double callRate, double callTime) throws ExistException;
     public void removeCallCharge(Long accommodationBillId) throws ExistException;
     public void addMiniBarItemCharge(Long accommodationBillId, String itemName, Integer quantity) throws ExistException;
