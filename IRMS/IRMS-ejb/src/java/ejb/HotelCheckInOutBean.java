@@ -78,6 +78,14 @@ public class HotelCheckInOutBean implements HotelCheckInOutBeanRemote {
 
     @Override
     public void addRoomServiceOrder(Long accommodationBillId, Long roomServiceOrderId) throws ExistException {
+        accommodationBill=em.find(AccommodationBill.class, accommodationBillId);
+        if(accommodationBill==null){
+            throw new ExistException("ACCOMMODATION BILL NOT EXIST.");
+        }
+        roomServiceOrder=em.find(RoomServiceOrder.class, roomServiceOrderId);
+        if(roomServiceOrder==null){
+            throw new ExistException("ROOM SERVICE ORDER NOT EXIST");
+        }
     }
 
     @Override
