@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./templet/systemAdminPortal.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="topInsert">
+      
+    </ui:define>
+
+    <ui:define name="leftInsert">
+      
+    </ui:define>
+
+    <ui:define name="rightInsert">
+      
+    </ui:define>
+
+    <ui:define name="contentInsert">
+        
+        
+        <h:form id="form">  
+  
+    <p:growl id="msgs" showDetail="true"/>  
+                  
+    <p:panel  header="New Account" style="margin-bottom:10px;">  
+        <h:panelGrid columns="2" cellpadding="5">  
+            
+             <p:row>
+                                <p:column>Username:</p:column>
+                                <p:column><p:inputText value="#{loginBean2.username}" required="true" requiredMessage="Username is required" /></p:column>
+            </p:row>
+            
+             <p:row>
+                                <h:outputText value="Password: " />  
+            <p:password id="password" value="#{loginBean2.password}" feedback="true"/>  
+             
+             </p:row>
+            
+              <p:row>
+                  <p:column>Division/Role:</p:column>
+           <p:column> <p:selectOneMenu id="division" value="#{loginBean2.division}">  
+                <f:selectItem itemLabel="Select Division" itemValue="" />  
+                <f:selectItems value="#{loginBean2.divisions}" />  
+                <p:ajax update="subroles"  
+                        listener="#{loginBean2.handleDivisionChange}" />  
+            </p:selectOneMenu>  
+  
+            <p:selectOneMenu id="subroles" value="#{loginBean2.subrole}">  
+                <f:selectItem itemLabel="Select role" itemValue="" />  
+                <f:selectItems value="#{loginBean2.subroles}" />  
+            </p:selectOneMenu>  
+           </p:column>
+             </p:row>
+            
+                 
+           
+            
+        </h:panelGrid>  
+  
+        <p:separator />  
+           <p:commandButton value="Reset" type="reset" />  
+        <p:commandButton value="Submit" update="msgs" actionListener="#{loginBean2.register}" id="btnSubmit" oncomplete="handleRegisterRequest(xhr, status, args)"/>  
+  
+    </p:panel>  
+  
+</h:form>   
+        
+        
+        
+    </ui:define>
+
+</ui:composition>
