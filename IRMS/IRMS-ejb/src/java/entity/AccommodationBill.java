@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
+import structure.IncidentalCharge;
+import structure.MiniBarConsumption;
 
 /**
  *
@@ -31,20 +33,20 @@ public class AccommodationBill implements Serializable {
     private RoomReservation roomReservation;
     @OneToMany
     private Collection<DiscountScheme> discountSchemes;
-    @OneToMany
-    private Collection<MiniBarItem> miniBarItems;
+    private Collection<MiniBarConsumption> miniBarConsumptions;
     @OneToMany(mappedBy="accommodationBill")
     private Collection<RoomServiceOrder> roomServiceOrders;
     @OneToOne(mappedBy="accommodationBill")
     private HotelPayment hotelPayment;
-    private double overseasCall[][];
-    private String incidentalCharges[][];
+    private double overseasCallCharge;
+    private Collection<IncidentalCharge> incidentalCharges;
     private double total;
 
     public AccommodationBill() {
     }
     
-    public void create(){    
+    public void create(){
+        this.setOverseasCallCharge(0);
         this.dateTime=Calendar.getInstance();
     }
 
@@ -72,12 +74,12 @@ public class AccommodationBill implements Serializable {
         this.discountSchemes = discountSchemes;
     }
 
-    public Collection<MiniBarItem> getMiniBarItems() {
-        return miniBarItems;
+    public Collection<MiniBarConsumption> getMiniBarConsumptions() {
+        return miniBarConsumptions;
     }
 
-    public void setMiniBarItems(Collection<MiniBarItem> miniBarItems) {
-        this.miniBarItems = miniBarItems;
+    public void setMiniBarConsumptions(Collection<MiniBarConsumption> miniBarConsumptions) {
+        this.miniBarConsumptions = miniBarConsumptions;
     }
 
     public Collection<RoomServiceOrder> getRoomServiceOrders() {
@@ -96,19 +98,19 @@ public class AccommodationBill implements Serializable {
         this.hotelPayment = hotelPayment;
     }
 
-    public double[][] getOverseasCall() {
-        return overseasCall;
+    public double getOverseasCallCharge() {
+        return overseasCallCharge;
     }
 
-    public void setOverseasCall(double[][] overseasCall) {
-        this.overseasCall = overseasCall;
+    public void setOverseasCallCharge(double overseasCallCharge) {
+        this.overseasCallCharge = overseasCallCharge;
     }
 
-    public String[][] getIncidentalCharges() {
+    public Collection<IncidentalCharge> getIncidentalCharges() {
         return incidentalCharges;
     }
 
-    public void setIncidentalCharges(String[][] incidentalCharges) {
+    public void setIncidentalCharges(Collection<IncidentalCharge> incidentalCharges) {
         this.incidentalCharges = incidentalCharges;
     }
 

@@ -4,8 +4,10 @@
  */
 package ejb;
 
+import entity.AccommodationBill;
 import entity.Hotel;
 import entity.RoomService;
+import entity.RoomServiceOrder;
 import exception.ExistException;
 import java.util.Collection;
 import javax.ejb.Stateless;
@@ -23,6 +25,8 @@ public class RoomServiceBean implements RoomServiceBeanRemote {
     EntityManager em;
     Hotel hotel;
     RoomService roomService;
+    RoomServiceOrder serviceOrder;
+    AccommodationBill accommodationBill;
 
     public RoomServiceBean() {
     }
@@ -85,4 +89,45 @@ public class RoomServiceBean implements RoomServiceBeanRemote {
         }
         return hotel.getRoomServices();
     }
+    
+    @Override
+    public void createRoomServiceOrder(Long accommodationBillId)throws ExistException{
+        accommodationBill=em.find(AccommodationBill.class, accommodationBillId);
+        if(accommodationBill==null){
+            throw new ExistException("ACCOMMODATION BILL NOT EXIST.");
+        }
+        serviceOrder=new RoomServiceOrder();
+        serviceOrder.create();
+        accommodationBill.getRoomServiceOrders().add(serviceOrder);
+        em.flush();
+    }
+
+    @Override
+    public void addItemToOrder(Long serviceOrderId, String hotelName, String serviceName)  throws ExistException {
+        serviceOrder=em.find(RoomServiceOrder.class, serviceOrderId);
+        if(serviceOrder==null){
+            throw new ExistException("ROOM SERVICE ORDER NOT EXIST.");
+        }
+        hotel=em.find(Hotel.class, hotelName);
+        if(hotel==null){
+            throw new ExistException("HOTEL NOT EXIST.");
+        }
+        roomService=hotel.findRoomService(serviceName);
+        if(roomService==null){
+            throw new ExistException("ROOM SERVICE NOT FOUND IN THIS HOTEL.");
+        }
+        serviceOrder.getRoomServices().add(roomService);
+        em.flush();
+    }
+
+    @Override
+    public void cancelRoomServiceOrder(Long serviceOrderId)  throws ExistException {
+        serviceOrder=em.find(RoomServiceOrder.class, serviceOrderId);
+        if(serviceOrder==null){
+            throw new ExistException("ROOM SERVICE ORDER NOT EXIST.");
+        }
+        serviceOrder.getAccommodationBill().getRoomServiceOrders().remove(serviceOrder);
+        em.flush();
+    }
+    
 }
