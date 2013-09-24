@@ -15,6 +15,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.UUID;
 import javax.ejb.Stateless;
@@ -37,18 +38,23 @@ public class ContractBean implements ContractBeanRemote {
     private ShopOwner tenant;
     private ShopBill shopBill;
     private TenantRecordEntity tenantRecord;
-    private List<TenantRecordEntity> tenantList= new ArrayList();
+    private List<TenantRecordEntity> tenantList;
     public ContractBean(){
     }
    
-    /*public List<TenantRecordEntity> getExistingTenant (){
+    @Override
+    public List<TenantRecordEntity> getExistingTenant (){
+        tenantList= new ArrayList();
         String ejbql ="SELECT t FROM TenantRecordEntity t";
         Query q = em.createQuery(ejbql);
         for(Object o: q.getResultList()){
             TenantRecordEntity t =(TenantRecordEntity)o;
-            
+            tenantList.add(t);       
         }
-   }*/
+        em.flush();
+       return tenantList;
+      
+   }
     
     
    //
@@ -57,7 +63,7 @@ public class ContractBean implements ContractBeanRemote {
             String IdentityCard,String TenantTradeName,List UnitNo,
             String NameOfShoppingCenter,String Purpose
             ,String MinimumRent,String RentRate,String TenantAddress,String LandlordContact
-            ,String TenantContact,String upfrontRentalDeposit)throws ExistException{
+            ,String TenantContact,String upfrontRentalDeposit,Date date)throws ExistException{
             
             String randomPassword;
       //      Collection<Unit> shopUnit = new ArrayList<Unit>();
@@ -78,13 +84,19 @@ public class ContractBean implements ContractBeanRemote {
             tenantRecord.createTenantInfo(Tenant, IdentityCard, TenantAddress, TenantContact);
             em.persist(tenantRecord);
             System.out.println("Contract signing : contractEntity 1: "+contractEntity.getPurpose());
+        //    System.out.println("get date1 :"+date1.getTime());
+            
             Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            System.out.println("Contract signing :today is "+cal);
             contractEntity.setDateOfExecution(cal);
             Calendar futureCal = Calendar.getInstance();
+            futureCal.setTime(date);
             futureCal.add(Calendar.YEAR, 1);
             contractEntity.setDateOfExpiry(futureCal);
+            
             em.persist(contractEntity);
-            System.out.println("Contract signing : contractEntity 2: "+contractEntity.getId());
+            System.out.println("Contract signing : contractEntity 2: "+contractEntity.getTenant());
             
             int totalArea;
                 totalArea = 0;
@@ -115,7 +127,7 @@ public class ContractBean implements ContractBeanRemote {
             tenant.setContract(contractEntity);
                            
             em.persist(contractEntity);
-            System.out.println("Contract signing : contractEntity 2: "+contractEntity.getId());
+            System.out.println("Contract signing : contractEntity 2: "+contractEntity.getTenant());
             em.persist(shopEntity);
             em.persist(tenant);          
             em.flush();             
