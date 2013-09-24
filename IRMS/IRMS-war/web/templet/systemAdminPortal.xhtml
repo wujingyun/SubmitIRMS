@@ -24,16 +24,24 @@
 <script type="text/javascript">
 	function handleRegisterRequest(xhr, status, args) {
         if(args.validationFailed ) {
-             window.location="http://localhost:8080/IRMS-war/" ;
+           //  window.location="http://localhost:8080/IRMS-war/" ;
         } 
         else {
             
-            window.location="http://localhost:8080/IRMS-war/login.xhtml" ;
         }
     }
-    
-   
+
+   function checkPasswordMatch(form) {
+             var password = $("#Password").val();
+    var confirmPassword = $("#ConfirmPassword").val();
+
+    if (password != confirmPassword)
+        $("#divCheckPasswordMatch").html("Passwords do not match!");
+    else
+        $("#divCheckPasswordMatch").html("Passwords match.");
+        }
 </script>
+
     <h:body>
        
         <div id="top" >

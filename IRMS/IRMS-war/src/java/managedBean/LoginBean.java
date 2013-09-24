@@ -9,9 +9,11 @@ import ejb.AdminUserBeanRemote;
 import entity.AccessRight;
 import entity.UserAccount;
 import java.io.IOException;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -29,23 +31,33 @@ import org.primefaces.context.RequestContext;
  */
 @ManagedBean
 @SessionScoped
-public class LoginBean2 implements Serializable {
+public class LoginBean implements Serializable {
 
     @EJB
     AdminUserBeanRemote aub;
+    private String email;
+    private String phone;
+
+   
     private String username;
     private String password;
     private UserAccount user;
-    private String email;
-    private String phone;
+   
     private String division;
     private boolean active;
     private String subrole;
     private Map<String, String> divisions = new HashMap<String, String>();
     private Map<String, String> subroles = new HashMap<String, String>();
     private Map<String, Map<String, String>> suburbsData = new HashMap<String, Map<String, String>>();
-
-    public LoginBean2() {
+    private  List<UserAccount> divisionAccount =new ArrayList<UserAccount>();
+    private  Map<String, String>  accountByDivisionMap ;
+    private String activateAccountName;
+    private String deactivateAccountName;
+     private String UserExist="";
+       private String  confirmpassword;
+         private String match;
+         
+    public LoginBean() {
         divisions.put("Accomondation", "Accomondation");
         divisions.put("Shopping Mall", "Shopping Mall");
         divisions.put("Convention", "Convention");
@@ -99,8 +111,45 @@ public class LoginBean2 implements Serializable {
         } else {
             subroles = new HashMap<String, String>();
         }
+        
+        
+        
+          System.out.println("match password ======================================"+password);
+          System.out.println("match password ======================================"+confirmpassword);
+       
     }
 
+    
+     public void getAccountByDivisionToDe() {
+         accountByDivisionMap =new HashMap<String, String>();
+          if (division != null && !division.equals("")) {
+            divisionAccount = aub.getAccountByDivisionToDA(division);
+        } else {
+            divisionAccount = new ArrayList<UserAccount>();
+        } 
+          for (UserAccount u : divisionAccount) {
+      
+         accountByDivisionMap.put(u.getUserName(), u.getUserName());
+          }
+     }
+     
+     
+     
+       public void getAccountByDivisionToAc() {
+         accountByDivisionMap =new HashMap<String, String>();
+          if (division != null && !division.equals("")) {
+            divisionAccount = aub.getAccountByDivisionToA(division);
+        } else {
+            divisionAccount = new ArrayList<UserAccount>();
+        } 
+          for (UserAccount u : divisionAccount) {
+      
+         accountByDivisionMap.put(u.getUserName(), u.getUserName());
+          }
+     }
+       
+       
+       
     public void displayLocation() {
         //   FacesMessage msg = new FacesMessage("Selected", "Division:" + division + ", Role: " + subrole);  
         //  FacesContext.getCurrentInstance().addMessage(null, msg);  
@@ -117,10 +166,15 @@ public class LoginBean2 implements Serializable {
         boolean loggedIn = false;
         FacesContext facesContext = FacesContext.getCurrentInstance();
         String redirct;
-        if (username != null && password != null && aub.verifyPassword(username, password)) {
+        
+      System.out.println("username is "+ username  + " password is " + password);
+        String hashPassword=aub.hashPassword(password);
+        
+       
+        if (username != null && password != null && aub.verifyPassword(username, hashPassword)) {
             loggedIn = true;
             msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome", username);
-            //  user=aub.findUser(username);
+            
             user = aub.findUser(username);
 
             // success,装入session中
@@ -194,14 +248,14 @@ public class LoginBean2 implements Serializable {
         long thesubrole = Long.parseLong(subrole);
 
 
-        email = "a0092208@nus.edu.sg";
-        phone = "83686522";
-
+        //email = "a0092208@nus.edu.sg";
+        //phone = "83686522";
+ 
         if (username != null && password != null && division != null) {
-
+String hashPassword=aub.hashPassword(password);
             //msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome", username);
 
-            aub.register(username, thesubrole, password, division, active, phone, email);
+            aub.register(username, thesubrole, hashPassword, division, active, phone, email);
             register = true;
             msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Reigstered Successfully", username);
 
@@ -218,6 +272,88 @@ public class LoginBean2 implements Serializable {
 
     }
 
+    
+    
+
+
+
+    
+    public void isUsernameValid(){
+      boolean ifUserExist=aub.checkUserExist(username);
+       if(ifUserExist) 
+       { UserExist="Invalid Username, same username already exist.";
+      
+       }
+       else 
+       {UserExist="";}
+    
+    }
+    
+    
+    
+    
+    
+    
+    public void updatePassword(){
+ 
+    }
+    
+     public void matchPassword(){
+          FacesMessage msg = null;
+       if(password.equals(confirmpassword) )
+       {match="";
+        }
+       else 
+       { match="Password didn't Match";
+         msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Password doesn't matcb", "re-enter password");
+       }
+    }
+    
+    public void deactive(){
+    
+     RequestContext context = RequestContext.getCurrentInstance();
+        FacesMessage msg = null;
+     
+        if (deactivateAccountName != null ) {
+
+            aub.deactivateAcct(deactivateAccountName);
+            
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Deactivate Successfully", username);
+
+
+        } else {
+           
+            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Deactivate Error", "Select account to deactivate");
+
+        }
+
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+       
+    }
+    
+    
+     public void activate(){
+    
+     RequestContext context = RequestContext.getCurrentInstance();
+        FacesMessage msg = null;
+     
+        if (activateAccountName != null ) {
+
+            aub.activateAcct(activateAccountName);
+            
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Activate Successfully", username);
+
+
+        } else {
+           
+            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Activate Error", "Select account to activate");
+
+        }
+
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+       
+    }
+    
     public AdminUserBeanRemote getAub() {
         return aub;
     }
@@ -292,5 +428,84 @@ public class LoginBean2 implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    
+     public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+    
+    public List<UserAccount> getDivisionAccount() {
+        return divisionAccount;
+    }
+
+    public Map<String, String> getAccountByDivisionMap() {
+        return accountByDivisionMap;
+    }
+
+    public String getActivateAccountName() {
+        return activateAccountName;
+    }
+
+    public void setDivisionAccount(List<UserAccount> divisionAccount) {
+        this.divisionAccount = divisionAccount;
+    }
+
+    public void setAccountByDivisionMap(Map<String, String> accountByDivisionMap) {
+        this.accountByDivisionMap = accountByDivisionMap;
+    }
+
+    public void setActivateAccountName(String activateAccountName) {
+        this.activateAccountName = activateAccountName;
+    }
+        public String getUserExist() {
+        return UserExist;
+    }
+
+    public void setUserExist(String UserExist) {
+        this.UserExist = UserExist;
+    }
+
+    public String getDeactivateAccountName() {
+        return deactivateAccountName;
+    }
+
+    public void setDeactivateAccountName(String deactivateAccountName) {
+        this.deactivateAccountName = deactivateAccountName;
+    }
+
+    public String getConfirmpassword() {
+        return confirmpassword;
+    }
+
+    public void setConfirmpassword(String confirmpassword) {
+        this.confirmpassword = confirmpassword;
+    }
+    
+    public String getMatch() {
+        return match;
+    }
+
+    public void setMatch(String match) {
+        this.match = match;
     }
 }
