@@ -152,12 +152,13 @@ public class ContractBean implements ContractBeanRemote {
     
    //
    @Override
-   public void reNewContract(String MinimumRent,String RentRate,String upfrontRentalDeposit,Contract contractRecord)throws ExistException{
-            
+   public void reNewContract(String MinimumRent,String RentRate,String upfrontRentalDeposit,Contract contractRecord,String yearsToRenew)throws ExistException{
+            System.out.println("year "+yearsToRenew);
             System.out.println("mini rent"+MinimumRent);
             System.out.println("rent rate"+RentRate);
             System.out.println("upfront rental deposit"+upfrontRentalDeposit);
             System.out.println("contract name "+contractRecord.getTenant());
+            
             contractEntity= new Contract();
             contractEntity = contractRecord;
             if(contractEntity ==null)throw new ExistException("The contract does not exist!");  
@@ -166,11 +167,12 @@ public class ContractBean implements ContractBeanRemote {
                     contractRecord.TenantTradeName(),contractRecord.getNameOfShoppingCenter(), 
                     contractRecord.getPurpose(), MinimumRent, RentRate, contractRecord.getLandlordContact(), 
                     upfrontRentalDeposit,contractRecord.getUnits());
-                       
+             int year = Integer.parseInt(yearsToRenew);          
+            System.out.println("year "+year);
             Calendar cal = Calendar.getInstance();
             contractEntity.setDateOfExecution(cal);
             Calendar futureCal = contractEntity.getDateOfExpiry();
-            futureCal.add(Calendar.YEAR, 1);
+            futureCal.add(Calendar.YEAR, year);
             contractEntity.setDateOfExpiry(futureCal);
             
        //     unitEntity     = new Unit();

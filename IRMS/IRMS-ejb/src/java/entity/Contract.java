@@ -47,6 +47,7 @@ public class Contract implements Serializable {
     private String LandlordContact;
     private String TenantContact;
     private String upfrontRentalDeposit;
+    private boolean contractStatus;
     
     @OneToOne
     private ShopOwner shopTenant;
@@ -76,7 +77,7 @@ public class Contract implements Serializable {
         this.setLandlordContact(LandlordContact);
         this.setTenantContact(TenantContact);
         this.setUpfrontRentalDeposit(upfrontRentalDeposit); 
-        
+        this.setContractStatus(true);
     }  
     
     public void createTenantInfo(String Tenant,String IdentityCard,String TenantAddress,String TenantContact){
@@ -104,6 +105,7 @@ public class Contract implements Serializable {
         this.setTenantContact(TenantContact);
         this.setUpfrontRentalDeposit(upfrontRentalDeposit); 
         this.setUnits(units);
+        this.setContractStatus(true);
     }  
     
     
@@ -267,6 +269,14 @@ public class Contract implements Serializable {
 
     public void setDateOfExpiry(Calendar DateOfExpiry) {
         this.DateOfExpiry = DateOfExpiry;
+    }
+
+    public boolean isContractStatus() {
+        return contractStatus;
+    }
+
+    public void setContractStatus(boolean contractStatus) {
+        this.contractStatus = contractStatus;
     }
     
 }

@@ -58,7 +58,30 @@ and open the template in the editor.
                         <h:outputText value="#{contractRecord.dateOfExpiry.time}" styleClass="date"> <f:convertDateTime pattern="dd-MM-yyyy" />
                         </h:outputText>   
                     </p:column>
+                    
+                    
+                    <p:column id="minirent" filterBy="#{contractRecord.minimumRent}"   
+                              headerText="Minimum Rent"  
+                              filterMatchMode="exact" > 
 
+                        <h:outputText value="$ #{contractRecord.minimumRent}" /> 
+                    </p:column>
+                    
+                    
+                    <p:column id="rent" filterBy="#{contractRecord.rentRate}"   
+                              headerText="Monthly Rent Rate"  
+                              filterMatchMode="exact" > 
+
+                        <h:outputText value="$ #{contractRecord.rentRate}" /> 
+                    </p:column>
+
+                    <p:column id="deposit" filterBy="#{contractRecord.upfrontRentalDeposit}"   
+                              headerText="Monthly Rent Rate"  
+                              filterMatchMode="exact" > 
+
+                        <h:outputText value="$ #{contractRecord.upfrontRentalDeposit}" /> 
+                    </p:column>
+                    
                     <p:column headerText="Renew a Contract">  
                         <p:commandButton icon="ui-icon-plus" actionListener="#{shoppingMallManagedBean.editcontractRecord()}" oncomplete="dlg.show();" title="Set Rent Rates"/>  
                     </p:column>  
@@ -81,7 +104,16 @@ and open the template in the editor.
                         <h:outputText  value="Upfront deposit:" />
                         <h:inputText value="#{shoppingMallManagedBean.upfrontRentalDeposit}" 
                                      id="upfrontRentalDeposit" required="true" label="upfront Rental Deposit" />
-
+                        
+                        <p:column>Years To Renew</p:column>
+                        <p:selectOneMenu id="Year"  label="Years To Renew" value="#{shoppingMallManagedBean.yearsToRenew}">
+                                <f:selectItem itemLabel="Select One" itemValue =""/> 
+                                <f:selectItem itemLabel="1 Year" itemValue ="1"/> 
+                                <f:selectItem itemLabel="2 Years" itemValue ="2"/> 
+                                <f:selectItem itemLabel="3 Years" itemValue ="3"/> 
+                                <f:selectItem itemLabel="4 Years" itemValue ="4"/> 
+                                <f:selectItem itemLabel="5 Years" itemValue ="5"/> 
+                        </p:selectOneMenu>
 
                         <f:facet name="footer">
                             <p:commandButton id="renewContract" value="Renew" update="growl" 

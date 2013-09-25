@@ -169,7 +169,7 @@ public class ShoppingMallManagedBean implements Serializable{
          try{
              
              cbr.reNewContract(MinimumRent, RentRate,
-                     upfrontRentalDeposit,contractRecord);
+                     upfrontRentalDeposit,getContractRecord(),yearsToRenew);
              FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,  
                  "Contract has been renewed successfully", ""));
          }catch(Exception ex){
@@ -190,13 +190,13 @@ public class ShoppingMallManagedBean implements Serializable{
         }
     }
     
-    public Contract editcontractRecord(){
+    public void editcontractRecord(){
        contractRecord = (Contract)dataTable.getRowData();
        this.setContractRecord(contractRecord);
        System.out.println("Here :"+ contractRecord.getPurpose() );
        System.out.println("Here "+ contractRecord.getNameOfShoppingCenter());
        System.out.println("Here "+ contractRecord.getMinimumRent());
-       return contractRecord;
+      //return contractRecord;
     }
   
     
