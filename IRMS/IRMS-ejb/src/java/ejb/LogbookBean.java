@@ -111,7 +111,7 @@ public class LogbookBean implements LogbookBeanRemote {
 
     @Override
     public Collection<Logbook> getLogbooks() {
-        Query q = em.createNamedQuery("SELECT l FROM Logbook l");
+        Query q = em.createQuery("SELECT l FROM Logbook l");
         Collection logbooks = new ArrayList();
         for (Object o : q.getResultList()) {
             Logbook l = (Logbook) o;

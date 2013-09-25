@@ -30,7 +30,7 @@ public class Hotel implements Serializable {
     private Integer capacity;
     private double overbookRate;
     private ArrayList<OverbookLimit> overbookLimits=new ArrayList();
-    @OneToMany(mappedBy = "hotel")
+    @OneToMany(mappedBy ="hotel")
     private Collection<Room> rooms = new ArrayList();
     @OneToMany(mappedBy = "hotel")
     private Collection<RoomService> roomServices = new ArrayList();

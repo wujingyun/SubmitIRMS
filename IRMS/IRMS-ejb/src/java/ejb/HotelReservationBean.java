@@ -63,7 +63,7 @@ public class HotelReservationBean implements HotelReservationBeanRemote {
 
     @Override
     public Collection<InternalRoomRequest> getInternalRoomRequests() throws ExistException {
-        Query q = em.createNamedQuery("SELECT r FROM InternalRoomRequest r");
+        Query q = em.createQuery("SELECT r FROM InternalRoomRequest r");
         Collection<InternalRoomRequest> requests = new ArrayList();
         for (Object o : q.getResultList()) {
             InternalRoomRequest r = (InternalRoomRequest) o;
@@ -82,8 +82,8 @@ public class HotelReservationBean implements HotelReservationBeanRemote {
         for (int i = 0; i <= (Integer) (endDate.get(Calendar.DAY_OF_YEAR) - startDate.get(Calendar.DAY_OF_YEAR)); i++) {
             Integer countReserved = new Integer(0);
             Integer countConfirmed = new Integer(0);
-            Query q1 = em.createNamedQuery("SELECT r FROM RoomReservation WHERE r.hotelName=:hotelname AND r.startDate<=:startDate");
-            Query q2 = em.createNamedQuery("SELECT r FROM RoomReservation WHERE r.hotelName=:hotelName AND r.type='Confirmed' AND r.startDate<=:startDate");
+            Query q1 = em.createQuery("SELECT r FROM RoomReservation WHERE r.hotelName=:hotelname AND r.startDate<=:startDate");
+            Query q2 = em.createQuery("SELECT r FROM RoomReservation WHERE r.hotelName=:hotelName AND r.type='Confirmed' AND r.startDate<=:startDate");
             for (Object o : q1.getResultList()) {
                 RoomReservation r = (RoomReservation) o;
                 countReserved += r.getQuantity();
@@ -110,7 +110,7 @@ public class HotelReservationBean implements HotelReservationBeanRemote {
         Integer countGuaranteed = new Integer(0);
         Query q1 = em.createQuery("SELECT COUNT(roomNumber) FROM Room WHERE r.hotelName=:hotelName AND r.type=:roomType AND r.availabilityStatus='available'");
         Integer numOfRooms = (Integer) q1.getSingleResult();
-        Query q2 = em.createNamedQuery("SELECT r FROM RoomReservation WHERE r.hotelName=:hotelName AND r.roomType=:roomType AND r.type='Guaranteed' AND (r.startDate<=:endDate OR r.endDate>=:startDate)");
+        Query q2 = em.createQuery("SELECT r FROM RoomReservation WHERE r.hotelName=:hotelName AND r.roomType=:roomType AND r.type='Guaranteed' AND (r.startDate<=:endDate OR r.endDate>=:startDate)");
         for (Object o : q2.getResultList()) {
             RoomReservation r = (RoomReservation) o;
             countGuaranteed += r.getQuantity();

@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <p:panel header="#{accommodationManagedBean.hotelName}">
+            
+            <h:form id="rooms" >  
+
+                <p:dataTable id="rooms" var="room" value="#{accommodationManagedBean.listRooms()}" paginator="true" rows="20">  
+                     
+                    <p:column headerText="Room Number" sortBy="#{room.roomNumber}" filterBy="#{room.roomNumber}" >  
+                        #{room.roomNumber}  
+                    </p:column>  
+
+                    <p:column headerText="Type" sortBy="#{room.type}" filterBy="#{room.type}">  
+                        #{room.type}  
+                    </p:column>  
+
+                    <p:column headerText="Rate" sortBy="#{room.rate}" filterBy="#{room.rate}">  
+                        #{room.rate}  
+                    </p:column>  
+
+                    <p:column headerText="Description" sortBy="#{room.description}" filterBy="#{room.description}">  
+                        #{room.description}  
+                    </p:column>
+
+                    <p:column headerText="Availability" sortBy="#{room.availabilityStatus} " filterBy="#{room.availabilityStatus} ">  
+                        #{room.availabilityStatus}  
+                    </p:column>
+
+                    <p:column headerText="Housekeeping Status" sortBy="#{room.housekeepingStatus}" filterBy="#{room.housekeepingStatus}">  
+                        #{room.housekeepingStatus}  
+                    </p:column>
+
+                </p:dataTable>
+
+            </h:form>
+        </p:panel>
+    </h:body>
+</html>
+

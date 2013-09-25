@@ -203,7 +203,7 @@ public class HotelRoomBean implements HotelRoomBeanRemote {
 
     @Override
     public Collection<Hotel> getHotels() {
-        Query q = em.createNamedQuery("SELECT h FROM Hotel h");
+        Query q = em.createQuery("SELECT h FROM Hotel h");
         Collection<Hotel> hotels = new ArrayList();
         for (Object o : q.getResultList()) {
             Hotel h = (Hotel) o;
@@ -214,10 +214,17 @@ public class HotelRoomBean implements HotelRoomBeanRemote {
 
     @Override
     public Collection<Room> getRooms(String hotelName) throws ExistException {
+        //System.out.println(hotelName);
         hotel = em.find(Hotel.class, hotelName);
         if (hotel == null) {
             throw new ExistException("HOTEL NOT EXIST.");
         }
+        /*
+        System.out.println("test");
+        if(hotel.getRooms()==null)
+            System.out.println("null arraylist");
+            */ 
+        hotel.getRooms().size();
         return hotel.getRooms();
     }
 

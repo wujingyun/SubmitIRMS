@@ -116,7 +116,7 @@ public class ComplaintRegisterBean implements ComplaintRegisterBeanRemote {
 
     @Override
     public Collection<ComplaintRegister> getComplaintRegisters() {
-        Query q = em.createNamedQuery("SELECT c FROM ComplaintRegister c");
+        Query q = em.createQuery("SELECT c FROM ComplaintRegister c");
         Collection complaintRegisters = new ArrayList();
         for (Object o : q.getResultList()) {
             ComplaintRegister c = (ComplaintRegister) o;
