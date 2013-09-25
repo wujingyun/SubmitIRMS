@@ -8,57 +8,93 @@ and open the template in the editor.
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui">
-   <h:body>
+    <h:body>
         <f:view> 
-             <h:head>
-        <title>Contract Management Module</title>
-             </h:head>
-            
-        
-             <h:form id="form1"> 
-                <p:panel header="Existing Tenants">
-                    <p:messages id="messagesStatus" redisplay="false" />
-                    <h:panelGrid columns ="2" cellpadding ="3">
-                   
-                              <p:row>
-                              <p:column>Existing Tenants:</p:column> 
-                                
-                              <p:selectOneMenu value="#{shoppingMallManagedBean.selectedRecord}" label="Tenants" 
-                                              id ="selectedRecord">
-                            <f:selectItem itemLabel="Select One" itemValue="" />  
-                            <f:selectItems value="#{shoppingMallManagedBean.tenantList}" var="tenantRecord"  itemLabel="#{tenantRecord.tenant}" itemValue="#{tenantRecord.tenant}" itemDescription="#{tenantRecord.identityCard}"/> 
-                           </p:selectOneMenu>                        
-                             </p:row>
-                             <p:row>
-                                 <p:column colspan="2"><p:commandButton id="tenantInfo" value="Submit" icon="ui-icon-plus" actionListener="#{shoppingMallManagedBean.setAttributes}"  oncomplete="alert('Request for adding a tenant has been submitted')" /></p:column>
-                            </p:row>
-                    </h:panelGrid>
-                </p:panel>
-            </h:form>
-            
-            
+            <h:head>
+                <title>Contract Management Module</title>
+
+            </h:head>
+           
             
             <h:form id="form2"> 
-            <h:panelGrid columns="1" cellpadding="5">  
-             <p:commandButton id="basic" value="Basic" onclick="myFunction();" type="button" />  
-  
-             <p:commandButton id="modalDialogButton" value="Modal" onclick="PF('dlg2').show();" type="button"/>  
-  
-             <p:commandButton id="effectsDialogButton" value="Effects" onclick="PF('dlg3').show();" type="button" />  
-                </h:panelGrid>  
-  
-                <p:dialog id="basicDialog" header="Basic Dialog" widgetVar="dlg1">  
-                 <h:outputText value="Resistance to PrimeFaces is futile!" />  
-                </p:dialog>  
-  
-                <p:dialog id="modalDialog" header="Modal Dialog" widgetVar="dlg2" modal="true" height="100">  
-                 <h:outputText value="This is a Modal Dialog." />  
-                </p:dialog>  
-  
-                    <p:dialog header="Effects" widgetVar="dlg3" showEffect="explode" hideEffect="bounce" height="100">  
-                     <h:outputText value="This dialog has nice effects." />  
-                    </p:dialog>  
-                     </h:form>        
-    </f:view>
+                <p:dataTable binding="#{shoppingMallManagedBean.dataTable}" style="border: solid 2px black;"
+                             value="#{shoppingMallManagedBean.contractList}" var="contractRecord">
+
+                    <p:column id="TenantColumn" filterBy="#{contractRecord.tenant}"   
+                              headerText="Tenant " footerText="Contracts"  
+                              filterMatchMode="contains" > 
+                        <h:outputText value="#{contractRecord.tenant}">
+
+                        </h:outputText>   
+                    </p:column> 
+
+
+                    <p:column id="IDColumn" filterBy="#{contractRecord.identityCard}"   
+                              headerText="ID "   
+                              filterMatchMode="contains" > 
+
+                        <h:outputText value="#{contractRecord.identityCard}" /> 
+                    </p:column> 
+
+
+                    <p:column id="Category" filterBy="#{contractRecord.purpose}"   
+                              headerText="Cateogry"  
+                              filterMatchMode="contains" > 
+
+                        <h:outputText value="#{contractRecord.purpose}" /> 
+
+                    </p:column>
+
+                    <p:column id="FloorArea" filterBy="#{contractRecord.floorArea}"   
+                              headerText="Floor Area"  
+                              filterMatchMode="contains" > 
+
+                        <h:outputText value="#{contractRecord.floorArea} Square Meters" /> 
+                    </p:column>
+                    <p:column id="DateOfExpiry" filterBy="#{contractRecord.dateOfExpiry}"   
+                              headerText="Date Of Expiry"   
+                              filterMatchMode="contains" > 
+
+                        <h:outputText value="#{contractRecord.dateOfExpiry.time}" styleClass="date"> <f:convertDateTime pattern="dd-MM-yyyy" />
+                        </h:outputText>   
+                    </p:column>
+
+                    <p:column headerText="Renew a Contract">  
+                        <p:commandButton icon="ui-icon-plus" actionListener="#{shoppingMallManagedBean.editcontractRecord()}" oncomplete="dlg.show();" title="Set Rent Rates"/>  
+                    </p:column>  
+
+                </p:dataTable>
+
+
+
+                <p:growl id="growl" showDetail="true" life="3000" />  
+                <p:dialog header="Contract" modal="true" showEffect="fade" hideEffect="fade" widgetVar="dlg"> 
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <h:outputText  value="Minimun Rent:" />
+                        <p:inputText value="#{shoppingMallManagedBean.minimumRent}" 
+                                     id="MinimunRent" required="true"  />
+
+                        <h:outputText  value="Monthly Rent Rate:" />
+                        <h:inputText value="#{shoppingMallManagedBean.rentRate}" 
+                                     id="RentRate" required="true" label="Monthly Rent Rate" />
+
+                        <h:outputText  value="Upfront deposit:" />
+                        <h:inputText value="#{shoppingMallManagedBean.upfrontRentalDeposit}" 
+                                     id="upfrontRentalDeposit" required="true" label="upfront Rental Deposit" />
+
+
+                        <f:facet name="footer">
+                            <p:commandButton id="renewContract" value="Renew" update="growl" 
+                                             actionListener="#{shoppingMallManagedBean.renewContract}" 
+                                             oncomplete="alert('Request for renewing contract has been submitted')"/>
+                        </f:facet>
+
+                    </h:panelGrid>
+                </p:dialog>
+            </h:form>>
+
+
+
+        </f:view>
     </h:body>
 </html>

@@ -7,6 +7,7 @@ package managedBean;
 
 import ejb.ContractBeanRemote;
 import ejb.ManageMallSpaceBeanRemote;
+import entity.Contract;
 import entity.Mall;
 import entity.Shop;
 import entity.ShopOwner;
@@ -15,6 +16,7 @@ import entity.Unit;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -25,9 +27,12 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.component.html.HtmlDataTable;
+import javax.faces.component.html.HtmlInputHidden;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpServletRequest;
+import org.primefaces.component.datatable.DataTable;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 
@@ -71,17 +76,25 @@ public class ShoppingMallManagedBean implements Serializable{
     private List<TenantRecordEntity> tenantList;
     private List<String> listOfTenant;
     private TenantRecordEntity selectedRecord;
-   
+    private static Date d;
   //  private Map<String,String> mallUnits;
+    private List<Contract> contractList;
+    private Contract contractOne;
+    private DataTable dataTable;
+    private static Contract contractRecord = new Contract();
+    private String yearsToRenew;
     
     public ShoppingMallManagedBean() {        
     }
     @PostConstruct
     public void init(){
-        this.tenantList=cbr.getExistingTenant();
+        this.tenantList= cbr.getExistingTenant();
+        this.contractList = cbr.getContractList();
     }
-    
-    public Date getDate() {  
+
+   
+    public Date getDate() {
+        
         return date;  
     }  
   
@@ -89,6 +102,7 @@ public class ShoppingMallManagedBean implements Serializable{
         ShoppingMallManagedBean.date = date;  
     }  
     
+ 
      public void handleDateSelect(SelectEvent event) {  
         FacesContext facesContext = FacesContext.getCurrentInstance();  
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");  
@@ -117,6 +131,18 @@ public class ShoppingMallManagedBean implements Serializable{
            TenantContact = getSelectedRecord().getTenantContact();
            System.out.println("found "+tenant);
     }
+    
+
+    public List<Contract> getContractList() {
+       
+        return contractList; 
+    }
+
+    public void setContractList(List<Contract> contractList) {
+        this.contractList = contractList;
+    }
+    
+    
       
      public void contractCreation(ActionEvent event){
           
@@ -125,7 +151,7 @@ public class ShoppingMallManagedBean implements Serializable{
              cbr.signContract(ContractType, Landlord,  Tenant, IdentityCard, 
                      TenantTradeName, getSelectedUnits(),NameOfShoppingCenter, 
                      Purpose, MinimumRent, RentRate, TenantAddress, LandlordContact, 
-                     TenantContact, upfrontRentalDeposit,getDate());
+                     TenantContact, upfrontRentalDeposit,getDate(),yearsToRenew);
          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,  
                  "New Contract created successfully", ""));
          }catch(Exception ex){
@@ -136,11 +162,14 @@ public class ShoppingMallManagedBean implements Serializable{
      }
      
      public void renewContract(ActionEvent event){
+   //   HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+    //  MinimumRent = request.getParameter("form2:a");
+    //    RentRate = request.getParameter("form2:b");
+   //  upfrontRentalDeposit= request.getParameter("form2:c");
          try{
-             cbr.reNewContract(IdentityCard,  getSelectedUnits(), Landlord, Purpose, 
-                     MinimumRent, RentRate, TenantAddress, 
-                     LandlordContact, TenantContact, 
-                     upfrontRentalDeposit, TenantTradeName);
+             
+             cbr.reNewContract(MinimumRent, RentRate,
+                     upfrontRentalDeposit,contractRecord);
              FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,  
                  "Contract has been renewed successfully", ""));
          }catch(Exception ex){
@@ -160,9 +189,20 @@ public class ShoppingMallManagedBean implements Serializable{
                     "An error has occurred while terminating the new contract: " + ex.getMessage(), ""));
         }
     }
+    
+    public Contract editcontractRecord(){
+       contractRecord = (Contract)dataTable.getRowData();
+       this.setContractRecord(contractRecord);
+       System.out.println("Here :"+ contractRecord.getPurpose() );
+       System.out.println("Here "+ contractRecord.getNameOfShoppingCenter());
+       System.out.println("Here "+ contractRecord.getMinimumRent());
+       return contractRecord;
+    }
   
     
      
+   
+
     public List<TenantRecordEntity> getTenantList(){
          System.out.println("Getting records for tenant ");
         return tenantList;
@@ -170,6 +210,7 @@ public class ShoppingMallManagedBean implements Serializable{
     public void setTenantList(List<TenantRecordEntity> tenantList){
         this.tenantList =tenantList;
     }
+    
     
      public List<String> getUnits(){
             
@@ -347,5 +388,52 @@ public class ShoppingMallManagedBean implements Serializable{
         this.selectedRecord = selectedRecord;
     }
 
- 
+    public Contract getContractOne() {
+        return contractOne;
+    }
+
+    public void setContractOne(Contract contractOne) {
+        this.contractOne = contractOne;
+    }
+
+
+   public DataTable getDataTable() {
+        return dataTable;
+    }
+
+    
+
+  /*  public HtmlInputHidden getDataItemId() {
+        return dataItemId;
+    }*/
+
+    // Setters -----------------------------------------------------------------------------------
+
+    public void setDataTable(DataTable dataTable) {
+        this.dataTable = dataTable;
+    }
+
+  
+
+   /* public void setDataItemId(HtmlInputHidden dataItemId) {
+        this.dataItemId = dataItemId;
+    }*/
+
+    public Contract getContractRecord() {
+        return contractRecord;
+    }
+
+    public void setContractRecord(Contract contractRecord) {
+        this.contractRecord = contractRecord;
+    }
+
+    public String getYearsToRenew() {
+        return yearsToRenew;
+    }
+
+    public void setYearsToRenew(String yearsToRenew) {
+        this.yearsToRenew = yearsToRenew;
+    }
+    
+    
 }

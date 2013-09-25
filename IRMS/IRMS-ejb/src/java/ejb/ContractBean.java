@@ -39,6 +39,7 @@ public class ContractBean implements ContractBeanRemote {
     private ShopBill shopBill;
     private TenantRecordEntity tenantRecord;
     private List<TenantRecordEntity> tenantList;
+    private List<Contract> contractList;
     public ContractBean(){
     }
    
@@ -56,6 +57,20 @@ public class ContractBean implements ContractBeanRemote {
       
    }
     
+    @Override
+    public List<Contract> getContractList(){
+            String ejbql ="SELECT c FROM Contract c";  
+            Query q = em.createQuery(ejbql);
+            contractList =new ArrayList();
+            
+            for(Object o: q.getResultList()){
+                Contract c = (Contract)o;
+                contractList.add(c);
+            }  
+            em.flush();
+            return contractList;
+    }
+    
     
    //
     @Override
@@ -63,7 +78,7 @@ public class ContractBean implements ContractBeanRemote {
             String IdentityCard,String TenantTradeName,List UnitNo,
             String NameOfShoppingCenter,String Purpose
             ,String MinimumRent,String RentRate,String TenantAddress,String LandlordContact
-            ,String TenantContact,String upfrontRentalDeposit,Date date)throws ExistException{
+            ,String TenantContact,String upfrontRentalDeposit,Date date,String yearsToRenew)throws ExistException{
             
             String randomPassword;
       //      Collection<Unit> shopUnit = new ArrayList<Unit>();
@@ -72,7 +87,7 @@ public class ContractBean implements ContractBeanRemote {
             shopEntity = new Shop();
             tenant     = new ShopOwner();
             tenantRecord = new TenantRecordEntity();
-            
+            System.out.println("sign contract years: "+ yearsToRenew);
         if(UnitAvailabilityCheck(UnitNo) ==false)
             throw new ExistException("The unit has been taken！");
            
@@ -92,7 +107,9 @@ public class ContractBean implements ContractBeanRemote {
             contractEntity.setDateOfExecution(cal);
             Calendar futureCal = Calendar.getInstance();
             futureCal.setTime(date);
-            futureCal.add(Calendar.YEAR, 1);
+            int year = Integer.parseInt(yearsToRenew);
+            System.out.println("Contract year  "+year);
+            futureCal.add(Calendar.YEAR, year);
             contractEntity.setDateOfExpiry(futureCal);
             
             em.persist(contractEntity);
@@ -135,25 +152,20 @@ public class ContractBean implements ContractBeanRemote {
     
    //
    @Override
-   public void reNewContract(String IdentityCard,List UnitNo,String FloorArea,String Purpose
-            ,String MinimumRent,String RentRate,String TenantAddress,String LandlordContact
-            ,String TenantContact,String upfrontRentalDeposit,String TenantTradeName) throws ExistException{
-            unitEntity     = new Unit();
-            contractEntity = new Contract();
-            shopEntity = new Shop();
-            tenant     = new ShopOwner();
-            System.out.println("SessionBean Mallspace :renewContract : ");
-            String ejbql ="SELECT c FROM Contract c WHERE c.IdentityCard =?1 AND c.TenantTradeName =?2";  
-            Query q = em.createQuery(ejbql);
-            q.setParameter(1,IdentityCard);
-            q.setParameter(2, TenantTradeName);
-            contractEntity= (Contract)q.getSingleResult();
+   public void reNewContract(String MinimumRent,String RentRate,String upfrontRentalDeposit,Contract contractRecord)throws ExistException{
             
+            System.out.println("mini rent"+MinimumRent);
+            System.out.println("rent rate"+RentRate);
+            System.out.println("upfront rental deposit"+upfrontRentalDeposit);
+            System.out.println("contract name "+contractRecord.getTenant());
+            contractEntity= new Contract();
+            contractEntity = contractRecord;
             if(contractEntity ==null)throw new ExistException("The contract does not exist!");  
             
-            contractEntity.renewThisContract(IdentityCard,Purpose
-            ,MinimumRent,RentRate, TenantAddress, LandlordContact
-            ,TenantContact, upfrontRentalDeposit,TenantTradeName);
+            contractEntity.renewContract(contractRecord.getContractType(), contractRecord.getLandlord(),
+                    contractRecord.TenantTradeName(),contractRecord.getNameOfShoppingCenter(), 
+                    contractRecord.getPurpose(), MinimumRent, RentRate, contractRecord.getLandlordContact(), 
+                    upfrontRentalDeposit,contractRecord.getUnits());
                        
             Calendar cal = Calendar.getInstance();
             contractEntity.setDateOfExecution(cal);
@@ -161,8 +173,8 @@ public class ContractBean implements ContractBeanRemote {
             futureCal.add(Calendar.YEAR, 1);
             contractEntity.setDateOfExpiry(futureCal);
             
-            unitEntity     = new Unit();
-            int totalArea;
+       //     unitEntity     = new Unit();
+       /*     int totalArea;
                 totalArea = 0;
          
             for(Iterator it = contractEntity.getUnits().iterator();it.hasNext();){
@@ -171,10 +183,10 @@ public class ContractBean implements ContractBeanRemote {
                 contractEntity.getUnits().remove(unitEntity);
                 unitEntity.setContract(null);
                 em.flush();
-            }    
+            }    */
              
                 
-            for (Iterator it = UnitNo.iterator(); it.hasNext();){
+         /*   for (Iterator it = UnitNo.iterator(); it.hasNext();){
                String result = (String)it.next();
                unitEntity = em.find(Unit.class, result);  
                unitEntity.setUnitAvailability(false);
@@ -183,12 +195,12 @@ public class ContractBean implements ContractBeanRemote {
                contractEntity.getUnits().add(unitEntity);
                em.refresh(unitEntity);
                em.flush();
-           }
-             contractEntity.setFloorArea(totalArea);
-             contractEntity.getShop().renewShop(totalArea);
-            // em.persist(contractEntity);
+           }*/
+       //      contractEntity.setFloorArea(totalArea);
+      //       contractEntity.getShop().renewShop(totalArea);
+               em.persist(contractEntity);
             // em.persist(shopEntity);
-             em.flush();
+               em.flush();
        //     shopEntity.updateShop(TenantTradeName, Tenant, FloorArea);
        
    }

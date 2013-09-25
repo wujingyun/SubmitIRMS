@@ -4,6 +4,7 @@
  */
 package ejb;
 
+import entity.Contract;
 import entity.TenantRecordEntity;
 import exception.ExistException;
 import java.util.Date;
@@ -20,10 +21,9 @@ public interface ContractBeanRemote {
             String IdentityCard,String TenantTradeName,List UnitNo,
             String NameOfShoppingCenter,String Purpose
             ,String MinimumRent,String RentRate,String TenantAddress,String LandlordContact
-            ,String TenantContact,String upfrontRentalDeposit,Date date)throws ExistException;
-      public void reNewContract(String IdentityCard,List UnitNo,String FloorArea,String Purpose
-            ,String MinimumRent,String RentRate,String TenantAddress,String LandlordContact
-            ,String TenantContact,String upfrontRentalDeposit,String TenantTradeName)throws ExistException;
+            ,String TenantContact,String upfrontRentalDeposit,Date date,String yearsToRenew)throws ExistException;
+      public void reNewContract(String MinimumRent,String RentRate,String upfrontRentalDeposit,Contract contractRecord)throws ExistException;
       public void terminateContract(String IdentityCard,String TenantTradeName) throws ExistException;
         public List<TenantRecordEntity> getExistingTenant ();
+        public List<Contract> getContractList();
 }
