@@ -72,7 +72,7 @@ and open the template in the editor.
                     </p:column>
 
                     <p:column headerText="Terminate a Contract">  
-                        <p:commandButton icon="ui-icon-plus" oncomplete="dlg.show();">
+                        <p:commandButton icon="ui-icon-plus" oncomplete="dlg.show();" >
                             <f:setPropertyActionListener value="#{contractRecord}" target="#{shoppingMallManagedBean.contractRecord}" />
                         </p:commandButton>
                     </p:column>  
@@ -84,6 +84,7 @@ and open the template in the editor.
             
              
                <h:form id="form1">  
+                    <p:growl id="growl" showDetail="true" life="3000" />  
                    <p:panel>
                     <p:dialog id="dialogContract" header="Contract" modal="true" showEffect="fade" hideEffect="fade" widgetVar="dlg">  
                         <h:panelGrid columns="2" id="display">                        
@@ -107,6 +108,10 @@ and open the template in the editor.
                             <h:outputText value="Rent Rate: #{contractRecord.rentRate}" /> 
                             <h:outputText value="Upfront Rental Deposit: #{contractRecord.upfrontRentalDeposit}" />
                         </h:panelGrid>  
+                         <f:facet name="footer">
+                            <p:commandButton id="terminate" value="Terminate The Contract" update="growl" 
+                                             actionListener="#{shoppingMallManagedBean.terminateContract}"/>
+                        </f:facet>
                     </p:dialog> 
                     
                 </p:panel>

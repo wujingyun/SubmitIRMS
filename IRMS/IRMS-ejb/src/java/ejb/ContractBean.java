@@ -213,31 +213,35 @@ public class ContractBean implements ContractBeanRemote {
        shopBill = new ShopBill();
        shopEntity = new Shop();
        tenant = new ShopOwner();
-         System.out.println("SessionBean Mallspace :terminateContract : ");
+         System.out.println("SessionBean Mallspace :terminateContract : "+ContractID);
            
             contractEntity= em.find(Contract.class, ContractID);
             
             if(contractEntity ==null)throw new ExistException("The contract does not exist!"); 
             
-            
+              System.out.println("SessionBean Mallspace :terminateContract ck bills: ");
             for(Iterator it = contractEntity.getShop().getBills().iterator();it.hasNext();){
+                 System.out.println("checking on bills");
                 shopBill =(ShopBill)it.next();
-                if(shopBill.isBillStatus()==true) throw new ExistException("the shopBill is"
+                if(shopBill.isBillStatus()==true || shopBill==null) throw new ExistException("the shopBill is"
                         + "not settled");
             }
-            
+             System.out.println("SessionBean Mallspace :terminateContract removing units: ");
              for(Iterator it = contractEntity.getUnits().iterator();it.hasNext();){
+               
                 unitEntity = (Unit)it.next();
+                System.err.println("units"+unitEntity.getUnitNo());
                 contractEntity.getUnits().remove(unitEntity);
                 unitEntity.setUnitAvailability(true);
                 unitEntity.setContract(null);
                 em.flush();
             }
+             System.err.println("finished setting units, start getting to status");
              contractEntity.setContractStatus(false);
              shopEntity =contractEntity.getShop();
-             em.remove(shopEntity);
+           //  em.remove(shopEntity);
              contractEntity.setShop(null);
-       //      shopEntity.setContract(null);
+             shopEntity.setContract(null);
              
              tenant =contractEntity.getShopTenant();
              contractEntity.setTenant(null);
