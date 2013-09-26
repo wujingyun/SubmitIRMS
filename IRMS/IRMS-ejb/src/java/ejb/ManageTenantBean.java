@@ -8,6 +8,7 @@ import entity.Shop;
 import entity.ShopBill;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -29,6 +30,7 @@ public class ManageTenantBean implements ManageTenantBeanRemote {
     double commisionRate = 0.3;
     Calendar dateIssued;
     List<Shop> shopList;
+    Collection<ShopBill> billList;
    // double commissionFee;
     
     // check on jasper report not included in the first system release.
@@ -36,6 +38,18 @@ public class ManageTenantBean implements ManageTenantBeanRemote {
     
     }
     
+    @Override
+    public Collection<ShopBill> sendBills(Long ShopID){
+        shop = new Shop();
+        shop =em.find(Shop.class, ShopID);   
+        shop.getBills().size();
+        billList = new ArrayList();
+        billList = shop.getBills();
+          em.flush();
+        return billList;
+        
+        
+    }
     
     @Override
     public double calculateCommission(double revenue){
@@ -86,17 +100,20 @@ public class ManageTenantBean implements ManageTenantBeanRemote {
          Query q = em.createQuery(ejbql);
          for(Object o: q.getResultList()){
              Shop s = (Shop)o;
+             if(s.getContract()!=null){
              shopList.add(s);
-         }
+             }
+         }        
          em.flush();
          return shopList;
     }
 
     @Override
-    public void EditBillStatus(String BillID) {
+    public void EditBillStatus(Long BillID) {
         bill = new ShopBill();
         bill = em.find(ShopBill.class, BillID);
         bill.setBillStatus(false);
         em.flush();
     }
+    
 }

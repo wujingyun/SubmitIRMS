@@ -29,7 +29,7 @@ and open the template in the editor.
                 <p:dataTable  paginator="true"  rows="10" binding="#{billManagedBean.dataTable}" style="border: solid 2px black;"
                              value="#{billManagedBean.shopList}" var="shopEntity">
                     
-                    <p:column id="ID" filterBy="#{shopEntity.shopID}"   
+                    <p:column id="ID" filterBy="#{shopEntity.shopID}" style="width:10px;"   
                               headerText="Shop ID "   
                               filterMatchMode="contains" > 
 
@@ -38,7 +38,7 @@ and open the template in the editor.
                     
                     <p:column id="ShopName" filterBy="#{shopEntity.name}"   
                               headerText="Shop Name "  
-                              filterMatchMode="contains" > 
+                              filterMatchMode="contains"  style="width: 10px"> 
                         <h:outputText value="#{shopEntity.name}">
 
                         </h:outputText>   
@@ -46,23 +46,28 @@ and open the template in the editor.
                     
                     <p:column id="Owner" filterBy="#{shopEntity.owner}"   
                               headerText="Shop Owner "   
-                              filterMatchMode="contains" > 
+                              filterMatchMode="contains" style="width: 10px" > 
                         <h:outputText value="#{shopEntity.owner}" /> 
                     </p:column> 
                     
                     <p:column id="RentRate" filterBy="#{shopEntity.contract.rentRate}"   
                               headerText="Rent Rate "   
-                              filterMatchMode="contains" > 
+                              filterMatchMode="contains" style="width: 10px" > 
 
                         <h:outputText value="#{shopEntity.contract.rentRate}" /> 
                     </p:column>
 
+                 
+                    
              
-                    <p:column headerText="Create Bill">  
+                    <p:column headerText="Create Bill" style="width: 15px">  
                         <p:commandButton icon="ui-icon-plus" actionListener="#{billManagedBean.editShopEntity}" oncomplete="dlg.show();" title="Create Bill"
                          update=":form2:dlg1"                />  
                     </p:column>  
-
+                    <p:column headerText="ViewBills" style="width: 15px">
+                        <p:commandButton icon="ui-icon-extlink" value="View Bills" actionListener="#{billManagedBean.editShopEntityBeta}" />
+                    </p:column>
+                        
                 </p:dataTable>
             </h:form>
             
@@ -72,7 +77,6 @@ and open the template in the editor.
                     <h:panelGrid columns="2" cellpadding="5">
                         <h:outputText  value="Rent Rate: " />
                         <h:outputText  value="$ #{billManagedBean.rentRate}" />
-                
                     </h:panelGrid>
                 </p:dialog>
                 
