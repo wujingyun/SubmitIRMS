@@ -64,11 +64,12 @@ and open the template in the editor.
                             <p:selectOneMenu value="#{shoppingMallManagedBean.selectedRecord}" label="Tenants" 
                                              id ="selectedRecord">
                                 <f:selectItem itemLabel="Select One" itemValue="" />  
-                                <f:selectItems value="#{shoppingMallManagedBean.tenantList}" var="tenantRecord"  itemLabel="#{tenantRecord.tenant}" itemValue="#{tenantRecord.tenant}" itemDescription="#{tenantRecord.identityCard}"/> 
+                                <f:selectItems value="#{shoppingMallManagedBean.tenantList}" var="tenantRecord"  itemLabel="#{tenantRecord.tenant}" itemValue="#{tenantRecord.recordID}" itemDescription="#{tenantRecord.identityCard}"/> 
+                                
                             </p:selectOneMenu>                        
                         </p:row>
                         <p:row>
-                            <p:column colspan="2"><p:commandButton id="tenantInfo" value="Submit" icon="ui-icon-plus" actionListener="#{shoppingMallManagedBean.setAttributes}"  oncomplete="alert('Request for adding a tenant has been submitted')" /></p:column>
+                            <p:column colspan="2"><p:commandButton id="tenantInfo" ajax="true" value="Submit" icon="ui-icon-plus" actionListener="#{shoppingMallManagedBean.setAttributes}"  /></p:column>
                         </p:row>
                     </h:panelGrid>
                 </p:panel>
@@ -175,16 +176,17 @@ and open the template in the editor.
                         </p:row>
 
                         <p:row>
-                            <p:column colspan="2"><p:commandButton id="submitButton"  value="Submit" icon="ui-icon-plus" actionListener="#{shoppingMallManagedBean.contractCreation}"  oncomplete="dlg.show();" update="display"/></p:column>
+                            <p:column colspan="2"><p:commandButton id="submitButton"  value="Submit" icon="ui-icon-plus" actionListener="#{shoppingMallManagedBean.contractCreation}"  oncomplete="dlg.show();" update=":form3:dialogContract"/></p:column>
                         </p:row>
 
 
                     </h:panelGrid>
                     
-                    <p:dialog header="Contract" modal="true" showEffect="fade" hideEffect="fade" widgetVar="dlg">  
+                    <p:dialog id="dialogContract" header="Contract" modal="true" showEffect="fade" hideEffect="fade" widgetVar="dlg">  
                         <h:panelGrid columns="1" id="display">                        
                             <h:outputText value="Contract Type: #{shoppingMallManagedBean.contractType}" />  
-                            <h:outputText value="Date: #{shoppingMallManagedBean.date}" /> 
+                            <h:outputText value="Date: #{shoppingMallManagedBean.date}" styleClass="date"> <f:convertDateTime pattern="dd-MM-yyyy" />
+                           </h:outputText>    
                             <h:outputText value="Landlord: #{shoppingMallManagedBean.landlord}" /> 
                             <h:outputText value="Landlord Contact: #{shoppingMallManagedBean.landlordContact}" /> 
                             <h:outputText value="Shopping Center: #{shoppingMallManagedBean.nameOfShoppingCenter}" /> 

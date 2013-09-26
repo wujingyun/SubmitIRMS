@@ -46,7 +46,7 @@ public class ContractBean implements ContractBeanRemote {
     @Override
     public List<TenantRecordEntity> getExistingTenant (){
         tenantList= new ArrayList();
-        String ejbql ="SELECT t FROM TenantRecordEntity t";
+        String ejbql ="SELECT DISTINCT t FROM TenantRecordEntity t GROUP BY t.IdentityCard";
         Query q = em.createQuery(ejbql);
         for(Object o: q.getResultList()){
             TenantRecordEntity t =(TenantRecordEntity)o;
@@ -152,12 +152,14 @@ public class ContractBean implements ContractBeanRemote {
     
    //
    @Override
-   public void reNewContract(String MinimumRent,String RentRate,String upfrontRentalDeposit,Contract contractRecord)throws ExistException{
-            
+   public void reNewContract(String MinimumRent,String RentRate,String upfrontRentalDeposit,Contract contractRecord,String yearsToRenew)throws ExistException{
+            System.out.println("year "+yearsToRenew);
             System.out.println("mini rent"+MinimumRent);
             System.out.println("rent rate"+RentRate);
             System.out.println("upfront rental deposit"+upfrontRentalDeposit);
+            System.out.println("why not tenant!");
             System.out.println("contract name "+contractRecord.getTenant());
+            
             contractEntity= new Contract();
             contractEntity = contractRecord;
             if(contractEntity ==null)throw new ExistException("The contract does not exist!");  
@@ -166,11 +168,12 @@ public class ContractBean implements ContractBeanRemote {
                     contractRecord.TenantTradeName(),contractRecord.getNameOfShoppingCenter(), 
                     contractRecord.getPurpose(), MinimumRent, RentRate, contractRecord.getLandlordContact(), 
                     upfrontRentalDeposit,contractRecord.getUnits());
-                       
+             int year = Integer.parseInt(yearsToRenew);          
+            System.out.println("year "+year);
             Calendar cal = Calendar.getInstance();
             contractEntity.setDateOfExecution(cal);
             Calendar futureCal = contractEntity.getDateOfExpiry();
-            futureCal.add(Calendar.YEAR, 1);
+            futureCal.add(Calendar.YEAR, year);
             contractEntity.setDateOfExpiry(futureCal);
             
        //     unitEntity     = new Unit();
@@ -205,50 +208,48 @@ public class ContractBean implements ContractBeanRemote {
        
    }
     @Override
-   public void terminateContract(String IdentityCard,String TenantTradeName) throws ExistException{
+   public void terminateContract(Long ContractID) throws ExistException{
        contractEntity = new Contract();
        shopBill = new ShopBill();
        shopEntity = new Shop();
        tenant = new ShopOwner();
-         System.out.println("SessionBean Mallspace :terminateContract : ");
-            String ejbql ="SELECT c FROM Contract c WHERE c.IdentityCard =?1 AND c.TenantTradeName =?2";  
-            Query q = em.createQuery(ejbql);
-            q.setParameter(1,IdentityCard);
-            q.setParameter(2, TenantTradeName);
-            contractEntity= (Contract)q.getSingleResult();
+         System.out.println("SessionBean Mallspace :terminateContract : "+ContractID);
+           
+            contractEntity= em.find(Contract.class, ContractID);
             
             if(contractEntity ==null)throw new ExistException("The contract does not exist!"); 
             
-            
+              System.out.println("SessionBean Mallspace :terminateContract ck bills: ");
             for(Iterator it = contractEntity.getShop().getBills().iterator();it.hasNext();){
+                 System.out.println("checking on bills");
                 shopBill =(ShopBill)it.next();
-                if(shopBill.isBillStatus()==true) throw new ExistException("the shopBill is"
+                if(shopBill.isBillStatus()==true || shopBill==null) throw new ExistException("the shopBill is"
                         + "not settled");
             }
-            
+             System.out.println("SessionBean Mallspace :terminateContract removing units: ");
              for(Iterator it = contractEntity.getUnits().iterator();it.hasNext();){
+               
                 unitEntity = (Unit)it.next();
+                System.err.println("units"+unitEntity.getUnitNo());
                 contractEntity.getUnits().remove(unitEntity);
                 unitEntity.setUnitAvailability(true);
                 unitEntity.setContract(null);
                 em.flush();
             }
+             System.err.println("finished setting units, start getting to status");
+             contractEntity.setContractStatus(false);
              shopEntity =contractEntity.getShop();
-             em.remove(shopEntity);
+           //  em.remove(shopEntity);
              contractEntity.setShop(null);
-       //      shopEntity.setContract(null);
+             shopEntity.setContract(null);
              
              tenant =contractEntity.getShopTenant();
              contractEntity.setTenant(null);
              tenant.setContract(null);
-             em.remove(contractEntity);
+           
              em.flush();             
    }
 
-    
-    
-   
-   
    public boolean UnitAvailabilityCheck(List UnitNo){
         unitEntity     = new Unit();
         for (Iterator it = UnitNo.iterator(); it.hasNext();) {

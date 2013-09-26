@@ -4,7 +4,6 @@
  */
 package managedBean;
 
-
 import ejb.ContractBeanRemote;
 import ejb.ManageMallSpaceBeanRemote;
 import entity.Contract;
@@ -16,24 +15,19 @@ import entity.Unit;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-import javax.faces.component.html.HtmlDataTable;
-import javax.faces.component.html.HtmlInputHidden;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.ValueChangeEvent;
 import javax.servlet.http.HttpServletRequest;
 import org.primefaces.component.datatable.DataTable;
-import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 
 /**
@@ -41,14 +35,13 @@ import org.primefaces.event.SelectEvent;
  * @author wangxiahao
  */
 @ManagedBean
-@RequestScoped
-public class ShoppingMallManagedBean implements Serializable{
+@ViewScoped
+public class ShoppingMallManagedBean implements Serializable {
 
     @EJB
     ContractBeanRemote cbr;
     @EJB
     ManageMallSpaceBeanRemote mmsbr;
-    
     private String ContractType;
     private String Landlord;
     private static String Tenant;
@@ -63,162 +56,172 @@ public class ShoppingMallManagedBean implements Serializable{
     private String LandlordContact;
     private static String TenantContact;
     private String upfrontRentalDeposit;
-    private static Date date;  
+    private static Date date;
     private Shop shop;
     private ShopOwner tenant;
     private Mall mall;
     private TenantRecordEntity tenantRecord;
-  //  private Unit units;
+    //  private Unit units;
     private List<String> units = new ArrayList();
     private List<String> selectedUnits;
     private Unit mallUnit;
-    private static String mName="IRMall";
+    private static String mName = "IRMall";
     private List<TenantRecordEntity> tenantList;
     private List<String> listOfTenant;
-    private TenantRecordEntity selectedRecord;
+    private Long selectedRecord;
     private static Date d;
-  //  private Map<String,String> mallUnits;
+    //  private Map<String,String> mallUnits;
     private List<Contract> contractList;
-    private Contract contractOne;
+    private static Contract contractOne;
     private DataTable dataTable;
-    private static Contract contractRecord = new Contract();
+    private Contract contractRecord;
     private String yearsToRenew;
-    
-    public ShoppingMallManagedBean() {        
+    private static TenantRecordEntity theOnlyTenant;
+
+    public ShoppingMallManagedBean() {
     }
+
     @PostConstruct
-    public void init(){
-        this.tenantList= cbr.getExistingTenant();
+    public void init() {
+        this.tenantList = cbr.getExistingTenant();
         this.contractList = cbr.getContractList();
     }
 
-   
     public Date getDate() {
-        
-        return date;  
-    }  
-  
-    public void setDate(Date date) {  
-        ShoppingMallManagedBean.date = date;  
-    }  
-    
- 
-     public void handleDateSelect(SelectEvent event) {  
-        FacesContext facesContext = FacesContext.getCurrentInstance();  
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");  
-        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", format.format(event.getObject())));  
-    } 
-     
-     public void save() {  
-     
-       HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
-       Tenant = request.getParameter("form1:tenant");
-        
-        IdentityCard = request.getParameter("form1:identityCard");
-       TenantAddress = request.getParameter("form1:tenantAddress");
-        TenantContact = request.getParameter("form1:tenantContact");
-            
-          System.out.println( Tenant);
-          System.out.println( IdentityCard);
-          System.out.println(  TenantAddress);
-          System.out.println( TenantContact); 
-    }  
-     
-    public void setAttributes(ActionEvent event){
-           Tenant =getSelectedRecord().getTenant();  
-           IdentityCard = getSelectedRecord().getIdentityCard();
-           TenantAddress = getSelectedRecord().getTenantAddress();
-           TenantContact = getSelectedRecord().getTenantContact();
-           System.out.println("found "+tenant);
+
+        return date;
     }
-    
+
+    public void setDate(Date date) {
+        ShoppingMallManagedBean.date = date;
+    }
+
+    public void handleDateSelect(SelectEvent event) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", format.format(event.getObject())));
+    }
+
+    public void save() {
+
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        Tenant = request.getParameter("form1:tenant");
+
+        IdentityCard = request.getParameter("form1:identityCard");
+        TenantAddress = request.getParameter("form1:tenantAddress");
+        TenantContact = request.getParameter("form1:tenantContact");
+
+        System.out.println(Tenant);
+        System.out.println(IdentityCard);
+        System.out.println(TenantAddress);
+        System.out.println(TenantContact);
+    }
+
+    public void setAttributes(ActionEvent event) {
+        System.out.println("found " + selectedRecord);
+        tenantRecord = new TenantRecordEntity();
+        for (Iterator it = tenantList.iterator(); it.hasNext();) {
+            tenantRecord = (TenantRecordEntity) it.next();
+            if (tenantRecord.getRecordID().equals(selectedRecord)) {
+                theOnlyTenant = tenantRecord;
+                System.out.println("Tenant " + tenantRecord.getTenant() + " Found!");
+                Tenant = theOnlyTenant.getTenant();
+                IdentityCard = theOnlyTenant.getRecordID().toString();
+                TenantAddress = theOnlyTenant.getTenantAddress();
+                TenantContact = theOnlyTenant.getTenantContact();
+                System.err.println(IdentityCard);
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Tenant not found in the database", "!"));
+            }
+        }
+
+    }
+
+    public void tenantSelected(ValueChangeEvent event) {
+        System.err.println("tenantSelected");
+        System.err.println(event.getOldValue());
+        System.err.println(event.getNewValue());
+    }
 
     public List<Contract> getContractList() {
-       
-        return contractList; 
+
+        return contractList;
     }
 
     public void setContractList(List<Contract> contractList) {
         this.contractList = contractList;
     }
-    
-    
-      
-     public void contractCreation(ActionEvent event){
-          
-         try{
-         
-             cbr.signContract(ContractType, Landlord,  Tenant, IdentityCard, 
-                     TenantTradeName, getSelectedUnits(),NameOfShoppingCenter, 
-                     Purpose, MinimumRent, RentRate, TenantAddress, LandlordContact, 
-                     TenantContact, upfrontRentalDeposit,getDate(),yearsToRenew);
-         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,  
-                 "New Contract created successfully", ""));
-         }catch(Exception ex){
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,  
+
+    public void contractCreation(ActionEvent event) {
+
+        try {
+            System.err.println("create the contract!");
+            cbr.signContract(ContractType, Landlord, Tenant,IdentityCard  ,
+                    TenantTradeName, getSelectedUnits(), NameOfShoppingCenter,
+                    Purpose, MinimumRent, RentRate, TenantAddress, LandlordContact,
+                    TenantContact, upfrontRentalDeposit, getDate(), yearsToRenew);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "New Contract created successfully", ""));
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "An error has occurred while creating the new contract: " + ex.getMessage(), ""));
-         }
-         
-     }
-     
-     public void renewContract(ActionEvent event){
-   //   HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
-    //  MinimumRent = request.getParameter("form2:a");
-    //    RentRate = request.getParameter("form2:b");
-   //  upfrontRentalDeposit= request.getParameter("form2:c");
-         try{
-             
-             cbr.reNewContract(MinimumRent, RentRate,
-                     upfrontRentalDeposit,contractRecord);
-             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,  
-                 "Contract has been renewed successfully", ""));
-         }catch(Exception ex){
-             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,  
+        }
+
+    }
+
+    public void renewContract(ActionEvent event) {
+        try {
+
+            cbr.reNewContract(MinimumRent, RentRate,
+                    upfrontRentalDeposit, getContractRecord(), yearsToRenew);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Contract has been renewed successfully", ""));
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "An error has occurred while renewing the new contract: " + ex.getMessage(), ""));
-         }
-     }
-     
-    public void terminateContract(ActionEvent event){
-        try{
-            
-            cbr.terminateContract(IdentityCard, TenantTradeName);
-             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,  
-                 "Contract has been terminated successfully", ""));
-        }catch(Exception ex){
-             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,  
+        }
+    }
+
+    public void terminateContract(ActionEvent event) {
+        try {
+
+            cbr.terminateContract(getContractRecord().getId());
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Contract has been terminated successfully", ""));
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "An error has occurred while terminating the new contract: " + ex.getMessage(), ""));
         }
     }
-    
-    public Contract editcontractRecord(){
-       contractRecord = (Contract)dataTable.getRowData();
-       this.setContractRecord(contractRecord);
-       System.out.println("Here :"+ contractRecord.getPurpose() );
-       System.out.println("Here "+ contractRecord.getNameOfShoppingCenter());
-       System.out.println("Here "+ contractRecord.getMinimumRent());
-       return contractRecord;
-    }
-  
-    
-     
-   
 
-    public List<TenantRecordEntity> getTenantList(){
-         System.out.println("Getting records for tenant ");
+    public void editContractRecord(ActionEvent event) {
+
+        contractRecord = (Contract) dataTable.getRowData();
+
+        this.setContractRecord(contractRecord);
+        System.out.println("Here :" + contractRecord.getPurpose());
+        System.out.println("Here " + contractRecord.getNameOfShoppingCenter());
+        System.out.println("Here " + contractRecord.getMinimumRent());
+        //return contractRecord;
+    }
+
+    public List<TenantRecordEntity> getTenantList() {
+        System.out.println("Getting records for tenant ");
         return tenantList;
     }
-    public void setTenantList(List<TenantRecordEntity> tenantList){
-        this.tenantList =tenantList;
+
+    public void setTenantList(List<TenantRecordEntity> tenantList) {
+        this.tenantList = tenantList;
     }
-    
-    
-     public List<String> getUnits(){
-            
-         units = mmsbr.DisplayRepartitionMall(mName);
- 
-         return units;
-     } 
-     
+
+    public List<String> getUnits() {
+
+        units = mmsbr.DisplayRepartitionMall(mName);
+
+        return units;
+    }
+
     public String getContractType() {
         return ContractType;
     }
@@ -239,10 +242,9 @@ public class ShoppingMallManagedBean implements Serializable{
         return Tenant;
     }
 
- /*   public void setTenant(String Tenant) {
-        this.Tenant = Tenant;
-    }*/
-
+    /*   public void setTenant(String Tenant) {
+     this.Tenant = Tenant;
+     }*/
     public String getNameOfShoppingCenter() {
         return NameOfShoppingCenter;
     }
@@ -287,10 +289,9 @@ public class ShoppingMallManagedBean implements Serializable{
         return TenantAddress;
     }
 
- /*   public void setTenantAddress(String TenantAddress) {
-        this.TenantAddress = TenantAddress;
-    }*/
-
+    /*   public void setTenantAddress(String TenantAddress) {
+     this.TenantAddress = TenantAddress;
+     }*/
     public String getLandlordContact() {
         return LandlordContact;
     }
@@ -303,10 +304,9 @@ public class ShoppingMallManagedBean implements Serializable{
         return TenantContact;
     }
 
- /*   public void setTenantContact(String TenantContact) {
-        this.TenantContact = TenantContact;
-    }*/
-
+    /*   public void setTenantContact(String TenantContact) {
+     this.TenantContact = TenantContact;
+     }*/
     public String getUpfrontRentalDeposit() {
         return upfrontRentalDeposit;
     }
@@ -319,10 +319,9 @@ public class ShoppingMallManagedBean implements Serializable{
         return IdentityCard;
     }
 
-   /* public void setIdentityCard(String IdentityCard) {
-        this.IdentityCard = IdentityCard;
-    }*/
-
+    /* public void setIdentityCard(String IdentityCard) {
+     this.IdentityCard = IdentityCard;
+     }*/
     public String getTenantTradeName() {
         return TenantTradeName;
     }
@@ -349,7 +348,7 @@ public class ShoppingMallManagedBean implements Serializable{
 
     public void setUnits(List<String> units) {
         this.units = units;
-   }
+    }
 
     public Mall getMall() {
         return mall;
@@ -368,7 +367,7 @@ public class ShoppingMallManagedBean implements Serializable{
     }
 
     public List<String> getSelectedUnits() {
-       
+
         return selectedUnits;
     }
 
@@ -376,15 +375,15 @@ public class ShoppingMallManagedBean implements Serializable{
         this.selectedUnits = selectedUnits;
     }
 
-    public TenantRecordEntity getSelectedRecord() {
-          System.out.println("get record 1");
-          
-       
+    public Long getSelectedRecord() {
+        System.out.println("get record 1");
+
+
         return selectedRecord;
     }
 
-    public void setSelectedRecord(TenantRecordEntity selectedRecord) {
-         System.out.println( "set record ");
+    public void setSelectedRecord(Long selectedRecord) {
+        System.out.println("set record ");
         this.selectedRecord = selectedRecord;
     }
 
@@ -396,29 +395,21 @@ public class ShoppingMallManagedBean implements Serializable{
         this.contractOne = contractOne;
     }
 
-
-   public DataTable getDataTable() {
+    public DataTable getDataTable() {
         return dataTable;
     }
 
-    
-
-  /*  public HtmlInputHidden getDataItemId() {
-        return dataItemId;
-    }*/
-
+    /*  public HtmlInputHidden getDataItemId() {
+     return dataItemId;
+     }*/
     // Setters -----------------------------------------------------------------------------------
-
     public void setDataTable(DataTable dataTable) {
         this.dataTable = dataTable;
     }
 
-  
-
-   /* public void setDataItemId(HtmlInputHidden dataItemId) {
-        this.dataItemId = dataItemId;
-    }*/
-
+    /* public void setDataItemId(HtmlInputHidden dataItemId) {
+     this.dataItemId = dataItemId;
+     }*/
     public Contract getContractRecord() {
         return contractRecord;
     }
@@ -434,6 +425,12 @@ public class ShoppingMallManagedBean implements Serializable{
     public void setYearsToRenew(String yearsToRenew) {
         this.yearsToRenew = yearsToRenew;
     }
-    
-    
+
+    public TenantRecordEntity getTenantRecord() {
+        return tenantRecord;
+    }
+
+    public void setTenantRecord(TenantRecordEntity tenantRecord) {
+        this.tenantRecord = tenantRecord;
+    }
 }
