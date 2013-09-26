@@ -17,7 +17,7 @@ and open the template in the editor.
            
             
             <h:form id="form2"> 
-                <p:dataTable binding="#{shoppingMallManagedBean.dataTable}" style="border: solid 2px black;"
+                <p:dataTable  paginator="true" rows="15" binding="#{shoppingMallManagedBean.dataTable}" style="border: solid 2px black;"
                              value="#{shoppingMallManagedBean.contractList}" var="contractRecord">
 
                     <p:column id="TenantColumn" filterBy="#{contractRecord.tenant}"   
@@ -27,15 +27,6 @@ and open the template in the editor.
 
                         </h:outputText>   
                     </p:column> 
-
-
-                    <p:column id="IDColumn" filterBy="#{contractRecord.identityCard}"   
-                              headerText="ID "   
-                              filterMatchMode="contains" > 
-
-                        <h:outputText value="#{contractRecord.identityCard}" /> 
-                    </p:column> 
-
 
                     <p:column id="Category" filterBy="#{contractRecord.purpose}"   
                               headerText="Cateogry"  
@@ -83,12 +74,16 @@ and open the template in the editor.
                     </p:column>
                     
                     <p:column headerText="Renew a Contract">  
-                        <p:commandButton icon="ui-icon-plus" actionListener="#{shoppingMallManagedBean.editcontractRecord()}" oncomplete="dlg.show();" title="Set Rent Rates"/>  
+                        <p:commandButton icon="ui-icon-plus" oncomplete="dlg.show();" title="Set Rent Rates">
+                            <f:setPropertyActionListener value="#{contractRecord}" target="#{shoppingMallManagedBean.contractRecord}" />
+                        </p:commandButton>
                     </p:column>  
 
                 </p:dataTable>
 
-
+            </h:form>
+            
+            <h:form id="form3"> 
 
                 <p:growl id="growl" showDetail="true" life="3000" />  
                 <p:dialog header="Contract" modal="true" showEffect="fade" hideEffect="fade" widgetVar="dlg"> 
@@ -123,7 +118,7 @@ and open the template in the editor.
 
                     </h:panelGrid>
                 </p:dialog>
-            </h:form>>
+            </h:form>
 
 
 

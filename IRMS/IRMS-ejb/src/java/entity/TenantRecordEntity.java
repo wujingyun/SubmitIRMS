@@ -80,8 +80,5 @@ public class TenantRecordEntity implements Serializable {
     public void setTenantContact(String TenantContact) {
         this.TenantContact = TenantContact;
     }
-     
-     
-
-    
+  
 }

@@ -23,7 +23,7 @@ public interface ContractBeanRemote {
             ,String MinimumRent,String RentRate,String TenantAddress,String LandlordContact
             ,String TenantContact,String upfrontRentalDeposit,Date date,String yearsToRenew)throws ExistException;
       public void reNewContract(String MinimumRent,String RentRate,String upfrontRentalDeposit,Contract contractRecord,String yearsToRenew)throws ExistException;
-      public void terminateContract(String IdentityCard,String TenantTradeName) throws ExistException;
+      public void terminateContract(Long ContractID) throws ExistException;
         public List<TenantRecordEntity> getExistingTenant ();
         public List<Contract> getContractList();
 }
