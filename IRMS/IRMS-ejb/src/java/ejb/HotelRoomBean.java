@@ -50,12 +50,11 @@ public class HotelRoomBean implements HotelRoomBeanRemote {
     }
 
     @Override
-    public void editHotel(String name, String newName, String address, String telNumber, String description, Integer capacity, double overbookRate) throws ExistException {
+    public void editHotel(String name, String address, String telNumber, String description, Integer capacity, double overbookRate) throws ExistException {
         hotel = em.find(Hotel.class, name);
         if (hotel == null) {
             throw new ExistException("HOTEL NOT EXIST.");
         }
-        hotel.setName(newName);
         hotel.setAddress(address);
         hotel.setTelNumber(telNumber);
         hotel.setDescription(description);

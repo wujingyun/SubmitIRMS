@@ -2,8 +2,8 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
                 template="./templet/AccommodationDefaultTemplate.xhtml"
-                xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html">
 
     <ui:define name="topInsert">
@@ -21,7 +21,13 @@
 
                 <p:growl id="messages" showDetail="true"/>
 
-                <p:panel header="Create a new hotel" id="createHotel">  
+                <h:outputLabel for="hotel" value="Select Hotel: *" />  
+                <h:selectOneMenu id="hotel" value="#{hotelBean.hotelNames}" required="true">  
+                    <f:selectItem itemLabel="Select One" itemValue="" />  
+                    <f:selectItems value="#{hotelBean.hotelNames}" />  
+                </h:selectOneMenu>  
+
+                 <p:panel header="Create a new hotel" id="createHotel">  
                     <h:panelGrid id="grid">  
                         <p:row>
                             <p:column><h:outputLabel value="Hotel Name : *" for="hotelName"></h:outputLabel>

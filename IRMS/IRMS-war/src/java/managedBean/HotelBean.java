@@ -8,6 +8,7 @@ import ejb.HotelRoomBeanRemote;
 import entity.Hotel;
 import exception.ExistException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -16,7 +17,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.RowEditEvent;
 
 /**
@@ -32,6 +32,8 @@ public class HotelBean implements Serializable {
     private List<Hotel> hotels;
     private Hotel newHotel = new Hotel();
     private Hotel selectedHotel;
+    private List<String> hotelNames;
+    //private Hotel editedHotel;
     /**
      * Creates a new instance of HotelBean
      */
@@ -41,6 +43,10 @@ public class HotelBean implements Serializable {
     @PostConstruct
     private void init() {
         this.hotels = hotelBean.getHotels();
+        hotelNames=new ArrayList<String>();
+        for(int i=0; i<hotels.size(); i++){
+            hotelNames.add(hotels.get(i).getName());
+        }
     }
 
     public String reinit() {
@@ -53,7 +59,28 @@ public class HotelBean implements Serializable {
         hotels.add(newHotel);
         // newHotel = new Hotel();
     }
-
+    /*
+    public void checkSelect() {
+        if(selectedHotel==null){
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Please select a hotel", ""));
+            }
+        else
+            System.out.println(selectedHotel.getName());
+    }
+    
+    public void editHotel() throws ExistException {
+        try {
+            if(selectedHotel==null){
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Please select a hotel", ""));
+            }
+            editedHotel.setName(selectedHotel.getName());
+            this.hotelBean.editHotel(editedHotel.getName(), editedHotel.getAddress(),editedHotel.getTelNumber(),editedHotel.getDescription(),editedHotel.getCapacity(), editedHotel.getOverbookRate());
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Hotel "+editedHotel.getName()+ " edited successfully", ""));
+        }catch (Exception ex){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while editing the hotel: " + ex.getMessage(), ""));
+        }
+    }
+    */ 
     public void deleteHotel() throws ExistException {
         try {
             //String hotelName=FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("selectedHotel");
@@ -68,14 +95,19 @@ public class HotelBean implements Serializable {
         }
     }
 
-    public void onEdit(RowEditEvent event) {
-        FacesMessage msg = new FacesMessage("Hotel Edited", ((Hotel) event.getObject()).getName());
+    public void onEdit(RowEditEvent event) throws ExistException {
+        if(selectedHotel==null){
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Please select a hotel", ""));
+            }
+        this.hotelBean.editHotel(selectedHotel.getName(),selectedHotel.getAddress(), selectedHotel.getTelNumber(),selectedHotel.getDescription(), selectedHotel.getCapacity(), selectedHotel.getOverbookRate());
+        
+        FacesMessage msg = new FacesMessage("Hotel: " +((Hotel) event.getObject()).getName()+" Edited", "");
 
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     public void onCancel(RowEditEvent event) {
-        FacesMessage msg = new FacesMessage("Hotel Cancelled", ((Hotel) event.getObject()).getName());
+        FacesMessage msg = new FacesMessage("Cancelled editing Hotel: " +((Hotel) event.getObject()).getName()+" ", "");
 
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
@@ -104,4 +136,21 @@ public class HotelBean implements Serializable {
         this.selectedHotel = selectedHotel;
     }
     
+    /*
+    public Hotel getEditedHotel() {
+        return editedHotel;
+    }
+
+    public void setEditedHotel(Hotel editedHotel) {
+        this.editedHotel = editedHotel;
+    }
+    */ 
+
+    public List<String> getHotelNames() {
+        return hotelNames;
+    }
+
+    public void setHotelNames(List<String> hotelNames) {
+        this.hotelNames = hotelNames;
+    }
 }
