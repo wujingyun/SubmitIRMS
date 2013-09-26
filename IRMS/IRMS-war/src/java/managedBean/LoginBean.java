@@ -11,7 +11,9 @@ import entity.UserAccount;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,26 +39,23 @@ public class LoginBean implements Serializable {
     AdminUserBeanRemote aub;
     private String email;
     private String phone;
-
-   
     private String username;
     private String password;
     private UserAccount user;
-   
     private String division;
     private boolean active;
     private String subrole;
     private Map<String, String> divisions = new HashMap<String, String>();
     private Map<String, String> subroles = new HashMap<String, String>();
     private Map<String, Map<String, String>> suburbsData = new HashMap<String, Map<String, String>>();
-    private  List<UserAccount> divisionAccount =new ArrayList<UserAccount>();
-    private  Map<String, String>  accountByDivisionMap ;
+    private List<UserAccount> divisionAccount = new ArrayList<UserAccount>();
+    private Map<String, String> accountByDivisionMap;
     private String activateAccountName;
     private String deactivateAccountName;
-     private String UserExist="";
-       private String  confirmpassword;
-         private String match;
-         
+    private String UserExist = "";
+    private String confirmpassword;
+    private String match;
+
     public LoginBean() {
         divisions.put("Accomondation", "Accomondation");
         divisions.put("Shopping Mall", "Shopping Mall");
@@ -111,45 +110,40 @@ public class LoginBean implements Serializable {
         } else {
             subroles = new HashMap<String, String>();
         }
-        
-        
-        
-          System.out.println("match password ======================================"+password);
-          System.out.println("match password ======================================"+confirmpassword);
-       
+
+
+
+        System.out.println("match password ======================================" + password);
+        System.out.println("match password ======================================" + confirmpassword);
+
     }
 
-    
-     public void getAccountByDivisionToDe() {
-         accountByDivisionMap =new HashMap<String, String>();
-          if (division != null && !division.equals("")) {
+    public void getAccountByDivisionToDe() {
+        accountByDivisionMap = new HashMap<String, String>();
+        if (division != null && !division.equals("")) {
             divisionAccount = aub.getAccountByDivisionToDA(division);
         } else {
             divisionAccount = new ArrayList<UserAccount>();
-        } 
-          for (UserAccount u : divisionAccount) {
-      
-         accountByDivisionMap.put(u.getUserName(), u.getUserName());
-          }
-     }
-     
-     
-     
-       public void getAccountByDivisionToAc() {
-         accountByDivisionMap =new HashMap<String, String>();
-          if (division != null && !division.equals("")) {
+        }
+        for (UserAccount u : divisionAccount) {
+
+            accountByDivisionMap.put(u.getUserName(), u.getUserName());
+        }
+    }
+
+    public void getAccountByDivisionToAc() {
+        accountByDivisionMap = new HashMap<String, String>();
+        if (division != null && !division.equals("")) {
             divisionAccount = aub.getAccountByDivisionToA(division);
         } else {
             divisionAccount = new ArrayList<UserAccount>();
-        } 
-          for (UserAccount u : divisionAccount) {
-      
-         accountByDivisionMap.put(u.getUserName(), u.getUserName());
-          }
-     }
-       
-       
-       
+        }
+        for (UserAccount u : divisionAccount) {
+
+            accountByDivisionMap.put(u.getUserName(), u.getUserName());
+        }
+    }
+
     public void displayLocation() {
         //   FacesMessage msg = new FacesMessage("Selected", "Division:" + division + ", Role: " + subrole);  
         //  FacesContext.getCurrentInstance().addMessage(null, msg);  
@@ -159,43 +153,86 @@ public class LoginBean implements Serializable {
 
         return "manageContract2.xhtml?faces-redirect=true";
     }
-
+ public void submit(ActionEvent event) {  
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Correct", "Correct");  
+          
+        FacesContext.getCurrentInstance().addMessage(null, msg);  
+    }  
     public String login(ActionEvent actionEvent) {
+        
+        
+        
+        
+        
+        
+        
+        
         RequestContext context = RequestContext.getCurrentInstance();
         FacesMessage msg = null;
         boolean loggedIn = false;
         FacesContext facesContext = FacesContext.getCurrentInstance();
         String redirct;
-        
-      System.out.println("username is "+ username  + " password is " + password);
-        String hashPassword=aub.hashPassword(password);
-        
-       
-        if (username != null && password != null && aub.verifyPassword(username, hashPassword)) {
-            loggedIn = true;
-            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome", username);
+
+        System.out.println("username is " + username + " password is " + password);
+        String hashPassword = aub.hashPassword(password);
+        //if attmep number lesser than 5, allow login
+        //if attemp number larger than 5 and account has locked, only allow login after 5 mins .  
+
+        //attemp number lesser than 5 or it's 5 mins after last attemp, allow login
+        if ((aub.getLoginAttemp(username) <= 5) || (aub.checkLockOut(username) == true)) {
+            System.out.println("login number============" + aub.getLoginAttemp(username));
+            //have to reset attemp number to 0 and update attemp time(in the case where account is unlocked
+            //, otherwise, if login fails again, the account will be locked for another 5 min
+            if (aub.checkLockOut(username)) {
+                aub.setLoginAttempToZero(username);
+                aub.updateLoginAttempTime(username);
+            }
+            //auth
+            if (username != null && password != null && aub.verifyPassword(username, hashPassword)) {
+                loggedIn = true;
+                msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome", username);
+
+                user = aub.findUser(username);
+                aub.setLoginAttempToZero(username);
+                aub.updateLoginAttempTime(username);
+                
+                
+                // success,装入session中
+
+                Map<String, Object> map = facesContext.getExternalContext().getSessionMap();
+
+                map.put("user", user);
+
+                this.user = user;
+
+                redirct = "fail";
+
+
+
+
+            } 
             
-            user = aub.findUser(username);
+           //auth fails
+            else {
+                loggedIn = false;
+                aub.updateLoginAttemp(username);
+                aub.updateLoginAttempTime(username);
 
-            // success,装入session中
+                msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", "Invalid credentials");
+                user = null;
 
-            Map<String, Object> map = facesContext.getExternalContext().getSessionMap();
+                redirct = "loginSuccess";
 
-            map.put("user", user);
-
-            this.user = user;
-
-            redirct = "fail";
-
-
-
-
-        } else {
+            }
+        } 
+        
+        
+        //time diff is less than 5 mins, don't allow login 
+        else {
+            System.out.println("Exceed max login nunmber");
             loggedIn = false;
-            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", "Invalid credentials");
-            user = null;
-
-            redirct = "loginSuccess";
+            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", "Exceed Max Login Number! Please Try Login After 5 Mins");
+            redirct = "fail";
 
         }
 
@@ -205,6 +242,9 @@ public class LoginBean implements Serializable {
 
     }
 
+    
+    
+    
     public void logout() {
         RequestContext context = RequestContext.getCurrentInstance();
         boolean logout = false;
@@ -250,9 +290,9 @@ public class LoginBean implements Serializable {
 
         //email = "a0092208@nus.edu.sg";
         //phone = "83686522";
- 
+
         if (username != null && password != null && division != null) {
-String hashPassword=aub.hashPassword(password);
+            String hashPassword = aub.hashPassword(password);
             //msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome", username);
 
             aub.register(username, thesubrole, hashPassword, division, active, phone, email);
@@ -272,88 +312,74 @@ String hashPassword=aub.hashPassword(password);
 
     }
 
-    
-    
+    public void isUsernameValid() {
+        boolean ifUserExist = aub.checkUserExist(username);
+        if (ifUserExist) {
+            UserExist = "Invalid Username, same username already exist.";
 
-
-
-    
-    public void isUsernameValid(){
-      boolean ifUserExist=aub.checkUserExist(username);
-       if(ifUserExist) 
-       { UserExist="Invalid Username, same username already exist.";
-      
-       }
-       else 
-       {UserExist="";}
-    
-    }
-    
-    
-    
-    
-    
-    
-    public void updatePassword(){
- 
-    }
-    
-     public void matchPassword(){
-          FacesMessage msg = null;
-       if(password.equals(confirmpassword) )
-       {match="";
+        } else {
+            UserExist = "";
         }
-       else 
-       { match="Password didn't Match";
-         msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Password doesn't matcb", "re-enter password");
-       }
+
     }
-    
-    public void deactive(){
-    
-     RequestContext context = RequestContext.getCurrentInstance();
+
+    public void updatePassword() {
+    }
+
+    public void matchPassword() {
         FacesMessage msg = null;
-     
-        if (deactivateAccountName != null ) {
+        if (password.equals(confirmpassword)) {
+            match = "";
+        } else {
+            match = "Password didn't Match";
+            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Password doesn't matcb", "re-enter password");
+        }
+    }
+
+    public void deactive() {
+
+        RequestContext context = RequestContext.getCurrentInstance();
+        FacesMessage msg = null;
+
+        if (deactivateAccountName != null) {
 
             aub.deactivateAcct(deactivateAccountName);
-            
+
             msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Deactivate Successfully", username);
 
 
         } else {
-           
+
             msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Deactivate Error", "Select account to deactivate");
 
         }
 
         FacesContext.getCurrentInstance().addMessage(null, msg);
-       
+
     }
-    
-    
-     public void activate(){
-    
-     RequestContext context = RequestContext.getCurrentInstance();
+
+    public void activate() {
+
+        RequestContext context = RequestContext.getCurrentInstance();
         FacesMessage msg = null;
-     
-        if (activateAccountName != null ) {
+
+        if (activateAccountName != null) {
 
             aub.activateAcct(activateAccountName);
-            
+
             msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Activate Successfully", username);
 
 
         } else {
-           
+
             msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Activate Error", "Select account to activate");
 
         }
 
         FacesContext.getCurrentInstance().addMessage(null, msg);
-       
+
     }
-    
+
     public AdminUserBeanRemote getAub() {
         return aub;
     }
@@ -429,8 +455,8 @@ String hashPassword=aub.hashPassword(password);
     public void setPassword(String password) {
         this.password = password;
     }
-    
-     public void setEmail(String email) {
+
+    public void setEmail(String email) {
         this.email = email;
     }
 
@@ -453,7 +479,7 @@ String hashPassword=aub.hashPassword(password);
     public boolean isActive() {
         return active;
     }
-    
+
     public List<UserAccount> getDivisionAccount() {
         return divisionAccount;
     }
@@ -477,7 +503,8 @@ String hashPassword=aub.hashPassword(password);
     public void setActivateAccountName(String activateAccountName) {
         this.activateAccountName = activateAccountName;
     }
-        public String getUserExist() {
+
+    public String getUserExist() {
         return UserExist;
     }
 
@@ -500,7 +527,7 @@ String hashPassword=aub.hashPassword(password);
     public void setConfirmpassword(String confirmpassword) {
         this.confirmpassword = confirmpassword;
     }
-    
+
     public String getMatch() {
         return match;
     }

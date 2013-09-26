@@ -32,4 +32,16 @@ public interface AdminUserBeanRemote {
     public List<UserAccount> getAccountByDivisionToA(String division);
 
     public List<UserAccount> getAccountByDivisionToDA(String division);
+
+    public void updateLoginAttemp(String userName);
+
+    public int getLoginAttemp(String userName);
+
+    public boolean checkLockOut(String userName);
+
+    public void setLoginAttempToZero(String userName);
+
+    public void updateLoginAttempTime(String userName);
+
+  
 }

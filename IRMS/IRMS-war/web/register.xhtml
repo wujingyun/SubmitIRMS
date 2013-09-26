@@ -31,18 +31,13 @@
             
            <p:focus context="panel" />  
                
-              
-              
-          
-          
-            
-              
+             
                <p:inputText id="username" required="true" label="username"
 		size="40" requiredMessage="Please enter your username."
                 value="#{loginBean.username}">  
             <p:ajax event="keyup" update="out"   
                     listener="#{loginBean.isUsernameValid()}"
-                    oncomplete="handleLoginRequest(xhr, status, args)"/>  
+                  />  
         </p:inputText>   
             <p:watermark for="username" value="Username *" />
 	<h:outputText id="out" value="#{loginBean.userExist}" /> 

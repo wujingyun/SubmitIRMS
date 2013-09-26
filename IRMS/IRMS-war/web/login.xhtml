@@ -20,7 +20,11 @@
             window.location="http://localhost:8080/IRMS-war/manageContract2.xhtml" ;
         }
     }
-    
+  
+    function   validateCode() {    
+       document.getElementById('getCode').src="validateCode.jsp?"+Math.ceil(Math.random()*1000);    
+     }     
+
    
 </script>
     <h:body>
@@ -28,7 +32,7 @@
     <h:outputLink id="loginLink" value="javascript:void(0)" onclick="dlg.show()" title="login">	
         <p:graphicImage value="login.png" />
     </h:outputLink>
-
+ 
     <p:growl id="growl" showDetail="true" life="3000" />
 
     <p:dialog id="dialog" header="Login" widgetVar="dlg" resizable="false">
@@ -43,14 +47,20 @@
 					id="password" required="true" label="password" />
 			
                         
-                        <f:facet name="footer">
+                      
+                        
+                        
+   
+    
+  
+		
+		 <p:captcha label="Captcha"/>  
+    <f:facet name="footer">
 				<p:commandButton id="loginButton" value="Login" update="growl" 
 					actionListener="#{loginBean.login}" 
 					oncomplete="handleLoginRequest(xhr, status, args)"/>
 			</f:facet>
-                       
-		</h:panelGrid>
-		
+    </h:panelGrid>
     </p:dialog>
    
     

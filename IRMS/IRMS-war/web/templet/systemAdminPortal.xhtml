@@ -98,8 +98,8 @@
             
             
             <div id="left" > 
-                   <h:panelGroup rendered="#{loginBean2.loggedIn}">
-                    <p>Welcome, #{loginBean2.username}</p>
+                   <h:panelGroup rendered="#{loginBean.loggedIn}">
+                    <p>Welcome, #{loginBean.username}</p>
 </h:panelGroup>
                 
                 <h5 style="background-color:#ece3a5"> Internal message   </h5>
@@ -117,7 +117,7 @@
                 <div id="right">
                     <ui:insert name="rightInsert">Right</ui:insert>
                       <p:commandButton  id="logoutButton" value="Logout"
-					actionListener="#{loginBean2.logout}" />
+					actionListener="#{loginBean.logout}" />
                 </div>
                 <div id="content" class="right_content">
                     
