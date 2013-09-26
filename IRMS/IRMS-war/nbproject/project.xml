@@ -44,6 +44,9 @@
                 <id>dist</id>
             </reference>
         </references>
+        <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
+            <word>adfasfadfas</word>
+        </spellchecker-wordlist>
         <spring-data xmlns="http://www.netbeans.org/ns/spring-data/1">
             <config-files/>
             <config-file-groups>

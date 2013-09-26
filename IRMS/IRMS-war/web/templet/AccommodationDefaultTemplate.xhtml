@@ -5,7 +5,6 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui">
-
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -23,7 +22,6 @@
     </h:head>
 
     <h:body>
-
         <div id="top" >
             <ui:insert name="topInsert"></ui:insert>
             <h1>IR Internal Portal</h1>
@@ -67,21 +65,20 @@
                 </div><!-- /.navbar-collapse -->
             </nav>
         </div>  
-
         <div>
             <div id="left" > 
                 <h:panelGroup rendered="#{loginBean2.loggedIn}">
                     <p>Welcome, #{loginBean2.username}</p>
                 </h:panelGroup>
                 <h5 style="background-color:#ece3a5"> Internal message</h5>
-                <ui:insert name="leftInsert">  </ui:insert>
                 <h3><span class="glyphicon glyphicon-envelope"></span></h3>
-                <ui:insert name="rightInsert"></ui:insert>
+                <ui:insert name="leftInsert"></ui:insert>
             </div>
             <div>
                 <div id="right">
                     <p:commandButton  id="logoutButton" value="Logout"
                                       actionListener="#{loginBean2.logout}" />
+                    <ui:insert name="rightInsert"></ui:insert>
                 </div>
 
                 <div id="content" class="right_content">
@@ -91,6 +88,6 @@
                 </div> 
             </div>
         </div>
+         
     </h:body>
-
 </html>

@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <h:panelGroup>
+            <h:form id="hotels">
+
+                <p:growl id="messages" showDetail="true"/> 
+
+                <p:contextMenu for="hotels">  
+                    <p:menuitem value="Delete" update="hotels" icon="ui-icon-close" actionListener="#{testBean.deleteHotel}"/>  
+                </p:contextMenu>  
+
+                <p:dataTable var="hotel" value="#{testBean.hotels}" id="hotels" editable="true" rowKey="#{hotel.name}"  
+                 selection="#{testBean.selectedHotel}" selectionMode="single"> 
+
+                    <f:facet name="header">  
+                        IR Hotels
+                    </f:facet>
+
+                    <p:ajax event="rowEdit" listener="#{testBean.onEdit}" update=":hotels:messages" />  
+                    <p:ajax event="rowEditCancel" listener="#{testBean.onCancel}" update=":hotels:messages" />  
+
+                    <p:column headerText="Hotel Name" filterBy="#{hotel.name}" filterMatchMode="contains"> 
+                        <p:cellEditor>
+                            <f:facet name="output">  
+                                <h:outputText value="#{hotel.name}" />  
+                            </f:facet>  
+                            <f:facet name="input">  
+                                <p:inputText value="#{hotel.name}" style="width:100%"/>  
+                            </f:facet> 
+                        </p:cellEditor>
+                    </p:column>  
+
+                    <p:column headerText="Address">  
+                        <p:cellEditor>
+                            <f:facet name="output">  
+                                <h:outputText value="#{hotel.address}" />  
+                            </f:facet>  
+                            <f:facet name="input">  
+                                <p:inputText value="#{hotel.address}" style="width:100%"/>  
+                            </f:facet> 
+                        </p:cellEditor>
+                    </p:column>  
+
+                    <p:column headerText="Contact Number">  
+                        <p:cellEditor>
+                            <f:facet name="output">  
+                                <h:outputText value="#{hotel.telNumber}" />  
+                            </f:facet>  
+                            <f:facet name="input">  
+                                <p:inputText value="#{hotel.telNumber}" style="width:100%"/>  
+                            </f:facet> 
+                        </p:cellEditor>
+                    </p:column>  
+
+                    <p:column headerText="Description"> 
+                        <p:cellEditor>
+                            <f:facet name="output">  
+                                <h:outputText value="#{hotel.description}" />  
+                            </f:facet>  
+                            <f:facet name="input">  
+                                <p:inputText value="#{hotel.description}" style="width:100%"/>  
+                            </f:facet> 
+                        </p:cellEditor>
+
+                    </p:column>
+
+                    <p:column headerText="Capacity" sortBy="#{hotel.capacity}" filterBy="#{hotel.capacity}" filterMatchMode="contains"> 
+                        <p:cellEditor>
+                            <f:facet name="output">  
+                                <h:outputText value="#{hotel.capacity}" />  
+                            </f:facet>  
+                            <f:facet name="input">  
+                                <p:inputText value="#{hotel.capacity}" style="width:100%"/>  
+                            </f:facet> 
+                        </p:cellEditor>
+
+                    </p:column>
+
+                    <p:column headerText="Overbook Rate"> 
+                        <p:cellEditor>
+                            <f:facet name="output">  
+                                <h:outputText value="#{hotel.overbookRate} " />  
+                            </f:facet>  
+                            <f:facet name="input">  
+                                <p:inputText value="#{hotel.overbookRate} " style="width:100%"/>  
+                            </f:facet> 
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column>  
+                        <p:rowEditor />  
+                    </p:column> 
+
+                </p:dataTable>
+            </h:form>
+        </h:panelGroup>
+    </h:body>
+</html>
+

@@ -5,47 +5,68 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core">
     <h:head>
-        <title>Facelet Title</title>
+        <title>List IR Hotels</title>
     </h:head>
     <h:body>
-            <p:panel header="IR Hotels">
-                <h:form id="hotels" >  
-                    <p:dataTable id="hotels" var="hotel" value="#{accommodationManagedBean.hotels}">  
-                        <p:column headerText="Hotel Name">  
-                            #{hotel.name}  
-                        </p:column>  
+        <h:form id="hotels">
+            
+            <p:dataTable var="hotel" value="#{hotelRoomManagedBean.hotels}" editable="true"> 
+                <!--
+                <p:growl id="messages" showDetail="true"/>  
+                -->
+                <f:facet name="header">  
+                    IR Hotels
+                </f:facet>
+                <!--
+                <p:ajax event="rowEdit" listener="#{hotelRoomManagedBean.onEdit}" update=":hotels:messages" />  
+                <p:ajax event="rowEditCancel" listener="#{hotelRoomManagedBean.onCancel}" update=":hotels:messages" />  
+                -->
+                <p:column headerText="Hotel Name"> 
+                    <p:cellEditor>
+                        <f:facet name="output">  
+                            <h:outputText value="#{hotel.name}" />  
+                        </f:facet>  
+                        <f:facet name="input">  
+                            <p:inputText value="#{hotel.name}" style="width:100%"/>  
+                        </f:facet> 
+                    </p:cellEditor>
+                </p:column>  
 
-                        <p:column headerText="Address">  
-                            #{hotel.address}  
-                        </p:column>  
+                <p:column headerText="Address">  
+                    #{hotel.address}  
+                </p:column>  
 
-                        <p:column headerText="Contact Number" >  
-                            #{hotel.telNumber}  
-                        </p:column>  
+                <p:column headerText="Contact Number">  
+                    #{hotel.telNumber}  
+                </p:column>  
 
-                        <p:column headerText="Description">  
-                            #{hotel.description}  
-                        </p:column>
+                <p:column headerText="Description">  
+                    #{hotel.description}  
+                </p:column>
 
-                        <p:column headerText="Capacity">  
-                            #{hotel.capacity}  
-                        </p:column>
+                <p:column headerText="Capacity">  
+                    #{hotel.capacity}  
+                </p:column>
 
-                        <p:column headerText="Overbook Rate">  
-                            #{hotel.overbookRate}  
-                        </p:column>
+                <p:column headerText="Overbook Rate">  
+                    #{hotel.overbookRate}  
+                </p:column>
 
-                        <p:column headerText="Rooms">  
-                            <f:ajax render=":dataForm" execute="@this">
-                                <b><u><h:commandLink value="Get Rooms" action="#{accommodationNavBean.doNav}" >
-                                    <f:param name="link" value="listRooms.xhtml" />
-                                    <f:param name="hotelName" value="#{hotel.name}"/>
-                                </h:commandLink></u></b>
-                            </f:ajax>
-                        </p:column>
-                    </p:dataTable>
-                </h:form> 
-            </p:panel>
+                <p:column headerText="Rooms">  
+                    <f:ajax render=":dataForm" execute="@this" listener="#{hotelRoomManagedBean.setHotelName(hotel.name)}">
+                        <h:commandButton value="Get Rooms" action="#{accommodationNavBean.doNav()}" actionListener="#{hotelRoomManagedBean.listRooms()}">
+                            <!--<f:param name="hotelName" value="#{hotel.name}" /> -->
+                            <f:param name="link" value="listRooms.xhtml" />
+                            <!--<f:setPropertyActionListener target="#{hotelRoomManagedBean.hotelName}" value="#{hotel.name}"/> -->
+                        </h:commandButton>
+                    </f:ajax>
+                </p:column>
+
+                <p:column>  
+                    <p:rowEditor />  
+                </p:column> 
+            </p:dataTable>
+        </h:form>
     </h:body>
 </html>
 

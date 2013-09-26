@@ -25,6 +25,7 @@ public class AccommodationNavBean {
     }
     public void doNav() {
         String str = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("link");
+        //System.out.println(str);
         this.pageName = str;
     }
 
