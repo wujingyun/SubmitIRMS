@@ -11,6 +11,7 @@ import entity.Room;
 import exception.ExistException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -30,6 +31,11 @@ public class HotelRoomBean implements HotelRoomBeanRemote {
     MiniBarItem miniBarItem;
 
     public HotelRoomBean() {
+    }
+    
+    @Override
+    public void createHotel(Hotel hotel){
+        em.persist(hotel);
     }
 
     @Override
@@ -202,14 +208,18 @@ public class HotelRoomBean implements HotelRoomBeanRemote {
     }
 
     @Override
-    public Collection<Hotel> getHotels() {
+    public List<Hotel> getHotels() {
         Query q = em.createQuery("SELECT h FROM Hotel h");
+        /*
         Collection<Hotel> hotels = new ArrayList();
         for (Object o : q.getResultList()) {
             Hotel h = (Hotel) o;
             hotels.add(h);
         }
+        
         return hotels;
+        */
+        return q.getResultList();
     }
 
     @Override

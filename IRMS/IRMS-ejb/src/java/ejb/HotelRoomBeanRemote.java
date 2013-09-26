@@ -9,6 +9,7 @@ import entity.MiniBarItem;
 import entity.Room;
 import exception.ExistException;
 import java.util.Collection;
+import java.util.List;
 import javax.ejb.Remote;
 
 /**
@@ -17,6 +18,7 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface HotelRoomBeanRemote {
+    public void createHotel(Hotel hotel);
     public void addHotel(String name, String address, String telNumber,  String description, Integer capacity, double overbookRate)throws ExistException;
     public void editHotel(String name, String newName, String address, String telNumber,  String description, Integer capacity, double overbookRate)throws ExistException;
     public void removeHotel(String name) throws ExistException;
@@ -28,7 +30,7 @@ public interface HotelRoomBeanRemote {
     public void removeMiniBarItem(String hotelName, String name)throws ExistException;
     public void updateRoomAvailability(String hotelName, Integer roomNumber, String availabilityStatus)throws ExistException;
     public void updateHousekeepingStatus(String hotelName, Integer roomNumber, String housekeepingStatus)throws ExistException;
-    public Collection<Hotel> getHotels();
+    public List<Hotel> getHotels();
     public Collection<Room> getRooms(String hotelName)throws ExistException;
     public Collection<MiniBarItem> getMiniBarItems(String hotelName)throws ExistException;
 }
