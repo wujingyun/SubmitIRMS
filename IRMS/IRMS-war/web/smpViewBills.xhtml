@@ -18,6 +18,7 @@ and open the template in the editor.
            
             
             <h:form id="form1"> 
+                
                 <p:dataTable  paginator="true"  rows="10" binding="#{billManagedBean.dataTable}" style="border: solid 2px black;"
                               value="#{billManagedBean.bills}" var="bills">
                    
@@ -65,15 +66,15 @@ and open the template in the editor.
             
             <h:form id="form2">
                   <p:growl id="growl" showDetail="true" life="3000" />  
-               <p:dialog header="Bill Payment" modal="true" showEffect="fade" hideEffect="fade" widgetVar="vb"> 
-                    <h:panelGrid columns="1" cellpadding="5">
-                     
-                    <h:outputText  style="display:block; text-align:center" value="The bill has been cleared" />   
-
+                  <p:confirmDialog header="Bill Payment" showEffect="fade" hideEffect="fade" widgetVar="vb" message="Are you sure the bill has been cleared?"> 
                    
-                    <p:commandButton  style="display:block; text-align:center" value="Okay" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-close" onclick="vb.hide();"/>
-                   </h:panelGrid>
-                </p:dialog>
+                     
+     
+                   
+                    <p:commandButton  style="display:block; text-align:center" value="Okay" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" 
+                                      actionListener="#{billManagedBean.changeStatus}" onclick="vb.hide();" update="growl"/>
+             
+                </p:confirmDialog>
             </h:form>
             
             

@@ -14,7 +14,7 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface ManageCatalogBeanRemote {
-     public void editStoreInfo(String storeName, String description, String storeContact,String operatingHours);
+    
      public void addProductItem(Long ShopID,String category,String name,String description
             ,Integer quantityOnHand,BigDecimal unitPrice) throws ExistException;
       public void editProductItem(String category,String name,String description

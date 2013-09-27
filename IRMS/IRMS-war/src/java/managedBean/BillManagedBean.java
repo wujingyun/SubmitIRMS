@@ -10,8 +10,10 @@ import entity.ShopBill;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -22,6 +24,8 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import org.primefaces.component.datatable.DataTable;
+import org.primefaces.model.chart.PieChartModel;
+
 
 /**
  *
@@ -40,33 +44,27 @@ public class BillManagedBean implements Serializable {
     private DataTable dataTable;
     private Shop shopEntity;
     private double rentRate;
-  
     private static Collection<ShopBill> bills;
     private ShopBill billEntity;
-     private String description;
+    private String description;
     private String operatinghours;
     private String storeContact;
-    
-    
+   // private HashMap<String, Integer> cache;
+  //  private PieChartModel model;
+
     @PostConstruct
     public void init() {
         this.shopList = mtb.getShopList();
+    //    this.cache = mtb.viewTenancyMix();
+       
     }
 
     public BillManagedBean() {
+     
     }
 
-    public void editShopEntity(ActionEvent event) {
-        shopEntity = (Shop) dataTable.getRowData();
-        System.out.println("BIll managed bean! edit shop entity " + shopEntity.getOwner());
-        this.setShopEntity(shopEntity);
-        System.out.println("BIll managed bean! edit shop entity " + getShopEntity().getOwner());
-        System.out.println("BIll managed bean! edit shop entity " + getShopEntity().getContract().getRentRate());
+    public void createBill(ActionEvent event) {
 
-
-        rentRate = Double.parseDouble(getShopEntity().getContract().getRentRate());
-        this.setRentRate(rentRate);
-        System.out.println("bill in String  " + rentRate + " in double" + this.getRentRate());
         try {
             mtb.creatBill(rentRate, 0, getShopEntity().getShopID());
             this.setBills(bills);
@@ -83,24 +81,24 @@ public class BillManagedBean implements Serializable {
         billEntity = (ShopBill) dataTable.getRowData();
         System.out.println("BIll managed bean! edit bill entity " + billEntity.getBillID());
         this.setBillEntity(billEntity);
-       
-        
-        System.err.println("billEntity status"+billEntity.isBillStatus());
+
+
+        System.err.println("billEntity status" + billEntity.isBillStatus());
         mtb.EditBillStatus(billEntity.getBillID());
     }
 
-  /*  public void changeStatus(ActionEvent event) {
+    public void changeStatus(ActionEvent event) {
         try {
             System.err.println("change status");
-            billEntity.setBillStatus(false);
+            mtb.EditBillStatus(getBillEntity().getBillID());
 
-           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "The bill has been paid successfully", ""));
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "An error has occurred while processing the new bill: ", ""));
         }
-    }*/
+    }
 
     public void editShopEntityBeta(ActionEvent event) {
         shopEntity = (Shop) dataTable.getRowData();
@@ -136,19 +134,22 @@ public class BillManagedBean implements Serializable {
                     "An error has occurred while redirecting page: " + ex.getMessage(), ""));
         }
     }
-    
-     public void editShopEntityAlpha(ActionEvent event) {
+
+    public void editShopEntityAlpha(ActionEvent event) {
         shopEntity = (Shop) dataTable.getRowData();
         System.out.println("BIll managed bean! edit shop entity a " + shopEntity.getOwner());
         this.setShopEntity(shopEntity);
+        rentRate = Double.parseDouble(getShopEntity().getContract().getRentRate());
+        this.setRentRate(rentRate);
         System.out.println("BIll managed bean! edit shop entity a" + getShopEntity().getOwner());
         System.out.println("BIll managed bean! edit shop entity a" + getShopEntity().getContract().getRentRate());
-    
+
     }
-     public void saveShopInfo(ActionEvent event){
-              try {
+
+    public void saveShopInfo(ActionEvent event) {
+        try {
             mtb.EditShopInfo(getShopEntity().getShopID(), description, operatinghours, storeContact);
-        
+
             //save shop
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "New information saved successfully", ""));
@@ -157,9 +158,53 @@ public class BillManagedBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "An error has occurred while saving the new information: " + ex.getMessage(), ""));
         }
-     }
-  
+    }
     
+   /* public void createModel() {  
+        
+        this.cache = mtb.viewTenancyMix();
+        model = new PieChartModel();  
+        
+        for (Iterator<Map.Entry<String, Integer>> it = getCache().entrySet().iterator(); it.hasNext();) {
+            Map.Entry entry = it.next();
+            System.out.println("In managed bean key,val: " + entry.getKey() + "," + entry.getValue());
+            Integer i = (Integer)entry.getValue();
+            model.set((String)entry.getKey(), i.intValue());
+        }
+       
+    }  */
+
+    public void viewTenancyMix(ActionEvent event) {
+        
+        /*try{
+            
+         mtb.viewTenancyMix();
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+         "View Tenancy Mix successfully", ""));
+         }catch (Exception ex) {
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+         "An error has occurred while viewing the tenancy result: " + ex.getMessage(), ""));
+         }*/
+     /*    for (Iterator<Map.Entry<String, Integer>> it = getCache().entrySet().iterator(); it.hasNext();) {
+            Map.Entry entry = it.next();
+            System.out.println("In managed bean key,val: " + entry.getKey() + "," + entry.getValue());       
+        }
+        this.createModel();*/
+      
+        
+            String url = "tenancyMix.xhtml";
+            FacesContext fc = FacesContext.getCurrentInstance();
+            ExternalContext ec = fc.getExternalContext();
+            
+            try {
+                ec.redirect(url);
+            } catch (Exception ex) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "An error has occurred while redirecting page: " + ex.getMessage(), ""));
+            }    
+            
+            
+    }
 
     public void createBill() {
         try {
@@ -247,4 +292,19 @@ public class BillManagedBean implements Serializable {
         this.storeContact = storeContact;
     }
 
+  /*  public HashMap<String, Integer> getCache() {
+        return cache;
+    }
+
+    public void setCache(HashMap<String, Integer> cache) {
+        this.cache = cache;
+    }
+
+    public PieChartModel getModel() {
+        return model;
+    }
+
+    public void setModel(PieChartModel model) {
+        this.model = model;
+    }*/
 }
