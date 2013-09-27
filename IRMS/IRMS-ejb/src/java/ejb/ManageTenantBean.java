@@ -116,4 +116,21 @@ public class ManageTenantBean implements ManageTenantBeanRemote {
         em.flush();
     }
     
+    @Override
+    public void EditShopInfo(Long BillID,String description,String operatinghours,String storeContact){
+        shop = new Shop();
+        shop =em.find(Shop.class, BillID);
+        if(description!=null){
+        shop.setDescription(description);
+        }
+         if(description!=null){
+       shop.setOperatinghours(operatinghours);
+        }
+         if(description!=null){
+         shop.setStoreContact(storeContact);
+        }
+        shop.setStoreContact(storeContact);
+        em.flush();
+    }
+    
 }

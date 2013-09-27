@@ -22,4 +22,5 @@ public interface ManageTenantBeanRemote {
     public void EditBillStatus(Long BillID);
    public List<Shop> getShopList();
     public Collection<ShopBill> sendBills(Long ShopID);
+    public void EditShopInfo(Long BillID,String description,String operatinghours,String storeContact);
 }

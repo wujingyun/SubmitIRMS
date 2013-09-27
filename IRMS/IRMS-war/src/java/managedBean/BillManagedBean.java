@@ -17,6 +17,7 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -27,7 +28,7 @@ import org.primefaces.component.datatable.DataTable;
  * @author wangxiahao
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class BillManagedBean implements Serializable {
 
     @EJB
@@ -42,6 +43,9 @@ public class BillManagedBean implements Serializable {
   
     private static Collection<ShopBill> bills;
     private ShopBill billEntity;
+     private String description;
+    private String operatinghours;
+    private String storeContact;
     
     
     @PostConstruct
@@ -132,6 +136,30 @@ public class BillManagedBean implements Serializable {
                     "An error has occurred while redirecting page: " + ex.getMessage(), ""));
         }
     }
+    
+     public void editShopEntityAlpha(ActionEvent event) {
+        shopEntity = (Shop) dataTable.getRowData();
+        System.out.println("BIll managed bean! edit shop entity a " + shopEntity.getOwner());
+        this.setShopEntity(shopEntity);
+        System.out.println("BIll managed bean! edit shop entity a" + getShopEntity().getOwner());
+        System.out.println("BIll managed bean! edit shop entity a" + getShopEntity().getContract().getRentRate());
+    
+    }
+     public void saveShopInfo(ActionEvent event){
+              try {
+            mtb.EditShopInfo(getShopEntity().getShopID(), description, operatinghours, storeContact);
+        
+            //save shop
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "New information saved successfully", ""));
+        } catch (Exception ex) {
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "An error has occurred while saving the new information: " + ex.getMessage(), ""));
+        }
+     }
+  
+    
 
     public void createBill() {
         try {
@@ -195,5 +223,28 @@ public class BillManagedBean implements Serializable {
         this.billEntity = billEntity;
     }
 
-  
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getOperatinghours() {
+        return operatinghours;
+    }
+
+    public void setOperatinghours(String operatinghours) {
+        this.operatinghours = operatinghours;
+    }
+
+    public String getStoreContact() {
+        return storeContact;
+    }
+
+    public void setStoreContact(String storeContact) {
+        this.storeContact = storeContact;
+    }
+
 }

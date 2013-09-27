@@ -25,12 +25,19 @@ and open the template in the editor.
 
                         </h:outputText>   
                     </p:column> 
-
-                    <p:column id="Category" filterBy="#{contractRecord.purpose}"   
-                              headerText="Cateogry"  
+                    
+                    <p:column id="contractType" filterBy="#{contractRecord.contractType}"   
+                              headerText="Contract Type"  
                               filterMatchMode="contains" > 
 
-                        <h:outputText value="#{contractRecord.purpose}" /> 
+                        <h:outputText value="#{contractRecord.contractType}"/>
+                    </p:column>
+
+                    <p:column id="Tradename" filterBy="#{contractRecord.shop.name}"   
+                              headerText="Trade Name"  
+                              filterMatchMode="contains" > 
+
+                        <h:outputText value="#{contractRecord.shop.name}" /> 
 
                     </p:column>
 
@@ -38,7 +45,7 @@ and open the template in the editor.
                               headerText="Floor Area"  
                               filterMatchMode="contains" > 
 
-                        <h:outputText value="#{contractRecord.floorArea} Square Meters" /> 
+                        <h:outputText value="#{contractRecord.floorArea}M"/><sup>2</sup>
                     </p:column>
                     <p:column id="DateOfExpiry" filterBy="#{contractRecord.dateOfExpiry}"   
                               headerText="Date Of Expiry"   
@@ -47,29 +54,15 @@ and open the template in the editor.
                         <h:outputText value="#{contractRecord.dateOfExpiry.time}" styleClass="date"> <f:convertDateTime pattern="dd-MM-yyyy" />
                         </h:outputText>   
                     </p:column>
+                    
+                    <p:column id="DateOfExecution" filterBy="#{contractRecord.dateOfExecution}"   
+                              headerText="Date Of Execution"   
+                              filterMatchMode="contains" > 
 
-
-                    <p:column id="minirent" filterBy="#{contractRecord.minimumRent}"   
-                              headerText="Minimum Rent"  
-                              filterMatchMode="exact" > 
-
-                        <h:outputText value="$ #{contractRecord.minimumRent}" /> 
+                        <h:outputText value="#{contractRecord.dateOfExecution.time}" styleClass="date"> <f:convertDateTime pattern="dd-MM-yyyy" />
+                        </h:outputText>   
                     </p:column>
 
-
-                    <p:column id="rent" filterBy="#{contractRecord.rentRate}"   
-                              headerText="Monthly Rent Rate"  
-                              filterMatchMode="exact" > 
-
-                        <h:outputText value="$ #{contractRecord.rentRate}" /> 
-                    </p:column>
-
-                    <p:column id="deposit" filterBy="#{contractRecord.upfrontRentalDeposit}"   
-                              headerText="Monthly Rent Rate"  
-                              filterMatchMode="exact" > 
-
-                        <h:outputText value="$ #{contractRecord.upfrontRentalDeposit}" /> 
-                    </p:column>
 
                     <p:column headerText="Terminate a Contract">  
                         <p:commandButton icon="ui-icon-plus" oncomplete="dlg.show();" >
@@ -90,7 +83,7 @@ and open the template in the editor.
                         <h:panelGrid columns="2" id="display">                        
                             <h:outputText value="Contract Type: #{contractRecord.contractType}" />  
                             <p:column>
-                            <h:outputText value="Date: "/> 
+                            <h:outputText value="Date Of Expiry: "/> 
                             <h:outputText value="#{contractRecord.dateOfExpiry.time}" styleClass="date"> <f:convertDateTime pattern="dd-MM-yyyy" />                              
                             </h:outputText> 
                             </p:column>
@@ -104,9 +97,9 @@ and open the template in the editor.
                             <h:outputText value="Tenant's ID: #{contractRecord.identityCard}" /> 
                            
                             <h:outputText value="Cateogry: #{contractRecord.purpose}" /> 
-                            <h:outputText value="Minimum Rent: #{contractRecord.minimumRent}" /> 
-                            <h:outputText value="Rent Rate: #{contractRecord.rentRate}" /> 
-                            <h:outputText value="Upfront Rental Deposit: #{contractRecord.upfrontRentalDeposit}" />
+                            <h:outputText value="Minimum Rent:$ #{contractRecord.rentRate}" /> 
+                            <h:outputText value="Monthly Rent Rate:$ #{contractRecord.rentRate}" /> 
+                            <h:outputText value="Upfront Rental Deposit:$ #{contractRecord.upfrontRentalDeposit}" />
                         </h:panelGrid>  
                          <f:facet name="footer">
                             <p:commandButton id="terminate" value="Terminate The Contract" update="growl" 
@@ -115,7 +108,7 @@ and open the template in the editor.
                     </p:dialog> 
                     
                 </p:panel>
-               </h:form>>
+               </h:form>
         </f:view>
     </h:body>
 </html>

@@ -11,76 +11,127 @@ and open the template in the editor.
                 xmlns:f="http://java.sun.com/jsf/core">
 
     <ui:define name="topInsert">
-      
+
     </ui:define>
 
     <ui:define name="leftInsert">
-      
+
     </ui:define>
 
     <ui:define name="rightInsert">
-      
+
     </ui:define>
 
     <ui:define name="contentInsert">
+
+
+        <h:form id="form1">
            
-            
-            <h:form id="form1"> 
-                <p:dataTable  paginator="true"  rows="10" binding="#{billManagedBean.dataTable}" style="border: solid 2px black;"
-                             value="#{billManagedBean.shopList}" var="shopEntity">
-                    
-                    <p:column id="ID" filterBy="#{shopEntity.shopID}" style="width:10px;"   
-                              headerText="Shop ID "   
-                              filterMatchMode="contains" > 
-
-                        <h:outputText value="#{shopEntity.shopID}" /> 
-                    </p:column> 
-                    
-                    <p:column id="ShopName" filterBy="#{shopEntity.name}"   
-                              headerText="Shop Name "  
-                              filterMatchMode="contains"  style="width: 10px"> 
-                        <h:outputText value="#{shopEntity.name}">
-
-                        </h:outputText>   
-                    </p:column> 
-                    
-                    <p:column id="Owner" filterBy="#{shopEntity.owner}"   
-                              headerText="Shop Owner "   
-                              filterMatchMode="contains" style="width: 10px" > 
-                        <h:outputText value="#{shopEntity.owner}" /> 
-                    </p:column> 
-                    
-                    <p:column id="RentRate" filterBy="#{shopEntity.contract.rentRate}"   
-                              headerText="Rent Rate "   
-                              filterMatchMode="contains" style="width: 10px" > 
-
-                        <h:outputText value="#{shopEntity.contract.rentRate}" /> 
-                    </p:column>
-
-                 
-                    
-             
-                    <p:column headerText="Create Bill" style="width: 15px">  
-                        <p:commandButton icon="ui-icon-plus" actionListener="#{billManagedBean.editShopEntity}" oncomplete="dlg.show();" title="Create Bill"
-                         update=":form2:dlg1"                />  
-                    </p:column>  
-                    <p:column headerText="ViewBills" style="width: 15px">
-                        <p:commandButton icon="ui-icon-extlink" value="View Bills" actionListener="#{billManagedBean.editShopEntityBeta}" />
-                    </p:column>
-                        
-                </p:dataTable>
-            </h:form>
-            
-            <h:form id="form2">
-                 <p:growl id="growl" showDetail="true" life="3000" />   
-                <p:dialog id ="dlg1" header="Bill Status" modal="true" showEffect="fade" hideEffect="fade" widgetVar="dlg" > 
-                    <h:panelGrid columns="2" cellpadding="5">
-                        <h:outputText  value="Rent Rate: " />
-                        <h:outputText  value="$ #{billManagedBean.rentRate}" />
-                    </h:panelGrid>
-                </p:dialog>
+            <p:panel header="Shop Information DataTable" id="std"> 
+            <p:dataTable id="shopTable" paginator="true"  rows="10" binding="#{billManagedBean.dataTable}" style="border: solid 2px black;"
+                          value="#{billManagedBean.shopList}" var="shopEntity">
                 
-            </h:form>
+                
+
+                <p:column id="ShopName" filterBy="#{shopEntity.name}"   
+                          headerText="Shop Name "  
+                          filterMatchMode="contains"  style="width: 10px"> 
+                    <h:outputText value="#{shopEntity.name}">
+
+                    </h:outputText>   
+                </p:column> 
+
+                <p:column id="Owner" filterBy="#{shopEntity.owner}"   
+                          headerText="Shop Owner "   
+                          filterMatchMode="contains" style="width: 10px" > 
+                    <h:outputText value="#{shopEntity.owner}" /> 
+                </p:column> 
+                
+                <p:column id="OperatingHours" filterBy="#{shopEntity.operatinghours}"   
+                          headerText="Operating Hours "  
+                          filterMatchMode="contains"  style="width: 10px"> 
+                    <h:outputText value="#{shopEntity.operatinghours}">
+
+                    </h:outputText>   
+                </p:column> 
+                
+                <p:column id="description" filterBy="#{shopEntity.description}"   
+                          headerText="Description"  
+                          filterMatchMode="contains"  style="width: 10px"> 
+                    <h:outputText value="#{shopEntity.description}">
+
+                    </h:outputText>   
+                </p:column> 
+                
+                <p:column id="contact" filterBy="#{shopEntity.storeContact}"   
+                          headerText="Store Contact"  
+                          filterMatchMode="contains"  style="width: 10px"> 
+                    <h:outputText value="#{shopEntity.storeContact}">
+                    </h:outputText>   
+                </p:column> 
+                
+                <p:column id="RentRate" filterBy="#{shopEntity.contract.rentRate}"   
+                          headerText="Rent Rate "   
+                          filterMatchMode="contains" style="width: 10px" > 
+
+                    <h:outputText value="#{shopEntity.contract.rentRate}" /> 
+                </p:column>
+
+                <p:column headerText="Edit Store Info" style="width: 15px">  
+                     <p:commandButton icon="ui-icon-document" actionListener="#{billManagedBean.editShopEntityAlpha}" 
+                                      oncomplete="dlgOne.show();" title="Edit Shop Information" />  
+                </p:column> 
+
+                <p:column headerText="Create Bill" style="width: 15px">  
+                    <p:commandButton icon="ui-icon-plus" actionListener="#{billManagedBean.editShopEntity}" oncomplete="dlg.show();" title="Create Bill"
+                                     update=":form2:dlg1"/>  
+                </p:column>  
+                <p:column headerText="View Bills" style="width: 15px">
+                    <p:commandButton icon="ui-icon-extlink"  actionListener="#{billManagedBean.editShopEntityBeta}" />
+                </p:column>
+
+            </p:dataTable>
+            </p:panel>
+        </h:form>
+
+        <h:form id="form2">
+            <p:growl id="growl" showDetail="true" life="3000" />   
+            <p:dialog id ="dlg1" header="Bill Status" modal="true" showEffect="fade" hideEffect="fade" widgetVar="dlg" > 
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputText  value="Rent Rate: " />
+                    <h:outputText  value="$ #{billManagedBean.rentRate}" />
+                </h:panelGrid>
+            </p:dialog>
+
+        </h:form>
+        
+        
+        <h:form id="form3">
+            <p:growl id="growl" showDetail="true" life="3000" />   
+            <p:dialog id ="dlg1" header="Bill Status" modal="true" showEffect="fade" hideEffect="fade" widgetVar="dlgOne" width="600px" height="400px" resizable="false"> 
+                <h:panelGrid columns="1" cellpadding="5">
+                    <h:outputText  value="Description: " />
+                    <p:inputTextarea rows="5" cols="30" counter="counter" maxlength="150" value="#{billManagedBean.description}"     
+                           counterTemplate="{0} characters remaining." autoResize="true"/> 
+                    <h:outputText id="counter" /> 
+                </h:panelGrid> 
+                    <br></br>
+                <h:panelGrid columns="2" cellpadding="5">    
+                    <h:outputText  value="Operating Hours: " />
+                    <p:inputMask value="#{billManagedBean.operatinghours}" mask="99:99-99:99"/>
+                    <h:outputText  value="Store Contact: " />
+                    <p:inputMask value="#{billManagedBean.storeContact}" mask="(+**) 999-99999"/>
+                     <f:facet name="footer">
+                            <p:commandButton id="editForm" value="Save" 
+                                             actionListener="#{billManagedBean.saveShopInfo}" update="growl"  onclick="dlgOne.hide();"/>
+                     </f:facet>
+
+                </h:panelGrid>
+                
+            </p:dialog>
+
+        </h:form>
+        
 
     </ui:define>
 

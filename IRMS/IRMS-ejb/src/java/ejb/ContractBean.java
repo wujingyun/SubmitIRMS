@@ -66,9 +66,15 @@ public class ContractBean implements ContractBeanRemote {
             for(Object o: q.getResultList()){
                 Contract c = (Contract)o;
                 if(c.isContractStatus()!=false)
-                contractList.add(c);
+                    
+                    contractList.add(c);
+               
             }  
+        for (Contract e : contractList) {
+            e.getUnits().size();
+        }
             em.flush();
+         
             return contractList;
     }
     
