@@ -124,7 +124,7 @@ public class BillManagedBean implements Serializable {
         this.setBills(bills);
 
 
-        String url = "viewBills.xhtml";
+        String url = "smpViewBills.xhtml";
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
         try {
@@ -192,7 +192,7 @@ public class BillManagedBean implements Serializable {
         this.createModel();*/
       
         
-            String url = "tenancyMix.xhtml";
+            String url = "smpTenancyMix.xhtml";
             FacesContext fc = FacesContext.getCurrentInstance();
             ExternalContext ec = fc.getExternalContext();
             
