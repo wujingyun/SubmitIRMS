@@ -4,12 +4,16 @@
  */
 package ejb;
 
+import entity.Contract;
 import entity.Shop;
 import entity.ShopBill;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -31,12 +35,46 @@ public class ManageTenantBean implements ManageTenantBeanRemote {
     Calendar dateIssued;
     List<Shop> shopList;
     Collection<ShopBill> billList;
-   // double commissionFee;
-    
+    Contract contractEntity;
+    HashMap<String, Integer> cache ;
+    Integer num=0;
     // check on jasper report not included in the first system release.
     public void generateQuarterlyReport(){
     
     }
+      @Override
+      public HashMap<String, Integer> viewTenancyMix() {
+        contractEntity = new Contract();
+       cache = new HashMap<String, Integer>();
+      
+      //  List<String> categories = new ArrayList<String> ();
+        shopList = new ArrayList <Shop>();
+        shopList = this.getShopList();
+        System.err.println("list size of shops "+shopList.size());
+       
+        for(Iterator it = shopList.iterator(); it.hasNext();){
+                   shop = (Shop)it.next();
+                   String s = shop.getContract().getPurpose();
+                   if(cache.containsKey(s)){
+                   cache.put(s, cache.get(s)+1);
+                   }
+                   else{
+                       cache.put(s,1);
+                   }
+                   
+        }
+        for (Iterator<Map.Entry<String, Integer>> it = cache.entrySet().iterator(); it.hasNext();) {
+            Map.Entry entry = it.next();
+            System.out.println("key,val: " + entry.getKey() + "," + entry.getValue());
+        }
+        return cache;
+    }
+      @Override
+      public String test (){
+          return "Brand wangxiahao";
+      }
+    
+   
     
     @Override
     public Collection<ShopBill> sendBills(Long ShopID){
@@ -120,16 +158,18 @@ public class ManageTenantBean implements ManageTenantBeanRemote {
     public void EditShopInfo(Long BillID,String description,String operatinghours,String storeContact){
         shop = new Shop();
         shop =em.find(Shop.class, BillID);
-        if(description!=null){
+        System.err.println(description.length()+" "+" operatinghours "+operatinghours.length() +" storeContact"+storeContact.length());
+        System.err.println(description==null?"null":"not null");
+        if(description.length()!=0){
         shop.setDescription(description);
         }
-         if(description!=null){
-       shop.setOperatinghours(operatinghours);
+         if(operatinghours.length()!=0){
+         shop.setOperatinghours(operatinghours);
         }
-         if(description!=null){
+         if(storeContact.length()!=0){
          shop.setStoreContact(storeContact);
         }
-        shop.setStoreContact(storeContact);
+        
         em.flush();
     }
     

@@ -7,6 +7,7 @@ package ejb;
 import entity.Shop;
 import entity.ShopBill;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import javax.ejb.Remote;
 
@@ -23,4 +24,7 @@ public interface ManageTenantBeanRemote {
    public List<Shop> getShopList();
     public Collection<ShopBill> sendBills(Long ShopID);
     public void EditShopInfo(Long BillID,String description,String operatinghours,String storeContact);
+    public HashMap<String, Integer> viewTenancyMix();
+     public String test ();
+ 
 }
