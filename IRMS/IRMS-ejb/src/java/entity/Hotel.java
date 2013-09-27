@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -59,10 +60,10 @@ public class Hotel implements Serializable {
 
     public Room findRoom(Integer roomNumber) {
         Room room;
-        ArrayList allRooms = (ArrayList) this.getRooms();
+        List<Room> allRooms = (List) this.getRooms();
         for (int i = 0; i < allRooms.size(); i++) {
             room = (Room) allRooms.get(i);
-            if (room.getRoomNumber() == roomNumber) {
+            if (room.getRoomNumber().equals(roomNumber)) {
                 return room;
             }
         }
@@ -81,7 +82,7 @@ public class Hotel implements Serializable {
 
     public MiniBarItem findMiniBarItem(String name) {
         MiniBarItem item;
-        ArrayList allItems = (ArrayList) this.getMiniBarItems();
+        List allItems = (List) this.getMiniBarItems();
         for (int i = 0; i < allItems.size(); i++) {
             item = (MiniBarItem) allItems.get(i);
             if (item.getName().equals(name)) {
@@ -93,18 +94,18 @@ public class Hotel implements Serializable {
 
     public DiscountScheme findDiscountScheme(String name) {
         DiscountScheme discountScheme;
-        ArrayList allDiscountSchemes = (ArrayList) this.getDiscountSchemes();
+        List allDiscountSchemes = (List) this.getDiscountSchemes();
         for (int i = 0; i < allDiscountSchemes.size(); i++) {
             discountScheme = (DiscountScheme) allDiscountSchemes.get(i);
-            if (discountScheme.getName().equals(name));
-            return discountScheme;
+            if (discountScheme.getName().equals(name))
+                return discountScheme;
         }
         return null;
     }
 
     public RoomService findRoomService(String name) {
         RoomService roomService;
-        ArrayList allRoomServices = (ArrayList) this.getRoomServices();
+        List allRoomServices = (List) this.getRoomServices();
         for (int i = 0; i < allRoomServices.size(); i++) {
             roomService = (RoomService) allRoomServices.get(i);
             if (roomService.getName().equals(name)) {

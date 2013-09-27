@@ -8,8 +8,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -23,17 +21,15 @@ public class Room implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer roomNumber;
     @ManyToOne
     private Hotel hotel;
-    private Integer roomNumber;
     private String type;
     private String description;
     private double rate;
     private String availabilityStatus;//available/reserved/rennovation,etc
     private String housekeepingStatus;
-    @ManyToMany(mappedBy = "rooms")
+    @ManyToMany
     private Collection<RoomReservation> roomReservations = new ArrayList();
 
     public Room() {
@@ -110,18 +106,10 @@ public class Room implements Serializable {
         this.roomReservations = roomReservations;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (roomNumber != null ? roomNumber.hashCode() : 0);
         return hash;
     }
 
@@ -132,7 +120,7 @@ public class Room implements Serializable {
             return false;
         }
         Room other = (Room) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.roomNumber == null && other.roomNumber != null) || (this.roomNumber != null && !this.roomNumber.equals(other.roomNumber))) {
             return false;
         }
         return true;
@@ -140,6 +128,6 @@ public class Room implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Room[ id=" + id + " ]";
+        return "entity.Room[ id=" + roomNumber + " ]";
     }
 }

@@ -6,7 +6,8 @@ package ejb;
 
 import entity.DiscountScheme;
 import exception.ExistException;
-import java.util.Collection;
+import java.util.Calendar;
+import java.util.List;
 import javax.ejb.Remote;
 
 /**
@@ -15,8 +16,8 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface HotelDiscountBeanRemote {
-    public void addDiscountScheme(String hotelName, String name, String eligibility, String description, double discountRate) throws ExistException;
+    public void addDiscountScheme(String hotelName, String name, String eligibility, String description, double discountRate, Calendar dateCreated) throws ExistException;
     public void editDiscountScheme(String hotelName,String name, String eligibility, String description, double discountRate) throws ExistException;
     public void removeDiscountScheme(String hotelName, String name) throws ExistException;
-    public Collection<DiscountScheme> getDiscountSchemes(String hotelName)throws ExistException;
+    public List<DiscountScheme> getDiscountSchemes(String hotelName)throws ExistException;
 }

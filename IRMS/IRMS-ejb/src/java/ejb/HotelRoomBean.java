@@ -9,8 +9,6 @@ import entity.Hotel;
 import entity.MiniBarItem;
 import entity.Room;
 import exception.ExistException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -72,7 +70,23 @@ public class HotelRoomBean implements HotelRoomBeanRemote {
         em.remove(hotel);
         em.flush();
     }
-
+    /*
+    @Override
+    public void createRoom(String hotelName, Room newRoom) throws ExistException{
+        hotel = em.find(Hotel.class, hotelName);
+        if (hotel == null) {
+            throw new ExistException("HOTEL NOT EXIST.");
+        }
+        newRoom = hotel.findRoom(newRoom.getRoomNumber());
+        if (newRoom != null) {
+            throw new ExistException("ROOM ALREADY EXISTS.");
+        }
+        newRoom.setHotel(hotel);
+        hotel.getRooms().add(newRoom);
+        hotel.setRooms(hotel.getRooms());
+        em.persist(newRoom);
+    }
+    */ 
     @Override
     public void addRoom(String hotelName, Integer roomNumber, String type, String description, double rate) throws ExistException {
         hotel = em.find(Hotel.class, hotelName);
@@ -222,7 +236,7 @@ public class HotelRoomBean implements HotelRoomBeanRemote {
     }
 
     @Override
-    public Collection<Room> getRooms(String hotelName) throws ExistException {
+    public List<Room> getRooms(String hotelName) throws ExistException {
         //System.out.println(hotelName);
         hotel = em.find(Hotel.class, hotelName);
         if (hotel == null) {
@@ -234,15 +248,16 @@ public class HotelRoomBean implements HotelRoomBeanRemote {
             System.out.println("null arraylist");
             */ 
         hotel.getRooms().size();
-        return hotel.getRooms();
+        return (List)hotel.getRooms();
     }
 
     @Override
-    public Collection<MiniBarItem> getMiniBarItems(String hotelName) throws ExistException {
+    public List<MiniBarItem> getMiniBarItems(String hotelName) throws ExistException {
         hotel = em.find(Hotel.class, hotelName);
         if (hotel == null) {
             throw new ExistException("HOTEL NOT EXIST.");
         }
-        return hotel.getMiniBarItems();
+        hotel.getMiniBarItems().size();
+        return (List)hotel.getMiniBarItems();
     }
 }
