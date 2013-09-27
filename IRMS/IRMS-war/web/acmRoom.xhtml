@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="./templet/AccommodationDefaultTemplate.xhtml"
+                template="./templet/acmTemplate.xhtml"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html">
@@ -69,7 +69,7 @@
                                  editable="true" rowKey="#{room.roomNumber}" selection="#{roomBean.selectedRoom}" selectionMode="single" style="100%"> 
 
                         <f:facet name="header">  
-                            #{roomBean.hotelName}
+                            #{roomBean.hotelName} Rooms
                         </f:facet>
 
                         <p:ajax event="rowEdit" listener="#{roomBean.onEdit}" update=":roomForm:messages" />  

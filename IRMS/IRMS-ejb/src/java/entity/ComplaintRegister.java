@@ -28,6 +28,7 @@ public class ComplaintRegister implements Serializable {
     private Long id;
     @OneToOne(mappedBy="complaintRegister")
     private Hotel hotel;
+    //private String description;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar dateCreated;
     @OneToMany(mappedBy="complaintRegister")
@@ -37,6 +38,7 @@ public class ComplaintRegister implements Serializable {
     }
     
     public void create(){
+        //this.setDescription(description);
         this.setDateCreated(Calendar.getInstance());
     }
     
@@ -47,7 +49,15 @@ public class ComplaintRegister implements Serializable {
     public void setHotel(Hotel hotel) {
         this.hotel = hotel;
     }
+    /*
+    public String getDescription() {
+        return description;
+    }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    */ 
     public Calendar getDateCreated() {
         return dateCreated;
     }

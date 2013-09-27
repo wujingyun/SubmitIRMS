@@ -60,7 +60,7 @@ public class Logbook implements Serializable {
     public void setHotel(Hotel hotel) {
         this.hotel = hotel;
     }
-
+    
     public String getDescription() {
         return description;
     }
@@ -68,7 +68,7 @@ public class Logbook implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-
+    
     public Calendar getDateCreated() {
         return dateCreated;
     }

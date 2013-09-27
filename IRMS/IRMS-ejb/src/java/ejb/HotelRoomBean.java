@@ -5,10 +5,13 @@
  */
 package ejb;
 
+import entity.ComplaintRegister;
 import entity.Hotel;
+import entity.Logbook;
 import entity.MiniBarItem;
 import entity.Room;
 import exception.ExistException;
+import java.util.Calendar;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -27,12 +30,25 @@ public class HotelRoomBean implements HotelRoomBeanRemote {
     Hotel hotel;
     Room room;
     MiniBarItem miniBarItem;
+    Logbook logbook;
+    ComplaintRegister complaintRegister;
 
     public HotelRoomBean() {
     }
     
     @Override
     public void createHotel(Hotel hotel){
+        logbook=new Logbook();
+        complaintRegister=new ComplaintRegister();
+        logbook.setHotel(hotel);
+        logbook.setDescription(hotel.getName()+" Logbook");
+        logbook.setDateCreated(Calendar.getInstance());
+        em.persist(logbook);
+        complaintRegister.setHotel(hotel);
+        complaintRegister.setDateCreated(Calendar.getInstance());
+        em.persist(complaintRegister);
+        hotel.setLogbook(logbook);
+        hotel.setComplaintRegister(complaintRegister);
         em.persist(hotel);
     }
 
@@ -67,6 +83,8 @@ public class HotelRoomBean implements HotelRoomBeanRemote {
         if (hotel == null) {
             throw new ExistException("HOTEL NOT EXIST.");
         }
+        em.remove(hotel.getLogbook());
+        em.remove(hotel.getComplaintRegister());
         em.remove(hotel);
         em.flush();
     }

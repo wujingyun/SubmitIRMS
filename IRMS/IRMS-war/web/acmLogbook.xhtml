@@ -1,22 +1,169 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="./templet/AccommodationDefaultTemplate.xhtml">
+                template="./templet/acmTemplate.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
 
     <ui:define name="topInsert">
-        topInsert
     </ui:define>
 
     <ui:define name="leftInsert">
-        leftInsert
     </ui:define>
 
     <ui:define name="rightInsert">
-        rightInsert
     </ui:define>
 
     <ui:define name="contentInsert">
-        contentInsert
+        <f:view>
+            <h:form id="logForm">
+
+                <p:growl id="messages" showDetail="true"/>
+
+                <p:panel>
+                    <h:outputLabel for="hotel" value="Select Hotel: *" />  
+                    <h:selectOneMenu id="hotel" value="#{logbookManagedBean.hotelName}" required="true">  
+                        <f:selectItem itemLabel="Select Hotel" itemValue="" />  
+                        <f:selectItems value="#{hotelBean.hotelNames}" />  
+                        <p:ajax update="logList" listener="#{logbookManagedBean.handleHotelChange}"/>
+                    </h:selectOneMenu>  
+                </p:panel>
+
+                <p:panel header="Create a new entry" id="createEntry">  
+                    <h:panelGrid id="grid">  
+
+                        <p:row>
+                            <p:column><h:outputLabel value="Entry Category: *" for="entryCategory"></h:outputLabel>
+                                <p:inputText id="entryCategory" value="#{logbookManagedBean.newEntry.category}" required="true" />
+                            </p:column>
+                            <p:column><h:outputLabel value="Description: *" for="entryDescription"></h:outputLabel>  
+                                <p:inputText id="entryDescription" required="true" value="#{logbookManagedBean.newEntry.description}"/>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column><h:outputLabel value="Contact Person: *" for="entryContactPerson"></h:outputLabel>  
+                                <p:inputText id="entryContactPerson" value="#{logbookManagedBean.newEntry.contactPerson}" required="true"/>
+                            </p:column>  
+
+                            <p:column><h:outputLabel value="Contact Number: *" for="entryContactNumber"></h:outputLabel> 
+                                <p:inputText id="entryContactNumber" required="true" value="#{logbookManagedBean.newEntry.contactNumber}"/>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column><h:outputLabel value="Status: *" for="entryStatus"></h:outputLabel>  
+                                <p:inputText id="entryStatus" value="#{logbookManagedBean.newEntry.status}" required="true"/>
+                            </p:column>  
+                        </p:row>
+
+                        <p:row>
+                            <p:commandButton value="Reset" type="reset"/>  
+                            <p:commandButton id="add" value="Create" update="createEntry entries"  
+                                             action="#{logbookManagedBean.reinit}" actionListener="#{logbookManagedBean.createEntry}">  
+                                <p:collector value="#{logbookManagedBean.newEntry}"   
+                                             addTo="#{logbookManagedBean.entries}" />  
+                            </p:commandButton>  
+                        </p:row>
+                    </h:panelGrid>  
+                </p:panel>  
+
+                <p:outputPanel id="entries">
+
+                    <p:dataTable var="logEntry" value="#{logbookManagedBean.entries}" id="logList" paginator="true" rows="10"
+                                 editable="true" rowKey="#{logEntry.id}" selection="#{logbookManagedBean.selectedEntry}" selectionMode="single"> 
+
+                        <f:facet name="header">  
+                           #{logbookManagedBean.hotelName} Logbook
+                        </f:facet>
+
+                        <p:ajax event="rowEdit" listener="#{logbookManagedBean.onEdit}" update=":logForm:messages" />  
+                        <p:ajax event="rowEditCancel" listener="#{logbookManagedBean.onCancel}" update=":logForm:messages"/>
+                            
+                            <p:column headerText="ID" sortBy="#{logEntry.id}" filterBy="#{logEntry.id}" filterMatchMode="contains"> 
+                                #{logEntry.id}
+                            </p:column>                         
+
+                            <p:column headerText="Date" sortBy="#{logEntry.dateTime}" filterBy="#{logEntry.dateTime}" filterMatchMode="contains"> 
+                                <h:outputText value="#{logEntry.dateTime.time}" styleClass="date">
+                                    <f:convertDateTime type="both" dateStyle="short" />
+                                </h:outputText>
+                            </p:column>  
+
+                            <p:column headerText="Category" sortBy="#{logEntry.category}" filterBy="#{logEntry.category}" filterMatchMode="contains">  
+                                <p:cellEditor>  
+                                    <f:facet name="output">  
+                                        <h:outputText value="#{logEntry.category}" />  
+                                    </f:facet>  
+                                    <f:facet name="input">  
+                                        <p:inputText value="#{logEntry.category}" style="width:100%"/>  
+                                    </f:facet>  
+                                </p:cellEditor> 
+                            </p:column>  
+
+                            <p:column headerText="Description" sortBy="#{logEntry.description}" filterBy="#{logEntry.description}" filterMatchMode="contains">
+                                <p:cellEditor>  
+                                    <f:facet name="output">  
+                                        <h:outputText value="#{logEntry.description}" />  
+                                    </f:facet>  
+                                    <f:facet name="input">  
+                                        <p:inputText value="#{logEntry.description}" style="width:100%"/>  
+                                    </f:facet>  
+                                </p:cellEditor> 
+                            </p:column>  
+
+                            <p:column headerText="Contact Person" sortBy="#{logEntry.contactPerson}" filterBy="#{logEntry.contactPerson}" filterMatchMode="contains"> 
+                                <p:cellEditor>  
+                                    <f:facet name="output">  
+                                        <h:outputText value="#{logEntry.contactPerson}" />  
+                                    </f:facet>  
+                                    <f:facet name="input">  
+                                        <p:inputText value="#{logEntry.contactPerson}" style="width:100%"/>  
+                                    </f:facet>  
+                                </p:cellEditor> 
+                            </p:column>
+
+                            <p:column headerText="Contact Number" sortBy="#{logEntry.contactNumber}" filterBy="#{logEntry.contactNumber}" filterMatchMode="contains"> 
+                                <p:cellEditor>  
+                                    <f:facet name="output">  
+                                        <h:outputText value="#{logEntry.contactNumber}" />  
+                                    </f:facet>  
+                                    <f:facet name="input">  
+                                        <p:inputText value="#{logEntry.contactNumber}" style="width:100%"/>  
+                                    </f:facet>  
+                                </p:cellEditor> 
+                            </p:column>
+
+                            <p:column headerText="Status" sortBy="#{logEntry.status}" filterBy="#{logEntry.status}" filterMatchMode="contains"> 
+                                <p:cellEditor>  
+                                    <f:facet name="output">  
+                                        <h:outputText value="#{logEntry.status}" />  
+                                    </f:facet>  
+                                    <f:facet name="input">  
+                                        <p:inputText value="#{logEntry.status}" style="width:100%"/>  
+                                    </f:facet>  
+                                </p:cellEditor> 
+                            </p:column>
+
+                            <p:column headerText="Edit">
+                                <p:rowEditor/>
+                            </p:column>
+
+                            <p:column headerText="Delete">
+                                <p:commandButton value="Delete" onclick="cd.show();">
+                                    <p:confirmDialog message="Are you sure about deleteing this entry?" header="Please confirm this operation!" severity="alert" widgetVar="cd">
+                                        <p:commandButton value="Yes" actionListener="#{logbookManagedBean.deleteEntry}" update=":logForm:entries :logForm:messages" process=":logForm:entries" onclick="cd.hide();" >
+                                            <p:collector value="#{logbookManagedBean.selectedEntry}" removeFrom="#{logbookManagedBean.entries}"/>
+                                        </p:commandButton>
+                                        <p:commandButton value="No" onclick="cd.hide();" type="button"/>
+                                    </p:confirmDialog>
+                                </p:commandButton>
+                            </p:column> 
+                    </p:dataTable>
+                </p:outputPanel>
+            </h:form>
+        </f:view>
     </ui:define>
 
 </ui:composition>
