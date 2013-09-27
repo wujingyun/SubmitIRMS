@@ -6,6 +6,7 @@ package ejb;
 
 import entity.UserAccount;
 import entity.UserContact;
+import entity.UserRole;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -30,6 +31,7 @@ public class AdminUserBean implements AdminUserBeanRemote {
     EntityManager em;
     UserAccount ua;
      UserContact contact;
+     UserRole role;
     private UserAccount user;
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
@@ -53,14 +55,44 @@ public class AdminUserBean implements AdminUserBeanRemote {
     }
 @Override
   public UserAccount findUser(String username) {
-        Query q = em.createQuery("SELECT ua FROM UserAccount ua");
-        
-        for (Object o : q.getResultList()) {
+           Query q = em.createQuery("SELECT ua FROM UserAccount ua where ua.userName=?1");
+         q.setParameter(1,username);
+      
+        System.out.println( " find user result=========================================================="+q.getResultList().size());
+        if(q.getResultList().size()!=0) {
+               for (Object o : q.getResultList()) {
              user = (UserAccount) o;
+        }return user;
         }
-  
-        return user;
+      
+        else {
+        return null;}
     }
+
+
+
+@Override
+  public String getUserRole(String username) {
+      long roleId=0; String roleName="";
+     
+           Query q1 = em.createQuery("SELECT ua FROM UserAccount ua where ua.userName=?1");
+           q1.setParameter(1,username);
+          for (Object o : q1.getResultList()) {
+             user = (UserAccount) o;
+              roleId=user.getUserrole();
+               System.out.println( " find user role id=========================================================="+roleId);
+        }
+          Query q2 = em.createQuery("SELECT ur FROM UserRole ur where ur.role_id=?2");
+           q2.setParameter(2,roleId);
+       for (Object o : q2.getResultList()) {
+             role = (UserRole) o;
+              roleName=role.getRole_name();
+            
+        } return roleName;
+    }
+
+
+
 
 
 @Override
@@ -137,6 +169,46 @@ public class AdminUserBean implements AdminUserBeanRemote {
     
 }
 
+
+
+
+
+@Override
+ public boolean setHashPassword(String userName, String password){
+    
+    Query q = em.createQuery("SELECT ua FROM UserAccount ua where ua.userName=?1");
+          q.setParameter(1,userName);
+        for (Object o : q.getResultList()) {
+             user = (UserAccount) o;
+        }
+        if(user==null)
+        {System.out.println("Member does not exist");
+        return false;}
+        else{ try {
+            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+            digest.update(password.getBytes());
+            byte messageDigest[] = digest.digest();
+
+            // Create Hex String
+            StringBuffer hexString = new StringBuffer();
+         
+            for (int i = 0; i < messageDigest.length; i++) {
+                hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+            }
+            System.out.println(hexString.toString() + "  hashed password ");
+              user.setPassword(hexString.toString());
+        em.flush();//
+        em.persist(user);//persist
+     return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+            
+        }
+     
+    
+}
 
 
 

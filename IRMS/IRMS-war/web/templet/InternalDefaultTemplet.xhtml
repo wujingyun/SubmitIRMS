@@ -5,18 +5,18 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui">
-
+    <f:view>
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+         <link href="/IRMS-war/resources/css/primeui-0.9.6-min.css" rel="stylesheet" type="text/css" />
         <link href="/IRMS-war/resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
-        <link href="/IRMS-war/resources/css/primeui-0.9.6-min.css" rel="stylesheet" type="text/css" />
+  
         <link rel="stylesheet" href="http://jquery.bassistance.de/validate/demo/site-demos.css"/>
          <script type="text/javascript" src="/IRMS-war/resources/js/primeui-0.9.6-min.js"></script>  
            
-        <link href="/IRMS-war/resources/css/bootstrap.css" rel="stylesheet" type="text/css" />
-            <link href="/IRMS-war/resources/css/bootstrap-theme.css" rel="stylesheet" type="text/css" />
-             <script type="text/javascript" src="/IRMS-war/resources/js/bootstarp.js"></script>  
+      
+            
              <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script src="http://jquery.bassistance.de/validate/jquery.validate.js"></script>
 <script src="http://jquery.bassistance.de/validate/additional-methods.js"></script>
@@ -25,52 +25,80 @@
      
         </style>
     </h:head>
-
+    <script type="text/javascript">
+        $('#mb1').puimenubar();  
+          
+        $('#mb2').puimenubar({  
+            autoDisplay: false  
+        });  </script>
     <h:body>
-       
+           <h:form> 
         <div id="top" >
             <h1>IR Internal Portal</h1>
     
-                
-       
-                <nav class="navbar navbar-default" role="navigation">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Shopping Mall</a>
-        
-        </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="#">nav1</a></li>
-            <li><a href="#">nav2</a></li>
-            <li><a href="#">nav3</a></li>
-             <li><a href="#">nav4</a></li>
-          </ul>
-         
-          <ul class="nav navbar-nav navbar-right">
-            <h:form class="navbar-form navbar-left">
-            <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search"></input>
-            </div>
-            <button type="submit" class="btn btn-default">Submit</button>
             
-          </h:form>
-              <f:facet name="options">
-   <p:commandButton type="button" value="Logout" />
-</f:facet>
-          </ul>
-        </div><!-- /.navbar-collapse -->
-      </nav>
-                
-                
+       
+            <ul id="mb1">
+    <li> <a data-icon="ui-icon-document">File</a>
+        <ul> 
+            <li><a data-icon="ui-icon-contact">New</a>
+                <ul>
+                    <li><a>Project</a></li>
+                    <li><a>Other</a></li>
+                </ul>
+            </li> 
+            <li><a>Open</a></li> 
+            <li><a>Quit</a></li> 
+        </ul>
+    </li>
+    <li> <a data-icon="ui-icon-pencil">Edit</a>
+        <ul>
+            <li><a data-icon="ui-icon-arrowreturnthick-1-w">Undo</a></li>
+            <li><a data-icon="ui-icon-arrowreturnthick-1-e">Redo</a></li>
+        </ul>
+    </li>
+    <li>
+        <a data-icon="ui-icon-help">Help</a>
+        <ul>
+            <li><a>Contents</a></li>
+            <li>
+                <a data-icon="ui-icon-search">Search</a>
+                <ul>
+                    <li><a>Text</a>
+                        <ul>
+                            <li><a>Workspace</a></li>
+                        </ul>
+                    </li>
+                    <li><a>File</a></li>
+                </ul>
+            </li>
+
+        </ul>
+
+    </li>
+    <li>
+        <a data-icon="ui-icon-gear">Actions</a>
+        <ul>
+            <li><a data-icon="ui-icon-refresh">Ajax</a>
+                <ul>
+                    <li><a data-icon="ui-icon-disk">Save</a></li>
+                    <li><a data-icon="ui-icon-arrowrefresh-1-w">Update</a></li>
+                </ul>
+            </li>
+            <li><a data-icon="ui-icon-document">Non-Ajax</a>
+                <ul>
+                    <li><a data-icon="ui-icon-close">Delete</a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a data-icon="ui-icon-close">Quit</a>
+    </li>
+</ul>    
+                                        
+      
+             
                 </div>  
 
     <ui:insert name="topInsert"> Top</ui:insert>
@@ -100,6 +128,8 @@
             <div>
                 <div id="right">
                     <ui:insert name="rightInsert">Right</ui:insert>
+                 
+                    
                       <p:commandButton  id="logoutButton" value="Logout"
 					actionListener="#{loginBean.logout}" />
                 </div>
@@ -113,7 +143,7 @@ Insert content here...
             
             
         </div>  
-        
+           </h:form>
     </h:body>
-
+</f:view>
 </html>

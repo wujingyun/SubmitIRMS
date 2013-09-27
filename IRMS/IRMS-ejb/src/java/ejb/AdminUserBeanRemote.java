@@ -23,7 +23,7 @@ public interface AdminUserBeanRemote {
    public boolean checkUserExist(String username);
     public void activateAcct(String userName) ;
     public void deactivateAcct(String userName) ;
-
+public String getUserRole(String username) ;
     public String hashPassword(String password);
 
   
@@ -42,6 +42,8 @@ public interface AdminUserBeanRemote {
     public void setLoginAttempToZero(String userName);
 
     public void updateLoginAttempTime(String userName);
+
+    public boolean setHashPassword(String userName, String password);
 
   
 }

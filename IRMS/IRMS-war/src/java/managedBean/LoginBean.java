@@ -24,6 +24,8 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.primefaces.context.RequestContext;
 
@@ -65,12 +67,12 @@ public class LoginBean implements Serializable {
         divisions.put("Entertainment Show", "Entertainment Show");
 
         Map<String, String> subrolesAcc = new HashMap<String, String>();
-        subrolesAcc.put("Front office counter", "1");
-        subrolesAcc.put("Levent", "2");
-        subrolesAcc.put("Cengelkoy", "3");
+        subrolesAcc.put("Acm Super Admin", "1");
+        subrolesAcc.put("Acm Front Receptionist", "2");
+        subrolesAcc.put("Acm Backend Offier", "3");
 
         Map<String, String> subrolesShop = new HashMap<String, String>();
-        subrolesShop.put("Kecioren", "4");
+        subrolesShop.put("Spm Super Admin", "4");
         subrolesShop.put("Cankaya", "5");
         subrolesShop.put("Yenimahalle", "6");
 
@@ -149,24 +151,12 @@ public class LoginBean implements Serializable {
         //  FacesContext.getCurrentInstance().addMessage(null, msg);  
     }
 
-    public String info() {
-
-        return "manageContract2.xhtml?faces-redirect=true";
-    }
- public void submit(ActionEvent event) {  
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Correct", "Correct");  
-          
-        FacesContext.getCurrentInstance().addMessage(null, msg);  
-    }  
     public String login(ActionEvent actionEvent) {
-        
-        
-        
-        
-        
-        
-        
-        
+
+
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+
         RequestContext context = RequestContext.getCurrentInstance();
         FacesMessage msg = null;
         boolean loggedIn = false;
@@ -195,8 +185,13 @@ public class LoginBean implements Serializable {
                 user = aub.findUser(username);
                 aub.setLoginAttempToZero(username);
                 aub.updateLoginAttempTime(username);
-                
-                
+                System.out.println("get role ============");
+                request.getSession().setAttribute("role", aub.getUserRole(username));
+                System.out.println("get role finish============");
+                request.getSession().setAttribute("isLogin", true);
+
+
+
                 // success,装入session中
 
                 Map<String, Object> map = facesContext.getExternalContext().getSessionMap();
@@ -207,12 +202,7 @@ public class LoginBean implements Serializable {
 
                 redirct = "fail";
 
-
-
-
-            } 
-            
-           //auth fails
+            } //auth fails
             else {
                 loggedIn = false;
                 aub.updateLoginAttemp(username);
@@ -224,10 +214,7 @@ public class LoginBean implements Serializable {
                 redirct = "loginSuccess";
 
             }
-        } 
-        
-        
-        //time diff is less than 5 mins, don't allow login 
+        } //time diff is less than 5 mins, don't allow login 
         else {
             System.out.println("Exceed max login nunmber");
             loggedIn = false;
@@ -243,8 +230,6 @@ public class LoginBean implements Serializable {
     }
 
     
-    
-    
     public void logout() {
         RequestContext context = RequestContext.getCurrentInstance();
         boolean logout = false;
@@ -253,8 +238,6 @@ public class LoginBean implements Serializable {
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 
         HttpSession session = (HttpSession) externalContext.getSession(false);
-
-
 
         if (null != session) {
 
@@ -284,17 +267,10 @@ public class LoginBean implements Serializable {
         boolean register = false;
         active = true;
 
-
         long thesubrole = Long.parseLong(subrole);
-
-
-        //email = "a0092208@nus.edu.sg";
-        //phone = "83686522";
 
         if (username != null && password != null && division != null) {
             String hashPassword = aub.hashPassword(password);
-            //msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome", username);
-
             aub.register(username, thesubrole, hashPassword, division, active, phone, email);
             register = true;
             msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Reigstered Successfully", username);
