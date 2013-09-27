@@ -4,15 +4,26 @@ To change this template, choose Tools | Templates
 and open the template in the editor.
 -->
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-    <h:body>
-        <f:view>
-             <h:head>
-                     <title>Shopping Mall Management Main Page</title>
-             </h:head>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./templet/systemAdminPortal.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="topInsert">
+      
+    </ui:define>
+
+    <ui:define name="leftInsert">
+      
+    </ui:define>
+
+    <ui:define name="rightInsert">
+      
+    </ui:define>
+
+    <ui:define name="contentInsert">
+        
             <h:form>
                <p:commandButton id="navi" value="Navigation" type="button" />               
                 <p:panelMenu style="width:200px">
@@ -34,12 +45,16 @@ and open the template in the editor.
                   <p:menuitem value="Terminate Contract" url="/terminateContract.xhtml" icon="ui-icon-star"/>     
                     </p:tabMenu>
                 <p:tabMenu activeIndex="4" style ="width: 200px">  
-                  <p:menuitem value="Add Unit" url="/ShoppingMallSpace.xhtml" icon="ui-icon-star"/>     
+                  <p:menuitem value="Add Unit" url="/shoppingMallSpace.xhtml" icon="ui-icon-star"/>     
                     </p:tabMenu>  
                 <p:tabMenu activeIndex="5" style ="width: 200px">  
                   <p:menuitem value="Delete Unit" url="/deleteUnits.xhtml" icon="ui-icon-star"/>     
                     </p:tabMenu> 
+                 <p:tabMenu activeIndex="5" style ="width: 200px">  
+                  <p:menuitem value="Shop And Bill" url="/generateBill.xhtml" icon="ui-icon-star"/>     
+                    </p:tabMenu> 
             </h:form>           
-         </f:view>
-    </h:body>
-</html>
+
+  </ui:define>
+
+</ui:composition>
