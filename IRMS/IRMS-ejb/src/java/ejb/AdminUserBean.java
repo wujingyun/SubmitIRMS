@@ -41,14 +41,19 @@ public class AdminUserBean implements AdminUserBeanRemote {
         ua = new UserAccount();//initiate new user
        
         contact = new UserContact();
+          System.out.println( " register system user1=========");
         ua.create(name, pw, role,division,active);//set user attribute
+        System.out.println( " register system user create=========");
         contact.create( phone_no, email);
+        System.out.println( " register system user contact create=========");
         ua.setContact(contact);
         ua.setLogginAttemp(0);
         Calendar cal = Calendar.getInstance();
         ua.setLast_attemp(cal);
+       
         em.flush();//
         em.persist(ua);//persist
+           System.out.println( " register system user  created=========");
        // ua.setPassword(hashPassword2(ua.getId(),pw));
        // em.flush();//
         //em.persist(ua);
@@ -222,6 +227,7 @@ public class AdminUserBean implements AdminUserBeanRemote {
                       //  System.out.println("========================================================1password");
             if(u.getUserName().equals(userName)){
             System.out.println("========================================================2password"+userName);
+             System.out.println("========================================================3password"+password);
                 if(u.getPassword().equals(password))
                 {    System.out.println("========================================================3password"+password);
                     return true;}

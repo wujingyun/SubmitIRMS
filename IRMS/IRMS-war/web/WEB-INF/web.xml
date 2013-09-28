@@ -6,7 +6,7 @@
     </context-param>
     <error-page>
         <exception-type>javax.faces.application.ViewExpiredException</exception-type>
-        <location>/faces/login.xhtml</location>
+        <location>/faces/index.xhtml</location>
     </error-page>
     
     <servlet>
@@ -20,7 +20,7 @@
     </servlet-mapping>
     <session-config>
         <session-timeout>
-            30
+            300
         </session-timeout>
     </session-config>
     <welcome-file-list>

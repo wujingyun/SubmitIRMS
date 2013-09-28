@@ -17,7 +17,7 @@
         else {
             dlg.hide();
             $('#loginLink').fadeOut();
-            window.location="http://localhost:8080/IRMS-war/manageContract2.xhtml" ;
+           
         }
     }
   
@@ -30,9 +30,18 @@
     <h:body>
 <h:form id="form">
     <h:outputLink id="loginLink" value="javascript:void(0)" onclick="dlg.show()" title="login">	
-        <p:graphicImage value="/resources/img/login.png" />
+        <p:graphicImage value="/resources/img/login22.png" />
     </h:outputLink>
  
+    <h:outputLink id="forgetPasswordLink" value="/IRMS-war/passwordReset.xhtml"  title="login" >	
+                        <p:graphicImage value="/resources/img/forgetPassword22.png" title="Forget Password"/>
+                        
+                    </h:outputLink>
+                 
+                    <h:outputLink id="RegisterLink" value="/IRMS-war/register.xhtml" title="login" >	
+                        <p:graphicImage value="/resources/img/register22.png"  title="Register Account"/>
+                    </h:outputLink>
+    
     <p:growl id="growl" showDetail="true" life="3000" />
 
     <p:dialog id="dialog" header="Login" widgetVar="dlg" resizable="false">

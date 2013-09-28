@@ -59,6 +59,7 @@ public class LoginBean implements Serializable {
     private String match;
 
     public LoginBean() {
+        divisions.put("SuperAdmin", "SuperAdmin");
         divisions.put("Accomondation", "Accomondation");
         divisions.put("Shopping Mall", "Shopping Mall");
         divisions.put("Convention", "Convention");
@@ -66,13 +67,18 @@ public class LoginBean implements Serializable {
         divisions.put("Attraction", "Attraction");
         divisions.put("Entertainment Show", "Entertainment Show");
 
+        
+        
+        Map<String, String> subrolesSuper = new HashMap<String, String>();
+        subrolesSuper.put("Super Admin", "1");
+        
         Map<String, String> subrolesAcc = new HashMap<String, String>();
-        subrolesAcc.put("Acm Super Admin", "1");
-        subrolesAcc.put("Acm Front Receptionist", "2");
-        subrolesAcc.put("Acm Backend Offier", "3");
+        subrolesAcc.put("Acm Super Admin", "2");
+        subrolesAcc.put("Acm Front Receptionist", "3");
+        subrolesAcc.put("Acm Backend Offier", "4");
 
         Map<String, String> subrolesShop = new HashMap<String, String>();
-        subrolesShop.put("Spm Super Admin", "4");
+        subrolesShop.put("Spm Super Admin", "5");
         subrolesShop.put("Cankaya", "5");
         subrolesShop.put("Yenimahalle", "6");
 
@@ -98,12 +104,14 @@ public class LoginBean implements Serializable {
         subrolesEnter.put("Foca", "18");
 
 
+       suburbsData.put("SuperAdmin", subrolesSuper);
         suburbsData.put("Accomondation", subrolesAcc);
         suburbsData.put("Shopping Mall", subrolesShop);
         suburbsData.put("Convention", subrolesConvention);
         suburbsData.put("Food Beverage", subrolesFb);
         suburbsData.put("Attraction", subrolesAttr);
         suburbsData.put("Entertainment Show", subrolesEnter);
+        
     }
 
     public void handleDivisionChange() {
@@ -156,6 +164,7 @@ public class LoginBean implements Serializable {
 
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+ ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 
         RequestContext context = RequestContext.getCurrentInstance();
         FacesMessage msg = null;
@@ -200,6 +209,38 @@ public class LoginBean implements Serializable {
 
                 this.user = user;
 
+                
+                  if(aub.getUserRole(username).equalsIgnoreCase("SuperAdmin")){
+               try {
+
+                externalContext.redirect("/IRMS-war/admin.xhtml");
+
+            } catch (IOException e) {
+
+                e.printStackTrace();
+
+            }}
+                else if(aub.getUserRole(username).contains("spm")){
+               try {
+
+                externalContext.redirect("/IRMS-war/smpMain.xhtml");
+
+            } catch (IOException e) {
+
+                e.printStackTrace();
+
+            }}
+             else if(aub.getUserRole(username).contains("acm")){
+              try {
+
+                externalContext.redirect("/IRMS-war/acmTest.xhtml");
+
+            } catch (IOException e) {
+
+                e.printStackTrace();
+
+            }}
+                
                 redirct = "fail";
 
             } //auth fails
@@ -231,12 +272,14 @@ public class LoginBean implements Serializable {
 
     
     public void logout() {
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+       
         RequestContext context = RequestContext.getCurrentInstance();
         boolean logout = false;
         /*getSession(boolean create)如果 create 参数为 true，则创建（如有必要）并返回一个与当前请求关联的会话实例。如果 create 参数为 false，则返回与当前请求关联的任何现有会话实例；如果没有这样的会话，则返回 null。*/
         FacesMessage msg = null;
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-
+        String role=(String) request.getSession().getAttribute("role");
         HttpSession session = (HttpSession) externalContext.getSession(false);
 
         if (null != session) {
@@ -245,9 +288,12 @@ public class LoginBean implements Serializable {
 
             logout = true;
             msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Logout", username);
+             System.out.println("logout role ======================================" + role);
+                if(role.equalsIgnoreCase("customer")){
+              
             try {
-
-                externalContext.redirect("login.xhtml");
+               
+                externalContext.redirect("/IRMS-war/loginCustomer.xhtml");
 
             } catch (IOException e) {
 
@@ -256,10 +302,20 @@ public class LoginBean implements Serializable {
             }
 
         }
+                    else {
+               try {
+
+                externalContext.redirect("/IRMS-war/loginInternalUser.xhtml");
+
+            } catch (IOException e) {
+
+                e.printStackTrace();
+
+            }}
         FacesContext.getCurrentInstance().addMessage(null, msg);
         context.addCallbackParam("logout", logout);
 
-    }
+    }}
 
     public void register() {
         RequestContext context = RequestContext.getCurrentInstance();

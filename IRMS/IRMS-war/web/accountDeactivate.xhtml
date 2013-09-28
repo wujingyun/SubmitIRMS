@@ -1,25 +1,15 @@
+
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="./templet/systemAdminPortal.xhtml"
+                template="./templet/adminTemplet.xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:f="http://java.sun.com/jsf/core">
+                xmlns:f="http://java.sun.com/jsf/core"
+          >
 
-    <ui:define name="topInsert">
-      
-    </ui:define>
-
-    <ui:define name="leftInsert">
-      
-    </ui:define>
-
-    <ui:define name="rightInsert">
-        
-    </ui:define>
-
-    <ui:define name="contentInsert">
-         <h:form id="form">  
+    <ui:define name="center">
+       <h:form id="form">  
   
     <p:growl id="msgs" showDetail="true"/>  
                   
@@ -61,6 +51,8 @@
   
 </h:form>   
         
+        
     </ui:define>
-
 </ui:composition>
+      
+      

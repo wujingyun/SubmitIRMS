@@ -79,12 +79,16 @@ public class UrlRewriteFilter implements Filter {
                     //check role
                     String role = (String) req.getSession().getAttribute("role");
                      //if page do require login and is not super admin in subsystem 
-                    if ((!checkRole(urlPath)) && (!checkSuperAdmin(role, urlPath))) {
+                     System.err.println("======================================checked require login"+role);
+                    if (!checkSuperAdmin(role, urlPath)){
 
                        //if (checkAccessRight(role, urlPath)) {
                          //  chain.doFilter(request, response);
                         //} else {
-                            req.getRequestDispatcher("/accessDenied.xhtml").forward(req, resp);
+                        if (role.equalsIgnoreCase("customer"))
+                            req.getRequestDispatcher("/crmAccessDenied.xhtml").forward(req, resp);
+                        else 
+                             req.getRequestDispatcher("/accessDenied.xhtml").forward(req, resp);
                         //}
                     } else {//if it's super admin, can access all pages under the subsystem 
                         chain.doFilter(request, response);
@@ -92,7 +96,10 @@ public class UrlRewriteFilter implements Filter {
 
                 } else {
                     req.getSession(true).setAttribute("lastVisit", urlPath);
-                    req.getRequestDispatcher("/login.xhtml").forward(req, resp);
+                     if (urlPath.contains("crm")) {
+                    req.getRequestDispatcher("/index.xhtml").forward(req, resp);}
+                      else {
+                    req.getRequestDispatcher("/loginInternalUser.xhtml").forward(req, resp);}
                 }
 
 
@@ -122,15 +129,29 @@ public class UrlRewriteFilter implements Filter {
 
     private Boolean checkSuperAdmin(String role, String path) throws ExistException {
 
-        System.err.println("===================check if it's a super Admin");
+        System.err.println("===================check if it's a super Admin"+role);
 
+        if (role.contains("SuperAdmin")) {
+            if (!path.contains("crm")) {
+                return true;
+            }
+        }
+        
+         if (role.contains("customer")) {
+            if (path.contains("crm")) {
+                return true;
+            }
+        }
         if (role.contains("acmSuperAdmin")) {
             if (path.contains("acm")) {
                 return true;
             }
         }
         if (role.contains("spmSuperAdmin")) {
-            if (path.contains("spm")) {
+             System.err.println("===================check "+path);
+            if (path.contains("smp")) {
+                 System.err.println("===================check if it's a super Admin"+role);
+                  System.err.println("===================check if it's a super Admin"+path);
                 return true;
             }
         }
@@ -141,24 +162,17 @@ public class UrlRewriteFilter implements Filter {
 
     }
 
-    private Boolean checkRole(String path) {
-        if (path.contains("commonInfrastructure")
-                || path.contains("message")
-                || path.contains("utility")
-                || path.endsWith("/")) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+   
 
     private Boolean checkRequireLogin(String path) {
-        if (path.contains("index.xhtml") || path.contains("loginInternalUser.xhtml")
-                || path.contains("loginCustomer.xhtml")
-                || path.contains("passwordReset.xhtml")
-                || path.contains("accessDeniedPage.xhtml")
+        if (path.contains("index.xhtml") 
+                || path.contains("loginCustomer.xhtml") || path.contains("loginInternalUser.xhtml") 
+                || path.contains("passwordReset.xhtml")|| path.contains("crmPasswordReset.xhtml")
+                || path.contains("ResetResult.xhtml") || path.contains("crmResetResult.xhtml")
+                || path.contains("customerRegister.xhtml")
+                || path.contains("accessDeniedPage.xhtml")|| path.contains("test.xhtml")
                 || path.startsWith("/javax.faces.resource")
-                || path.startsWith("/resources")
+                || path.startsWith("/resources")  
                 || path.endsWith("/")) {
            System.out.println("doesn't reqiure login=================================");
            return true;

@@ -4,76 +4,70 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
     <f:view>
-    <h:head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-         </h:head>
-<script type="text/javascript">
-	function handleLoginRequest(xhr, status, args) {
-        if(args.validationFailed || !args.loggedIn) {
-            dlg.jq.effect("shake", { times:5 }, 100);
-        } 
-        else {
-            dlg.hide();
-            $('#loginLink').fadeOut();
-            window.location="http://localhost:8080/IRMS-war/customerPortal.xhtml" ;
-        }
-    }
-  
-    function   validateCode() {    
-       document.getElementById('getCode').src="validateCode.jsp?"+Math.ceil(Math.random()*1000);    
-     }     
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        </h:head>
+        <script type="text/javascript">
+            function handleLoginRequest(xhr, status, args) {
+                if (args.validationFailed || !args.loggedIn) {
+                    dlg.jq.effect("shake", {times: 5}, 100);
+                }
+                else {
+                    dlg.hide();
+                    $('#loginLink').fadeOut();
+                    window.location = "http://localhost:8080/IRMS-war/crm.xhtml";
+                }
+            }
+ </script>
+        <h:body>
 
-   
-</script>
-    <h:body>
-<h:form id="form">
-    <h:outputLink id="loginLink" value="javascript:void(0)" onclick="dlg.show()" title="login">	
-        <p:graphicImage value="/resources/img/login.png" />
-    </h:outputLink>
- 
-    <p:growl id="growl" showDetail="true" life="3000" />
+            <div style="width:50%; height:20%; margin-right:auto;margin-top:10%; margin-bottom:auto;margin-left:auto; border:0px ;">
 
-    <p:dialog id="dialog" header="Login" widgetVar="dlg" resizable="false">
 
-		<h:panelGrid columns="2" cellpadding="5">
-			<h:outputLabel for="username" value="Username:" />
-                        <p:inputText value="#{loginBean.username}" 
-					id="username" required="true" label="username" />
-			
-			<h:outputLabel for="password" value="Password:" />
-			<h:inputSecret value="#{loginBean.password}" 
-					id="password" required="true" label="password" />
-			
+                <h:form id="form" style="margin-left:35%;">
+                    <h:outputLink id="loginLink" value="javascript:void(0)" onclick="dlg.show()" title="login" >	
+                        <p:graphicImage value="/resources/img/login22.png"   title="Login"/>
+                    </h:outputLink>
+                    
+                    
+                    <h:outputLink id="forgetPasswordLink" value="/IRMS-war/crmPasswordReset.xhtml"  title="login" >	
+                        <p:graphicImage value="/resources/img/forgetPassword22.png" title="Forget Password"/>
                         
-                      
-                        
-                        
-   
-    
-  
-		
-		 <p:captcha label="Captcha"/>  
-    <f:facet name="footer">
-				<p:commandButton id="loginButton" value="Login" update="growl" 
-					actionListener="#{loginBean.login}" 
-					oncomplete="handleLoginRequest(xhr, status, args)"/>
-			</f:facet>
-    </h:panelGrid>
-    </p:dialog>
-   
-    
-    
-    
-    
-    
-</h:form>
-    </h:body>
-</f:view>
+                    </h:outputLink>
+                 
+                    <h:outputLink id="RegisterLink" value="/IRMS-war/customerRegister.xhtml" title="login" >	
+                        <p:graphicImage value="/resources/img/register22.png"  title="Register Account"/>
+                    </h:outputLink>
+                    
+                    <p:growl id="growl" showDetail="true" life="3000" />
+                    
+                    <p:dialog id="dialog" header="Login" widgetVar="dlg" resizable="false">
 
-				
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <h:outputLabel for="username" value="Username:" />
+                            <p:inputText value="#{customerLoginBean.username}" 
+                                         id="username" required="true" label="username" />
 
+                            <h:outputLabel for="password" value="Password:" />
+                            <h:inputSecret value="#{customerLoginBean.password}" 
+                                           id="password" required="true" label="password" />
+
+                            <p:captcha label="Captcha"/>  
+                            <f:facet name="footer">
+                                <p:commandButton id="loginButton" value="Login" update="growl" 
+                                                 actionListener="#{customerLoginBean.login}" 
+                                                 oncomplete="handleLoginRequest(xhr, status, args)"/>
+                            </f:facet>
+                        </h:panelGrid>
+                    </p:dialog>
+
+                </h:form>
+            </div>
+        </h:body>
+    </f:view>
 
 </html>
 

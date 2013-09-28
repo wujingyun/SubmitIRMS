@@ -170,31 +170,31 @@ function handleLoginRequest(xhr, status, args) {
 
 
                                           <li class="dropdown">
-                                            <a  href="#login-box" class="login-window" id="opener">
+                                            <a  href="/IRMS-war/loginCustomer.xhtml" class="login-window" id="opener">
                                                 Login
 
                                             </a>
-                                        <p:growl id="growl" showDetail="true" life="3000" />
+                                       <!-- <p:growl id="growl" showDetail="true" life="3000" />
                                         <div id="dialog" title="Login" style="width: 400px" >
     <h:panelGrid columns="2" cellpadding="5" style="width: 400px">
 			<h:outputLabel for="username" value="Username:" />
-                        <p:inputText value="#{loginBean.username}" 
+                        <p:inputText value="{loginBean.username}" 
 					id="username" required="true" label="username" />
 			
 			<h:outputLabel for="password" value="Password:" />
-			<h:inputSecret value="#{loginBean.password}"
+			<h:inputSecret value="{loginBean.password}"
 					id="password" required="true" label="password" />
 			
                         
                         <f:facet name="footer">
 				<p:commandButton id="loginButton" value="Login"  update="growl" 
-					actionListener="#{loginBean.login}"
+					actionListener="{loginBean.login}"
                                      	oncomplete="handleLoginRequest(xhr, status, args)"/>
 			
 			</f:facet>
                        
-		</h:panelGrid>
-</div>
+		</h:panelGrid> 
+</div>-->
                                         </li>    
                                            
 

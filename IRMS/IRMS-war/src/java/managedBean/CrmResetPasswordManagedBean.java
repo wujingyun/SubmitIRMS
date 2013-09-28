@@ -2,10 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
- package managedBean;
- 
-import entity.UserAccount; 
-import ejb.AdminUserBeanRemote;
+package managedBean;
+
+import entity.Customer;
+import ejb.CustomerBeanRemote;
 import ejb.EmailSessionBean;
 import exception.ExistException;
 import java.io.IOException;
@@ -17,83 +17,69 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
-
 /**
  *
  * @author wujingyun
  */
 @ManagedBean
 @ViewScoped
-public class ResetPasswordManagedBean {
-    
+public class CrmResetPasswordManagedBean {
+
     @EJB
-    private AdminUserBeanRemote aub ;
+    private CustomerBeanRemote cbb;
     @EJB
     private EmailSessionBean emailSessionBean;
     private String username;
-     private String email;
-    private UserAccount systemUser=null;
+    private String email;
+    private Customer customer = null;
     private String password;
     private String newpass1;
     private String newpass2;
     private String oldpass;
-    
-    
-    public ResetPasswordManagedBean() {
+
+    public CrmResetPasswordManagedBean() {
     }
 
     public void resetPassword(ActionEvent event) throws IOException, ExistException {
-     
-         System.out.println("==================================username to reset password"+username);
-        systemUser = aub.findUser(username);
+
+        System.out.println("==================================username to reset password" + username);
+        customer = cbb.findCustomer(username);
         System.out.println("==================================user id to reset password");
-         System.out.println(systemUser);
-        if (systemUser == null) {
-          System.out.println("==================================user is null"); 
-          //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Invalid UserName", ""));
-System.out.println("==================================user is null2");
- 
+        System.out.println(customer);
+        if (customer == null) {
+            System.out.println("==================================user is null");
+            // FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Invalid UserName", ""));
+            System.out.println("==================================user is null2");
 
 
-FacesMessage msg = null; 
- msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid User Name", username);
 
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-        System.out.println("==================================user is null3");
-     
+            FacesMessage msg = null;
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid User Name", username);
+
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            System.out.println("==================================user is null3");
+
+        } else {
+            String uuid = UUID.randomUUID().toString();
+            String[] sArray = uuid.split("-");
+            String initialPwd = sArray[0];
+            String hashPassword = cbb.hashPassword(initialPwd);
+            cbb.setHashPassword(username, initialPwd);
+            cbb.setLoginAttempToZero(username);
+            emailSessionBean.emailInitialPassward(customer.getEmail(), initialPwd);
+            FacesContext.getCurrentInstance().getExternalContext().redirect("crmResetResult.xhtml");
         }
-        
-        
-       
-        else {
-                String uuid = UUID.randomUUID().toString();
-                String[] sArray = uuid.split("-");
-                String initialPwd = sArray[0];
-                String hashPassword = aub.hashPassword(initialPwd);
-                aub.setHashPassword(username, initialPwd);
-                aub.setLoginAttempToZero(username);
-                emailSessionBean.emailInitialPassward(systemUser.getContact().getEmail(), initialPwd); 
-                FacesContext.getCurrentInstance().getExternalContext().redirect("ResetResult.xhtml");
-            } 
-              
-      
-    
-    
-    
-    
-    
+
     }
-    
-    
-    
-       public void changePass(ActionEvent event) throws IOException, ExistException {
+
+    public void changePass(ActionEvent event) throws IOException, ExistException {
         FacesMessage msg = null;
         System.out.println("==================================username to reset password" + username);
-        systemUser = aub.findUser(username);
+        customer = cbb.findCustomer(username);
         System.out.println("==================================user id to reset password");
-        
-        String hashPassword = aub.hashPassword(oldpass);
-        if (systemUser == null) {
+        System.out.println(customer);
+        String hashPassword = cbb.hashPassword(oldpass);
+        if (customer == null) {
             System.out.println("==================================user is null");
             // FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Invalid UserName", ""));
             System.out.println("==================================user is null2");
@@ -103,7 +89,7 @@ FacesMessage msg = null;
             FacesContext.getCurrentInstance().addMessage(null, msg);
             System.out.println("==================================user is null3");
 
-        } else if (!aub.verifyPassword(username, hashPassword)) {
+        } else if (!cbb.verifyPassword(username, hashPassword)) {
             System.out.println("==================================old pass wrong "+hashPassword);
             msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Old Password is wrong", "");
 
@@ -122,8 +108,8 @@ FacesMessage msg = null;
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } else {
             System.out.println("==================================change pass ");
-            aub.setHashPassword(username, newpass1);
-            aub.setLoginAttempToZero(username);
+            cbb.setHashPassword(username, newpass1);
+            cbb.setLoginAttempToZero(username);
             msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Passwords changed", "Please logout and login again");
 
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -138,20 +124,12 @@ FacesMessage msg = null;
 
     }
 
-    public String getPassword() {
-        return password;
+    public void setCbb(CustomerBeanRemote cbb) {
+        this.cbb = cbb;
     }
 
-    public String getNewpass1() {
-        return newpass1;
-    }
-
-    public String getNewpass2() {
-        return newpass2;
-    }
-
-    public String getOldpass() {
-        return oldpass;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public void setPassword(String password) {
@@ -170,17 +148,40 @@ FacesMessage msg = null;
         this.oldpass = oldpass;
     }
 
-    
-    
-      public String getEmail() {
+    public CustomerBeanRemote getCbb() {
+        return cbb;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getNewpass1() {
+        return newpass1;
+    }
+
+    public String getNewpass2() {
+        return newpass2;
+    }
+
+    public String getOldpass() {
+        return oldpass;
+    }
+
+    public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
     }
- public void setAub(AdminUserBeanRemote aub) {
-        this.aub = aub;
+
+    public void setAub(CustomerBeanRemote aub) {
+        this.cbb = aub;
     }
 
     public void setEmailSessionBean(EmailSessionBean emailSessionBean) {
@@ -191,12 +192,12 @@ FacesMessage msg = null;
         this.username = username;
     }
 
-    public void setSystemUser(UserAccount systemUser) {
-        this.systemUser = systemUser;
+    public void setSystemUser(Customer systemUser) {
+        this.customer = systemUser;
     }
 
-    public AdminUserBeanRemote getAub() {
-        return aub;
+    public CustomerBeanRemote getAub() {
+        return cbb;
     }
 
     public EmailSessionBean getEmailSessionBean() {
@@ -207,9 +208,7 @@ FacesMessage msg = null;
         return username;
     }
 
-    public UserAccount getSystemUser() {
-        return systemUser;
+    public Customer getSystemUser() {
+        return customer;
     }
-
-
 }

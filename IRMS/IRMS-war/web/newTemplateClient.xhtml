@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./templet/scmTemplet.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <ui:define name="center">
+      <h:form>
+               <p:commandButton id="navi" value="Navigation" type="button" />               
+                <p:panelMenu style="width:200px">
+                     <p:submenu label="Navigations" > 
+                         <p:submenu label="Links" icon="ui-icon-extlink">
+                              <p:menuitem value="Home" url="http://localhost:8080/IRMS-war/" icon="ui-icon-home" /> 
+                         </p:submenu>   
+                     </p:submenu>   
+                </p:panelMenu> 
+                <br></br>
+                <br></br>   
+                   <p:tabMenu activeIndex="0" style ="width: 200px">  
+                  <p:menuitem value="Create Contract" url="/smpManageContract.xhtml" icon="ui-icon-star"/>     
+                    </p:tabMenu>    
+                <p:tabMenu activeIndex="1" style ="width: 200px">  
+                  <p:menuitem value="Renew Contract" url="/smpRenewContract.xhtml" icon="ui-icon-star"/>     
+                    </p:tabMenu>
+                <p:tabMenu activeIndex="3" style ="width: 200px">  
+                  <p:menuitem value="Terminate Contract" url="/smpTerminateContract.xhtml" icon="ui-icon-star"/>     
+                    </p:tabMenu>
+                <p:tabMenu activeIndex="4" style ="width: 200px">  
+                  <p:menuitem value="Add Unit" url="/smpShoppingMallSpace.xhtml" icon="ui-icon-star"/>     
+                    </p:tabMenu>  
+                <p:tabMenu activeIndex="5" style ="width: 200px">  
+                  <p:menuitem value="Delete Unit" url="/smpDeleteUnits.xhtml" icon="ui-icon-star"/>     
+                    </p:tabMenu> 
+                 <p:tabMenu activeIndex="5" style ="width: 200px">  
+                  <p:menuitem value="Shop And Bill" url="/smpGenerateBill.xhtml" icon="ui-icon-star"/>     
+                    </p:tabMenu> 
+                
+            </h:form>         
+    </ui:define>
+
+</ui:composition>
