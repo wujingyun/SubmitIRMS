@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta http-equiv="X-UA-Compatible" content="EmulateIE8" />
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>Customer Relationship Management</title>
+            </f:facet>
+
+            <link type="text/css" rel="stylesheet" href="./resources/css/default.css" />
+            <link type="text/css" rel="stylesheet" href="./resources/css/syntaxhighlighter/syntaxhighlighter.css" />
+
+            <style type="text/css">
+                .ui-layout-north {
+                    z-index:20 !important;
+                    overflow:visible !important;;
+                }
+
+                .ui-layout-north .ui-layout-unit-content {
+                    overflow:visible !important;
+                }
+            </style>
+            
+            
+        </h:head>
+
+<script type="text/javascript">
+	function goChangePass() {
+     
+          window.location="http://localhost:8080/IRMS-war/crmChangePass.xhtml" ;
+        } 
+        
+</script>
+        <h:body>
+   
+            <p:layout fullPage="true" >
+
+                <p:layoutUnit id="top" position="north" size="50">
+                
+                    <p:menubar>
+                        <p:submenu label="Ticket" icon="ui-icon-document">
+                          
+                            <p:menuitem value="tt" url="#" />
+                            <p:menuitem value="tt" url="#" onclick=""/>
+                        </p:submenu>
+
+                        <p:submenu label="Edit" icon="ui-icon-pencil">
+                            <p:menuitem value="Undo" url="#" icon="ui-icon-arrowreturnthick-1-w"></p:menuitem>
+                            <p:menuitem value="Redo" url="#" icon="ui-icon-arrowreturnthick-1-e"></p:menuitem>
+                        </p:submenu>
+
+                        <p:submenu label="Help" icon="ui-icon-help">
+                            <p:menuitem value="Contents" url="#" />
+                            <p:submenu label="Search" icon="ui-icon-search">
+                                <p:submenu label="Text">
+                                    <p:menuitem value="Workspace" url="#" />
+                                </p:submenu>
+                                <p:menuitem value="File" url="#" />
+                            </p:submenu>
+                        </p:submenu>
+                    </p:menubar>
+                </p:layoutUnit>
+
+                
+
+                <p:layoutUnit id="left" position="west" size="300" resizable="true" closable="true" collapsible="true" header="Options" minSize="200">
+                    <p:accordionPanel>
+                        <p:tab title="Calendar">
+                            <br />
+                            <p:calendar mode="inline" navigator="none"/>
+                            <br />
+                        </p:tab>
+
+                        <p:tab title="Menu 2">
+                            <h:outputText value="Menu 2 Content" />
+                        </p:tab>
+
+                        <p:tab title="Menu 3">
+                            <h:outputText value="Menu 3 Content" />
+                        </p:tab>
+                    </p:accordionPanel>
+                </p:layoutUnit>
+
+                <p:layoutUnit id="right" position="east" size="250" header="Manage Account" resizable="true" closable="true" collapsible="true"
+                              style="text-align:center">
+
+                    
+ <p:commandButton  id="logoutButton" value="Logout"
+					actionListener="#{customerLoginBean.logout}" />
+				
+ <p:commandButton onclick="goChangePass();" value="Change Password"/>
+    </p:layoutUnit>
+
+                <p:layoutUnit id="center" position="center">
+                    <ui:insert name="center"> 
+                    <h:form>
+                       
+                    </h:form>
+                </ui:insert>
+                </p:layoutUnit>
+
+            </p:layout>
+
+            <p:dialog header="Basic Dialog" widgetVar="dlg" modal="true">
+                <h:outputText value="Resistance to PrimeFaces is futile!" />
+            </p:dialog>
+
+        </h:body>
+
+    </f:view>
+</html>

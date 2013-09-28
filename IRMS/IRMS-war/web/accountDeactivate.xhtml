@@ -23,7 +23,7 @@
   
     <p:growl id="msgs" showDetail="true"/>  
                   
-    <p:panel  header="Activate Account" style="margin-bottom:10px;">  
+    <p:panel  header="Deactivate Account" style="margin-bottom:10px;">  
         <h:panelGrid columns="2" cellpadding="5">  
             
           
@@ -36,10 +36,10 @@
                 <f:selectItem itemLabel="Select Division" itemValue="" />  
                 <f:selectItems value="#{loginBean.divisions}" />  
                 <p:ajax update="subroles"  
-                        listener="#{loginBean.getAccountByDivisionToAc()}" />  
+                        listener="#{loginBean.getAccountByDivisionToDe()}" />  
             </p:selectOneMenu>  
                
-            <p:selectOneMenu id="subroles" value="#{loginBean.activateAccountName}" required="true" 
+            <p:selectOneMenu id="subroles" value="#{loginBean.deactivateAccountName}" required="true" 
                                         requiredMessage="Account is required">  
                 <f:selectItem itemLabel="Select Account" itemValue="" />  
                 <f:selectItems value="#{loginBean.accountByDivisionMap}" />  
@@ -55,7 +55,7 @@
   
         <p:separator />  
            <p:commandButton value="Reset" type="reset" />  
-        <p:commandButton value="Submit" update="msgs" actionListener="#{loginBean.activate}" id="btnSubmit"/>  
+        <p:commandButton value="Submit" update="msgs" actionListener="#{loginBean.deactive}" id="btnSubmit"/>  
   
     </p:panel>  
   
