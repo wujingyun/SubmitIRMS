@@ -179,7 +179,9 @@ public class LoginBean implements Serializable {
 
         //attemp number lesser than 5 or it's 5 mins after last attemp, allow login
         if ((aub.getLoginAttemp(username) <= 5) || (aub.checkLockOut(username) == true)) {
+
             System.out.println("login number============" + aub.getLoginAttemp(username));
+
             //have to reset attemp number to 0 and update attemp time(in the case where account is unlocked
             //, otherwise, if login fails again, the account will be locked for another 5 min
             if (aub.checkLockOut(username)) {
@@ -245,16 +247,36 @@ public class LoginBean implements Serializable {
                 redirct = "fail";
 
             } //auth fails
-            else {
+            else if (!aub.checkUserExist(username)) {
                 loggedIn = false;
                 aub.updateLoginAttemp(username);
                 aub.updateLoginAttempTime(username);
 
-                msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", "Invalid credentials");
+                msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", "Username doesn't exist");
                 user = null;
 
-                redirct = "loginSuccess";
+                redirct = "fail";
 
+            } else if (aub.checkUserExist(username) && (!aub.verifyPassword(username, hashPassword))) {
+                loggedIn = false;
+                aub.updateLoginAttemp(username);
+                aub.updateLoginAttempTime(username);
+
+                msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", "Wrong password");
+                user = null;
+
+                redirct = "fail";
+
+
+            } else {
+                loggedIn = false;
+                aub.updateLoginAttemp(username);
+                aub.updateLoginAttempTime(username);
+
+                msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", "Invalid Credentials");
+                user = null;
+
+                redirct = "fail";
             }
         } //time diff is less than 5 mins, don't allow login 
         else {
@@ -313,9 +335,16 @@ public class LoginBean implements Serializable {
         active = true;
 
         long thesubrole = Long.parseLong(subrole);
+        if (aub.checkUserExist(username)) {
+            register = false;
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Reigstered Failed", "Username Existed, use another username.");
+        } else if (!password.equals(confirmpassword)) {
+            register = false;
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Reigstered Failed", "Passwords don't match.");
 
-        if (username != null && password != null && division != null) {
+        } else if (username != null && password != null && division != null) {
             String hashPassword = aub.hashPassword(password);
+
             aub.register(username, thesubrole, hashPassword, division, active, phone, email);
             register = true;
             msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Reigstered Successfully", username);

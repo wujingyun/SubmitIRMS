@@ -124,16 +124,37 @@ public class CustomerLoginBean implements Serializable {
               
               
             } //auth fails
-            else {
+            
+             else if (!cbb.checkUserExist(username)) {
                 loggedIn = false;
                 cbb.updateLoginAttemp(username);
                 cbb.updateLoginAttempTime(username);
 
-                msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", "Invalid credentials");
+                msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", "Username doesn't exist");
                 customer = null;
 
-                redirct = "loginSuccess";
+                redirct = "fail";
 
+            } else if (cbb.checkUserExist(username) && (!cbb.verifyPassword(username, hashPassword))) {
+                loggedIn = false;
+                cbb.updateLoginAttemp(username);
+                cbb.updateLoginAttempTime(username);
+
+                msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", "Wrong password");
+                customer = null;
+
+                redirct = "fail";
+
+
+            } else {
+                loggedIn = false;
+                cbb.updateLoginAttemp(username);
+                cbb.updateLoginAttempTime(username);
+
+                msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", "Invalid Credentials");
+                customer = null;
+
+                redirct = "fail";
             }
         } //time diff is less than 5 mins, don't allow login 
         else {
@@ -187,7 +208,7 @@ public class CustomerLoginBean implements Serializable {
         boolean register = false;
         active = true;
 
-        if (username != null && password != null) {
+      /*  if (username != null && password != null) {
             String hashPassword = cbb.hashPassword(password);
 
             cbb.createCustomer(username, hashPassword, firstName, lastName, address, email, ageGroup, gender, phone);
@@ -200,7 +221,28 @@ public class CustomerLoginBean implements Serializable {
             msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Register Error", "Register Failed");
 
         }
+*/
+        if (cbb.checkUserExist(username)) {
+            register = false;
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Reigstered Failed", "Username Existed, use another username.");
+        } 
+        else if (!password.equals(confirmpassword)) {
+            register = false;
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Reigstered Failed", "Passwords don't match.");
+        }
+        else if (username != null && password != null ) {
+            String hashPassword = cbb.hashPassword(password);
+            cbb.createCustomer(username, hashPassword, firstName, lastName, address, email, ageGroup, gender, phone);
+            register = true;
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Reigstered Successfully", username);
+        } 
+        else {
+            register = false;
+            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Register Error", "Register Failed");
 
+        }
+        
+        
         FacesContext.getCurrentInstance().addMessage(null, msg);
         context.addCallbackParam("register", register);
 
