@@ -31,7 +31,7 @@ public class ManageTenantBean implements ManageTenantBeanRemote {
     EntityManager em;
     ShopBill bill;
     Shop shop;
-    double commisionRate = 0.3;
+    private static double commisionRate = 0.3;
     Calendar dateIssued;
     List<Shop> shopList;
     Collection<ShopBill> billList;
@@ -42,6 +42,19 @@ public class ManageTenantBean implements ManageTenantBeanRemote {
     public void generateQuarterlyReport(){
     
     }
+    @Override
+    public void changeCommissionRate(double cRate){
+        System.err.println("session bean :commision rate is "+cRate+" old value is "+commisionRate);
+        commisionRate =cRate;
+    }
+    
+    @Override
+    public double sendCommisionRate(){
+        return commisionRate;
+    }
+    
+    
+    
       @Override
       public HashMap<String, Integer> viewTenancyMix() {
         contractEntity = new Contract();
@@ -69,10 +82,7 @@ public class ManageTenantBean implements ManageTenantBeanRemote {
         }
         return cache;
     }
-      @Override
-      public String test (){
-          return "Brand wangxiahao";
-      }
+   
     
    
     
@@ -88,13 +98,15 @@ public class ManageTenantBean implements ManageTenantBeanRemote {
         
         
     }
-    
     @Override
     public double calculateCommission(double revenue){
         double commissionFee;
        commissionFee = commisionRate * revenue;
         return commissionFee;
     }
+    
+  
+    
     //view only bills from one shop
     @Override
     public Shop viewBill(String ShopName,String shopOwner){
@@ -159,7 +171,7 @@ public class ManageTenantBean implements ManageTenantBeanRemote {
         shop = new Shop();
         shop =em.find(Shop.class, BillID);
         System.err.println(description.length()+" "+" operatinghours "+operatinghours.length() +" storeContact"+storeContact.length());
-        System.err.println(description==null?"null":"not null");
+       // System.err.println(description==null?"null":"not null");
         if(description.length()!=0){
         shop.setDescription(description);
         }
@@ -172,5 +184,15 @@ public class ManageTenantBean implements ManageTenantBeanRemote {
         
         em.flush();
     }
+
+    public static double getCommisionRate() {
+        return commisionRate;
+    }
+
+    public static void setCommisionRate(double commisionRate) {
+        ManageTenantBean.commisionRate = commisionRate;
+    }
+    
+    
     
 }

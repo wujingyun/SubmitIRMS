@@ -13,6 +13,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -143,8 +145,17 @@ public class ManageMallSpaceBean implements ManageMallSpaceBeanRemote {
     }
     //cleared
     @Override
-    public void createMall(String mallName) {
+    public void createMall(String mallName){
         mallEntity = new Mall();
+        Query q = em.createQuery("SELECT m FROM Mall m");
+        for (Object o : q.getResultList()) {
+            mallEntity = (Mall) o;
+            if(mallEntity.getMallName().equals(mallName)) try {
+                throw new ExistException("The contract does not exist!");
+            } catch (ExistException ex) {
+                Logger.getLogger(ManageMallSpaceBean.class.getName()).log(Level.SEVERE, null, ex);
+            } 
+        }
         mallEntity.setMallName(mallName);
         mallEntity.setMallSize(maxArea);
         em.persist(mallEntity);

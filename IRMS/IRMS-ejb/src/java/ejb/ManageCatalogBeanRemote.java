@@ -22,5 +22,5 @@ public interface ManageCatalogBeanRemote {
       public void deleteProductItem(String category,String name);
       public void deliveryItem(String hotelName,String customerName, String customerID, 
             String contactNumber, Integer numOfItems, String description);
-      public boolean updateDeliveryOrder(String status, String ID) throws ExistException;
+      public void updateDeliveryOrder(String status, Long ID) throws ExistException;
 }

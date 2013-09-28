@@ -17,7 +17,7 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface ManageTenantBeanRemote {
-    public double calculateCommission(double revenue);
+   
     public Shop viewBill(String ShopName,String shopOwner);
     public void creatBill(double RentalFee, double commission, Long ShopID) ;
     public void EditBillStatus(Long BillID);
@@ -25,6 +25,9 @@ public interface ManageTenantBeanRemote {
     public Collection<ShopBill> sendBills(Long ShopID);
     public void EditShopInfo(Long BillID,String description,String operatinghours,String storeContact);
     public HashMap<String, Integer> viewTenancyMix();
-     public String test ();
+   
+     public double calculateCommission(double revenue);
+     public void changeCommissionRate(double cRate);
+     public double sendCommisionRate();
  
 }

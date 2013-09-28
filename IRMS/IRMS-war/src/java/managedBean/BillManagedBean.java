@@ -12,8 +12,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -49,24 +51,44 @@ public class BillManagedBean implements Serializable {
     private String description;
     private String operatinghours;
     private String storeContact;
-   // private HashMap<String, Integer> cache;
-  //  private PieChartModel model;
-
+    private HashMap<String, Integer> cache;
+    private static PieChartModel model;
+    private LinkedList list;
+    private static double commisionRate;
+    private double commision;
     @PostConstruct
     public void init() {
         this.shopList = mtb.getShopList();
     //    this.cache = mtb.viewTenancyMix();
-       
+        
+       commisionRate =mtb.sendCommisionRate();
     }
 
     public BillManagedBean() {
      
     }
-
+    
+    public void retrieveRate(ActionEvent event){
+        commisionRate=mtb.sendCommisionRate();
+    }
+    
+    public void changeCommissionRate(ActionEvent evnt){
+        try {          
+            mtb.changeCommissionRate(commisionRate);
+             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Commission changed successfully", ""));
+        }
+         catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "An error has occurred while changing the commissionRate: " + ex.getMessage(), ""));
+        }
+    }
+    
     public void createBill(ActionEvent event) {
 
         try {
-            mtb.creatBill(rentRate, 0, getShopEntity().getShopID());
+            System.err.println("createBill"+getCommision());
+            mtb.creatBill(rentRate,getCommision(), getShopEntity().getShopID());
             this.setBills(bills);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "New bill created successfully", ""));
@@ -190,8 +212,23 @@ public class BillManagedBean implements Serializable {
             System.out.println("In managed bean key,val: " + entry.getKey() + "," + entry.getValue());       
         }
         this.createModel();*/
-      
-        
+         //   list = new LinkedList();
+            cache= new HashMap<String, Integer>();
+            model = new PieChartModel();
+            cache = mtb.viewTenancyMix();
+            
+            for (Iterator<Map.Entry<String, Integer>> it = cache.entrySet().iterator(); it.hasNext();) {
+            Map.Entry entry = it.next();
+            System.out.println("In managed bean key,val: " + entry.getKey() + "," + entry.getValue());
+            String s = (String)entry.getKey();
+           Integer i = (Integer)entry.getValue();
+           model.set(s, i);
+           System.out.println("success set");
+          // list.add(s);
+           //list.add(i);
+           //System.out.println("LinkedList:" + list);
+           }
+         
             String url = "smpTenancyMix.xhtml";
             FacesContext fc = FacesContext.getCurrentInstance();
             ExternalContext ec = fc.getExternalContext();
@@ -206,19 +243,6 @@ public class BillManagedBean implements Serializable {
             
     }
 
-    public void createBill() {
-        try {
-            System.err.println(rentRate + " " + getShopEntity().getShopID());
-
-            mtb.creatBill(rentRate, 0, this.getShopEntity().getShopID());
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                    "New bill created successfully", ""));
-        } catch (Exception ex) {
-
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "An error has occurred while creating the new bill: " + ex.getMessage(), ""));
-        }
-    }
 
     public List<Shop> getShopList() {
         return shopList;
@@ -292,7 +316,7 @@ public class BillManagedBean implements Serializable {
         this.storeContact = storeContact;
     }
 
-  /*  public HashMap<String, Integer> getCache() {
+    public HashMap<String, Integer> getCache() {
         return cache;
     }
 
@@ -306,5 +330,30 @@ public class BillManagedBean implements Serializable {
 
     public void setModel(PieChartModel model) {
         this.model = model;
-    }*/
+    }
+
+    public LinkedList getList() {
+        return list;
+    }
+
+    public void setList(LinkedList list) {
+        this.list = list;
+    }
+
+    public double getCommisionRate() {
+        return commisionRate;
+    }
+
+    public void setCommisionRate(double commisionRate) {
+        this.commisionRate = commisionRate;
+    }
+
+    public double getCommision() {
+        return commision;
+    }
+
+    public void setCommision(double commision) {
+        this.commision = commision;
+    }
+
 }

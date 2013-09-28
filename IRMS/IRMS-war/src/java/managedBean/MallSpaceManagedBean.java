@@ -65,7 +65,7 @@ public class MallSpaceManagedBean implements Serializable{
                  "New Unit added successfully", ""));
         }catch(Exception ex){
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,  
-                    "An error has occurred while creating the new Unit: " + ex.getMessage(), ""));
+                    "An error has occurred while creating the new Unit: Same Uuni Number identified! " + ex.getMessage(), ""));
         }
     }
     

@@ -45,6 +45,7 @@ public class ConciergeOrder implements Serializable {
         this.setContactNumber(contactNumber);
         this.setNumOfItems(numOfItems);
         this.setDescription(description);
+ 
     }
     
     public String getCustomerName() {
