@@ -15,18 +15,17 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.model.chart.PieChartModel;
+import util.dao.TenancyMixData;
 
 
 /**
@@ -59,7 +58,7 @@ public class BillManagedBean implements Serializable {
     @PostConstruct
     public void init() {
         this.shopList = mtb.getShopList();
-    //    this.cache = mtb.viewTenancyMix();
+        this.cache = mtb.viewTenancyMix();
         
        commisionRate =mtb.sendCommisionRate();
     }
@@ -318,6 +317,16 @@ public class BillManagedBean implements Serializable {
 
     public HashMap<String, Integer> getCache() {
         return cache;
+    }
+    
+    public List<TenancyMixData> getTenancyMixDatas()
+    {
+        List<TenancyMixData> tenanctMixDatas = new ArrayList<TenancyMixData>();
+        
+        for(String key:cache.keySet())
+            tenanctMixDatas.add(new TenancyMixData(key, cache.get(key)));
+        
+        return tenanctMixDatas;
     }
 
     public void setCache(HashMap<String, Integer> cache) {

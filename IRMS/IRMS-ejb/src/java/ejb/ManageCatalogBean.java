@@ -94,7 +94,7 @@ public class ManageCatalogBean implements ManageCatalogBeanRemote {
             deliveryOrder.setStatus("In the Shopping Mall");
             
             String ejbql=("SELECT h FROM Hotel WHERE Hotel.name =?1");
-            Query q = em.createQuery("SELECT h FROM Hotel WHERE Hotel.name =:hotelName");
+            Query q = em.createQuery(ejbql);
             
             q.setParameter("name",hotelName);
             hotel = (Hotel)q.getSingleResult();

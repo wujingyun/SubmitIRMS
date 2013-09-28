@@ -17,7 +17,7 @@ and open the template in the editor.
            
             
             <h:form id="form2"> 
-                <p:dataTable  id="t1" paginator="true" rows="15" binding="#{shoppingMallManagedBean.dataTable}" style="border: solid 2px black;"
+                <p:dataTable  id="t1" paginator="true" rows="15" style="border: solid 2px black;"
                              value="#{shoppingMallManagedBean.contractList}" var="contractRecord"  >
                     
                     <p:column id="TenantColumn" filterBy="#{contractRecord.tenant}"   
@@ -124,7 +124,7 @@ and open the template in the editor.
                         </p:selectOneMenu>
 
                         <f:facet name="footer">
-                            <p:commandButton id="renewContract" value="Renew" update="growl"
+                            <p:commandButton id="renewContract" value="Renew" update=":form2:t1 growl"
                                              actionListener="#{shoppingMallManagedBean.renewContract}" />
                         </f:facet>
 

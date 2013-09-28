@@ -150,11 +150,11 @@ public class ManageMallSpaceBean implements ManageMallSpaceBeanRemote {
         Query q = em.createQuery("SELECT m FROM Mall m");
         for (Object o : q.getResultList()) {
             mallEntity = (Mall) o;
-            if(mallEntity.getMallName().equals(mallName)) try {
+        /*    if(mallEntity.getMallName().equals(mallName)) try {
                 throw new ExistException("The contract does not exist!");
             } catch (ExistException ex) {
                 Logger.getLogger(ManageMallSpaceBean.class.getName()).log(Level.SEVERE, null, ex);
-            } 
+            } */
         }
         mallEntity.setMallName(mallName);
         mallEntity.setMallSize(maxArea);
