@@ -6,8 +6,6 @@ package entity;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
@@ -20,11 +18,9 @@ import javax.persistence.ManyToOne;
 public class MiniBarItem implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String name;
     @ManyToOne
     private Hotel hotel;
-    private String name;
     private String description;
     private Integer quantity;
     private double price;
@@ -77,19 +73,11 @@ public class MiniBarItem implements Serializable {
     public void setPrice(double price) {
         this.price = price;
     }
-    
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (name != null ? name.hashCode() : 0);
         return hash;
     }
 
@@ -100,7 +88,7 @@ public class MiniBarItem implements Serializable {
             return false;
         }
         MiniBarItem other = (MiniBarItem) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.name == null && other.name != null) || (this.name != null && !this.name.equals(other.name))) {
             return false;
         }
         return true;
@@ -108,7 +96,7 @@ public class MiniBarItem implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.MiniBarItem[ id=" + id + " ]";
+        return "entity.MiniBarItem[ id=" + name + " ]";
     }
     
 }

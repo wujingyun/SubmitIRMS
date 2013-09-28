@@ -25,6 +25,7 @@ public class DiscountScheme implements Serializable {
     private Long id;
     @ManyToOne
     private Hotel hotel;
+    @Id
     private String name;
     private String eligibility;
     private String description;
@@ -40,7 +41,6 @@ public class DiscountScheme implements Serializable {
         this.setEligibility(eligibility);
         this.setDescription(description);
         this.setDiscountRate(discountRate);
-        this.setDateCreated(Calendar.getInstance());
     }
     
     public Hotel getHotel() {

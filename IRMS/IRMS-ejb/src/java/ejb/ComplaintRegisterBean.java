@@ -11,6 +11,7 @@ import exception.ExistException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -65,7 +66,7 @@ public class ComplaintRegisterBean implements ComplaintRegisterBeanRemote {
     }
 
     @Override
-    public void addComplaintEntry(String hotelName, String customerName, Integer roomNumber, String contact, String description, String status) throws ExistException {
+    public Long addComplaintEntry(String hotelName, String customerName, Integer roomNumber, String contact, String description, String status, Calendar dateTime) throws ExistException {
         hotel = em.find(Hotel.class, hotelName);
         if (hotel == null) {
             throw new ExistException("HOTEL NOT EXIST.");
@@ -76,21 +77,19 @@ public class ComplaintRegisterBean implements ComplaintRegisterBeanRemote {
         }
         complaintEntry = new ComplaintEntry();
         complaintEntry.create(customerName, roomNumber, contact, description, status);
+        complaintEntry.setDateTime(dateTime);
         complaintEntry.setComplaintRegister(complaintRegister);
         complaintRegister.getComplaintEntries().add(complaintEntry);
-        complaintRegister.setComplaintEntries(complaintRegister.getComplaintEntries());
-        em.persist(complaintRegister);
+        //complaintRegister.setComplaintEntries(complaintRegister.getComplaintEntries());
+        em.persist(complaintEntry);
+        return complaintEntry.getId();
     }
 
     @Override
-    public void editComplaintEntry(String hotelName, String customerName, Integer roomNumber, String contact, String description, String status) throws ExistException {
-        hotel = em.find(Hotel.class, hotelName);
-        if (hotel == null) {
-            throw new ExistException("HOTEL NOT EXIST.");
-        }
-        complaintRegister = hotel.getComplaintRegister();
-        if (complaintRegister == null) {
-            throw new ExistException("COMPLAINT REGISTER NOT EXIST.");
+    public void editComplaintEntry(Long entryId, String customerName, Integer roomNumber, String contact, String description, String status) throws ExistException {
+        complaintEntry = em.find(ComplaintEntry.class, entryId);
+        if (complaintEntry == null) {
+            throw new ExistException("LOGENTRY NOT EXIST.");
         }
         complaintEntry = new ComplaintEntry();
         complaintEntry.setCustomerName(customerName);
@@ -108,15 +107,16 @@ public class ComplaintRegisterBean implements ComplaintRegisterBeanRemote {
         if (complaintEntry == null) {
             throw new ExistException("COMPLAINT ENTRY NOT EXIST.");
         }
+        complaintRegister=complaintEntry.getComplaintRegister();
         complaintRegister.getComplaintEntries().remove(complaintEntry);
-        complaintRegister.setComplaintEntries(complaintRegister.getComplaintEntries());
+        //complaintRegister.setComplaintEntries(complaintRegister.getComplaintEntries());
         em.remove(complaintEntry);
         em.flush();
     }
 
     @Override
     public Collection<ComplaintRegister> getComplaintRegisters() {
-        Query q = em.createNamedQuery("SELECT c FROM ComplaintRegister c");
+        Query q = em.createQuery("SELECT c FROM ComplaintRegister c");
         Collection complaintRegisters = new ArrayList();
         for (Object o : q.getResultList()) {
             ComplaintRegister c = (ComplaintRegister) o;
@@ -126,7 +126,7 @@ public class ComplaintRegisterBean implements ComplaintRegisterBeanRemote {
     }
 
     @Override
-    public Collection<ComplaintEntry> getComplaintEntries(String hotelName) throws ExistException {
+    public List<ComplaintEntry> getComplaintEntries(String hotelName) throws ExistException {
         hotel = em.find(Hotel.class, hotelName);
         if (hotel == null) {
             throw new ExistException("HOTEL NOT EXIST.");
@@ -135,6 +135,7 @@ public class ComplaintRegisterBean implements ComplaintRegisterBeanRemote {
         if (complaintRegister == null) {
             throw new ExistException("COMPLAINT REGISTER NOT EXIST.");
         }
-        return complaintRegister.getComplaintEntries();
+        complaintRegister.getComplaintEntries().size();
+        return (List)complaintRegister.getComplaintEntries();
     }
 }

@@ -36,8 +36,8 @@ public class RoomServiceOrder implements Serializable {
     public RoomServiceOrder() {
     }
     
-    public void create(double total){
-        this.setTotal(total);
+    public void create(){
+        this.setOrderTime(Calendar.getInstance());
     }
     public Calendar getOrderTime() {
         return orderTime;

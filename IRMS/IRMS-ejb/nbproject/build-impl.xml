@@ -1206,7 +1206,7 @@ exists or setup the property manually. For example like this:
             -->
     <target depends="init" name="deps-clean" unless="no.deps">
         <ant antfile="${project.IRMSRemoteInterface}/build.xml" inheritall="false" target="clean"/>
-    </target>
+        </target>
     <target depends="init" name="-do-clean">
         <delete dir="${build.dir}"/>
         <delete dir="${dist.dir}"/>

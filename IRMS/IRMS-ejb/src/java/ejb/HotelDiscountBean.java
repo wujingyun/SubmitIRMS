@@ -8,7 +8,7 @@ import entity.DiscountScheme;
 import entity.Hotel;
 import exception.ExistException;
 import java.util.Calendar;
-import java.util.Collection;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -29,20 +29,21 @@ public class HotelDiscountBean implements HotelDiscountBeanRemote {
     }
 
     @Override
-    public void addDiscountScheme(String hotelName, String name, String eligibility, String description, double discountRate) throws ExistException {
+    public void addDiscountScheme(String hotelName, String name, String eligibility, String description, double discountRate, Calendar dateCreated) throws ExistException {
         hotel = em.find(Hotel.class, hotelName);
         if (hotel == null) {
             throw new ExistException("HOTEL NOT EXIST.");
         }
-        discountScheme = hotel.findDiscountScheme(name);
-        if (discountScheme != null) {
+        discountScheme=hotel.findDiscountScheme(name);
+        if (discountScheme!=null) {
             throw new ExistException("DISCOUNT SCHEME ALREADY EXISTS.");
         }
         discountScheme = new DiscountScheme();
         discountScheme.create(name, eligibility, description, discountRate);
+        discountScheme.setDateCreated(dateCreated);
         discountScheme.setHotel(hotel);
         hotel.getDiscountSchemes().add(discountScheme);
-        hotel.setDiscountSchemes(hotel.getDiscountSchemes());
+        //hotel.setDiscountSchemes(hotel.getDiscountSchemes());
         em.persist(discountScheme);
     }
 
@@ -60,7 +61,6 @@ public class HotelDiscountBean implements HotelDiscountBeanRemote {
         discountScheme.setEligibility(eligibility);
         discountScheme.setDescription(description);
         discountScheme.setDiscountRate(discountRate);
-        discountScheme.setDateCreated(Calendar.getInstance());
         em.flush();
     }
 
@@ -81,11 +81,12 @@ public class HotelDiscountBean implements HotelDiscountBeanRemote {
     }
 
     @Override
-    public Collection<DiscountScheme> getDiscountSchemes(String hotelName) throws ExistException {
+    public List<DiscountScheme> getDiscountSchemes(String hotelName) throws ExistException {
         hotel = em.find(Hotel.class, hotelName);
         if (hotel == null) {
             throw new ExistException("HOTEL NOT EXIST.");
         }
-        return hotel.getDiscountSchemes();
+        hotel.getDiscountSchemes().size();
+        return (List)hotel.getDiscountSchemes();
     }
 }

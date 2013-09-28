@@ -11,6 +11,7 @@ import exception.ExistException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -63,9 +64,25 @@ public class LogbookBean implements LogbookBeanRemote {
         em.remove(logbook);
         em.flush();
     }
-
+    /*
     @Override
-    public void addLogEntry(String hotelName, String description, String contactPerson, String contactNumber, String category) throws ExistException {
+    public void createLogEntry(String hotelName, LogEntry newEntry) throws ExistException{
+        hotel = em.find(Hotel.class, hotelName);
+        if (hotel == null) {
+            throw new ExistException("HOTEL NOT EXIST.");
+        }
+        logbook = hotel.getLogbook();
+        if (logbook == null) {
+            throw new ExistException("LOGBOOK NOT EXIST.");
+        }
+        newEntry.setLogbook(logbook);
+        logbook.getLogEntries().add(newEntry);
+        //logEntry=newEntry;
+        em.persist(newEntry);
+    }
+    */ 
+    @Override
+    public Long addLogEntry(String hotelName,String description, String contactPerson, String contactNumber, String category, String status, Calendar dateTime) throws ExistException {
         hotel = em.find(Hotel.class, hotelName);
         if (hotel == null) {
             throw new ExistException("HOTEL NOT EXIST.");
@@ -76,10 +93,12 @@ public class LogbookBean implements LogbookBeanRemote {
         }
         logEntry = new LogEntry();
         logEntry.create(description, contactPerson, contactNumber, category, category);
+        logEntry.setDateTime(dateTime);
         logEntry.setLogbook(logbook);
         logbook.getLogEntries().add(logEntry);
-        logbook.setLogEntries(logbook.getLogEntries());
+        //logbook.setLogEntries(logbook.getLogEntries());
         em.persist(logEntry);
+        return logEntry.getId();
     }
 
     @Override
@@ -103,6 +122,7 @@ public class LogbookBean implements LogbookBeanRemote {
         if (logEntry == null) {
             throw new ExistException("LOGENTRY NOT EXIST.");
         }
+        logbook=logEntry.getLogbook();
         logbook.getLogEntries().remove(logEntry);
         logbook.setLogEntries(logbook.getLogEntries());
         em.remove(logEntry);
@@ -111,7 +131,7 @@ public class LogbookBean implements LogbookBeanRemote {
 
     @Override
     public Collection<Logbook> getLogbooks() {
-        Query q = em.createNamedQuery("SELECT l FROM Logbook l");
+        Query q = em.createQuery("SELECT l FROM Logbook l");
         Collection logbooks = new ArrayList();
         for (Object o : q.getResultList()) {
             Logbook l = (Logbook) o;
@@ -121,15 +141,17 @@ public class LogbookBean implements LogbookBeanRemote {
     }
 
     @Override
-    public Collection<LogEntry> getLogEntries(String hotelName) throws ExistException {
+    public List<LogEntry> getLogEntries(String hotelName) throws ExistException {
         hotel = em.find(Hotel.class, hotelName);
         if (hotel == null) {
             throw new ExistException("HOTEL NOT EXIST.");
         }
+        //System.out.println(hotel.getName());
         logbook = hotel.getLogbook();
         if (logbook == null) {
             throw new ExistException("LOGBOOK NOT EXIST.");
         }
-        return logbook.getLogEntries();
+        logbook.getLogEntries().size();
+        return (List)logbook.getLogEntries();
     }
 }

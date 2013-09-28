@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,7 +26,7 @@ public class RoomReservation implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @ManyToMany
     private Collection<Room> rooms=new ArrayList();
@@ -33,16 +34,17 @@ public class RoomReservation implements Serializable {
     private Customer customer;
     @ManyToOne
     private Staff staff;
+    private Long customerId;
     private String hotelName;
     private String roomType;
     private Integer quantity;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar dateReserved;
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar startDate;
+    private Date startDate;
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar endDate;
-    private String type;//Confirmed,Guaranteed,Pending, Cancelled
+    private Date endDate;
+    private String status;//Confirmed,Guaranteed,Pending, Cancelled
     private String source;//Internal or External
     private String remark;//special requests
     private double total;
@@ -53,14 +55,14 @@ public class RoomReservation implements Serializable {
     public RoomReservation() {
     }
 
-    public void create(String hotelName, String roomType, Integer quantity, Calendar startDate, Calendar endDate, String remark) {
+    public void create(String hotelName, String roomType, Integer quantity, Date startDate, Date endDate, String remark) {
         this.setHotelName(hotelName);
         this.setRoomType(roomType);
         this.setQuantity(quantity);
         this.setStartDate(startDate);
         this.setEndDate(endDate);
         this.setRemark(remark);
-        this.setType("Pending");
+        this.setStatus("Pending");
         this.setPaymentStatus("Pending");
         this.setRoomAllocationStatus("Pending");
     }
@@ -71,6 +73,14 @@ public class RoomReservation implements Serializable {
 
     public void setRooms(Collection<Room> rooms) {
         this.rooms = rooms;
+    }
+
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
     }
 
     public Customer getCustomer() {
@@ -121,28 +131,28 @@ public class RoomReservation implements Serializable {
         this.dateReserved = dateReserved;
     }
 
-    public Calendar getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Calendar startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public Calendar getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Calendar endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
-    public String getType() {
-        return type;
+    public String getStatus() {
+        return status;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getSource() {
