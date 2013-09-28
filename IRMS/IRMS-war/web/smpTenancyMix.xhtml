@@ -21,15 +21,15 @@
                 </p:panel>
                 
                 <p:panel header="The Tenancy Mix For IR Shopping Mall in Table">
-                <p:dataTable id="shopTable" rows="10" binding="#{billManagedBean.dataTable}" style="border: solid 2px black;"
-                             value="#{billManagedBean.cache.entrySet}" var="Set">
+                <p:dataTable id="shopTable" rows="10" style="border: solid 2px black;"
+                             value="#{billManagedBean.tenancyMixDatas}" var="tenancyMixData">
                 
                         <p:column id="category" headerText="Shop Name " style="width: 100px" resizable="true"> 
-                            <h:outputText value="#{Set.key}">
+                            <h:outputText value="#{tenancyMixData.category}">
                         </h:outputText>   
                        </p:column>  
                     <p:column id="NumberOfStores" headerText="Number Of Stores " resizable="true" style="width: 100px"> 
-                        <h:outputText value="#{Set.value}">
+                        <h:outputText value="#{tenancyMixData.number}">
                         </h:outputText>   
                        </p:column>
                 </p:dataTable>
