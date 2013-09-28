@@ -21,7 +21,7 @@ import javax.persistence.Temporal;
 public class ComplaintEntry implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @ManyToOne
     private ComplaintRegister complaintRegister;
@@ -39,7 +39,7 @@ public class ComplaintEntry implements Serializable {
         this.setContact(contact);
         this.setDescription(description);
         this.setStatus(status);
-        this.setDateTime(Calendar.getInstance());
+        //this.setDateTime(Calendar.getInstance());
     }
 
     public ComplaintRegister getComplaintRegister() {
