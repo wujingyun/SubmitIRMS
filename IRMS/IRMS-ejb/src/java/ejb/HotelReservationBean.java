@@ -14,6 +14,8 @@ import exception.ExistException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -35,21 +37,27 @@ public class HotelReservationBean implements HotelReservationBeanRemote {
     RoomReservation roomReservation;
 
     @Override
-    public Collection<RoomReservation> getHotelReservations(String hotelName) throws ExistException {
+    public List<RoomReservation> getHotelReservations(String hotelName) throws ExistException {
         hotel = em.find(Hotel.class, hotelName);
         if (hotel == null) {
             throw new ExistException("HOTEL NOT EXIST.");
         }
+        /*
         ArrayList<Room> rooms = (ArrayList) hotel.getRooms();
         Collection<RoomReservation> hotelReservations = new ArrayList();
         for (int i = 0; i < rooms.size(); i++) {
             hotelReservations.addAll(rooms.get(i).getRoomReservations());
         }
-        return hotelReservations;
+        hotelReservations.size();
+        return (List)hotelReservations;
+        */
+        Query q=em.createQuery("SELECT r FROM RoomReservation r WHERE r.hotelName=:hotelName");
+        q.setParameter("hotelName", hotelName);
+        return q.getResultList();
     }
 
     @Override
-    public Collection<RoomReservation> getRoomReservations(String hotelName, Integer roomNumber) throws ExistException {
+    public List<RoomReservation> getRoomReservations(String hotelName, Integer roomNumber) throws ExistException {
         hotel = em.find(Hotel.class, hotelName);
         if (hotel == null) {
             throw new ExistException("HOTEL NOT EXIST.");
@@ -58,7 +66,7 @@ public class HotelReservationBean implements HotelReservationBeanRemote {
         if (hotel == null) {
             throw new ExistException("ROOM NOT EXIST.");
         }
-        return room.getRoomReservations();
+        return (List)room.getRoomReservations();
     }
 
     @Override
@@ -71,9 +79,9 @@ public class HotelReservationBean implements HotelReservationBeanRemote {
         }
         return requests;
     }
-
+    /*
     @Override
-    public boolean checkOverbookLimit(String hotelName, Integer quantity, Calendar startDate, Calendar endDate) throws ExistException {
+    public boolean checkOverbookLimit(String hotelName, Integer quantity, Date startDate, Date endDate) throws ExistException {
         //check if reservation exceeds overbook limit over the period
         hotel = em.find(Hotel.class, hotelName);
         if (hotel == null) {
@@ -82,7 +90,7 @@ public class HotelReservationBean implements HotelReservationBeanRemote {
         for (int i = 0; i <= (Integer) (endDate.get(Calendar.DAY_OF_YEAR) - startDate.get(Calendar.DAY_OF_YEAR)); i++) {
             Integer countReserved = new Integer(0);
             Integer countConfirmed = new Integer(0);
-            Query q1 = em.createQuery("SELECT r FROM RoomReservation WHERE r.hotelName=:hotelname AND r.startDate<=:startDate");
+            Query q1 = em.createQuery("SELECT r FROM RoomReservation WHERE r.hotelName=:hotelName AND r.startDate<=:startDate");
             Query q2 = em.createQuery("SELECT r FROM RoomReservation WHERE r.hotelName=:hotelName AND r.type='Confirmed' AND r.startDate<=:startDate");
             for (Object o : q1.getResultList()) {
                 RoomReservation r = (RoomReservation) o;
@@ -103,9 +111,9 @@ public class HotelReservationBean implements HotelReservationBeanRemote {
         }
         return true;
     }
-
+    */ 
     @Override
-    public boolean checkAvailability(String hotelName, String roomType, Integer quantity, Calendar startDate, Calendar endDate) throws ExistException {
+    public boolean checkAvailability(String hotelName, String roomType, Integer quantity, Date startDate, Date endDate) throws ExistException {
         //check if there is a right type of room available during the period
         Integer countGuaranteed = new Integer(0);
         Query q1 = em.createQuery("SELECT COUNT(roomNumber) FROM Room WHERE r.hotelName=:hotelName AND r.type=:roomType AND r.availabilityStatus='available'");
@@ -122,7 +130,7 @@ public class HotelReservationBean implements HotelReservationBeanRemote {
     }
 
     @Override
-    public void makeReservation(Long customerId, String hotelName, String roomType, Integer quantity, Calendar startDate, Calendar endDate, String remark) throws ExistException {
+    public void makeReservation(Long customerId, String hotelName, String roomType, Integer quantity, Date startDate, Date endDate, String remark) throws ExistException {
         hotel = em.find(Hotel.class, hotelName);
         if (hotel == null) {
             throw new ExistException("HOTEL NOT EXIST.");
@@ -131,6 +139,7 @@ public class HotelReservationBean implements HotelReservationBeanRemote {
         if (customer == null) {
             throw new ExistException("CUSTOMER NOT EXIST.");
         }
+        System.out.println(hotelName + customerId+ roomType);
         roomReservation = new RoomReservation();
         roomReservation.create(hotelName, roomType, quantity, startDate, endDate, remark);
         roomReservation.setCustomer(customer);
@@ -151,8 +160,8 @@ public class HotelReservationBean implements HotelReservationBeanRemote {
         String hotelName = roomReservation.getHotelName();
         String roomType = roomReservation.getRoomType();
         Integer quantity = roomReservation.getQuantity();
-        Calendar startDate = roomReservation.getStartDate();
-        Calendar endDate = roomReservation.getEndDate();
+        Date startDate = roomReservation.getStartDate();
+        Date endDate = roomReservation.getEndDate();
         if (this.checkAvailability(hotelName, roomType, quantity, startDate, endDate) == true) {
             //get list of available rooms with the reqeusted type
             hotel = em.find(Hotel.class, hotelName);
@@ -264,7 +273,7 @@ public class HotelReservationBean implements HotelReservationBeanRemote {
     }
 
     @Override
-    public void editReservation(Long staffId, Long reservationId, String hotelName, String roomType, Integer quantity, Calendar startDate, Calendar endDate) throws ExistException {
+    public void editReservation(Long staffId, Long reservationId, String hotelName, String roomType, Integer quantity, Date startDate, Date endDate) throws ExistException {
         staff = em.find(Staff.class, staffId);
         if (staff == null) {
             throw new ExistException("STAFF NOT EXIST.");

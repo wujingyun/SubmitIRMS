@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,15 +34,16 @@ public class RoomReservation implements Serializable {
     private Customer customer;
     @ManyToOne
     private Staff staff;
+    private Long customerId;
     private String hotelName;
     private String roomType;
     private Integer quantity;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar dateReserved;
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar startDate;
+    private Date startDate;
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar endDate;
+    private Date endDate;
     private String type;//Confirmed,Guaranteed,Pending, Cancelled
     private String source;//Internal or External
     private String remark;//special requests
@@ -53,7 +55,7 @@ public class RoomReservation implements Serializable {
     public RoomReservation() {
     }
 
-    public void create(String hotelName, String roomType, Integer quantity, Calendar startDate, Calendar endDate, String remark) {
+    public void create(String hotelName, String roomType, Integer quantity, Date startDate, Date endDate, String remark) {
         this.setHotelName(hotelName);
         this.setRoomType(roomType);
         this.setQuantity(quantity);
@@ -71,6 +73,14 @@ public class RoomReservation implements Serializable {
 
     public void setRooms(Collection<Room> rooms) {
         this.rooms = rooms;
+    }
+
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
     }
 
     public Customer getCustomer() {
@@ -121,19 +131,19 @@ public class RoomReservation implements Serializable {
         this.dateReserved = dateReserved;
     }
 
-    public Calendar getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Calendar startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public Calendar getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Calendar endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 

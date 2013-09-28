@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./templet/acmTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="topInsert">
+    </ui:define>
+
+    <ui:define name="leftInsert">
+    </ui:define>
+
+    <ui:define name="rightInsert">
+    </ui:define>
+
+    <ui:define name="contentInsert">
+        <f:view>
+            <h:form id="logForm">
+                <p:panel>
+                    <h:outputLabel for="hotel" value="Select Hotel: *" />  
+                    <h:selectOneMenu id="hotel" value="#{hotelReservationManagedBean.hotelName}" required="true">  
+                        <f:selectItem itemLabel="Select Hotel" itemValue="" />  
+                        <f:selectItems value="#{hotelBean.hotelNames}" />  
+                    </h:selectOneMenu>  
+                </p:panel>
+
+                <p:panel header="Create a new entry" id="createEntry" toggleable="true">  
+                    <h:panelGrid id="grid">  
+
+                        <p:row>
+                            <p:column><h:outputLabel value="Customer ID: *" for="entryCategory"></h:outputLabel>
+                                <p:inputText id="entryCategory" value="#{hotelReservationManagedBean.newEntry.customerId}" required="true" />
+                            </p:column>
+                            <p:column><h:outputLabel value="Room Type: *" for="entryDescription"></h:outputLabel>  
+                                <p:inputText id="entryDescription" required="true" value="#{hotelReservationManagedBean.newEntry.roomType}"/>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:calendar  label="Start Date:" value="#{hotelReservationManagedBean.newEntry.endDate}" showOn="button" /> 
+                            </p:column>
+
+                            <p:column>
+                                <p:calendar label="End Date" value="#{hotelReservationManagedBean.newEntry.startDate}" showOn="button" />  
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column><h:outputLabel value="Quantity: *" for="entryContactPerson"></h:outputLabel>  
+                                <p:inputText id="entryContactPerson" value="#{hotelReservationManagedBean.newEntry.quantity}" required="true"/>
+                            </p:column>  
+                            
+                            <p:column><h:outputLabel value="Remark: *" for="entryStatus"></h:outputLabel>  
+                                <p:inputText id="entryStatus" value="#{hotelReservationManagedBean.newEntry.remark}" required="true"/>
+                            </p:column>  
+                        </p:row>
+
+                        <p:row>
+                            <p:commandButton value="Reset" type="reset"/>  
+                            <p:commandButton  id="add" value="Create" actionListener="#{hotelReservationManagedBean.createEntry}">  
+                            </p:commandButton>  
+                        </p:row>
+                    </h:panelGrid>  
+                </p:panel>  
+            </h:form>
+        </f:view>
+    </ui:define>
+
+</ui:composition>

@@ -30,7 +30,7 @@
                     </h:selectOneMenu>  
                 </p:panel>
 
-                <p:panel header="Create a new entry" id="createEntry">  
+                <p:panel header="Create a new entry" id="createEntry" toggleable="true" collapsed="true">  
                     <h:panelGrid id="grid">  
 
                         <p:row>
@@ -72,7 +72,7 @@
                 <p:outputPanel id="entries">
 
                     <p:dataTable var="logEntry" value="#{logbookManagedBean.entries}" id="logList" paginator="true" rows="10"
-                                 editable="true" rowKey="#{logEntry.id}" selection="#{logbookManagedBean.selectedEntry}" selectionMode="single"> 
+                                 editable="true" rowKey="#{logEntry.id}" selection="#{logbookManagedBean.selectedEntry}" selectionMode="single" scrollable="true"> 
 
                         <f:facet name="header">  
                            #{logbookManagedBean.hotelName} Logbook
@@ -146,11 +146,11 @@
                                 </p:cellEditor> 
                             </p:column>
 
-                            <p:column headerText="Edit">
+                        <p:column headerText="Edit">
                                 <p:rowEditor/>
                             </p:column>
 
-                            <p:column headerText="Delete">
+                        <p:column headerText="Delete">
                                 <p:commandButton value="Delete" onclick="cd.show();">
                                     <p:confirmDialog message="Are you sure about deleteing this entry?" header="Please confirm this operation!" severity="alert" widgetVar="cd">
                                         <p:commandButton value="Yes" actionListener="#{logbookManagedBean.deleteEntry}" update=":logForm:entries :logForm:messages" process=":logForm:entries" onclick="cd.hide();" >

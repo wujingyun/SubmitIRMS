@@ -6,8 +6,8 @@ package entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -171,7 +171,7 @@ public class Hotel implements Serializable {
         this.overbookLimits = overbookLimits;
     }
 
-    public Integer getOverbookLimit(Calendar date) {
+    public Integer getOverbookLimit(Date date) {
         for (int i = 0; i < overbookLimits.size(); i++) {
             if (overbookLimits.get(i).getDate().equals(date)) {
                 return overbookLimits.get(i).getLimit();
@@ -180,7 +180,7 @@ public class Hotel implements Serializable {
         return -1;
     }
 
-    public void setOverbookLimit(Calendar date, Integer limit) {
+    public void setOverbookLimit(Date date, Integer limit) {
         for (int i = 0; i < overbookLimits.size(); i++) {
             if (overbookLimits.get(i).getDate().equals(date)) {
                 overbookLimits.get(i).setLimit(limit);
