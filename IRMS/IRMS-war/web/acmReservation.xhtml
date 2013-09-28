@@ -17,56 +17,212 @@
 
     <ui:define name="contentInsert">
         <f:view>
-            <h:form id="logForm">
-                <p:panel>
-                    <h:outputLabel for="hotel" value="Select Hotel: *" />  
-                    <h:selectOneMenu id="hotel" value="#{hotelReservationManagedBean.hotelName}" required="true">  
-                        <f:selectItem itemLabel="Select Hotel" itemValue="" />  
-                        <f:selectItems value="#{hotelBean.hotelNames}" />  
-                    </h:selectOneMenu>  
-                </p:panel>
+            <h:form id="reservationForm">
 
-                <p:panel header="Create a new entry" id="createEntry" toggleable="true">  
-                    <h:panelGrid id="grid">  
+                <p:growl id="messages" showDetail="true"/>
+                <p:tabView>
+                    <p:tab id="reservationTab" title="Reservations">
 
-                        <p:row>
-                            <p:column><h:outputLabel value="Customer ID: *" for="entryCategory"></h:outputLabel>
-                                <p:inputText id="entryCategory" value="#{hotelReservationManagedBean.newEntry.customerId}" required="true" />
-                            </p:column>
-                            <p:column><h:outputLabel value="Room Type: *" for="entryDescription"></h:outputLabel>  
-                                <p:inputText id="entryDescription" required="true" value="#{hotelReservationManagedBean.newEntry.roomType}"/>
-                            </p:column>
-                        </p:row>
 
-                        <p:row>
-                            <p:column>
-                                <p:calendar  label="Start Date:" value="#{hotelReservationManagedBean.newEntry.endDate}" showOn="button" /> 
-                            </p:column>
 
-                            <p:column>
-                                <p:calendar label="End Date" value="#{hotelReservationManagedBean.newEntry.startDate}" showOn="button" />  
-                            </p:column>
-                        </p:row>
+                        <p:panel>
+                            <h:outputLabel for="hotel" value="Select Hotel: *" />  
+                            <h:selectOneMenu id="hotel" value="#{hotelReservationManagedBean.hotelName}" required="true">  
+                                <f:selectItem itemLabel="Select Hotel" itemValue="" />  
+                                <f:selectItems value="#{hotelBean.hotelNames}" />  
+                            </h:selectOneMenu>  
+                        </p:panel>
 
-                        <p:row>
-                            <p:column><h:outputLabel value="Quantity: *" for="entryContactPerson"></h:outputLabel>  
-                                <p:inputText id="entryContactPerson" value="#{hotelReservationManagedBean.newEntry.quantity}" required="true"/>
-                            </p:column>  
-                            
-                            <p:column><h:outputLabel value="Remark: *" for="entryStatus"></h:outputLabel>  
-                                <p:inputText id="entryStatus" value="#{hotelReservationManagedBean.newEntry.remark}" required="true"/>
-                            </p:column>  
-                        </p:row>
+                        <p:panel header="Create a new reservation" id="createReservation" toggleable="true" collapsed="true">  
+                            <h:panelGrid id="grid">  
 
-                        <p:row>
-                            <p:commandButton value="Reset" type="reset"/>  
-                            <p:commandButton  id="add" value="Create" actionListener="#{hotelReservationManagedBean.createEntry}">  
-                            </p:commandButton>  
-                        </p:row>
-                    </h:panelGrid>  
-                </p:panel>  
+                                <p:row>
+                                    <p:column><h:outputLabel value="Customer ID: *" for="reservationCustomerId"></h:outputLabel>
+                                        <p:inputText id="reservationCustomerId" value="#{hotelReservationManagedBean.newReservation.customerId}" required="true" />
+                                    </p:column>
+                                    <p:column><h:outputLabel value="Room Type: *" for="reservationRoomType"></h:outputLabel>  
+                                        <p:inputText id="reservationRoomType" required="true" value="#{hotelReservationManagedBean.newReservation.roomType}"/>
+                                    </p:column>
+                                </p:row>
+
+                                <p:row>
+                                    <p:column>
+                                        <h:outputLabel value="Checkin Date:"/>
+                                        <p:calendar value="#{hotelReservationManagedBean.newReservation.endDate}" showOn="button"/> 
+                                    </p:column>
+
+                                    <p:column>
+                                        <h:outputLabel value="Checkout Date:"/>
+                                        <p:calendar value="#{hotelReservationManagedBean.newReservation.startDate}" showOn="button"/>  
+                                    </p:column>
+                                </p:row>
+
+                                <p:row>
+                                    <p:column>
+                                        <h:outputLabel value="Quantity: *" for="reservationQuantity"></h:outputLabel>  
+                                        <p:inputText id="reservationQuantity" value="#{hotelReservationManagedBean.newReservation.quantity}" required="true"/>
+                                    </p:column>  
+
+                                    <p:column>
+                                        <h:outputLabel value="Remark: *" for="reservationRemark"></h:outputLabel>  
+                                        <p:inputText id="reservationRemark" value="#{hotelReservationManagedBean.newReservation.remark}" required="true"/>
+                                    </p:column>  
+                                </p:row>
+
+                                <p:row>
+                                    <p:commandButton value="Reset" type="reset"/>  
+                                    <p:commandButton  id="add" value="Create" update="createReservation reservations"  
+                                                      action="#{hotelReservationManagedBean.reinit}" actionListener="#{hotelReservationManagedBean.createReservation}">  
+                                        <p:collector value="#{hotelReservationManagedBean.newReservation}"   
+                                                     addTo="#{hotelReservationManagedBean.reservations}" />  
+                                    </p:commandButton>  
+                                </p:row>
+                            </h:panelGrid>  
+                        </p:panel> 
+
+                        <p:outputPanel id="reservations">
+
+                            <p:dataTable var="roomReservation" value="#{hotelReservationManagedBean.reservations}" id="reservationList" paginator="true" rows="10"
+                                         editable="true" rowKey="#{roomReservation.id}" selection="#{hotelReservationManagedBean.selectedReservation}" selectionMode="single" scrollable="true"> 
+
+                                <f:facet name="header">  
+                                    #{hotelReservationManagedBean.hotelName} Reservations
+                                </f:facet>
+
+                                <p:ajax event="rowEdit" listener="#{hotelReservationManagedBean.onEdit}" update=":reservationForm:messages" />  
+                                <p:ajax event="rowEditCancel" listener="#{hotelReservationManagedBean.onCancel}" update=":reservationForm:messages"/>
+
+                                <p:column headerText="ID" sortBy="#{roomReservation.id}" filterBy="#{roomReservation.id}" filterMatchMode="contains"> 
+                                    #{roomReservation.id}
+                                </p:column>
+
+                                <p:column headerText="Reservation Date" sortBy="#{roomReservation.dateReserved}" filterBy="#{roomReservation.dateReserved}" filterMatchMode="contains"> 
+                                    <h:outputText value="#{roomReservation.dateReserved.time}" styleClass="date">
+                                        <f:convertDateTime type="both" dateStyle="short" />
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Customer ID" sortBy="#{roomReservation.customerId}" filterBy="#{roomReservation.customerId}" filterMatchMode="contains"> 
+                                    #{roomReservation.customerId}
+                                </p:column>
+
+                                <p:column headerText="Hotel" sortBy="#{roomReservation.hotelName}" filterBy="#{roomReservation.hotelName}" filterMatchMode="contains">  
+                                    <p:cellEditor>  
+                                        <f:facet name="output">  
+                                            <h:outputText value="#{roomReservation.hotelName}" />  
+                                        </f:facet>  
+                                        <f:facet name="input">  
+                                            <p:inputText value="#{roomReservation.hotelName}" style="width:100%"/>  
+                                        </f:facet>  
+                                    </p:cellEditor> 
+                                </p:column> 
+
+                                <p:column headerText="Room Type" sortBy="#{roomReservation.roomType}" filterBy="#{roomReservation.roomType}" filterMatchMode="contains">  
+                                    <p:cellEditor>  
+                                        <f:facet name="output">  
+                                            <h:outputText value="#{roomReservation.roomType}" />  
+                                        </f:facet>  
+                                        <f:facet name="input">  
+                                            <p:inputText value="#{roomReservation.roomType}" style="width:100%"/>  
+                                        </f:facet>  
+                                    </p:cellEditor> 
+                                </p:column>  
+
+                                <p:column headerText="Quantity" sortBy="#{roomReservation.quantity}" filterBy="#{roomReservation.quantity}" filterMatchMode="contains">
+                                    <p:cellEditor>  
+                                        <f:facet name="output">  
+                                            <h:outputText value="#{roomReservation.quantity}" />  
+                                        </f:facet>  
+                                        <f:facet name="input">  
+                                            <p:inputText value="#{roomReservation.quantity}" style="width:100%"/>  
+                                        </f:facet>  
+                                    </p:cellEditor> 
+                                </p:column>
+
+                                <p:column headerText="Checkin Date" sortBy="#{roomReservation.startDate}" filterBy="#{roomReservation.startDate}" filterMatchMode="contains"> 
+                                    <p:cellEditor>  
+                                        <f:facet name="output">
+                                            <h:outputText value="#{roomReservation.startDate.time}" styleClass="date">
+                                                <f:convertDateTime type="both" dateStyle="short" />
+                                            </h:outputText>
+                                        </f:facet>
+                                        <f:facet name="input">  
+                                            <p:calendar value="#{roomReservation.startDate}" showOn="button"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>  
+
+                                <p:column headerText="Checkout Date" sortBy="#{roomReservation.endDate}" filterBy="#{roomReservation.endDate}" filterMatchMode="contains"> 
+                                    <p:cellEditor>  
+                                        <f:facet name="output">
+                                            <h:outputText value="#{roomReservation.endDate.time}" styleClass="date">
+                                                <f:convertDateTime type="both" dateStyle="short" />
+                                            </h:outputText>
+                                        </f:facet>
+                                        <f:facet name="input">  
+                                            <p:calendar value="#{roomReservation.endDate}" showOn="button"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column> 
+
+                                <p:column headerText="Remark" sortBy="#{roomReservation.remark}" filterBy="#{roomReservation.remark}" filterMatchMode="contains"> 
+                                    <p:cellEditor>  
+                                        <f:facet name="output">  
+                                            <h:outputText value="#{roomReservation.remark}" />  
+                                        </f:facet>  
+                                        <f:facet name="input">  
+                                            <p:inputText value="#{roomReservation.remark}" style="width:100%"/>  
+                                        </f:facet>  
+                                    </p:cellEditor> 
+                                </p:column>
+
+                                <p:column headerText="Status" sortBy="#{roomReservation.status}" filterBy="#{roomReservation.status}" filterMatchMode="contains"> 
+                                    <p:cellEditor>  
+                                        <f:facet name="output">  
+                                            <h:outputText value="#{roomReservation.status}" />  
+                                        </f:facet>  
+                                        <f:facet name="input">  
+                                            <p:inputText value="#{roomReservation.status}" style="width:100%"/>  
+                                        </f:facet>  
+                                    </p:cellEditor> 
+                                </p:column>
+
+                                <p:column headerText="Total" sortBy="#{roomReservation.total}" filterBy="#{roomReservation.total}" filterMatchMode="contains"> 
+                                    <p:cellEditor>  
+                                        <f:facet name="output">  
+                                            <h:outputText value="#{roomReservation.total}" />  
+                                        </f:facet>  
+                                        <f:facet name="input">  
+                                            <p:inputText value="#{roomReservation.total}" style="width:100%"/>  
+                                        </f:facet>  
+                                    </p:cellEditor> 
+                                </p:column>
+
+                                <p:column headerText="Payment" sortBy="#{roomReservation.paymentStatus}" filterBy="#{roomReservation.paymentStatus}" filterMatchMode="contains"> 
+                                    <p:cellEditor>  
+                                        <f:facet name="output">  
+                                            <h:outputText value="#{roomReservation.paymentStatus}" />  
+                                        </f:facet>  
+                                        <f:facet name="input">  
+                                            <p:inputText value="#{roomReservation.paymentStatus}" style="width:100%"/>  
+                                        </f:facet>  
+                                    </p:cellEditor> 
+                                </p:column>
+
+                                <p:column headerText="Edit">
+                                    <p:rowEditor/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:outputPanel>
+
+                    </p:tab>
+                    <p:tab id="internalRequest" title="Internal Requests">
+                        To be updated
+                    </p:tab>
+                </p:tabView>
             </h:form>
         </f:view>
+
     </ui:define>
 
 </ui:composition>

@@ -65,9 +65,16 @@ public class ContractBean implements ContractBeanRemote {
             
             for(Object o: q.getResultList()){
                 Contract c = (Contract)o;
-                contractList.add(c);
+                if(c.isContractStatus()!=false)
+                    
+                    contractList.add(c);
+               
             }  
+        for (Contract e : contractList) {
+            e.getUnits().size();
+        }
             em.flush();
+         
             return contractList;
     }
     
@@ -216,24 +223,26 @@ public class ContractBean implements ContractBeanRemote {
          System.out.println("SessionBean Mallspace :terminateContract : "+ContractID);
            
             contractEntity= em.find(Contract.class, ContractID);
-            
+            System.out.println("contract"+contractEntity.getId()+" found");
             if(contractEntity ==null)throw new ExistException("The contract does not exist!"); 
             
               System.out.println("SessionBean Mallspace :terminateContract ck bills: ");
             for(Iterator it = contractEntity.getShop().getBills().iterator();it.hasNext();){
                  System.out.println("checking on bills");
                 shopBill =(ShopBill)it.next();
-                if(shopBill.isBillStatus()==true || shopBill==null) throw new ExistException("the shopBill is"
-                        + "not settled");
+                if(shopBill.isBillStatus()==true || shopBill==null) throw new ExistException("The shopBill is"
+                        + " not settled");
             }
              System.out.println("SessionBean Mallspace :terminateContract removing units: ");
              for(Iterator it = contractEntity.getUnits().iterator();it.hasNext();){
                
                 unitEntity = (Unit)it.next();
                 System.err.println("units"+unitEntity.getUnitNo());
-                contractEntity.getUnits().remove(unitEntity);
+               
                 unitEntity.setUnitAvailability(true);
                 unitEntity.setContract(null);
+                System.err.println("units status "+unitEntity.isUnitAvailability());
+                contractEntity.setUnits(null);
                 em.flush();
             }
              System.err.println("finished setting units, start getting to status");

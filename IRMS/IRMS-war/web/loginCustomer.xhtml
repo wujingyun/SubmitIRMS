@@ -17,40 +17,50 @@
         else {
             dlg.hide();
             $('#loginLink').fadeOut();
-            window.location="http://localhost:8080/IRMS-war/manageContract2.xhtml" ;
+            window.location="http://localhost:8080/IRMS-war/customerPortal.xhtml" ;
         }
     }
-    
+  
+    function   validateCode() {    
+       document.getElementById('getCode').src="validateCode.jsp?"+Math.ceil(Math.random()*1000);    
+     }     
+
    
 </script>
     <h:body>
 <h:form id="form">
     <h:outputLink id="loginLink" value="javascript:void(0)" onclick="dlg.show()" title="login">	
-        <p:graphicImage value="login.png" />
+        <p:graphicImage value="/resources/img/login.png" />
     </h:outputLink>
-
+ 
     <p:growl id="growl" showDetail="true" life="3000" />
 
     <p:dialog id="dialog" header="Login" widgetVar="dlg" resizable="false">
 
 		<h:panelGrid columns="2" cellpadding="5">
 			<h:outputLabel for="username" value="Username:" />
-                        <p:inputText value="#{loginBean2.username}" 
+                        <p:inputText value="#{loginBean.username}" 
 					id="username" required="true" label="username" />
 			
 			<h:outputLabel for="password" value="Password:" />
-			<h:inputSecret value="#{loginBean2.password}" 
+			<h:inputSecret value="#{loginBean.password}" 
 					id="password" required="true" label="password" />
 			
                         
-                        <f:facet name="footer">
+                      
+                        
+                        
+   
+    
+  
+		
+		 <p:captcha label="Captcha"/>  
+    <f:facet name="footer">
 				<p:commandButton id="loginButton" value="Login" update="growl" 
-					actionListener="#{loginBean2.login}" 
+					actionListener="#{loginBean.login}" 
 					oncomplete="handleLoginRequest(xhr, status, args)"/>
 			</f:facet>
-                       
-		</h:panelGrid>
-		
+    </h:panelGrid>
     </p:dialog>
    
     

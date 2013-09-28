@@ -24,16 +24,24 @@
 <script type="text/javascript">
 	function handleRegisterRequest(xhr, status, args) {
         if(args.validationFailed ) {
-             window.location="http://localhost:8080/IRMS-war/" ;
+           //  window.location="http://localhost:8080/IRMS-war/" ;
         } 
         else {
             
-            window.location="http://localhost:8080/IRMS-war/login.xhtml" ;
         }
     }
-    
-   
+
+   function checkPasswordMatch(form) {
+             var password = $("#Password").val();
+    var confirmPassword = $("#ConfirmPassword").val();
+
+    if (password != confirmPassword)
+        $("#divCheckPasswordMatch").html("Passwords do not match!");
+    else
+        $("#divCheckPasswordMatch").html("Passwords match.");
+        }
 </script>
+
     <h:body>
        
         <div id="top" >
@@ -90,8 +98,8 @@
             
             
             <div id="left" > 
-                   <h:panelGroup rendered="#{loginBean2.loggedIn}">
-                    <p>Welcome, #{loginBean2.username}</p>
+                   <h:panelGroup rendered="#{loginBean.loggedIn}">
+                    <p>Welcome, #{loginBean.username}</p>
 </h:panelGroup>
                 
                 <h5 style="background-color:#ece3a5"> Internal message   </h5>
@@ -109,7 +117,7 @@
                 <div id="right">
                     <ui:insert name="rightInsert">Right</ui:insert>
                       <p:commandButton  id="logoutButton" value="Logout"
-					actionListener="#{loginBean2.logout}" />
+					actionListener="#{loginBean.logout}" />
                 </div>
                 <div id="content" class="right_content">
                     

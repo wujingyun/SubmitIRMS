@@ -5,6 +5,7 @@
 package managedBean;
 
 import ejb.ContractBeanRemote;
+import ejb.ManageCatalogBeanRemote;
 import ejb.ManageMallSpaceBeanRemote;
 import entity.Contract;
 import entity.Mall;
@@ -22,6 +23,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -42,6 +44,8 @@ public class ShoppingMallManagedBean implements Serializable {
     ContractBeanRemote cbr;
     @EJB
     ManageMallSpaceBeanRemote mmsbr;
+    @EJB
+    ManageCatalogBeanRemote mcbr;
     private String ContractType;
     private String Landlord;
     private static String Tenant;
@@ -77,6 +81,12 @@ public class ShoppingMallManagedBean implements Serializable {
     private Contract contractRecord;
     private String yearsToRenew;
     private static TenantRecordEntity theOnlyTenant;
+    private String hotelName;
+    private String customerName;
+    private String customerID;
+    private String customerContact;
+    private Integer numOfItems;
+    private String OrderDescription;
 
     public ShoppingMallManagedBean() {
     }
@@ -85,6 +95,18 @@ public class ShoppingMallManagedBean implements Serializable {
     public void init() {
         this.tenantList = cbr.getExistingTenant();
         this.contractList = cbr.getContractList();
+    }
+
+    public void createDeliveryOrder(ActionEvent event) {
+        try {
+            System.err.println("create the delivery order!");
+            mcbr.deliveryItem(hotelName, customerName, customerID, customerContact, numOfItems, OrderDescription);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "New delivery order created successfully", ""));
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "An error has occurred while creating the new delivery order: " + ex.getMessage(), ""));
+        }
     }
 
     public Date getDate() {
@@ -103,38 +125,52 @@ public class ShoppingMallManagedBean implements Serializable {
     }
 
     public void save() {
+        try {
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            Tenant = request.getParameter("form1:tenant");
 
-        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        Tenant = request.getParameter("form1:tenant");
+            IdentityCard = request.getParameter("form1:identityCard");
+            TenantAddress = request.getParameter("form1:tenantAddress");
+            TenantContact = request.getParameter("form1:tenantContact");
 
-        IdentityCard = request.getParameter("form1:identityCard");
-        TenantAddress = request.getParameter("form1:tenantAddress");
-        TenantContact = request.getParameter("form1:tenantContact");
-
-        System.out.println(Tenant);
-        System.out.println(IdentityCard);
-        System.out.println(TenantAddress);
-        System.out.println(TenantContact);
+            System.out.println(Tenant);
+            System.out.println(IdentityCard);
+            System.out.println(TenantAddress);
+            System.out.println(TenantContact);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "New Tenant Information has been saved", ""));
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "An error has occurred while creating the new contract: " + ex.getMessage(), ""));
+        }
     }
 
     public void setAttributes(ActionEvent event) {
+
+
         System.out.println("found " + selectedRecord);
         tenantRecord = new TenantRecordEntity();
-        for (Iterator it = tenantList.iterator(); it.hasNext();) {
-            tenantRecord = (TenantRecordEntity) it.next();
-            if (tenantRecord.getRecordID().equals(selectedRecord)) {
-                theOnlyTenant = tenantRecord;
-                System.out.println("Tenant " + tenantRecord.getTenant() + " Found!");
-                Tenant = theOnlyTenant.getTenant();
-                IdentityCard = theOnlyTenant.getRecordID().toString();
-                TenantAddress = theOnlyTenant.getTenantAddress();
-                TenantContact = theOnlyTenant.getTenantContact();
-                System.err.println(IdentityCard);
-            } else {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                        "Tenant not found in the database", "!"));
+        try {
+            for (Iterator it = tenantList.iterator(); it.hasNext();) {
+                tenantRecord = (TenantRecordEntity) it.next();
+                if (tenantRecord.getRecordID().equals(selectedRecord)) {
+                    theOnlyTenant = tenantRecord;
+                    System.out.println("Tenant " + tenantRecord.getTenant() + " Found!");
+                    Tenant = theOnlyTenant.getTenant();
+                    IdentityCard = theOnlyTenant.getRecordID().toString();
+                    TenantAddress = theOnlyTenant.getTenantAddress();
+                    TenantContact = theOnlyTenant.getTenantContact();
+                    System.err.println(IdentityCard);
+                }
+               
             }
+             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Existing Tenant Information retrieved successfully", ""));
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Tenant not found in the database", "!"));
         }
+
 
     }
 
@@ -157,7 +193,8 @@ public class ShoppingMallManagedBean implements Serializable {
 
         try {
             System.err.println("create the contract!");
-            cbr.signContract(ContractType, Landlord, Tenant,IdentityCard  ,
+            
+            cbr.signContract(ContractType, Landlord, Tenant, IdentityCard,
                     TenantTradeName, getSelectedUnits(), NameOfShoppingCenter,
                     Purpose, MinimumRent, RentRate, TenantAddress, LandlordContact,
                     TenantContact, upfrontRentalDeposit, getDate(), yearsToRenew);
@@ -198,6 +235,7 @@ public class ShoppingMallManagedBean implements Serializable {
     public void editContractRecord(ActionEvent event) {
 
         contractRecord = (Contract) dataTable.getRowData();
+        contractRecord.getUnits().size();
 
         this.setContractRecord(contractRecord);
         System.out.println("Here :" + contractRecord.getPurpose());
@@ -432,5 +470,53 @@ public class ShoppingMallManagedBean implements Serializable {
 
     public void setTenantRecord(TenantRecordEntity tenantRecord) {
         this.tenantRecord = tenantRecord;
+    }
+
+    public String getHotelName() {
+        return hotelName;
+    }
+
+    public void setHotelName(String hotelName) {
+        this.hotelName = hotelName;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public String getCustomerID() {
+        return customerID;
+    }
+
+    public void setCustomerID(String customerID) {
+        this.customerID = customerID;
+    }
+
+    public String getCustomerContact() {
+        return customerContact;
+    }
+
+    public void setCustomerContact(String customerContact) {
+        this.customerContact = customerContact;
+    }
+
+    public Integer getNumOfItems() {
+        return numOfItems;
+    }
+
+    public void setNumOfItems(Integer numOfItems) {
+        this.numOfItems = numOfItems;
+    }
+
+    public String getOrderDescription() {
+        return OrderDescription;
+    }
+
+    public void setOrderDescription(String OrderDescription) {
+        this.OrderDescription = OrderDescription;
     }
 }

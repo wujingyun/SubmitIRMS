@@ -17,9 +17,9 @@ and open the template in the editor.
            
             
             <h:form id="form2"> 
-                <p:dataTable  paginator="true" rows="15" binding="#{shoppingMallManagedBean.dataTable}" style="border: solid 2px black;"
-                             value="#{shoppingMallManagedBean.contractList}" var="contractRecord">
-
+                <p:dataTable  id="t1" paginator="true" rows="15" binding="#{shoppingMallManagedBean.dataTable}" style="border: solid 2px black;"
+                             value="#{shoppingMallManagedBean.contractList}" var="contractRecord"  >
+                    
                     <p:column id="TenantColumn" filterBy="#{contractRecord.tenant}"   
                               headerText="Tenant " footerText="Contracts"  
                               filterMatchMode="contains" > 
@@ -27,6 +27,14 @@ and open the template in the editor.
 
                         </h:outputText>   
                     </p:column> 
+                    
+                      <p:column id="Tradename" filterBy="#{contractRecord.shop.name}"   
+                              headerText="Trade Name"  
+                              filterMatchMode="contains" > 
+
+                        <h:outputText value="#{contractRecord.shop.name}" /> 
+
+                    </p:column>
 
                     <p:column id="Category" filterBy="#{contractRecord.purpose}"   
                               headerText="Cateogry"  
@@ -35,13 +43,18 @@ and open the template in the editor.
                         <h:outputText value="#{contractRecord.purpose}" /> 
 
                     </p:column>
-
-                    <p:column id="FloorArea" filterBy="#{contractRecord.floorArea}"   
-                              headerText="Floor Area"  
-                              filterMatchMode="contains" > 
-
-                        <h:outputText value="#{contractRecord.floorArea} Square Meters" /> 
+                    
+                    
+                    <p:column headerText="Units Taken" filterBy="#{contractRecord.units}" filterMatchMode="contains">
+                        <p:dataTable value="#{contractRecord.units}" var="unit">
+                            <p:column>
+                                <h:outputText value="Unit No.:#{unit.unitNo} Unit Space:#{unit.unitSpace}M"/><sup>2</sup>
+                            </p:column>
+                        </p:dataTable> 
                     </p:column>
+                    
+                    
+                    
                     <p:column id="DateOfExpiry" filterBy="#{contractRecord.dateOfExpiry}"   
                               headerText="Date Of Expiry"   
                               filterMatchMode="contains" > 
@@ -73,7 +86,7 @@ and open the template in the editor.
                         <h:outputText value="$ #{contractRecord.upfrontRentalDeposit}" /> 
                     </p:column>
                     
-                    <p:column headerText="Renew a Contract">  
+                    <p:column headerText="Renew" >  
                         <p:commandButton icon="ui-icon-plus" oncomplete="dlg.show();" title="Set Rent Rates">
                             <f:setPropertyActionListener value="#{contractRecord}" target="#{shoppingMallManagedBean.contractRecord}" />
                         </p:commandButton>
@@ -86,7 +99,7 @@ and open the template in the editor.
             <h:form id="form3"> 
 
                 <p:growl id="growl" showDetail="true" life="3000" />  
-                <p:dialog header="Contract" modal="true" showEffect="fade" hideEffect="fade" widgetVar="dlg"> 
+                <p:dialog header="Contract" modal="true" showEffect="fade" hideEffect="fade" widgetVar="dlg" resizable="false"> 
                     <h:panelGrid columns="2" cellpadding="5">
                         <h:outputText  value="Minimun Rent:" />
                         <p:inputText value="#{shoppingMallManagedBean.minimumRent}" 
@@ -111,9 +124,8 @@ and open the template in the editor.
                         </p:selectOneMenu>
 
                         <f:facet name="footer">
-                            <p:commandButton id="renewContract" value="Renew" update="growl" 
-                                             actionListener="#{shoppingMallManagedBean.renewContract}" 
-                                             oncomplete="alert('Request for renewing contract has been submitted')"/>
+                            <p:commandButton id="renewContract" value="Renew" update="growl"
+                                             actionListener="#{shoppingMallManagedBean.renewContract}" />
                         </f:facet>
 
                     </h:panelGrid>

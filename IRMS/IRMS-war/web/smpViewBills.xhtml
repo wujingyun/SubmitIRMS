@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:body>
+        <f:view> 
+            <h:head>
+                <title>Contract Management Module</title>
+
+            </h:head>
+           
+            
+            <h:form id="form1"> 
+                
+                <p:dataTable  paginator="true"  rows="10" binding="#{billManagedBean.dataTable}" style="border: solid 2px black;"
+                              value="#{billManagedBean.bills}" var="bills">
+                   
+   
+                    <p:column id="ShopID" filterBy="#{bills.billID}" style="width:10px;"   
+                              headerText="Bill ID "   
+                              filterMatchMode="contains" > 
+
+                        <h:outputText value="#{bills.billID}" /> 
+                    </p:column> 
+                    
+                    <p:column id="rentFee" filterBy="#{bills.rentalFee}"   
+                              headerText="Rental Fee"  
+                              filterMatchMode="contains"  style="width: 10px"> 
+                        <h:outputText value="#{bills.rentalFee}">
+
+                        </h:outputText>   
+                    </p:column> 
+                    
+                    <p:column id="commision" filterBy="#{bills.commision}"   
+                              headerText="Commision "   
+                              filterMatchMode="contains" style="width: 10px" > 
+                        <h:outputText value="#{bills.commision}" /> 
+                    </p:column> 
+                    
+                    <p:column id="dateIssued" filterBy="#{bills.dateIssued}"   
+                              headerText="Date Issued"   
+                              filterMatchMode="contains" style="width: 10px" > 
+
+                        <h:outputText value="#{bills.dateIssued.time}" styleClass="date"> <f:convertDateTime pattern="dd-MM-yyyy" />
+                        </h:outputText>   
+                    </p:column>
+                    
+                    <p:column id="BillStatus"  headerText="Bill Status" style="width: 10px" > 
+                        
+                         <p:commandButton  actionListener="#{billManagedBean.editBill}"  oncomplete="vb.show();" title="Confirm Payment"
+                            value="#{bills.billStatus?'Not Paid':'Paid'}" >
+                         </p:commandButton>
+                    </p:column>
+                    
+                 
+          
+                </p:dataTable>
+            </h:form>
+            
+            <h:form id="form2">
+                  <p:growl id="growl" showDetail="true" life="3000" />  
+                  <p:confirmDialog header="Bill Payment" showEffect="fade" hideEffect="fade" widgetVar="vb" message="Are you sure the bill has been cleared?"> 
+                   
+                     
+     
+                   
+                    <p:commandButton  style="display:block; text-align:center" value="Okay" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" 
+                                      actionListener="#{billManagedBean.changeStatus}" onclick="vb.hide();" update="growl"/>
+             
+                </p:confirmDialog>
+            </h:form>
+            
+            
+  </f:view>
+    </h:body>
+</html>

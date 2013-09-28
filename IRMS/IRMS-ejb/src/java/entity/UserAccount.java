@@ -5,8 +5,11 @@
 package entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,6 +22,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
@@ -40,6 +44,25 @@ public class UserAccount implements Serializable {
     @NotNull  
  @Length(min = 6, max = 32) 
   private String password;  
+    
+    private int logginAttemp;
+ @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Calendar last_attemp;
+
+    public void setLast_attemp(Calendar last_attemp) {
+        this.last_attemp = last_attemp;
+    }
+
+    public Calendar getLast_attemp() {
+        return last_attemp;
+    }
+    public void setLogginAttemp(int logginAttemp) {
+        this.logginAttemp = logginAttemp;
+    }
+
+    public int getLogginAttemp() {
+        return logginAttemp;
+    }
 
 //    @ManyToOne(targetEntity=UserRole.class)  
  //   @JoinColumn(name="role_id", referencedColumnName="id") 

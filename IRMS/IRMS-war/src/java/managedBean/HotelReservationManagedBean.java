@@ -11,9 +11,12 @@ import java.util.Calendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import org.primefaces.event.RowEditEvent;
 
 /**
  *
@@ -26,9 +29,9 @@ public class HotelReservationManagedBean {
     @EJB
     HotelReservationBeanRemote reservationBean;
     private String hotelName = "Holiday Inn";
-    private List<RoomReservation> entries;
-    private RoomReservation newEntry = new RoomReservation();
-    private RoomReservation selectedEntry;
+    private List<RoomReservation> reservations;
+    private RoomReservation newReservation = new RoomReservation();
+    private RoomReservation selectedReservation;
 
     /**
      * Creates a new instance of HotelReservationManagedBean
@@ -39,22 +42,47 @@ public class HotelReservationManagedBean {
     @PostConstruct
     public void init() throws ExistException {
         //System.out.println(hotelName);
-        this.entries = reservationBean.getHotelReservations(hotelName);
+        this.reservations = reservationBean.getHotelReservations(hotelName);
     }
 
     public String reinit() {
-        this.newEntry = new RoomReservation();
+        this.newReservation = new RoomReservation();
         return null;
     }
 
-    public void createEntry(ActionEvent event) throws ExistException {
-        //newEntry.setId(UUID.randomUUID().getMostSignificantBits());
-        System.out.println(hotelName + newEntry.getCustomerId()+ newEntry.getRoomType());
-        newEntry.setDateReserved(Calendar.getInstance());
-        reservationBean.makeReservation(newEntry.getCustomerId(),hotelName, newEntry.getRoomType(), newEntry.getQuantity(), newEntry.getStartDate(), newEntry.getEndDate(), newEntry.getRemark());
-        entries.add(newEntry);
-        //newEntry=new LogEntry();
+    public void createReservation(ActionEvent event) throws ExistException {
+        //System.out.println(hotelName + newReservation.getCustomerId()+ newReservation.getRoomType());
+        newReservation.setDateReserved(Calendar.getInstance());
+        newReservation=reservationBean.makeReservation(newReservation.getCustomerId(),hotelName, newReservation.getRoomType(), newReservation.getQuantity(), newReservation.getStartDate(), newReservation.getEndDate(), newReservation.getRemark());
+        System.out.println(hotelName + newReservation.getCustomerId()+ newReservation.getRoomType());
+        reservations.add(newReservation);
     }
+    
+    public void onEdit(RowEditEvent event) throws ExistException {
+            if (selectedReservation == null) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Please select a log entry", ""));
+            }
+            //System.out.println(hotelName + " + " + selectedItem.getName());
+            this.reservationBean.editReservation(selectedReservation.getId(),selectedReservation.getHotelName(),selectedReservation.getRoomType(), selectedReservation.getQuantity(), selectedReservation.getStartDate(), selectedReservation.getEndDate(), selectedReservation.getRemark(), selectedReservation.getStatus(), selectedReservation.getTotal(),selectedReservation.getPaymentStatus());
+
+            FacesMessage msg = new FacesMessage("Hotel: " + hotelName + " Reservation " + ((RoomReservation) event.getObject()).getId() + " Edited", "");
+
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+
+        public void onCancel(RowEditEvent event) {
+            FacesMessage msg = new FacesMessage("Cancelled editing reservation: " + ((RoomReservation) event.getObject()).getId() + " ", "");
+
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+
+        public void handleHotelChange() throws ExistException {
+            if (hotelName != null && !hotelName.equals("")) {
+                reservations = reservationBean.getHotelReservations(hotelName);
+            } else {
+                System.out.println("empty hotel name");
+            }
+        }
 
     public String getHotelName() {
         return hotelName;
@@ -64,28 +92,28 @@ public class HotelReservationManagedBean {
         this.hotelName = hotelName;
     }
 
-    public List<RoomReservation> getEntries() {
-        return entries;
+    public List<RoomReservation> getReservations() {
+        return reservations;
     }
 
-    public void setEntries(List<RoomReservation> entries) {
-        this.entries = entries;
+    public void setReservations(List<RoomReservation> reservations) {
+        this.reservations = reservations;
     }
 
-    public RoomReservation getNewEntry() {
-        return newEntry;
+    public RoomReservation getNewReservation() {
+        return newReservation;
     }
 
-    public void setNewEntry(RoomReservation newEntry) {
-        this.newEntry = newEntry;
+    public void setNewReservation(RoomReservation newReservation) {
+        this.newReservation = newReservation;
     }
 
-    public RoomReservation getSelectedEntry() {
-        return selectedEntry;
+    public RoomReservation getSelectedReservation() {
+        return selectedReservation;
     }
 
-    public void setSelectedEntry(RoomReservation selectedEntry) {
-        this.selectedEntry = selectedEntry;
+    public void setSelectedReservation(RoomReservation selectedReservation) {
+        this.selectedReservation = selectedReservation;
     }
     
 }

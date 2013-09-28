@@ -81,7 +81,7 @@ public class LogbookManagedBean implements Serializable{
             //System.out.println(hotelName + " + " + selectedItem.getName());
             this.logbookBean.editLogEntry(hotelName, selectedEntry.getId(), selectedEntry.getDescription(), selectedEntry.getContactPerson(), selectedEntry.getContactNumber(), selectedEntry.getCategory(), selectedEntry.getStatus());
 
-            FacesMessage msg = new FacesMessage("Hotel: " + hotelName + " " + ((LogEntry) event.getObject()).getId() + " Edited", "");
+            FacesMessage msg = new FacesMessage("Hotel: " + hotelName + " log entry " + ((LogEntry) event.getObject()).getId() + " Edited", "");
 
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }

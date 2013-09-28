@@ -12,7 +12,6 @@ import entity.RoomReservation;
 import entity.Staff;
 import exception.ExistException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -130,7 +129,7 @@ public class HotelReservationBean implements HotelReservationBeanRemote {
     }
 
     @Override
-    public void makeReservation(Long customerId, String hotelName, String roomType, Integer quantity, Date startDate, Date endDate, String remark) throws ExistException {
+    public RoomReservation makeReservation(Long customerId, String hotelName, String roomType, Integer quantity, Date startDate, Date endDate, String remark) throws ExistException {
         hotel = em.find(Hotel.class, hotelName);
         if (hotel == null) {
             throw new ExistException("HOTEL NOT EXIST.");
@@ -149,6 +148,7 @@ public class HotelReservationBean implements HotelReservationBeanRemote {
         customer.getRoomReservations().add(roomReservation);
         customer.setRoomReservations(customer.getRoomReservations());
         em.persist(roomReservation);
+        return roomReservation;
     }
 
     @Override
@@ -259,25 +259,21 @@ public class HotelReservationBean implements HotelReservationBeanRemote {
         }
         customer=em.find(Customer.class, roomReservation.getCustomer().getCustomerId());
         if (roomReservation.getRoomAllocationStatus().equals("Allocated") && roomReservation.getPaymentStatus().equals("Full")) {
-            roomReservation.setType("Guaranteed");
+            roomReservation.setStatus("Guaranteed");
             //this.sendEmail(customer.getEmail());
             return true;
         } 
         else if (roomReservation.getRoomAllocationStatus().equals("Allocated") && roomReservation.getPaymentStatus().equals("Partial")) {
-            roomReservation.setType("Confirmed");
+            roomReservation.setStatus("Confirmed");
             //this.sendEmail(customer.getEmail());
             return true;
         }
         System.out.println("Reservation cannot be confirmed. Please check room allocation or payment status.");
         return false;
     }
-
+    
     @Override
-    public void editReservation(Long staffId, Long reservationId, String hotelName, String roomType, Integer quantity, Date startDate, Date endDate) throws ExistException {
-        staff = em.find(Staff.class, staffId);
-        if (staff == null) {
-            throw new ExistException("STAFF NOT EXIST.");
-        }
+    public void editReservation(Long reservationId, String hotelName, String roomType, Integer quantity, Date startDate, Date endDate, String remark, String status, double total, String paymentStatus) throws ExistException {
         roomReservation = em.find(RoomReservation.class, reservationId);
         if (roomReservation == null) {
             throw new ExistException("ROOM RESERVATION NOT EXIST.");
@@ -294,6 +290,10 @@ public class HotelReservationBean implements HotelReservationBeanRemote {
         roomReservation.setQuantity(quantity);
         roomReservation.setStartDate(startDate);
         roomReservation.setEndDate(endDate);
+        roomReservation.setRemark(remark);
+        roomReservation.setStatus(status);
+        roomReservation.setTotal(total);
+        roomReservation.setPaymentStatus(paymentStatus);
         roomReservation.setSource("Internal");
         em.flush();
     }
@@ -304,7 +304,7 @@ public class HotelReservationBean implements HotelReservationBeanRemote {
         if (roomReservation == null) {
             throw new ExistException("ROOM RESERVATION NOT EXIST.");
         }
-        roomReservation.setType("Cancelled");
+        roomReservation.setStatus("Cancelled");
         em.flush();
     }
     /*

@@ -26,7 +26,7 @@ public class RoomReservation implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @ManyToMany
     private Collection<Room> rooms=new ArrayList();
@@ -44,7 +44,7 @@ public class RoomReservation implements Serializable {
     private Date startDate;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date endDate;
-    private String type;//Confirmed,Guaranteed,Pending, Cancelled
+    private String status;//Confirmed,Guaranteed,Pending, Cancelled
     private String source;//Internal or External
     private String remark;//special requests
     private double total;
@@ -62,7 +62,7 @@ public class RoomReservation implements Serializable {
         this.setStartDate(startDate);
         this.setEndDate(endDate);
         this.setRemark(remark);
-        this.setType("Pending");
+        this.setStatus("Pending");
         this.setPaymentStatus("Pending");
         this.setRoomAllocationStatus("Pending");
     }
@@ -147,12 +147,12 @@ public class RoomReservation implements Serializable {
         this.endDate = endDate;
     }
 
-    public String getType() {
-        return type;
+    public String getStatus() {
+        return status;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getSource() {

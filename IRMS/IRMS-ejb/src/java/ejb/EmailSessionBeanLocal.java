@@ -4,13 +4,13 @@
  */
 package ejb;
 
-import javax.ejb.Remote;
+import javax.ejb.Local;
 
 /**
  *
  * @author WU JINGYUN
  */
-@Remote
-public interface testRemote {
-    
+@Local
+public interface EmailSessionBeanLocal {
+    public void emailInitialPassward(String toEmailAdress, String initialPassword);
 }

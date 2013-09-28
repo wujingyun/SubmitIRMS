@@ -37,26 +37,7 @@ public class ManageCatalogBean implements ManageCatalogBeanRemote {
     ProductItem item;
     //find the category of the shop stored in contract
 
-    public void viewTenancyMix() {
-        contractEntity = new Contract();
-        List<String> categories = new ArrayList<String> ();
-    
-        Query q = em.createQuery("SELECT DISTINCT purpose, COUNT(contractid) FROM contract "
-                + "group by purpose");
-       categories =(List)q.getResultList();
-    }
-    
-    @Override
-    public void editStoreInfo(String storeName, String description, String storeContact,String operatingHours) {
-        shop =new Shop();
-        Query q = em.createQuery("SELECT * FROM shop WHERE name = : storeName");
-        q.setParameter("storeName", storeName);
-        shop =(Shop)q.getSingleResult();
-        shop.setDescription(description);
-        shop.setContract(contractEntity);
-        shop.setOperatinghours(operatingHours);
-        em.flush();
-    }
+  
     
     @Override
     public void addProductItem(Long ShopID,String category,String name,String description
@@ -112,21 +93,26 @@ public class ManageCatalogBean implements ManageCatalogBeanRemote {
             deliveryOrder.setOrderTime(cal);
             deliveryOrder.setStatus("In the Shopping Mall");
             
-            Query q = em.createQuery("SELECT * FROM hotel WHERE name =: hotelName");
-            q.setParameter("hotelName",hotelName);
+            String ejbql=("SELECT h FROM Hotel WHERE Hotel.name =?1");
+            Query q = em.createQuery("SELECT h FROM Hotel WHERE Hotel.name =:hotelName");
+            
+            q.setParameter("name",hotelName);
             hotel = (Hotel)q.getSingleResult();
             hotel.getConciergeOrders().add(deliveryOrder);
             em.persist(deliveryOrder);
             em.flush();
     }
     
+    
+    
+    
     @Override
-    public boolean updateDeliveryOrder(String status, String ID) throws ExistException{
+    public void updateDeliveryOrder(String status, Long ID) throws ExistException{
         deliveryOrder = new ConciergeOrder();
         deliveryOrder = em.find(ConciergeOrder.class, ID);
         if(deliveryOrder ==null) throw new ExistException("The order has not been found");
         deliveryOrder.setStatus(status);
         em.flush();
-        return true;
+       
     }
 }

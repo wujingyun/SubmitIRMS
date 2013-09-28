@@ -784,6 +784,9 @@ exists or setup the property manually. For example like this:
         <ant antfile="${project.IRMSRemoteInterface}/build.xml" inheritall="false" target="jar">
             <property name="deploy.on.save" value="false"/>
         </ant>
+        <ant antfile="${project.test}/build.xml" inheritall="false" target="jar">
+            <property name="deploy.on.save" value="false"/>
+        </ant>
     </target>
     <target depends="init" if="dist.ear.dir" name="-deps-ear-jar" unless="no.deps">
         <ant antfile="${project.IRMSRemoteInterface}/build.xml" inheritall="false" target="jar">
@@ -803,14 +806,17 @@ exists or setup the property manually. For example like this:
     <target if="is.jars.in.ejbjar" name="-library-inclusion-in-archive-by-user">
         <copyfiles files="${reference.IRMSRemoteInterface.jar}" todir="${build.classes.dir}"/>
         <copyfiles files="${libs.MySQLDriver.classpath}" todir="${build.classes.dir}"/>
+        <copyfiles files="${reference.test.jar}" todir="${build.classes.dir}"/>
     </target>
     <target if="is.server.weblogic" name="-library-inclusion-in-archive-weblogic">
         <basename file="${reference.IRMSRemoteInterface.jar}" property="manifest.reference.IRMSRemoteInterface.jar"/>
         <basename file="${libs.MySQLDriver.classpath}" property="manifest.libs.MySQLDriver.classpath"/>
+        <basename file="${reference.test.jar}" property="manifest.reference.test.jar"/>
         <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update">
-            <attribute name="Extension-List" value="jar-1 jar-2 "/>
+            <attribute name="Extension-List" value="jar-1 jar-2 jar-3 "/>
             <attribute name="jar-1-Extension-Name" value="${manifest.reference.IRMSRemoteInterface.jar}"/>
             <attribute name="jar-2-Extension-Name" value="${manifest.libs.MySQLDriver.classpath}"/>
+            <attribute name="jar-3-Extension-Name" value="${manifest.reference.test.jar}"/>
         </manifest>
     </target>
     <target depends="compile" name="library-inclusion-in-manifest">
@@ -1200,7 +1206,7 @@ exists or setup the property manually. For example like this:
             -->
     <target depends="init" name="deps-clean" unless="no.deps">
         <ant antfile="${project.IRMSRemoteInterface}/build.xml" inheritall="false" target="clean"/>
-    </target>
+        </target>
     <target depends="init" name="-do-clean">
         <delete dir="${build.dir}"/>
         <delete dir="${dist.dir}"/>

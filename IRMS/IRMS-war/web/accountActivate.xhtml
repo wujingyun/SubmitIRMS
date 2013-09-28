@@ -23,20 +23,28 @@
   
     <p:growl id="msgs" showDetail="true"/>  
                   
-    <p:panel  header="New Account" style="margin-bottom:10px;">  
+    <p:panel  header="Activate Account" style="margin-bottom:10px;">  
         <h:panelGrid columns="2" cellpadding="5">  
             
           
-            
               <p:row>
-                  <p:column>Division/Role:</p:column>
-           <p:column> <p:selectOneMenu id="division" value="#{loginBean2.division}">  
+                    <h:outputText value="Division:"/> 
+           <p:column> 
+               
+               <p:selectOneMenu id="division" value="#{loginBean.division}" required="true" 
+                                        requiredMessage="Division is required">  
                 <f:selectItem itemLabel="Select Division" itemValue="" />  
-                <f:selectItems value="#{loginBean2.divisions}" />  
+                <f:selectItems value="#{loginBean.divisions}" />  
                 <p:ajax update="subroles"  
-                        listener="#{loginBean2.handleDivisionChange}" />  
+                        listener="#{loginBean.getAccountByDivisionToAc()}" />  
             </p:selectOneMenu>  
-  
+               
+            <p:selectOneMenu id="subroles" value="#{loginBean.activateAccountName}" required="true" 
+                                        requiredMessage="Account is required">  
+                <f:selectItem itemLabel="Select Account" itemValue="" />  
+                <f:selectItems value="#{loginBean.accountByDivisionMap}" />  
+            </p:selectOneMenu>  
+               
            </p:column>
              </p:row>
             
@@ -47,7 +55,7 @@
   
         <p:separator />  
            <p:commandButton value="Reset" type="reset" />  
-        <p:commandButton value="Submit" update="msgs" actionListener="#{loginBean2.displayLocation}" id="btnSubmit"/>  
+        <p:commandButton value="Submit" update="msgs" actionListener="#{loginBean.activate}" id="btnSubmit"/>  
   
     </p:panel>  
   

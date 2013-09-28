@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <link href="/IRMS-war/resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
+        <link href="/IRMS-war/resources/css/primeui-0.9.6-min.css" rel="stylesheet" type="text/css" />
+         <script type="text/javascript" src="/IRMS-war/resources/js/primeui-0.9.6-min.js"></script>  
+           
+        <link href="/IRMS-war/resources/css/bootstrap.css" rel="stylesheet" type="text/css" />
+            <link href="/IRMS-war/resources/css/bootstrap-theme.css" rel="stylesheet" type="text/css" />
+             <script type="text/javascript" src="/IRMS-war/resources/js/bootstarp.js"></script>  
+        <title>IR Internal Portal</title>
+        <style>
+     
+        </style>
+    </h:head>
+<script type="text/javascript">
+	function handleRegisterRequest(xhr, status, args) {
+        if(args.validationFailed ) {
+           //  window.location="http://localhost:8080/IRMS-war/" ;
+        } 
+        else {
+            
+        }
+    }
+
+   function checkPasswordMatch(form) {
+             var password = $("#Password").val();
+    var confirmPassword = $("#ConfirmPassword").val();
+
+    if (password != confirmPassword)
+        $("#divCheckPasswordMatch").html("Passwords do not match!");
+    else
+        $("#divCheckPasswordMatch").html("Passwords match.");
+        }
+</script>
+
+    <h:body>
+       
+        <div id="top" >
+            <h1>IR Internal Portal</h1>
+    
+                
+       
+                <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">System Admin</a>
+        
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="#">Create Account</a></li>
+            <li><a href="#">Update Account</a></li>
+            <li><a href="#">Activate Account</a></li>
+             <li><a href="#">Deactivate Account</a></li>
+          </ul>
+         
+          <ul class="nav navbar-nav navbar-right">
+            <h:form class="navbar-form navbar-left">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Search"></input>
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+            
+          </h:form>
+              <f:facet name="options">
+   <p:commandButton type="button" value="Logout" />
+</f:facet>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+                
+                
+                </div>  
+
+    <ui:insert name="topInsert"> Top</ui:insert>
+      
+        
+        
+        
+        <div>
+            
+            
+            <div id="left" > 
+                   <h:panelGroup rendered="#{loginBean.loggedIn}">
+                    <p>Welcome, #{loginBean.username}</p>
+</h:panelGroup>
+                
+                <h5 style="background-color:#ece3a5"> Internal message   </h5>
+               
+                <ui:insert name="leftInsert">  </ui:insert>
+                
+              <h3><span class="glyphicon glyphicon-envelope"></span></h3>
+              
+                
+            </div>
+            
+            
+            
+            <div>
+                <div id="right">
+                    <ui:insert name="rightInsert">Right</ui:insert>
+                      <p:commandButton  id="logoutButton" value="Logout"
+					actionListener="#{loginBean.logout}" />
+                </div>
+                <div id="content" class="right_content">
+                    
+                    <ui:insert name="contentInsert">
+Insert content here...
+</ui:insert>
+                </div>
+            </div>
+            
+            
+        </div>  
+        
+<div id="bottom">
+            <ui:insert name="bottom">Bottom</ui:insert>
+        </div>
+    </h:body>
+
+</html>

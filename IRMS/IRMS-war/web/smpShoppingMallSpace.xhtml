@@ -14,9 +14,11 @@ and open the template in the editor.
         <title>Mall Space Management Module</title>
              </h:head>
             <h:form id="spaceForm">
+               
+                  
                 <p:panel header="Create Mall">
-                    <p:messages id="messagesStatus" redisplay="false" />
-                    <br/>
+                    <p:messages id="msgM" redisplay="false" />
+                  
                     <h:panelGrid columns ="2" cellpadding ="5">
                         <p:row>
                              <p:column>Mall Name:</p:column> 
@@ -24,14 +26,16 @@ and open the template in the editor.
                                                      required="true" requiredMessage="Mall Name is required" /></p:column>
                         </p:row>
                         <p:row>
-                            <p:column colspan="2"><p:commandButton value="Submit" icon="ui-icon-plus" actionListener="#{mallSpaceManagedBean.createMall}"  oncomplete="alert('Request for creating a mallhas been submitted')"/></p:column>
+                            <p:column colspan="2"><p:commandButton value="Submit" icon="ui-icon-plus" actionListener="#{mallSpaceManagedBean.createMall}" update="msgM"/></p:column>
                         </p:row>
                     </h:panelGrid>                     
                 </p:panel>
             </h:form>
+            
             <h:form id="unitForm">
+               
                 <p:panel header="Add Unit">
-                     <p:messages id="messagesStatus" redisplay="false" />
+                        <p:messages id="msgU" redisplay="false" />
                      <h:panelGrid columns ="2" cellpadding ="5">
                          <p:row>
                              <p:column>Unit NO.:</p:column> 
@@ -44,7 +48,7 @@ and open the template in the editor.
                                                      required="true" requiredMessage="Unit Space is required" /></p:column>
                         </p:row>
                           <p:row>
-                              <p:column colspan="2"><p:commandButton value="Submit" icon="ui-icon-plus" actionListener="#{mallSpaceManagedBean.createUnit(event)}"  oncomplete="alert('Request for adding an unit has been submitted')"/></p:column>
+                              <p:column colspan="2"><p:commandButton value="Submit" icon="ui-icon-plus" actionListener="#{mallSpaceManagedBean.createUnit(event)}" update="msgU"/></p:column>
                         </p:row>
                      </h:panelGrid>
                 </p:panel>>
