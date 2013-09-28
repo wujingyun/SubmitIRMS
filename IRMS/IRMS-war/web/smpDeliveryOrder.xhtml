@@ -1,82 +1,75 @@
-<!--
-To change this template, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-    <h:body>
-        <f:view> 
-            <h:head>
-                <title>Contract Management Module</title>
-            </h:head>
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./templet/scmTemplet.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
 
-            <h:form id="form1">
-                <p:panel id ="dol" header="Create Delivery Order">
-                    <p:messages id="messagesStatus" redisplay="false" />
+    <ui:define name="center">
+
+        <h:form id="form1">
+            <p:panel id ="dol" header="Create Delivery Order">
+                <p:messages id="messagesStatus" redisplay="false" />
 
 
-                    <h:panelGrid columns ="2" cellpadding ="5">
-                        <p:row>
-                            <p:column>Hotel Name:</p:column>                            
-                            <p:selectOneMenu id="htlName" value="#{shoppingMallManagedBean.hotelName}">
-                                <f:selectItem itemLabel="Select One" itemValue =""/> 
-                                <f:selectItem itemLabel="Hotel One" itemValue ="Hotel One"/> 
-                                <f:selectItem itemLabel="Hotel Two" itemValue ="Hotel Two"/> 
-                            </p:selectOneMenu>              
-                        </p:row>
+                <h:panelGrid columns ="2" cellpadding ="5">
+                    <p:row>
+                        <p:column>Hotel Name:</p:column>                            
+                        <p:selectOneMenu id="htlName" value="#{shoppingMallManagedBean.hotelName}">
+                            <f:selectItem itemLabel="Select One" itemValue =""/> 
+                            <f:selectItem itemLabel="Hotel One" itemValue ="Hotel One"/> 
+                            <f:selectItem itemLabel="Hotel Two" itemValue ="Hotel Two"/> 
+                        </p:selectOneMenu>              
+                    </p:row>
 
-                        <p:row>
-                            <p:column>Customer Name:</p:column>
-                            <p:column><p:inputText value="#{shoppingMallManagedBean.customerName}" required="true" requiredMessage="Name is required" /></p:column>
-                        </p:row>
+                    <p:row>
+                        <p:column>Customer Name:</p:column>
+                        <p:column><p:inputText value="#{shoppingMallManagedBean.customerName}" required="true" requiredMessage="Name is required" /></p:column>
+                    </p:row>
 
-                        <p:row>
-                            <p:column>Customer ID:</p:column>
-                            <p:column><p:inputText value="#{shoppingMallManagedBean.customerID}" required="true" requiredMessage="Customer ID is required" /></p:column>
-                        </p:row>
+                    <p:row>
+                        <p:column>Customer ID:</p:column>
+                        <p:column><p:inputText value="#{shoppingMallManagedBean.customerID}" required="true" requiredMessage="Customer ID is required" /></p:column>
+                    </p:row>
 
-                        <p:row>
-                            <p:column>Customer Contact:</p:column>
-                            <p:column><p:inputMask value="#{shoppingMallManagedBean.customerContact}" required="true" requiredMessage="Customer Contact is required" mask="(+**) 999-99999"/></p:column>
-                        </p:row>
+                    <p:row>
+                        <p:column>Customer Contact:</p:column>
+                        <p:column><p:inputMask value="#{shoppingMallManagedBean.customerContact}" required="true" requiredMessage="Customer Contact is required" mask="(+**) 999-99999"/></p:column>
+                    </p:row>
 
-                        <p:row>
-                            <p:column>Number Of Items:</p:column>
-                            <p:column><p:inputText value="#{shoppingMallManagedBean.numOfItems}" required="true" requiredMessage="Number Of Items is required" /></p:column>
-                        </p:row>   
-
-
-                        <p:row>                      
-                            <h:panelGrid columns="1" cellpadding="5">
-                                <h:outputText  value="Description: " />
-                                <p:inputTextarea rows="5" cols="30" counter="counter" maxlength="100" value="#{shoppingMallManagedBean.orderDescription}"     
-                                                 counterTemplate="{0} characters remaining." autoResize="true"/> 
-                                <h:outputText id="counter" /> 
-                            </h:panelGrid> 
-                        </p:row> 
-
-                        <p:row>
-                            <p:column colspan="2"><p:commandButton id="submitButton"  value="Submit" icon="ui-icon-plus" actionListener="#{shoppingMallManagedBean.createDeliveryOrder}" update="display,dol"/></p:column>
-                        </p:row>
+                    <p:row>
+                        <p:column>Number Of Items:</p:column>
+                        <p:column><p:inputText value="#{shoppingMallManagedBean.numOfItems}" required="true" requiredMessage="Number Of Items is required" /></p:column>
+                    </p:row>   
 
 
-                    </h:panelGrid>
+                    <p:row>                      
+                        <h:panelGrid columns="1" cellpadding="5">
+                            <h:outputText  value="Description: " />
+                            <p:inputTextarea rows="5" cols="30" counter="counter" maxlength="100" value="#{shoppingMallManagedBean.orderDescription}"     
+                                             counterTemplate="{0} characters remaining." autoResize="true"/> 
+                            <h:outputText id="counter" /> 
+                        </h:panelGrid> 
+                    </p:row> 
 
-                   <p:panel id="display" header="Orders" style="margin-top:10px;">  
-                        <p:panelGrid columns="1" >                        
-                          
-                            <h:outputText value="Customer ID: #{shoppingMallManagedBean.customerID}" />
-                           
-                        </p:panelGrid>  
-                   
-                   </p:panel>
+                    <p:row>
+                        <p:column colspan="2"><p:commandButton id="submitButton"  value="Submit" icon="ui-icon-plus" actionListener="#{shoppingMallManagedBean.createDeliveryOrder}" update="display,dol"/></p:column>
+                    </p:row>
+
+
+                </h:panelGrid>
+
+                <p:panel id="display" header="Orders" style="margin-top:10px;">  
+                    <p:panelGrid columns="1" >                        
+
+                        <h:outputText value="Customer ID: #{shoppingMallManagedBean.customerID}" />
+
+                    </p:panelGrid>  
+
                 </p:panel>
+            </p:panel>
 
-            </h:form>  
-
-        </f:view>
-    </h:body>
-</html>
+        </h:form>  
+    </ui:define>
+</ui:composition>

@@ -70,10 +70,10 @@
                             <p:menuitem value="Generate Bill" url="/smpGenerateBill.xhtml"  />
                         </p:submenu>
                         
-                        <p:submenu label="Tenancy"  >
+                  <!--      <p:submenu label="Tenancy"  >
                             <p:menuitem value="view TenancyMix" url="/smpTenancyMix.xhtml"  />
                         
-                        </p:submenu>
+                        </p:submenu>-->
                           
                         
                         <p:submenu label="Concierge"  >
@@ -97,6 +97,9 @@
                         </p:tab>
 
                         <p:tab title="Menu 2">
+                            <p:tab title="Menu 2">
+                                 <h:outputText value="Menu 2 Content" />
+                            </p:tab>
                             <h:outputText value="Menu 2 Content" />
                         </p:tab>
 
@@ -126,9 +129,7 @@
 
             </p:layout>
 
-            <p:dialog header="Basic Dialog" widgetVar="dlg" modal="true">
-                <h:outputText value="Resistance to PrimeFaces is futile!" />
-            </p:dialog>
+       
 
         </h:body>
 

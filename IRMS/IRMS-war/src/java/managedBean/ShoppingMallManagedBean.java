@@ -225,6 +225,7 @@ public class ShoppingMallManagedBean implements Serializable {
         try {
 
             cbr.terminateContract(getContractRecord().getId());
+            this.contractList = cbr.getContractList();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Contract has been terminated successfully", ""));
         } catch (Exception ex) {
