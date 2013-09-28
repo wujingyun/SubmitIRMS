@@ -93,21 +93,26 @@ public class ManageCatalogBean implements ManageCatalogBeanRemote {
             deliveryOrder.setOrderTime(cal);
             deliveryOrder.setStatus("In the Shopping Mall");
             
-            Query q = em.createQuery("SELECT * FROM hotel WHERE name =: hotelName");
-            q.setParameter("hotelName",hotelName);
+            String ejbql=("SELECT h FROM Hotel WHERE Hotel.name =?1");
+            Query q = em.createQuery("SELECT h FROM Hotel WHERE Hotel.name =:hotelName");
+            
+            q.setParameter("name",hotelName);
             hotel = (Hotel)q.getSingleResult();
             hotel.getConciergeOrders().add(deliveryOrder);
             em.persist(deliveryOrder);
             em.flush();
     }
     
+    
+    
+    
     @Override
-    public boolean updateDeliveryOrder(String status, String ID) throws ExistException{
+    public void updateDeliveryOrder(String status, Long ID) throws ExistException{
         deliveryOrder = new ConciergeOrder();
         deliveryOrder = em.find(ConciergeOrder.class, ID);
         if(deliveryOrder ==null) throw new ExistException("The order has not been found");
         deliveryOrder.setStatus(status);
         em.flush();
-        return true;
+       
     }
 }

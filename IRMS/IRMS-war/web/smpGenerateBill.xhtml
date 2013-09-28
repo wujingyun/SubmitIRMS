@@ -25,7 +25,13 @@ and open the template in the editor.
     <ui:define name="contentInsert">
     <h:form id="form4">
             <p:panel>
-                  <p:commandButton value="View Tenancy Mix" icon="ui-icon-extlink"  actionListener="#{billManagedBean.viewTenancyMix}"/>             
+                <p:panelGrid columns="3" >
+                  <p:commandButton value="View Tenancy Mix" icon="ui-icon-extlink"  actionListener="#{billManagedBean.viewTenancyMix}"/>  
+                  
+                  <p:commandButton value="Set Commision Rate" icon="ui-icon-extlink" actionListener="#{billManagedBean.retrieveRate}" onclick="dlghao.show();"/>
+                  <h:outputText value ="Current Commision Rate: #{billManagedBean.commisionRate}"/>
+                </p:panelGrid>
+                
             </p:panel>            
         </h:form>
 
@@ -104,6 +110,8 @@ and open the template in the editor.
                 <h:panelGrid columns="2" cellpadding="5">
                     <h:outputText  value="Rent Rate: " />
                     <h:outputText  value="$ #{billManagedBean.rentRate}" />
+                    <h:outputText  value="Revenue: " />
+                    <p:inputText value="#{billManagedBean.commision}" />
                     <f:facet name="footer">
                             <p:commandButton id="editForm" value="Create" 
                                              actionListener="#{billManagedBean.createBill}" update="growl"  onclick="dlg.hide();"/>
@@ -112,6 +120,27 @@ and open the template in the editor.
                             <p:commandButton id="cancelForm" value="Cancel" 
                                                onclick="dlg.hide();"/>
                      </f:facet>
+                </h:panelGrid>
+            </p:dialog>
+
+        </h:form>
+        
+         <h:form id="form5">
+            <p:growl id="growl" showDetail="true" life="3000" />   
+            <p:dialog id ="dlg5" header="Bill Status" modal="true" showEffect="fade" hideEffect="fade" widgetVar="dlghao" width="300px" height="200" resizable="false"> 
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputText  value="Enter the new Commission Rate: " />
+                    <p:inputText  value="#{billManagedBean.commisionRate}" size="5"/>
+                     
+                    
+                    <f:facet name="footer">
+                            <p:commandButton id="editForm" value="Confirm" 
+                                             actionListener="#{billManagedBean.changeCommissionRate}" update="growl"  onclick="dlghao.hide();"/>
+                     </f:facet>
+                    <f:facet name="footer">
+                            <p:commandButton id="cancelForm" value="Cancel" 
+                                               onclick="dlghao.hide();"/>
+                    </f:facet>
                 </h:panelGrid>
             </p:dialog>
 
