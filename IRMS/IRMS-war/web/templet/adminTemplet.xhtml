@@ -33,7 +33,7 @@
 <script type="text/javascript">
 	function goChangePass() {
      
-          window.location="http://localhost:8080/IRMS-war/changePass.xhtml" ;
+          window.location="http://localhost:8080/IRMS-war/ChangePass.xhtml" ;
         } 
         
 </script>
@@ -44,30 +44,28 @@
                 <p:layoutUnit id="top" position="north" size="50">
                 
                     <p:menubar>
-                        <p:submenu label="Contract" icon="ui-icon-document">
+                        <p:submenu label="Account Management" icon="ui-icon-document">
                           
-                            <p:menuitem value="Create Contract" url="/smpManageContract.xhtml" />
-                            <p:menuitem value="Renew Contract" url="/smpRenewContract.xhtml"/>
-                          <p:menuitem  value="Terminate Contract" url="/smpRerminateContract.xhtml"/>
+                            <p:menuitem value="Create account" url="/register.xhtml" />
+                            <p:menuitem value="Activate account" url="/accountActivate.xhtml"/>
+                          <p:menuitem  value="Deactivate account" url="/accountDeactivate.xhtml"/>
                     
                         </p:submenu>
 
-                        <p:submenu label="Unit" icon="ui-icon-pencil">
-                            <p:menuitem value="Add Unit" url="/smpShoppingMallSpace.xhtml" ></p:menuitem>
-                            <p:menuitem value="Delete Unit" url="/smpDeleteUnits.xhtml"></p:menuitem>
+                        <p:submenu label="Edit" icon="ui-icon-pencil">
+                            <p:menuitem value="Undo" url="#" icon="ui-icon-arrowreturnthick-1-w"></p:menuitem>
+                            <p:menuitem value="Redo" url="#" icon="ui-icon-arrowreturnthick-1-e"></p:menuitem>
                         </p:submenu>
 
-                        <p:submenu label="Bill"  >
-                            <p:menuitem value="Generate Bill" url="/smpGenerateBill.xhtml"  />
-                        <p:menuitem value="View Bill" url="/smpGenerateBill.xhtml"  />
-                        
+                        <p:submenu label="Help" icon="ui-icon-help">
+                            <p:menuitem value="Contents" url="#" />
+                            <p:submenu label="Search" icon="ui-icon-search">
+                                <p:submenu label="Text">
+                                    <p:menuitem value="Workspace" url="#" />
+                                </p:submenu>
+                                <p:menuitem value="File" url="#" />
+                            </p:submenu>
                         </p:submenu>
-                        
-                        <p:submenu label="Tenancy"  >
-                            <p:menuitem value="view TenancyMix" url="/smpTenancyMix.xhtml"  />
-                        
-                        </p:submenu>
-                          
                     </p:menubar>
                 </p:layoutUnit>
 
@@ -91,12 +89,12 @@
                     </p:accordionPanel>
                 </p:layoutUnit>
 
-                <p:layoutUnit id="right" position="east" size="250" header="Manage Account" resizable="true" closable="true" collapsible="true"
+                <p:layoutUnit id="right" position="east" size="250" header="My Account" resizable="true" closable="true" collapsible="true"
                               style="text-align:center">
 
                     
  <p:commandButton  id="logoutButton" value="Logout"
-					actionListener="#{LoginBean.logout}" />
+					actionListener="#{loginBean.logout}" />
 				
  <p:commandButton onclick="goChangePass();" value="Change Password"/>
     </p:layoutUnit>

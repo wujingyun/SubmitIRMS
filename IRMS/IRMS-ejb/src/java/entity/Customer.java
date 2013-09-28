@@ -7,21 +7,22 @@
 package entity;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
-import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
+
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import javax.persistence.Temporal;
+
 
 /**
  *
@@ -32,18 +33,14 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @Entity
 
-@NamedQueries({
-    @NamedQuery(name = "getAllCustomers", query = "SELECT c FROM Customer c ORDER BY c.customerId ASC")
-})
-
 
 public class Customer implements Serializable 
 {
-    private static final long serialVersionUID = 1L;
+    
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long customerId;
+    private Long Id;
     //@Column(length = 32)
     
     @OneToMany(mappedBy="customer")
@@ -54,9 +51,9 @@ public class Customer implements Serializable
     )*/
     private Collection<RoomReservation> roomReservations=new ArrayList();
 
-    private String Username;
+    private String userName;
     @Column(length = 32)
-    private String PW;
+    private String password;
     private String firstName;
     @Column(length = 32)
     private String lastName;
@@ -64,50 +61,164 @@ public class Customer implements Serializable
     private String address;
     @Column(length = 64)
     private String email;
-    @Column(length = 16)
-    private String password;
-    @Column(length = 3)
-    private String mobilePhoneCountryCode;
-    @Column(length = 16)
+    private String ageGroup;
+    private String gender;
+   
     private String mobilePhoneNumber;
     private Integer loyaltyPointBalance;
-    private Timestamp registrationTimestamp;
-        
-    public void create(String Username, String firstName, String lastName, String address, String email,  
-            String mobilePhoneCountryCode, String moilePhoneNumber) {
-       this.setUserName(Username);
+    private int logginAttemp;
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Calendar registrationTimestamp;
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Calendar last_attemp;
+    
+    
+    public void create(String userName, String password, String firstName, String lastName, String address, String email,  
+            String ageGroup, String gender, String moilePhoneNumber) {
+       this.setUserName(userName);
+       this.setPassword(password);
        this.setFirstName(firstName);
        this.setLastName(lastName);
        this.setAddress(address);
        this.setEmail(email);
-       this.setPassword(password);
-       this.setMobilePhoneCountryCode(mobilePhoneCountryCode);
-       this.setMobilePhoneNumber(mobilePhoneNumber);
+       this.setAgeGroup(ageGroup);
+       this.setGender(gender);
+       this.setMobilePhoneNumber(moilePhoneNumber);
        
     }
 
-    
-    
-    public Long getCustomerId() {
-        return customerId;
-    }
+   
 
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
+    public Long getCustomerId() {
+        return Id;
     }
 
     public Collection<RoomReservation> getRoomReservations() {
         return roomReservations;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getMobilePhoneNumber() {
+        return mobilePhoneNumber;
+    }
+
+    public Integer getLoyaltyPointBalance() {
+        return loyaltyPointBalance;
+    }
+
+    public Calendar getRegistrationTimestamp() {
+        return registrationTimestamp;
+    }
+
+    public int getLogginAttemp() {
+        return logginAttemp;
+    }
+
+    public Calendar getLast_attemp() {
+        return last_attemp;
+    }
+
+    public void setCustomerId(Long customerId) {
+        this.Id = customerId;
+    }
+
     public void setRoomReservations(Collection<RoomReservation> roomReservations) {
         this.roomReservations = roomReservations;
     }
 
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setMobilePhoneNumber(String mobilePhoneNumber) {
+        this.mobilePhoneNumber = mobilePhoneNumber;
+    }
+
+    public void setLoyaltyPointBalance(Integer loyaltyPointBalance) {
+        this.loyaltyPointBalance = loyaltyPointBalance;
+    }
+
+    public void setRegistrationTimestamp(Calendar registrationTimestamp) {
+        this.registrationTimestamp = registrationTimestamp;
+    }
+
+    public void setLogginAttemp(int logginAttemp) {
+        this.logginAttemp = logginAttemp;
+    }
+
+    public void setLast_attemp(Calendar last_attemp) {
+        this.last_attemp = last_attemp;
+    }
+
+    public String getAgeGroup() {
+        return ageGroup;
+    }
+
+    public void setAgeGroup(String ageGroup) {
+        this.ageGroup = ageGroup;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+   
+
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (customerId != null ? customerId.hashCode() : 0);
+        hash += (Id != null ? Id.hashCode() : 0);
         return hash;
     }
 
@@ -118,7 +229,7 @@ public class Customer implements Serializable
             return false;
         }
         Customer other = (Customer) object;
-        if ((this.customerId == null && other.customerId != null) || (this.customerId != null && !this.customerId.equals(other.customerId))) {
+        if ((this.Id == null && other.Id != null) || (this.Id != null && !this.Id.equals(other.Id))) {
             return false;
         }
         return true;
@@ -126,85 +237,10 @@ public class Customer implements Serializable
 
     @Override
     public String toString() {
-        return "entity.Customer[ customerId=" + customerId + " ]";
-    }
-
-      public void getUserName(String Username) {
-        this.Username = Username;
-    }
-      
-        public void setUserName(String Username) {
-        this.Username = Username;
-    }
-    
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-    
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getMobilePhoneCountryCode() {
-        return mobilePhoneCountryCode;
-    }
-
-    public void setMobilePhoneCountryCode(String mobilePhoneCountryCode) {
-        this.mobilePhoneCountryCode = mobilePhoneCountryCode;
-    }
-
-    public String getMobilePhoneNumber() {
-        return mobilePhoneNumber;
-    }
-
-    public void setMobilePhoneNumber(String mobilePhoneNumber) {
-        this.mobilePhoneNumber = mobilePhoneNumber;
-    }
-
-    public Integer getLoyaltyPointBalance() {
-        return loyaltyPointBalance;
-    }
-
-    public void setLoyaltyPointBalance(Integer loyaltyPointBalance) {
-        this.loyaltyPointBalance = loyaltyPointBalance;
+        return "entity.Customer[ customerId=" + Id + " ]";
     }
 
   
-    public void setRegistrationTimestamp(Timestamp registrationTimestamp) {
-        this.registrationTimestamp = registrationTimestamp;
-    }
 
   
 }

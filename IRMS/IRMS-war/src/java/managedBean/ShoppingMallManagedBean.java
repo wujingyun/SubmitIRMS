@@ -212,6 +212,7 @@ public class ShoppingMallManagedBean implements Serializable {
 
             cbr.reNewContract(MinimumRent, RentRate,
                     upfrontRentalDeposit, getContractRecord(), yearsToRenew);
+            this.contractList = cbr.getContractList();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Contract has been renewed successfully", ""));
         } catch (Exception ex) {
