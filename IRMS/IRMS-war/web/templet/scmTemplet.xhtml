@@ -27,7 +27,21 @@
                 }
             </style>
             
-            
+             <script type="text/javascript">
+                 
+                   <script type="text/javascript">
+                    function test() {
+// validation here
+                        if (isValidated) {
+                            dlg.show();
+                        }
+                        else
+                            alert('Please fill in the entire form!');
+                    }
+                </script>
+                 
+                 
+             </script>
         </h:head>
 
 <script type="text/javascript">
@@ -48,7 +62,7 @@
                           
                             <p:menuitem value="Create Contract" url="/smpManageContract.xhtml" />
                             <p:menuitem value="Renew Contract" url="/smpRenewContract.xhtml"/>
-                          <p:menuitem  value="Terminate Contract" url="/smpRerminateContract.xhtml"/>
+                          <p:menuitem  value="Terminate Contract" url="/smpTerminateContract.xhtml"/>
                     
                         </p:submenu>
 
@@ -59,8 +73,6 @@
 
                         <p:submenu label="Bill"  >
                             <p:menuitem value="Generate Bill" url="/smpGenerateBill.xhtml"  />
-                        <p:menuitem value="View Bill" url="/smpGenerateBill.xhtml"  />
-                        
                         </p:submenu>
                         
                         <p:submenu label="Tenancy"  >
@@ -68,6 +80,14 @@
                         
                         </p:submenu>
                           
+                        
+                        <p:submenu label="Concierge"  >
+                            <p:menuitem value="create concierge order" url="/smpDeliveryOrder.xhtml"  />
+                        
+                        </p:submenu>
+                          
+                        
+                        
                     </p:menubar>
                 </p:layoutUnit>
 

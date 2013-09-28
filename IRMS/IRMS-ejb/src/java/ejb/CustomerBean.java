@@ -318,7 +318,7 @@ public class CustomerBean implements CustomerBeanRemote
     System.out.print("=========================================checkLock0");
     boolean AccountUnlock=false;
     System.out.print("=========================================checkLock11");
-         Query q = em.createQuery("SELECT ua FROM UserAccount ua where ua.userName=?1");
+         Query q = em.createQuery("SELECT ua FROM Customer ua where ua.userName=?1");
           q.setParameter(1,userName);
           for (Object o : q.getResultList()) {
              customer = (Customer) o;
