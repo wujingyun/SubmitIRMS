@@ -36,7 +36,7 @@ public class ManageCatalogBean implements ManageCatalogBeanRemote {
     Hotel hotel;
     ProductItem item;
     //find the category of the shop stored in contract
-
+    private List<ConciergeOrder> order;
   
     
     @Override
@@ -93,19 +93,43 @@ public class ManageCatalogBean implements ManageCatalogBeanRemote {
             deliveryOrder.setOrderTime(cal);
             deliveryOrder.setStatus("In the Shopping Mall");
             
-            String ejbql=("SELECT h FROM Hotel WHERE Hotel.name =?1");
-            Query q = em.createQuery(ejbql);
-            
-            q.setParameter("name",hotelName);
-            hotel = (Hotel)q.getSingleResult();
+           
+            hotel = em.find(Hotel.class, hotelName);
             hotel.getConciergeOrders().add(deliveryOrder);
             em.persist(deliveryOrder);
             em.flush();
     }
     
+    @Override
+    public List<ConciergeOrder> getListOfDeliveryOrders(){
+         order = new ArrayList();
+         String ejbql=("SELECT o FROM ConciergeOrder o");
+         Query q = em.createQuery(ejbql);
+         for(Object o: q.getResultList()){
+             ConciergeOrder co = (ConciergeOrder)o;
+             order.add(co);
+         }
+         em.flush();
+         return order;
+    }
     
-    
-    
+     @Override
+    public void deleteDeliveryOrder(Long ID,String hotelName) throws ExistException{
+        System.err.println("ID "+ID+" hotelname"+hotelName);
+        deliveryOrder = new ConciergeOrder();
+        deliveryOrder = em.find(ConciergeOrder.class, ID);
+        hotel = em.find(Hotel.class, hotelName);
+       System.err.println("Sessionbean: ID "+deliveryOrder.getId()+" hotelname"+hotel.getName());
+       
+        if(deliveryOrder ==null) throw new ExistException("The order has not been found");
+        if(!deliveryOrder.getStatus().equals("Received at Hotel")) throw new ExistException("Order is not delivered ");
+        hotel.getConciergeOrders().remove(deliveryOrder);
+     //   em.detach(deliveryOrder);
+        em.remove(deliveryOrder);
+        em.flush();
+       
+    }
+  
     @Override
     public void updateDeliveryOrder(String status, Long ID) throws ExistException{
         deliveryOrder = new ConciergeOrder();
@@ -115,4 +139,13 @@ public class ManageCatalogBean implements ManageCatalogBeanRemote {
         em.flush();
        
     }
+    @Override
+    public void editTheOrder(String customerName,String customerID,String customerContact,Integer numOfItems,Long orderID,String hotelName){
+        System.err.println(" name "+customerName+" "+customerID+" orderid"+orderID+" customer Contact"+customerContact);
+        deliveryOrder = new ConciergeOrder();
+        deliveryOrder = em.find(ConciergeOrder.class, orderID);
+        deliveryOrder.editOrder(customerName, customerID, customerContact, numOfItems,hotelName);
+        em.flush();
+    }
+    
 }

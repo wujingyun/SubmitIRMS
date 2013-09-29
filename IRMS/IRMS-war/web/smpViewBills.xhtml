@@ -1,21 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this template, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-    <h:body>
-        <f:view> 
-            <h:head>
-                <title>Contract Management Module</title>
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./templet/scmTemplet.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
 
-            </h:head>
-           
+    <ui:define name="center">
             
             <h:form id="form1"> 
                 
@@ -66,18 +57,17 @@ and open the template in the editor.
             
             <h:form id="form2">
                   <p:growl id="growl" showDetail="true" life="3000" />  
-                  <p:confirmDialog header="Bill Payment" showEffect="fade" hideEffect="fade" widgetVar="vb" message="Are you sure the bill has been cleared?"> 
+                  <p:dialog header="Bill Payment" showEffect="fade" hideEffect="fade" widgetVar="vb" > 
                    
                      
-     
+                            <h:outputText value="Are you sure the bill has been cleared?"/>            
                    
                     <p:commandButton  style="display:block; text-align:center" value="Okay" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" 
                                       actionListener="#{billManagedBean.changeStatus}" onclick="vb.hide();" update="growl"/>
              
-                </p:confirmDialog>
+                </p:dialog>
             </h:form>
             
             
-  </f:view>
-    </h:body>
-</html>
+  </ui:define>
+</ui:composition>

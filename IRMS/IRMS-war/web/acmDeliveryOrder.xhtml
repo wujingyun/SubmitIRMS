@@ -1,0 +1,110 @@
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"> 
+    <h:head> 
+    </h:head> 
+    <h:body>
+        <f:view>
+             <h:form id="c1">
+        <p:panel id ="do1" header="Delivery Orders">
+              <p:messages id="doMsg" redisplay="false" />
+                     <p:dataTable  paginator="true"  rows="10" style="border: solid 2px black;"
+                                   value="#{shoppingMallManagedBean.deliveryOrder}" var="orders">
+                    <p:column id="OrderID" style="width:10px;"   
+                              headerText="Order ID "> 
+
+                           <h:outputText value="#{orders.id}" /> 
+                    </p:column> 
+                         
+                    <p:column id="CustomerID" style="width:10px;"   
+                              headerText="Customer ID "> 
+
+                        <h:outputText value="#{orders.customerID}" /> 
+                    </p:column> 
+                         
+                    <p:column id="CustomerName" style="width:10px;"   
+                              headerText="Customer Name "> 
+
+                        <h:outputText value="#{orders.customerName}" /> 
+                    </p:column> 
+                         
+                    <p:column id="contactNumber" style="width:10px;"   
+                              headerText="Contact Number"> 
+
+                        <h:outputText value="#{orders.contactNumber}" /> 
+                    </p:column>
+                         
+                    <p:column id="HotelName" style="width:10px;"   
+                              headerText="Hotel Name "> 
+
+                        <h:outputText value="#{orders.hotelName}" /> 
+                    </p:column>
+                         
+                         <p:column id="Items" style="width:10px;"   
+                              headerText="Number Of Items"> 
+
+                             <h:outputText value="#{orders.numOfItems}" /> 
+                    </p:column>
+                         
+                         <p:column id="orderTime" style="width:10px;"   
+                              headerText="Order Time"> 
+
+                             <h:outputText value="#{orders.orderTime.time}" styleClass="date"> <f:convertDateTime pattern="dd-MM-yyyy" />
+                             </h:outputText>    
+                    </p:column>
+                         
+                           <p:column id="description" style="width:10px;"   
+                              headerText="description"> 
+
+                               <h:outputText value="#{orders.description}" > 
+                             </h:outputText>    
+                            </p:column>
+                         
+                           <p:column id="status" style="width:10px;"   
+                              headerText="Status"> 
+
+                               <h:outputText value="#{orders.status}" /> 
+                    </p:column>
+                         
+                            <p:column id="editOrder" style="width:10px;"   
+                              headerText="Update Status"> 
+
+                               <p:commandButton icon="ui-icon-document"  oncomplete="dlghao.show();">
+                               <f:setPropertyActionListener value="#{orders}" target="#{shoppingMallManagedBean.co}" />
+                                </p:commandButton>
+                    </p:column>
+                         
+                         
+                     
+                     </p:dataTable>
+        </p:panel>
+        </h:form> 
+            
+            <h:form id="form2">
+            <p:growl id="growl" showDetail="true" life="3000" />  
+             
+            <p:dialog id ="dlg1" header="Update Status" modal="false" showEffect="fade" hideEffect="fade" widgetVar="dlghao" width="400px" height="200" resizable="false"> 
+                
+                <h:panelGrid columns="2" cellpadding="5">
+                    <p:selectOneMenu id="htlName" value="#{shoppingMallManagedBean.orderStatus}" maxlength="10" >
+                                <f:selectItem itemLabel="Select One" itemValue =""/> 
+                                <f:selectItem itemLabel="Received at Hotel" itemValue ="Received at Hotel"/> 
+                                <f:selectItem itemLabel="Not Received Upon Customer's arrival" itemValue ="Not Received Upon Customer's arrival"/> 
+                    </p:selectOneMenu>        
+                    
+                    
+                    <f:facet name="footer">
+                            <p:commandButton id="edit" value="Save" update=":c1:do1"
+                                             actionListener="#{shoppingMallManagedBean.updateStatusOrder}" />
+                    </f:facet>
+                </h:panelGrid>
+            </p:dialog>
+           
+        </h:form>
+        
+            
+            
+        </f:view>               
+    </h:body>
+</html>

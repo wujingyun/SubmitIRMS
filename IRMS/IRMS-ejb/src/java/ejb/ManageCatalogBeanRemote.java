@@ -4,8 +4,10 @@
  */
 package ejb;
 
+import entity.ConciergeOrder;
 import exception.ExistException;
 import java.math.BigDecimal;
+import java.util.List;
 import javax.ejb.Remote;
 
 /**
@@ -23,4 +25,7 @@ public interface ManageCatalogBeanRemote {
       public void deliveryItem(String hotelName,String customerName, String customerID, 
             String contactNumber, Integer numOfItems, String description);
       public void updateDeliveryOrder(String status, Long ID) throws ExistException;
+       public List<ConciergeOrder> getListOfDeliveryOrders();
+       public void editTheOrder(String customerName,String customerID,String customerContact,Integer numOfItems,Long orderID,String hotelName);
+        public void deleteDeliveryOrder(Long ID,String hotelName) throws ExistException;
 }

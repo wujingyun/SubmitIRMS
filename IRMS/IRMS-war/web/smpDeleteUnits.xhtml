@@ -1,18 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this template, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-    <h:body>
-        <f:view>
-             <h:head>
-        <title>Mall Space Management Module</title>
-             </h:head>
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./templet/scmTemplet.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="center">
             <h:form id="unitDelete">
                 <p:panel header="Delete Unit">
                     <p:messages id="messagesStatus" redisplay="false" />
@@ -28,6 +22,5 @@ and open the template in the editor.
                     </h:panelGrid>
                 </p:panel>
             </h:form>
-        </f:view>
-    </h:body>
-</html>
+      </ui:define>
+</ui:composition>
