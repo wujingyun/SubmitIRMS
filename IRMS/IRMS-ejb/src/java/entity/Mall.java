@@ -27,7 +27,7 @@ public class Mall implements Serializable {
     private Long MallID;
     private String mallName;
     private int mallSize;
-   
+    private double commissionRate;
     
     @OneToMany(mappedBy="mall")
     private Collection<Unit> units = new
@@ -70,5 +70,13 @@ public class Mall implements Serializable {
     public void setMallSize(int mallSize) {
         this.mallSize = mallSize;
     }
-     
+
+    public double getCommissionRate() {
+        return commissionRate;
+    }
+
+    public void setCommissionRate(double commissionRate) {
+        this.commissionRate = commissionRate;
+    }
+  
 }

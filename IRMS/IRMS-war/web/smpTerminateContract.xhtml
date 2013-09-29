@@ -55,6 +55,13 @@
                         <h:outputText value="#{contractRecord.dateOfExecution.time}" styleClass="date"> <f:convertDateTime pattern="dd-MM-yyyy" />
                         </h:outputText>   
                     </p:column>
+                    
+                     <p:column id="DateExpired"    
+                              headerText="Status"> 
+
+                         <h:outputText value="#{contractRecord.contractExpiry?'Expired':'Valid'}">
+                        </h:outputText>   
+                    </p:column>
 
 
                     <p:column headerText="Terminate a Contract">  

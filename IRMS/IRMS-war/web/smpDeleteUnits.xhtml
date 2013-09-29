@@ -14,13 +14,41 @@
                         <p:row><p:selectCheckboxMenu value="#{mallSpaceManagedBean.selectedUnits}" label="Units" filter="true" filterMatchMode="startsWith" panelStyle="width:320px">
                                 <f:selectItems value="#{mallSpaceManagedBean.units}" /> 
                         </p:selectCheckboxMenu>
-                        <p:separator style="margin-bottom:10px"/> 
+                      
                        </p:row>
                          <p:row>
-                             <p:column colspan="2"><p:commandButton value="Submit" icon="ui-icon-plus" actionListener="#{mallSpaceManagedBean.deleteUnit}"  oncomplete="alert('Request for deleting an unit has been submitted')"/></p:column>
+                             <p:column colspan="2"><p:commandButton value="Submit" icon="ui-icon-plus" actionListener="#{mallSpaceManagedBean.deleteUnit}"  update=":form1:std messagesStatus"/></p:column>
                         </p:row>
                     </h:panelGrid>
                 </p:panel>
             </h:form>
+        
+         <h:form id="form1">
+            
+            <p:growl id="msg" showDetail="true" life="3000" />  
+            <p:panel header="Unit Information DataTable" id="std"> 
+                <p:dataTable id="unitTable" paginator="true"  rows="10" binding="#{mallSpaceManagedBean.dataTable}" style="border: solid 2px black;"
+                         value="#{mallSpaceManagedBean.unitList}" var="unit">
+                
+                
+
+                <p:column id="unitNo"   
+                          headerText="Unit No."  
+                         style="width: 10px"> 
+                    <h:outputText value="#{unit.unitNo}">
+
+                    </h:outputText>   
+                </p:column> 
+                
+                <p:column id="unitSpace"   
+                          headerText="Unit Space"  
+                         style="width: 10px"> 
+                    <h:outputText value="#{unit.unitSpace}">
+
+                    </h:outputText>   
+                </p:column>        
+            </p:dataTable>
+            </p:panel>
+        </h:form>
       </ui:define>
 </ui:composition>

@@ -5,6 +5,7 @@
 package ejb;
 
 import entity.Mall;
+import entity.Unit;
 import exception.ExistException;
 import exception.MaxQuotaException;
 import java.util.List;
@@ -22,5 +23,7 @@ public interface ManageMallSpaceBeanRemote {
    public void addNewUnit(String unitNo, int unitSpace, String mallName) throws MaxQuotaException;
    public void deleteUnit(List selectedUnits) throws ExistException ;
    public void createMall(String mallName);
-   
+     public void getMall(double CommisionRate);
+      public double getMallRate();
+       public List<Unit> getUnitList();
 }
