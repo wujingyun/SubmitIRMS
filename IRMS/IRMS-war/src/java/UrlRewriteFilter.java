@@ -91,6 +91,7 @@ public class UrlRewriteFilter implements Filter {
                              req.getRequestDispatcher("/accessDenied.xhtml").forward(req, resp);
                         //}
                     } else {//if it's super admin, can access all pages under the subsystem 
+                        System.out.println("superadmin ==============");
                         chain.doFilter(request, response);
                     }
 
@@ -131,11 +132,18 @@ public class UrlRewriteFilter implements Filter {
 
         System.err.println("===================check if it's a super Admin"+role);
 
-        if (role.contains("SuperAdmin")) {
+        if (role.equalsIgnoreCase("SuperAdmin")) {
             if (!path.contains("crm")) {
                 return true;
             }
         }
+        if (!role.contains("customer")) {
+            if (!path.contains("internal")) {
+                return true;
+            }
+        }
+        
+        
         
          if (role.contains("customer")) {
             if (path.contains("crm")) {
@@ -169,7 +177,7 @@ public class UrlRewriteFilter implements Filter {
                 || path.contains("loginCustomer.xhtml") || path.contains("loginInternalUser.xhtml") 
                 || path.contains("passwordReset.xhtml")|| path.contains("crmPasswordReset.xhtml")
                 || path.contains("ResetResult.xhtml") || path.contains("crmResetResult.xhtml")
-                || path.contains("customerRegister.xhtml")
+                || path.contains("customerRegister.xhtml")|| path.contains("logout.xhtml")
                 || path.contains("accessDeniedPage.xhtml")|| path.contains("test.xhtml")
                 || path.startsWith("/javax.faces.resource")
                 || path.startsWith("/resources")  

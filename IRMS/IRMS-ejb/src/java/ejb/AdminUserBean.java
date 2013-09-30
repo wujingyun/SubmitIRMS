@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 package ejb;
-
+import exception.ExistException;
 import entity.UserAccount;
 import entity.UserContact;
 import entity.UserRole;
@@ -95,11 +95,34 @@ public class AdminUserBean implements AdminUserBeanRemote {
             
         } return roleName;
     }
+@Override
+public List<UserAccount> getAllUsers() throws ExistException{
+        Query q = em.createQuery("SELECT ua FROM  UserAccount ua");
+        List userList = new ArrayList<UserAccount>();
+         for (Object o: q.getResultList()) { 
+            UserAccount m = (UserAccount) o; 
+            userList.add(m); 
+        } 
+        if(userList.isEmpty())  throw new ExistException("UserAccount database is empty!");
+        return userList;     
+    }
+@Override
+public UserAccount getUserById(long employeeId) {
+        user = em.find(UserAccount.class, employeeId);
+        if(user == null)  System.out.println("UserAccount does not exist!");
+        return user;
+    }
 
-
-
-
-
+@Override
+public UserAccount getUser(String receiverName) throws ExistException{
+       Query q = em.createQuery("SELECT ua FROM UserAccount ua where ua.userName=?1");
+          q.setParameter(1,receiverName);
+        for (Object o : q.getResultList()) {
+             user = (UserAccount) o;
+        }
+        if(user == null)  throw new ExistException("Receiver does not exist!");
+        return user;
+    }
 @Override
   public boolean checkUserExist(String username) {
         Query q = em.createQuery("SELECT ua FROM UserAccount ua where ua.userName=?1");
@@ -228,12 +251,13 @@ public class AdminUserBean implements AdminUserBeanRemote {
             if(u.getUserName().equals(userName)){
             System.out.println("========================================================2password"+userName);
              System.out.println("========================================================3password"+password);
+              System.out.println("========================================================3password"+u.getPassword()+password); 
+          
                 if(u.getPassword().equals(password))
                 {    System.out.println("========================================================3password"+password);
                     return true;}
                 break;
-                 
-            }
+                }
         }
         return false;
     }

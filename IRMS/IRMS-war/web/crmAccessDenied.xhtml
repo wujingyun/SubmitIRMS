@@ -1,28 +1,24 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
+       template="./templet/simpleTemplet.xhtml"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui">
-    <f:view>
-    <h:head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-         </h:head>
-<script type="text/javascript">
-
-</script>
-    <h:body>
+<ui:define name="contentInsert">
+        <h:form> 
         <div >
        <br/><br/>
         <h1><font>Sorry, Access Is Denied. You are not login or login use unauthorized role.</font></h1>
         <bt/>
          
+         
                     <a href="/IRMS-war/loginCustomer.xhtml">
                       Please Login.
                     </a>
         </div>
-      </h:body>
-</f:view>
+     </h:form>
+    </ui:define>
 
-</html>
+</ui:composition>

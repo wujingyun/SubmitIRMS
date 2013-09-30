@@ -163,7 +163,6 @@ public class LoginBean implements Serializable {
 
 
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 
         RequestContext context = RequestContext.getCurrentInstance();
@@ -198,7 +197,8 @@ public class LoginBean implements Serializable {
                 aub.updateLoginAttempTime(username);
                 System.out.println("get role ============");
                 request.getSession().setAttribute("role", aub.getUserRole(username));
-                System.out.println("get role finish============");
+                request.getSession().setAttribute("userId", user.getId());
+                System.out.println("get role finish============"+ aub.getUserRole(username)+ user.getId());
                 request.getSession().setAttribute("isLogin", true);
 
 
@@ -293,26 +293,27 @@ public class LoginBean implements Serializable {
 
     }
 
-    public void logout() {
-        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-
+    
+    
+    
+    
+  public void logout() {
+       
         RequestContext context = RequestContext.getCurrentInstance();
         boolean logout = false;
         /*getSession(boolean create)如果 create 参数为 true，则创建（如有必要）并返回一个与当前请求关联的会话实例。如果 create 参数为 false，则返回与当前请求关联的任何现有会话实例；如果没有这样的会话，则返回 null。*/
         FacesMessage msg = null;
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-        String role = (String) request.getSession().getAttribute("role");
+         
         HttpSession session = (HttpSession) externalContext.getSession(false);
-
+         
         if (null != session) {
 
             session.invalidate();
 
             logout = true;
             msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Logout", username);
-            System.out.println("logout role ======================================" + role);
-
-
+        
             try {
 
                 externalContext.redirect("/IRMS-war/loginInternalUser.xhtml");
@@ -327,6 +328,7 @@ public class LoginBean implements Serializable {
 
         }
     }
+
 
     public void register() {
         RequestContext context = RequestContext.getCurrentInstance();

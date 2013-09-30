@@ -5,6 +5,7 @@
 package ejb;
 
 import entity.UserAccount;
+import exception.ExistException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -44,6 +45,11 @@ public String getUserRole(String username) ;
     public void updateLoginAttempTime(String userName);
 
     public boolean setHashPassword(String userName, String password);
+
+    public List<UserAccount> getAllUsers() throws ExistException;
+
+    public UserAccount getUserById(long employeeId) ;
+    public UserAccount getUser(String receiverName) throws ExistException;
 
   
 }

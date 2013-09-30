@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./templet/adminTemplet.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="center">
+           <h:form>  
+   <h:outputLabel for="messages" value="To update image " >
+    <p:fileUpload fileUploadListener="#{fileUploadManagedBean.handleFileUpload}" mode="advanced" dragDropSupport="false"  
+                  update="messages" sizeLimit="100000" allowTypes="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG)$/"   />  
+   </h:outputLabel>
+   
+   <p:growl id="messages" showDetail="true"/>  
+
+        
+   
+           </h:form>
+                
+    </ui:define>
+
+</ui:composition>

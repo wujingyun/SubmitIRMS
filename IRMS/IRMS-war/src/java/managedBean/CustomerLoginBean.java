@@ -101,7 +101,7 @@ public class CustomerLoginBean implements Serializable {
             if (username != null && password != null && cbb.verifyPassword(username, hashPassword)) {
                 loggedIn = true;
                 msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome", username);
-
+             
                 customer = cbb.findCustomer(username);
                 cbb.setLoginAttempToZero(username);
                 cbb.updateLoginAttempTime(username);
@@ -177,8 +177,13 @@ public class CustomerLoginBean implements Serializable {
         /*getSession(boolean create)如果 create 参数为 true，则创建（如有必要）并返回一个与当前请求关联的会话实例。如果 create 参数为 false，则返回与当前请求关联的任何现有会话实例；如果没有这样的会话，则返回 null。*/
         FacesMessage msg = null;
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+ //HttpServletRequest requests = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
 
         HttpSession session = (HttpSession) externalContext.getSession(false);
+     //   requests.getSession().setAttribute("isLogin",false);
+       // requests.getSession().setAttribute("role",null);
+       // requests.getSession().invalidate();
+       // HttpSession session = (HttpSession) externalContext.getSession(false);
 
         if (null != session) {
 
@@ -197,6 +202,8 @@ public class CustomerLoginBean implements Serializable {
             }
 
         }
+        else {logout = false;
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Logout", username);}
         FacesContext.getCurrentInstance().addMessage(null, msg);
         context.addCallbackParam("logout", logout);
 

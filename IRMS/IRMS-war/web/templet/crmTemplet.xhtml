@@ -38,33 +38,12 @@
         
 </script>
         <h:body>
-   
+        
             <p:layout fullPage="true" >
 
                 <p:layoutUnit id="top" position="north" size="50">
-                
-                    <p:menubar>
-                        <p:submenu label="Ticket" icon="ui-icon-document">
-                          
-                            <p:menuitem value="tt" url="#" />
-                            <p:menuitem value="tt" url="#" onclick=""/>
-                        </p:submenu>
-
-                        <p:submenu label="Edit" icon="ui-icon-pencil">
-                            <p:menuitem value="Undo" url="#" icon="ui-icon-arrowreturnthick-1-w"></p:menuitem>
-                            <p:menuitem value="Redo" url="#" icon="ui-icon-arrowreturnthick-1-e"></p:menuitem>
-                        </p:submenu>
-
-                        <p:submenu label="Help" icon="ui-icon-help">
-                            <p:menuitem value="Contents" url="#" />
-                            <p:submenu label="Search" icon="ui-icon-search">
-                                <p:submenu label="Text">
-                                    <p:menuitem value="Workspace" url="#" />
-                                </p:submenu>
-                                <p:menuitem value="File" url="#" />
-                            </p:submenu>
-                        </p:submenu>
-                    </p:menubar>
+                   
+                 <h2>Customer Portal</h2>
                 </p:layoutUnit>
 
                 
@@ -97,19 +76,20 @@
  <p:commandButton onclick="goChangePass();" value="Change Password"/>
     </p:layoutUnit>
 
-                <p:layoutUnit id="center" position="center">
-                    <ui:insert name="center"> 
-                    <h:form>
-                       
+                <p:layoutUnit id="center" position="center"  style="background: #E9EEF5" >
+                <h:panelGroup>
+       
+                    <p>Welcome, #{customerLoginBean.username}</p>
+</h:panelGroup>    <ui:insert name="center"  > 
+                    <h:form >
+              
                     </h:form>
                 </ui:insert>
                 </p:layoutUnit>
 
             </p:layout>
 
-            <p:dialog header="Basic Dialog" widgetVar="dlg" modal="true">
-                <h:outputText value="Resistance to PrimeFaces is futile!" />
-            </p:dialog>
+            
 
         </h:body>
 
