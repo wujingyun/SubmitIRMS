@@ -5,16 +5,19 @@
 package managedBean;
 
 import ejb.ManageMallSpaceBeanRemote;
+import entity.Unit;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import org.primefaces.component.datatable.DataTable;
 
 /**
  *
@@ -36,8 +39,16 @@ public class MallSpaceManagedBean implements Serializable{
     private List<String> selectedUnits;
     private int unitSpace;
     private static String mName="IRMall";
-    
+     private List<Unit> unitList;
+      private DataTable dataTable;
     public MallSpaceManagedBean() {
+    }
+    
+     @PostConstruct
+    public void init() {
+      
+        this.unitList=mmsbr.getUnitList();
+     //    commisionRate =mtb.sendCommisionRate();
     }
     
     public  void createMall(ActionEvent event){
@@ -59,7 +70,7 @@ public class MallSpaceManagedBean implements Serializable{
         try{
            
             mmsbr.addNewUnit(unitNo, unitSpace, mallName);
-            
+              this.unitList=mmsbr.getUnitList();
             System.out.println("ManagedBean add new unit: "+unitNo+" unitSpace:"+unitSpace+" MallName:"+mallName);
              FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,  
                  "New Unit added successfully", ""));
@@ -75,9 +86,9 @@ public class MallSpaceManagedBean implements Serializable{
     public void deleteUnit(ActionEvent event){//not finished
         try{       
             mmsbr.deleteUnit(getSelectedUnits());
-            
+            this.unitList=mmsbr.getUnitList();
              FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,  
-                 "New Unit deleted successfully", ""));
+                 "Unit deleted successfully", ""));
         }catch(Exception ex){
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,  
                     "An error has occurred while deleting the new Unit: " + ex.getMessage(), ""));
@@ -133,5 +144,21 @@ public class MallSpaceManagedBean implements Serializable{
         this.unitSpace = unitSpace;
     }
 
+    public List<Unit> getUnitList() {
+        return unitList;
+    }
+
+    public void setUnitList(List<Unit> unitList) {
+        this.unitList = unitList;
+    }
+
+    public DataTable getDataTable() {
+        return dataTable;
+    }
+
+    public void setDataTable(DataTable dataTable) {
+        this.dataTable = dataTable;
+    }
+    
  
 }

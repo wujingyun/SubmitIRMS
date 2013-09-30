@@ -4,9 +4,11 @@
  */
 package managedBean;
 
+import ejb.ManageMallSpaceBeanRemote;
 import ejb.ManageTenantBeanRemote;
 import entity.Shop;
 import entity.ShopBill;
+import entity.Unit;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,6 +40,8 @@ public class BillManagedBean implements Serializable {
 
     @EJB
     ManageTenantBeanRemote mtb;
+    @EJB
+    ManageMallSpaceBeanRemote mmsb;
     /**
      * Creates a new instance of BillManagedBean
      */
@@ -53,14 +57,18 @@ public class BillManagedBean implements Serializable {
     private HashMap<String, Integer> cache;
     private static PieChartModel model;
     private LinkedList list;
-    private static double commisionRate;
+    private double commisionRate;
     private double commision;
+    private List<Unit> unitList;
+    
+    
     @PostConstruct
     public void init() {
         this.shopList = mtb.getShopList();
         this.cache = mtb.viewTenancyMix();
-        
-       commisionRate =mtb.sendCommisionRate();
+        this.commisionRate= mmsb.getMallRate();
+        this.unitList=mmsb.getUnitList();
+     //    commisionRate =mtb.sendCommisionRate();
     }
 
     public BillManagedBean() {
@@ -68,12 +76,15 @@ public class BillManagedBean implements Serializable {
     }
     
     public void retrieveRate(ActionEvent event){
-        commisionRate=mtb.sendCommisionRate();
+        System.err.println("retrieve rate commission rate"+commisionRate);
+        this.commisionRate= mmsb.getMallRate();
     }
     
     public void changeCommissionRate(ActionEvent evnt){
-        try {          
-            mtb.changeCommissionRate(commisionRate);
+        try {   
+            System.err.println("change commission rate"+commisionRate);
+            mmsb.getMall(commisionRate);
+            this.commisionRate= mmsb.getMallRate();
              FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Commission changed successfully", ""));
         }
@@ -170,7 +181,7 @@ public class BillManagedBean implements Serializable {
     public void saveShopInfo(ActionEvent event) {
         try {
             mtb.EditShopInfo(getShopEntity().getShopID(), description, operatinghours, storeContact);
-
+            this.shopList = mtb.getShopList();
             //save shop
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "New information saved successfully", ""));
@@ -365,4 +376,12 @@ public class BillManagedBean implements Serializable {
         this.commision = commision;
     }
 
+    public List<Unit> getUnitList() {
+        return unitList;
+    }
+
+    public void setUnitList(List<Unit> unitList) {
+        this.unitList = unitList;
+    }
+    
 }

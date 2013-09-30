@@ -1,19 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this template, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-    <h:body>
-        <f:view> 
-            <h:head>
-                <title>Contract Management Module</title>
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./templet/scmTemplet.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
 
-            </h:head>
+    <ui:define name="center">
            
             
             <h:form id="form2"> 
@@ -99,7 +92,7 @@ and open the template in the editor.
             <h:form id="form3"> 
 
                 <p:growl id="growl" showDetail="true" life="3000" />  
-                <p:dialog header="Contract" modal="true" showEffect="fade" hideEffect="fade" widgetVar="dlg" resizable="false"> 
+                <p:dialog header="Contract" modal="false" showEffect="fade" hideEffect="fade" widgetVar="dlg" resizable="false"> 
                     <h:panelGrid columns="2" cellpadding="5">
                         <h:outputText  value="Minimun Rent:" />
                         <p:inputText value="#{shoppingMallManagedBean.minimumRent}" 
@@ -134,6 +127,5 @@ and open the template in the editor.
 
 
 
-        </f:view>
-    </h:body>
-</html>
+    </ui:define>
+</ui:composition>
