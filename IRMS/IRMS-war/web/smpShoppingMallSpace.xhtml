@@ -71,7 +71,14 @@
                     <h:outputText value="#{unit.unitSpace}">
 
                     </h:outputText>   
-                </p:column>        
+                </p:column> 
+                <p:column id="Shop"   
+                          headerText="Shop Name"  
+                         style="width: 10px"> 
+                    <h:outputText value="#{unit.contract.shop.name}">
+
+                    </h:outputText>   
+                </p:column>
             </p:dataTable>
             </p:panel>
         </h:form>
