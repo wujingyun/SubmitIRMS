@@ -143,7 +143,7 @@ public class BillManagedBean implements Serializable {
         try {
             System.err.println("change status");
             mtb.EditBillStatus(getBillEntity().getBillID());
-
+         
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "The bill has been paid successfully", ""));
         } catch (Exception ex) {

@@ -43,7 +43,6 @@ public class LogEntry implements Serializable {
         this.setContactPerson(contactPerson);
         this.setCategory(category);
         this.setStatus(status);
-        this.setDateTime(Calendar.getInstance());
     }
 
     public Logbook getLogbook() {

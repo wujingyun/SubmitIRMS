@@ -171,13 +171,20 @@
                         </p:row>
 
                         <p:row>
-                            <p:column colspan="2"><p:commandButton id="submitButton"  value="Submit" icon="ui-icon-plus" actionListener="#{shoppingMallManagedBean.contractCreation}" onclick="test();" oncomplete="dlg.show();" update=":form3:dialogContract"/></p:column>
+                            <p:column colspan="2"><p:commandButton id="submitButton"  value="Submit" icon="ui-icon-plus" actionListener="#{shoppingMallManagedBean.contractCreation}" onclick="test();" oncomplete="dlg.show();" update=":form4:dialogContract"/></p:column>
                         </p:row>
 
 
                     </h:panelGrid>
 
-                    <p:dialog id="dialogContract" header="Contract Details" modal="true" showEffect="fade" hideEffect="fade" widgetVar="dlg">  
+                </p:panel>
+
+            </h:form>  
+        
+        
+        <h:form id ="form4">
+            
+               <p:dialog id="dialogContract" header="Contract Details" modal="false" showEffect="fade" hideEffect="fade" widgetVar="dlg">  
                         <h:panelGrid columns="1" id="display">                        
                             <h:outputText value="Contract Type: #{shoppingMallManagedBean.contractType}" />  
                             <h:outputText value="Date: #{shoppingMallManagedBean.date}" styleClass="date"> <f:convertDateTime pattern="dd-MM-yyyy" />
@@ -198,6 +205,10 @@
                             <p:commandButton  style="display:block; text-align:center" value="Okay" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-close" update="msgC" onclick="dlg.hide();"/>
                         </h:panelGrid>  
                     </p:dialog> 
+        </h:form>  
+        
+      </ui:define>
+</ui:composition>
 
                 </p:panel>
 

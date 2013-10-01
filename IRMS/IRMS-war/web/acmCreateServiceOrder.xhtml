@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./templet/acmTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <ui:define name="topInsert">
+    </ui:define>
+
+    <ui:define name="leftInsert">
+    </ui:define>
+
+    <ui:define name="rightInsert">
+    </ui:define>
+
+    <ui:define name="contentInsert">
+        <h:form id="serviceForm2">
+            <p:growl id="messages" showDetail="true"/>
+            <p:panel>
+                <h:outputLabel for="hotel2" value="Select Hotel: *" />  
+                <h:selectOneMenu id="hotel2" value="#{roomServiceManagedBean.hotelName}" required="true">  
+                    <f:selectItem itemLabel="Select Hotel" itemValue="" />  
+                    <f:selectItems value="#{hotelBean.hotelNames}" />  
+                    <p:ajax update=":serviceForm2:serviceList2" listener="#{roomServiceManagedBean.handleHotelChange}"/>
+                </h:selectOneMenu>  
+            </p:panel>
+
+            <p:panel id="createOrder">
+
+                <p:dataTable var="roomService" value="#{roomServiceManagedBean.services}" id="serviceList2" paginator="true" rows="10"
+                             rowKey="#{roomService.name}" selection="#{roomServiceManagedBean.selectedServices}"> 
+
+                    <f:facet name="header">  
+                        #{roomServiceManagedBean.hotelName} Room Services
+                    </f:facet>
+
+                    <p:column selectionMode="multiple" style="width:2%"/>
+
+                    <p:column headerText="Service Name" sortBy="#{roomService.name}" filterBy="#{roomService.name}" filterMatchMode="contains"> 
+                        #{roomService.name}
+                    </p:column>  
+
+                    <p:column headerText="Description" sortBy="#{roomService.description}" filterBy="#{roomService.description}" filterMatchMode="contains">
+                        #{roomService.description}
+                    </p:column>  
+
+                    <p:column headerText="Price" sortBy="#{roomService.price}" filterBy="#{roomService.price}" filterMatchMode="contains">  
+                        #{roomService.price}
+                    </p:column>  
+
+                    <f:facet name="footer">  
+                        <p:commandButton id="viewSelectedServices" value="View Selected Services" icon="ui-icon-search"
+                                         update=":serviceForm2:orderList" onclick="serviceDialog.show();"/>  
+                    </f:facet>
+                </p:dataTable>
+            </p:panel>
+
+            <p:dialog id="serviceOrderDialog" header="Order Detail" widgetVar="serviceDialog"  
+                      showEffect="fade" hideEffect="explode" modal="false" onHide="#{roomServiceManagedBean.resetTotal()}">  
+
+                <p:outputLabel>Please Enter Accommodation Bill ID: </p:outputLabel><br></br>
+                <p:inputText value="#{roomServiceManagedBean.accBillId}"></p:inputText>
+                <br></br>
+                <p:dataTable id="orderList" value="#{roomServiceManagedBean.selectedServices}" var="selectedService">  
+
+                    <f:facet name="header">  
+                        #{roomServiceManagedBean.hotelName} Room Service Order
+                    </f:facet>
+
+                    <p:column headerText="Item Name">
+                        #{selectedService.name}
+                    </p:column>
+
+                    <p:column headerText="Price">
+                        #{selectedService.price}
+                    </p:column>
+
+                    <p:column headerText="Quantity">
+                        <p:inputText value="#{selectedService.quantity}">
+                        </p:inputText>
+                    </p:column>
+
+                </p:dataTable>
+                <br></br>
+
+                <p:commandButton value="Confirm" actionListener="#{roomServiceManagedBean.createServiceOrder}" update=":serviceForm2:messages" oncomplete="serviceDialog.hide();"/>
+                <p:commandButton value="Cancel" onclick="serviceDialog.hide();" type="button"/>
+            </p:dialog>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

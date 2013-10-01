@@ -5,12 +5,14 @@
  */
 package ejb;
 
+import entity.ComplaintRegister;
 import entity.Hotel;
+import entity.Logbook;
 import entity.MiniBarItem;
 import entity.Room;
 import exception.ExistException;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Calendar;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,8 +30,26 @@ public class HotelRoomBean implements HotelRoomBeanRemote {
     Hotel hotel;
     Room room;
     MiniBarItem miniBarItem;
+    Logbook logbook;
+    ComplaintRegister complaintRegister;
 
     public HotelRoomBean() {
+    }
+    
+    @Override
+    public void createHotel(Hotel hotel){
+        logbook=new Logbook();
+        complaintRegister=new ComplaintRegister();
+        logbook.setHotel(hotel);
+        logbook.setDescription(hotel.getName()+" Logbook");
+        logbook.setDateCreated(Calendar.getInstance());
+        em.persist(logbook);
+        complaintRegister.setHotel(hotel);
+        complaintRegister.setDateCreated(Calendar.getInstance());
+        em.persist(complaintRegister);
+        hotel.setLogbook(logbook);
+        hotel.setComplaintRegister(complaintRegister);
+        em.persist(hotel);
     }
 
     @Override
@@ -44,12 +64,11 @@ public class HotelRoomBean implements HotelRoomBeanRemote {
     }
 
     @Override
-    public void editHotel(String name, String newName, String address, String telNumber, String description, Integer capacity, double overbookRate) throws ExistException {
+    public void editHotel(String name, String address, String telNumber, String description, Integer capacity, double overbookRate) throws ExistException {
         hotel = em.find(Hotel.class, name);
         if (hotel == null) {
             throw new ExistException("HOTEL NOT EXIST.");
         }
-        hotel.setName(newName);
         hotel.setAddress(address);
         hotel.setTelNumber(telNumber);
         hotel.setDescription(description);
@@ -64,10 +83,28 @@ public class HotelRoomBean implements HotelRoomBeanRemote {
         if (hotel == null) {
             throw new ExistException("HOTEL NOT EXIST.");
         }
+        em.remove(hotel.getLogbook());
+        em.remove(hotel.getComplaintRegister());
         em.remove(hotel);
         em.flush();
     }
-
+    /*
+    @Override
+    public void createRoom(String hotelName, Room newRoom) throws ExistException{
+        hotel = em.find(Hotel.class, hotelName);
+        if (hotel == null) {
+            throw new ExistException("HOTEL NOT EXIST.");
+        }
+        newRoom = hotel.findRoom(newRoom.getRoomNumber());
+        if (newRoom != null) {
+            throw new ExistException("ROOM ALREADY EXISTS.");
+        }
+        newRoom.setHotel(hotel);
+        hotel.getRooms().add(newRoom);
+        hotel.setRooms(hotel.getRooms());
+        em.persist(newRoom);
+    }
+    */ 
     @Override
     public void addRoom(String hotelName, Integer roomNumber, String type, String description, double rate) throws ExistException {
         hotel = em.find(Hotel.class, hotelName);
@@ -202,31 +239,43 @@ public class HotelRoomBean implements HotelRoomBeanRemote {
     }
 
     @Override
-    public Collection<Hotel> getHotels() {
-        Query q = em.createNamedQuery("SELECT h FROM Hotel h");
+    public List<Hotel> getHotels() {
+        Query q = em.createQuery("SELECT h FROM Hotel h");
+        /*
         Collection<Hotel> hotels = new ArrayList();
         for (Object o : q.getResultList()) {
             Hotel h = (Hotel) o;
             hotels.add(h);
         }
+        
         return hotels;
+        */
+        return q.getResultList();
     }
 
     @Override
-    public Collection<Room> getRooms(String hotelName) throws ExistException {
+    public List<Room> getRooms(String hotelName) throws ExistException {
+        //System.out.println(hotelName);
         hotel = em.find(Hotel.class, hotelName);
         if (hotel == null) {
             throw new ExistException("HOTEL NOT EXIST.");
         }
-        return hotel.getRooms();
+        /*
+        System.out.println("test");
+        if(hotel.getRooms()==null)
+            System.out.println("null arraylist");
+            */ 
+        hotel.getRooms().size();
+        return (List)hotel.getRooms();
     }
 
     @Override
-    public Collection<MiniBarItem> getMiniBarItems(String hotelName) throws ExistException {
+    public List<MiniBarItem> getMiniBarItems(String hotelName) throws ExistException {
         hotel = em.find(Hotel.class, hotelName);
         if (hotel == null) {
             throw new ExistException("HOTEL NOT EXIST.");
         }
-        return hotel.getMiniBarItems();
+        hotel.getMiniBarItems().size();
+        return (List)hotel.getMiniBarItems();
     }
 }

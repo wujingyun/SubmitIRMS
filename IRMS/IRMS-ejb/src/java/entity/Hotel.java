@@ -6,8 +6,9 @@ package entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -27,13 +28,14 @@ public class Hotel implements Serializable {
     private String address;
     private String telNumber;
     private String description;
+    private String url;
     private Integer capacity;
     private double overbookRate;
     private ArrayList<OverbookLimit> overbookLimits=new ArrayList();
-    @OneToMany(mappedBy = "hotel")
+    @OneToMany(mappedBy ="hotel")
     private Collection<Room> rooms = new ArrayList();
     @OneToMany(mappedBy = "hotel")
-    private Collection<RoomService> roomServices = new ArrayList();
+    private List<RoomService> roomServices = new ArrayList();
     @OneToMany(mappedBy = "hotel")
     private Collection<MiniBarItem> miniBarItems = new ArrayList();
     @OneToOne
@@ -60,10 +62,10 @@ public class Hotel implements Serializable {
 
     public Room findRoom(Integer roomNumber) {
         Room room;
-        ArrayList allRooms = (ArrayList) this.getRooms();
+        List<Room> allRooms = (List) this.getRooms();
         for (int i = 0; i < allRooms.size(); i++) {
             room = (Room) allRooms.get(i);
-            if (room.getRoomNumber() == roomNumber) {
+            if (room.getRoomNumber().equals(roomNumber)) {
                 return room;
             }
         }
@@ -82,7 +84,7 @@ public class Hotel implements Serializable {
 
     public MiniBarItem findMiniBarItem(String name) {
         MiniBarItem item;
-        ArrayList allItems = (ArrayList) this.getMiniBarItems();
+        List allItems = (List) this.getMiniBarItems();
         for (int i = 0; i < allItems.size(); i++) {
             item = (MiniBarItem) allItems.get(i);
             if (item.getName().equals(name)) {
@@ -94,18 +96,18 @@ public class Hotel implements Serializable {
 
     public DiscountScheme findDiscountScheme(String name) {
         DiscountScheme discountScheme;
-        ArrayList allDiscountSchemes = (ArrayList) this.getDiscountSchemes();
+        List allDiscountSchemes = (List) this.getDiscountSchemes();
         for (int i = 0; i < allDiscountSchemes.size(); i++) {
             discountScheme = (DiscountScheme) allDiscountSchemes.get(i);
-            if (discountScheme.getName().equals(name));
-            return discountScheme;
+            if (discountScheme.getName().equals(name))
+                return discountScheme;
         }
         return null;
     }
 
     public RoomService findRoomService(String name) {
         RoomService roomService;
-        ArrayList allRoomServices = (ArrayList) this.getRoomServices();
+        List allRoomServices = (List) this.getRoomServices();
         for (int i = 0; i < allRoomServices.size(); i++) {
             roomService = (RoomService) allRoomServices.get(i);
             if (roomService.getName().equals(name)) {
@@ -171,7 +173,7 @@ public class Hotel implements Serializable {
         this.overbookLimits = overbookLimits;
     }
 
-    public Integer getOverbookLimit(Calendar date) {
+    public Integer getOverbookLimit(Date date) {
         for (int i = 0; i < overbookLimits.size(); i++) {
             if (overbookLimits.get(i).getDate().equals(date)) {
                 return overbookLimits.get(i).getLimit();
@@ -180,7 +182,7 @@ public class Hotel implements Serializable {
         return -1;
     }
 
-    public void setOverbookLimit(Calendar date, Integer limit) {
+    public void setOverbookLimit(Date date, Integer limit) {
         for (int i = 0; i < overbookLimits.size(); i++) {
             if (overbookLimits.get(i).getDate().equals(date)) {
                 overbookLimits.get(i).setLimit(limit);
@@ -196,11 +198,11 @@ public class Hotel implements Serializable {
         this.rooms = rooms;
     }
 
-    public Collection<RoomService> getRoomServices() {
+    public List<RoomService> getRoomServices() {
         return roomServices;
     }
 
-    public void setRoomServices(Collection<RoomService> roomServices) {
+    public void setRoomServices(List<RoomService> roomServices) {
         this.roomServices = roomServices;
     }
 

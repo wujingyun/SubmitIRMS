@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./templet/acmTemplate.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="topInsert">
+    </ui:define>
+
+    <ui:define name="leftInsert">
+    </ui:define>
+
+    <ui:define name="rightInsert">
+    </ui:define>
+
+    <ui:define name="contentInsert">
+        <f:view>
+            <h:form id="discountForm">
+
+                <p:growl id="messages" showDetail="true"/>
+
+                <p:panel>
+                    <h:outputLabel for="hotel" value="Select Hotel: *" />  
+                    <h:selectOneMenu id="hotel" value="#{discountSchemeBean.hotelName}" required="true">  
+                        <f:selectItem itemLabel="Select Hotel" itemValue="" />  
+                        <f:selectItems value="#{hotelBean.hotelNames}" />  
+                        <p:ajax update="discountSchemeList" listener="#{discountSchemeBean.handleHotelChange}"/>
+                    </h:selectOneMenu>  
+                </p:panel>
+
+                <p:panel header="Create a new discount scheme" id="createScheme" toggleable="true" collapsed="true">  
+                    <h:panelGrid id="grid">  
+
+                        <p:row>
+                            <p:column><h:outputLabel value="Scheme Name : *" for="schemeName"></h:outputLabel>
+                                <p:inputText id="schemeName" value="#{discountSchemeBean.newScheme.name}" required="true" />
+                            </p:column>
+                            <p:column><h:outputLabel value="Eligibility : *" for="schemeEligibility"></h:outputLabel>  
+                                <p:inputText id="schemeEligibility" required="true" value="#{discountSchemeBean.newScheme.eligibility}"/>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column><h:outputLabel value="Description: *" for="schemeDescription"></h:outputLabel>  
+                                <p:inputText id="schemeDescription" value="#{discountSchemeBean.newScheme.description}" required="true"/>
+                            </p:column>  
+
+                            <p:column><h:outputLabel value="Discount Rate : *" for="schemeDiscountRate"></h:outputLabel> 
+                                <p:inputText id="schemeDiscountRate" required="true" value="#{discountSchemeBean.newScheme.discountRate}"/>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:commandButton value="Reset" type="reset"/>  
+                            <p:commandButton id="add" value="Create" update="createScheme discountSchemes"  
+                                             action="#{discountSchemeBean.reinit}" actionListener="#{discountSchemeBean.createScheme}">  
+                                <p:collector value="#{discountSchemeBean.newScheme}"   
+                                             addTo="#{discountSchemeBean.schemes}" />  
+                            </p:commandButton>  
+                        </p:row>
+                    </h:panelGrid>  
+                </p:panel>  
+
+                <p:outputPanel id="discountSchemes">
+
+                    <p:dataTable var="discountScheme" value="#{discountSchemeBean.schemes}" id="discountSchemeList" paginator="true" rows="10"
+                                 editable="true" rowKey="#{discountScheme.name}" selection="#{discountSchemeBean.selectedScheme}" selectionMode="single" style="100%"> 
+
+                        <f:facet name="header">  
+                            #{discountSchemeBean.hotelName} Discount Schemes
+                        </f:facet>
+
+                        <p:ajax event="rowEdit" listener="#{discountSchemeBean.onEdit}" update=":discountForm:messages" />  
+                        <p:ajax event="rowEditCancel" listener="#{discountSchemeBean.onCancel}" update=":discountForm:messages" />
+
+                        <!--
+                        <p:column headerText="ID" sortBy="#{discountScheme.id}" filterBy="#{discountScheme.id}" filterMatchMode="contains"> 
+                            #{discountScheme.id}
+                        </p:column>
+                        -->
+
+                        <p:column headerText="Date Created" sortBy="#{discountScheme.dateCreated}" filterBy="#{discountScheme.dateCreated}" filterMatchMode="contains">
+                            <h:outputText value="#{discountScheme.dateCreated.time}" styleClass="date">
+                            <f:convertDateTime type="both" dateStyle="short" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Scheme Name" sortBy="#{discountScheme.name}" filterBy="#{discountScheme.name}" filterMatchMode="contains"> 
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{discountScheme.name}" />  
+                                </f:facet>  
+                                <f:facet name="input">  
+                                    <p:inputText value="#{discountScheme.name}" style="width:100%"/>  
+                                </f:facet>  
+                            </p:cellEditor> 
+                        </p:column>  
+
+                        <p:column headerText="Description" sortBy="#{discountScheme.description}" filterBy="#{discountScheme.description}" filterMatchMode="contains">
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{discountScheme.description}" />  
+                                </f:facet>  
+                                <f:facet name="input">  
+                                    <p:inputText value="#{discountScheme.description}" style="width:100%"/>  
+                                </f:facet>  
+                            </p:cellEditor> 
+                        </p:column>  
+
+                        <p:column headerText="Eligibility" sortBy="#{discountScheme.eligibility}" filterBy="#{discountScheme.eligibility}" filterMatchMode="contains">  
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{discountScheme.eligibility}" />  
+                                </f:facet>  
+                                <f:facet name="input">  
+                                    <p:inputText value="#{discountScheme.eligibility}" style="width:100%"/>  
+                                </f:facet>  
+                            </p:cellEditor> 
+                        </p:column>  
+
+                        <p:column headerText="Discount Rate" sortBy="#{discountScheme.discountRate}" filterBy="#{discountScheme.discountRate}" filterMatchMode="contains"> 
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{discountScheme.discountRate}" />  
+                                </f:facet>  
+                                <f:facet name="input">  
+                                    <p:inputText value="#{discountScheme.discountRate}" style="width:100%"/>  
+                                </f:facet>  
+                            </p:cellEditor> 
+                        </p:column>
+
+                        <p:column headerText="Edit">
+                            <p:rowEditor/>
+                        </p:column>
+
+                        <p:column headerText="Delete">
+                            <p:commandButton value="Delete" onclick="cd.show();">
+                                <p:confirmDialog message="Are you sure about deleteing this scheme?" header="Please confirm this operation!" severity="alert" widgetVar="cd">
+                                    <p:commandButton value="Yes" actionListener="#{discountSchemeBean.deleteScheme}" update=":discountForm:discountSchemes :discountForm:messages" process=":discountForm:discountSchemes" onclick="cd.hide();" >
+                                        <p:collector value="#{discountSchemeBean.selectedScheme}" removeFrom="#{discountSchemeBean.schemes}"/>
+                                    </p:commandButton>
+                                    <p:commandButton value="No" onclick="cd.hide();" type="button"/>
+                                </p:confirmDialog>
+                            </p:commandButton>
+                        </p:column> 
+                    </p:dataTable>
+                </p:outputPanel>
+            </h:form>
+        </f:view>
+    </ui:define>
+
+</ui:composition>

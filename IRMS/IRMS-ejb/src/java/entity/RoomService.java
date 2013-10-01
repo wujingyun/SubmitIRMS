@@ -6,8 +6,6 @@ package entity;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
@@ -19,12 +17,13 @@ import javax.persistence.ManyToOne;
 public class RoomService implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String name;
+    @ManyToOne
+    private RoomServiceOrder roomServiceOrder;
     @ManyToOne
     private Hotel hotel;
-    private String name;
     private String description;
+    private Integer quantity;
     private double price;
 
     public RoomService() {
@@ -67,18 +66,18 @@ public class RoomService implements Serializable {
         this.price = price;
     }
 
-    public Long getId() {
-        return id;
+    public Integer getQuantity() {
+        return quantity;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (name != null ? name.hashCode() : 0);
         return hash;
     }
 
@@ -89,7 +88,7 @@ public class RoomService implements Serializable {
             return false;
         }
         RoomService other = (RoomService) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.name == null && other.name != null) || (this.name != null && !this.name.equals(other.name))) {
             return false;
         }
         return true;
@@ -97,7 +96,15 @@ public class RoomService implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.RoomService[ id=" + id + " ]";
+        return "entity.RoomService[ id=" + name + " ]";
+    }
+
+    public RoomServiceOrder getRoomServiceOrder() {
+        return roomServiceOrder;
+    }
+
+    public void setRoomServiceOrder(RoomServiceOrder roomServiceOrder) {
+        this.roomServiceOrder = roomServiceOrder;
     }
     
 }

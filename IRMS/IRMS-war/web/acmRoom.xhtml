@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./templet/acmTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <ui:define name="topInsert">
+    </ui:define>
+
+    <ui:define name="leftInsert">
+    </ui:define>
+
+    <ui:define name="rightInsert">
+    </ui:define>
+
+    <ui:define name="contentInsert">
+        <f:view>
+            <h:form id="roomForm">
+
+                <p:growl id="messages" showDetail="true"/>
+
+                <p:panel>
+                    <h:outputLabel for="hotel" value="Select Hotel: *" />  
+                    <h:selectOneMenu id="hotel" value="#{roomBean.hotelName}" required="true">  
+                        <f:selectItem itemLabel="Select Hotel" itemValue="" />  
+                        <f:selectItems value="#{hotelBean.hotelNames}" />  
+                        <p:ajax update="roomList" listener="#{roomBean.handleHotelChange}"/>
+                    </h:selectOneMenu>  
+                </p:panel>
+
+                <p:panel header="Create a new room" id="createRoom" toggleable="true" collapsed="true">  
+                    <h:panelGrid id="grid">  
+
+                        <p:row>
+                            <p:column><h:outputLabel value="Room Number : *" for="roomNumber"></h:outputLabel>
+                                <p:inputText id="roomNumber" value="#{roomBean.newRoom.roomNumber}" required="true" />
+                            </p:column>
+                            <p:column><h:outputLabel value="Type : *" for="roomType"></h:outputLabel>  
+                                <p:inputText id="roomType" required="true" value="#{roomBean.newRoom.type}"/>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column><h:outputLabel value="Description: *" for="roomDescription"></h:outputLabel>  
+                                <p:inputText id="roomDescription" value="#{roomBean.newRoom.description}" required="true"/>
+                            </p:column>  
+
+                            <p:column><h:outputLabel value="Rate : *" for="roomRate"></h:outputLabel> 
+                                <p:inputText id="roomRate" required="true" value="#{roomBean.newRoom.rate}"/>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:commandButton value="Reset" type="reset"/>  
+                            <p:commandButton id="add" value="Create" update="createRoom rooms"  
+                                             action="#{roomBean.reinit}" actionListener="#{roomBean.createRoom}">  
+                                <p:collector value="#{roomBean.newRoom}"   
+                                             addTo="#{roomBean.rooms}" />  
+                            </p:commandButton>  
+                        </p:row>
+                    </h:panelGrid>  
+                </p:panel>  
+
+                <p:outputPanel id="rooms">
+
+                    <p:dataTable var="room" value="#{roomBean.rooms}" id="roomList" paginator="true" rows="10"
+                                 editable="true" rowKey="#{room.roomNumber}" selection="#{roomBean.selectedRoom}" selectionMode="single" style="100%"> 
+
+                        <f:facet name="header">  
+                            #{roomBean.hotelName} Rooms
+                        </f:facet>
+
+                        <p:ajax event="rowEdit" listener="#{roomBean.onEdit}" update=":roomForm:messages" />  
+                        <p:ajax event="rowEditCancel" listener="#{roomBean.onCancel}" update=":roomForm:messages" />
+
+                        <p:column headerText="Room Number" sortBy="#{room.roomNumber}" filterBy="#{room.roomNumber}" filterMatchMode="contains"> 
+                            #{room.roomNumber}
+                        </p:column>  
+
+                        <p:column headerText="Type" sortBy="#{room.type}" filterBy="#{room.type}" filterMatchMode="contains">
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{room.type}" />  
+                                </f:facet>  
+                                <f:facet name="input">  
+                                    <p:inputText value="#{room.type}" style="width:100%"/>  
+                                </f:facet>  
+                            </p:cellEditor> 
+                        </p:column>  
+
+                        <p:column headerText="Description" sortBy="#{room.description}" filterBy="#{room.description}" filterMatchMode="contains">  
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{room.description}" />  
+                                </f:facet>  
+                                <f:facet name="input">  
+                                    <p:inputText value="#{room.description}" style="width:100%"/>  
+                                </f:facet>  
+                            </p:cellEditor> 
+                        </p:column>  
+
+                        <p:column headerText="Rate" sortBy="#{room.rate}" filterBy="#{room.rate}" filterMatchMode="contains"> 
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{room.rate}" />  
+                                </f:facet>  
+                                <f:facet name="input">  
+                                    <p:inputText value="#{room.rate}" style="width:100%"/>  
+                                </f:facet>  
+                            </p:cellEditor> 
+                        </p:column>
+                        <!--
+                        <p:column headerText="Availability" sortBy="#{room.availabilityStatus}" filterBy="#{room.availabilityStatus}" filterMatchMode="contains"> 
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{room.availabilityStatus}" />  
+                                </f:facet>  
+                                <f:facet name="input">  
+                                    <p:inputText value="#{room.availabilityStatus}" style="width:100%"/>  
+                                </f:facet>  
+                            </p:cellEditor> 
+                        </p:column>
+
+                        <p:column headerText="Housekeeping Status" sortBy="#{room.housekeepingStatus}" filterBy="#{room.housekeepingStatus}" filterMatchMode="contains">
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{room.housekeepingStatus}" />  
+                                </f:facet>  
+                                <f:facet name="input">  
+                                    <p:inputText value="#{room.housekeepingStatus}" style="width:100%"/>  
+                                </f:facet>  
+                            </p:cellEditor>
+                        </p:column>
+                        -->
+                        <p:column headerText="Edit">
+                            <p:rowEditor/>
+                        </p:column>
+
+                        <p:column headerText="Delete">
+                            <p:commandButton value="Delete" onclick="cd.show();">
+                                <p:confirmDialog message="Are you sure about deleteing this room?" header="Please confirm this operation!" severity="alert" widgetVar="cd">
+                                    <p:commandButton value="Yes" actionListener="#{roomBean.deleteRoom}" update=":roomForm:rooms :roomForm:messages" process=":roomForm:rooms" onclick="cd.hide();" >
+                                        <p:collector value="#{roomBean.selectedRoom}" removeFrom="#{roomBean.rooms}"/>
+                                    </p:commandButton>
+                                    <p:commandButton value="No" onclick="cd.hide();" type="button"/>
+                                </p:confirmDialog>
+                            </p:commandButton>
+                        </p:column> 
+                    </p:dataTable>
+                </p:outputPanel>
+            </h:form>
+        </f:view>
+    </ui:define>
+
+</ui:composition>

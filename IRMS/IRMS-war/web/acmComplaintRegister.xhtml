@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./templet/acmTemplate.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="topInsert">
+    </ui:define>
+
+    <ui:define name="leftInsert">
+    </ui:define>
+
+    <ui:define name="rightInsert">
+    </ui:define>
+
+    <ui:define name="contentInsert">
+        <f:view>
+            <h:form id="complaintForm">
+
+                <p:growl id="messages" showDetail="true"/>
+
+                <p:panel>
+                    <h:outputLabel for="hotel" value="Select Hotel: *" />  
+                    <h:selectOneMenu id="hotel" value="#{complaintBean.hotelName}" required="true">  
+                        <f:selectItem itemLabel="Select Hotel" itemValue="" />  
+                        <f:selectItems value="#{hotelBean.hotelNames}" />  
+                        <p:ajax update="complaintList" listener="#{complaintBean.handleHotelChange}"/>
+                    </h:selectOneMenu>  
+                </p:panel>
+
+                <p:panel header="Create a new complaint entry" id="createEntry" toggleable="true" collapsed="true">  
+                    <h:panelGrid id="grid">  
+
+                        <p:row>
+                            <p:column><h:outputLabel value="Customer Name: *" for="entryCustomerName"></h:outputLabel>
+                                <p:inputText id="entryCustomerName" value="#{complaintBean.newEntry.customerName}" required="true" />
+                            </p:column>
+                            <p:column><h:outputLabel value="Room Number: *" for="entryRoomNumber"></h:outputLabel>  
+                                <p:inputText id="entryRoomNumber" required="true" value="#{complaintBean.newEntry.roomNumber}"/>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column><h:outputLabel value="Contact: *" for="entryContact"></h:outputLabel>  
+                                <p:inputText id="entryContact" value="#{complaintBean.newEntry.contact}" required="true"/>
+                            </p:column>  
+
+                            <p:column><h:outputLabel value="Description: *" for="entryDescription"></h:outputLabel> 
+                                <p:inputText id="entryDescription" required="true" value="#{complaintBean.newEntry.description}"/>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column><h:outputLabel value="Status: *" for="entryStatus"></h:outputLabel>  
+                                <p:inputText id="entryStatus" value="#{complaintBean.newEntry.status}" required="true"/>
+                            </p:column>  
+                        </p:row>
+
+                        <p:row>
+                            <p:commandButton value="Reset" type="reset"/>  
+                            <p:commandButton id="add" value="Create" update="createEntry entries"  
+                                             action="#{complaintBean.reinit}" actionListener="#{complaintBean.createEntry}">  
+                                <p:collector value="#{complaintBean.newEntry}"   
+                                             addTo="#{complaintBean.entries}" />  
+                            </p:commandButton>  
+                        </p:row>
+                    </h:panelGrid>  
+                </p:panel>  
+
+                <p:outputPanel id="entries">
+
+                    <p:dataTable var="complaintEntry" value="#{complaintBean.entries}" id="complaintList" paginator="true" rows="10"
+                                 editable="true" rowKey="#{complaintEntry.id}" selection="#{complaintBean.selectedEntry}" selectionMode="single"> 
+
+                        <f:facet name="header">  
+                           #{complaintBean.hotelName} Complaint Register
+                        </f:facet>
+
+                        <p:ajax event="rowEdit" listener="#{complaintBean.onEdit}" update=":complaintForm:messages" />  
+                        <p:ajax event="rowEditCancel" listener="#{complaintBean.onCancel}" update=":complaintForm:messages"/>
+                            
+                        <p:column headerText="ID" sortBy="#{complaintEntry.id}" filterBy="#{complaintEntry.id}" filterMatchMode="contains" width="10%"> 
+                                #{complaintEntry.id}
+                            </p:column>                         
+
+                            <p:column headerText="Date" sortBy="#{complaintEntry.dateTime}" filterBy="#{complaintEntry.dateTime}" filterMatchMode="contains" width="10%"> 
+                                <h:outputText value="#{complaintEntry.dateTime.time}" styleClass="date">
+                                    <f:convertDateTime type="both" dateStyle="short" />
+                                </h:outputText>
+                            </p:column>  
+
+                            <p:column headerText="Customer" sortBy="#{complaintEntry.customerName}" filterBy="#{complaintEntry.customerName}" filterMatchMode="contains" width="10%">  
+                                <p:cellEditor>  
+                                    <f:facet name="output">  
+                                        <h:outputText value="#{complaintEntry.customerName}" />  
+                                    </f:facet>  
+                                    <f:facet name="input">  
+                                        <p:inputText value="#{complaintEntry.customerName}" style="width:100%"/>  
+                                    </f:facet>  
+                                </p:cellEditor> 
+                            </p:column>  
+                        
+                            <p:column headerText="Room" sortBy="#{complaintEntry.roomNumber}" filterBy="#{complaintEntry.roomNumber}" filterMatchMode="contains" width="10%">  
+                                <p:cellEditor>  
+                                    <f:facet name="output">  
+                                        <h:outputText value="#{complaintEntry.roomNumber}" />  
+                                    </f:facet>  
+                                    <f:facet name="input">  
+                                        <p:inputText value="#{complaintEntry.roomNumber}" style="width:100%"/>  
+                                    </f:facet>  
+                                </p:cellEditor> 
+                            </p:column>
+                        
+                            <p:column headerText="Contact" sortBy="#{complaintEntry.contact}" filterBy="#{complaintEntry.contact}" filterMatchMode="contains" width="20%"> 
+                                <p:cellEditor>  
+                                    <f:facet name="output">  
+                                        <h:outputText value="#{complaintEntry.contact}" />  
+                                    </f:facet>  
+                                    <f:facet name="input">  
+                                        <p:inputText value="#{complaintEntry.contact}" style="width:100%"/>  
+                                    </f:facet>  
+                                </p:cellEditor> 
+                            </p:column>
+
+                            <p:column headerText="Description" sortBy="#{complaintEntry.description}" filterBy="#{complaintEntry.description}" filterMatchMode="contains" width="30%">
+                                <p:cellEditor>  
+                                    <f:facet name="output">  
+                                        <h:outputText value="#{complaintEntry.description}" />  
+                                    </f:facet>  
+                                    <f:facet name="input">  
+                                        <p:inputText value="#{complaintEntry.description}" style="width:100%"/>  
+                                    </f:facet>  
+                                </p:cellEditor> 
+                            </p:column>  
+
+
+                            <p:column headerText="Status" sortBy="#{complaintEntry.status}" filterBy="#{complaintEntry.status}" filterMatchMode="contains" width="10%"> 
+                                <p:cellEditor>  
+                                    <f:facet name="output">  
+                                        <h:outputText value="#{complaintEntry.status}" />  
+                                    </f:facet>  
+                                    <f:facet name="input">  
+                                        <p:inputText value="#{complaintEntry.status}" style="width:100%"/>  
+                                    </f:facet>  
+                                </p:cellEditor> 
+                            </p:column>
+
+                            <p:column headerText="Edit" width="5%">
+                                <p:rowEditor/>
+                            </p:column>
+
+                            <p:column headerText="Delete" width="5%">
+                                <p:commandButton value="Delete" onclick="cd.show();">
+                                    <p:confirmDialog message="Are you sure about deleteing this entry?" header="Please confirm this operation!" severity="alert" widgetVar="cd">
+                                        <p:commandButton value="Yes" actionListener="#{complaintBean.deleteEntry}" update=":complaintForm:entries :complaintForm:messages" process=":complaintForm:entries" onclick="cd.hide();" >
+                                            <p:collector value="#{complaintBean.selectedEntry}" removeFrom="#{complaintBean.entries}"/>
+                                        </p:commandButton>
+                                        <p:commandButton value="No" onclick="cd.hide();" type="button"/>
+                                    </p:confirmDialog>
+                                </p:commandButton>
+                            </p:column> 
+                    </p:dataTable>
+                </p:outputPanel>
+            </h:form>
+        </f:view>
+    </ui:define>
+
+</ui:composition>

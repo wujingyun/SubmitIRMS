@@ -6,7 +6,8 @@ package entity;
 
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.Collection;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,8 +26,9 @@ public class RoomServiceOrder implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToMany
-    private Collection<RoomService> roomServices;
+    private String hotelName;
+    @OneToMany(mappedBy="roomServiceOrder")
+    private List<RoomService> roomServices;
     @ManyToOne
     private AccommodationBill accommodationBill;
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -34,10 +36,10 @@ public class RoomServiceOrder implements Serializable {
     private double total;
 
     public RoomServiceOrder() {
-    }
+    }  
     
-    public void create(double total){
-        this.setTotal(total);
+    public void create(){
+        this.setOrderTime(Calendar.getInstance());
     }
     public Calendar getOrderTime() {
         return orderTime;
@@ -47,11 +49,11 @@ public class RoomServiceOrder implements Serializable {
         this.orderTime = orderTime;
     }
 
-    public Collection<RoomService> getRoomServices() {
+    public List<RoomService> getRoomServices() {
         return roomServices;
     }
 
-    public void setRoomServices(Collection<RoomService> roomServices) {
+    public void setRoomServices(List<RoomService> roomServices) {
         this.roomServices = roomServices;
     }
 
@@ -69,6 +71,14 @@ public class RoomServiceOrder implements Serializable {
 
     public void setTotal(double total) {
         this.total = total;
+    }
+
+    public String getHotelName() {
+        return hotelName;
+    }
+
+    public void setHotelName(String hotelName) {
+        this.hotelName = hotelName;
     }
     
     public Long getId() {

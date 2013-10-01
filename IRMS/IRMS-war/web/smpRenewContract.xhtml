@@ -10,8 +10,8 @@
            
             
             <h:form id="form2"> 
-                <p:dataTable  id="t1" paginator="true" rows="15" style="border: solid 2px black;"
-                             value="#{shoppingMallManagedBean.contractList}" var="contractRecord"  >
+                <p:dataTable  id="t1" paginator="true" rows="10" style="border: solid 2px black;"
+                              value="#{shoppingMallManagedBean.contractList}" var="contractRecord" >
                     
                     <p:column id="TenantColumn" filterBy="#{contractRecord.tenant}"   
                               headerText="Tenant " footerText="Contracts"  
@@ -118,7 +118,7 @@
 
                         <f:facet name="footer">
                             <p:commandButton id="renewContract" value="Renew" update=":form2:t1 growl"
-                                             actionListener="#{shoppingMallManagedBean.renewContract}" />
+                                             actionListener="#{shoppingMallManagedBean.renewContract}" onclick="dlg.hide();"/>
                         </f:facet>
 
                     </h:panelGrid>
@@ -126,6 +126,8 @@
             </h:form>
 
 
+  </ui:define>
+</ui:composition>
 
     </ui:define>
 </ui:composition>

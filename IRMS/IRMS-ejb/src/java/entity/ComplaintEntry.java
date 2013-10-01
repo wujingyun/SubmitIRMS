@@ -39,7 +39,7 @@ public class ComplaintEntry implements Serializable {
         this.setContact(contact);
         this.setDescription(description);
         this.setStatus(status);
-        this.setDateTime(Calendar.getInstance());
+        //this.setDateTime(Calendar.getInstance());
     }
 
     public ComplaintRegister getComplaintRegister() {

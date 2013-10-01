@@ -4,26 +4,26 @@
  */
 package structure;
 
-import java.util.Calendar;
+import java.util.Date;
 
 /**
  *
  * @author Yang Zhennan
  */
 public class OverbookLimit {
-    private Calendar date;
+    private Date date;
     private Integer limit;
     
-    public OverbookLimit(Calendar date, Integer limit){
+    public OverbookLimit(Date date, Integer limit){
         this.date=date;
         this.limit=limit;
     }
 
-    public Calendar getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(Calendar date){
+    public void setDate(Date date){
         this.date=date;
     }
     public Integer getLimit() {
