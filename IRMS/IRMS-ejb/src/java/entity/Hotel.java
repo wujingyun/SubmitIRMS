@@ -34,7 +34,7 @@ public class Hotel implements Serializable {
     @OneToMany(mappedBy ="hotel")
     private Collection<Room> rooms = new ArrayList();
     @OneToMany(mappedBy = "hotel")
-    private Collection<RoomService> roomServices = new ArrayList();
+    private List<RoomService> roomServices = new ArrayList();
     @OneToMany(mappedBy = "hotel")
     private Collection<MiniBarItem> miniBarItems = new ArrayList();
     @OneToOne
@@ -196,11 +196,11 @@ public class Hotel implements Serializable {
         this.rooms = rooms;
     }
 
-    public Collection<RoomService> getRoomServices() {
+    public List<RoomService> getRoomServices() {
         return roomServices;
     }
 
-    public void setRoomServices(Collection<RoomService> roomServices) {
+    public void setRoomServices(List<RoomService> roomServices) {
         this.roomServices = roomServices;
     }
 

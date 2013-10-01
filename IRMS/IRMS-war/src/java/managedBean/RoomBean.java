@@ -79,6 +79,19 @@ public class RoomBean implements Serializable{
 
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
+    
+    public void onEditStatus(RowEditEvent event) throws ExistException {
+        if(selectedRoom==null){
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Please select a room", ""));
+            }
+        //System.out.println(hotelName + " + " + selectedRoom.getRoomNumber());
+        this.hotelRoomBean.updateRoomAvailability(hotelName,selectedRoom.getRoomNumber(), selectedRoom.getAvailabilityStatus());
+        this.hotelRoomBean.updateHousekeepingStatus(hotelName, selectedRoom.getRoomNumber(),selectedRoom.getHousekeepingStatus());
+        
+        FacesMessage msg = new FacesMessage("Hotel: " + hotelName+" "+((Room) event.getObject()).getRoomNumber()+" Status Edited", "");
+
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
 
     public void onCancel(RowEditEvent event) {
         FacesMessage msg = new FacesMessage("Cancelled editing Room: " +((Room) event.getObject()).getRoomNumber()+" ", "");

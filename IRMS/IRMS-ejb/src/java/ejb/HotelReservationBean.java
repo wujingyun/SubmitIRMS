@@ -12,7 +12,7 @@ import entity.RoomReservation;
 import entity.Staff;
 import exception.ExistException;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -50,7 +50,7 @@ public class HotelReservationBean implements HotelReservationBeanRemote {
         hotelReservations.size();
         return (List)hotelReservations;
         */
-        Query q=em.createQuery("SELECT r FROM RoomReservation r WHERE r.hotelName=:hotelName");
+        Query q=em.createQuery("SELECT r FROM RoomReservation r WHERE r.hotelName=:hotelName AND r.status!='Cancelled'");
         q.setParameter("hotelName", hotelName);
         return q.getResultList();
     }
@@ -69,14 +69,17 @@ public class HotelReservationBean implements HotelReservationBeanRemote {
     }
 
     @Override
-    public Collection<InternalRoomRequest> getInternalRoomRequests() throws ExistException {
-        Query q = em.createQuery("SELECT r FROM InternalRoomRequest r");
+    public List<InternalRoomRequest> getInternalRoomRequests(String hotelName) throws ExistException {
+        Query q = em.createQuery("SELECT r FROM InternalRoomRequest r WHERE r.hotelName=:hotelName");
+        q.setParameter("hotelName", hotelName);
+        /*
         Collection<InternalRoomRequest> requests = new ArrayList();
         for (Object o : q.getResultList()) {
             InternalRoomRequest r = (InternalRoomRequest) o;
             requests.add(r);
         }
-        return requests;
+        */
+        return (List)q.getResultList();
     }
     /*
     @Override
@@ -129,7 +132,7 @@ public class HotelReservationBean implements HotelReservationBeanRemote {
     }
 
     @Override
-    public RoomReservation makeReservation(Long customerId, String hotelName, String roomType, Integer quantity, Date startDate, Date endDate, String remark) throws ExistException {
+    public RoomReservation makeReservation(Long customerId, String hotelName, String roomType, Integer quantity, Date startDate, Date endDate, String remark, Calendar dateReserved) throws ExistException {
         hotel = em.find(Hotel.class, hotelName);
         if (hotel == null) {
             throw new ExistException("HOTEL NOT EXIST.");
@@ -140,6 +143,8 @@ public class HotelReservationBean implements HotelReservationBeanRemote {
         }
         System.out.println(hotelName + customerId+ roomType);
         roomReservation = new RoomReservation();
+        roomReservation.setCustomerId(customerId);
+        roomReservation.setDateReserved(dateReserved);
         roomReservation.create(hotelName, roomType, quantity, startDate, endDate, remark);
         roomReservation.setCustomer(customer);
         double total = hotel.findRoomPrice(roomType) * quantity;
@@ -282,9 +287,9 @@ public class HotelReservationBean implements HotelReservationBeanRemote {
         if (hotel == null) {
             throw new ExistException("HOTEL NOT EXIST.");
         }
-        staff.getInternalReservations().add(roomReservation);
-        staff.setInternalReservations(staff.getInternalReservations());
-        roomReservation.setStaff(staff);
+        //staff.getInternalReservations().add(roomReservation);
+        //staff.setInternalReservations(staff.getInternalReservations());
+        //roomReservation.setStaff(staff);
         roomReservation.setHotelName(hotelName);
         roomReservation.setRoomType(roomType);
         roomReservation.setQuantity(quantity);
@@ -294,7 +299,7 @@ public class HotelReservationBean implements HotelReservationBeanRemote {
         roomReservation.setStatus(status);
         roomReservation.setTotal(total);
         roomReservation.setPaymentStatus(paymentStatus);
-        roomReservation.setSource("Internal");
+        //roomReservation.setSource("Internal");
         em.flush();
     }
 

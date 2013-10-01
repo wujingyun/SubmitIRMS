@@ -41,6 +41,16 @@
                                 <p:inputText id="hotelCapacity" required="true" value="#{hotelBean.newHotel.capacity}"/>
                             </p:column>
                         </p:row>
+                        
+                        <p:row>
+                            <p:column><h:outputLabel value="Description: *" for="hotelDescription"></h:outputLabel>  
+                                <p:inputText id="hotelDescription" value="#{hotelBean.newHotel.description}" required="true"/>
+                            </p:column>
+                            
+                            <p:column><h:outputLabel value="Overbook Rate: *" for="hotelOverbookRate"></h:outputLabel>  
+                                <p:inputText id="hotelOverbookRate" value="#{hotelBean.newHotel.overbookRate}" required="true"/>
+                            </p:column>
+                        </p:row>
 
                         <p:row>
                             <p:commandButton value="Reset" type="reset"/>  

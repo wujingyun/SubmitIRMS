@@ -21,6 +21,7 @@ public class RoomService implements Serializable {
     @ManyToOne
     private Hotel hotel;
     private String description;
+    private Integer quantity;
     private double price;
 
     public RoomService() {
@@ -61,6 +62,14 @@ public class RoomService implements Serializable {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     @Override

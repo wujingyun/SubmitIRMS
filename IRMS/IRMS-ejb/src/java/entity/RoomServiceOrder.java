@@ -6,7 +6,7 @@ package entity;
 
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,7 +26,7 @@ public class RoomServiceOrder implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToMany
-    private Collection<RoomService> roomServices;
+    private List<RoomService> roomServices;
     @ManyToOne
     private AccommodationBill accommodationBill;
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -47,11 +47,11 @@ public class RoomServiceOrder implements Serializable {
         this.orderTime = orderTime;
     }
 
-    public Collection<RoomService> getRoomServices() {
+    public List<RoomService> getRoomServices() {
         return roomServices;
     }
 
-    public void setRoomServices(Collection<RoomService> roomServices) {
+    public void setRoomServices(List<RoomService> roomServices) {
         this.roomServices = roomServices;
     }
 

@@ -81,7 +81,7 @@ public class HotelBean implements Serializable {
         }
     }
     */ 
-    public void deleteHotel() throws ExistException {
+    public void deleteHotel(ActionEvent event) throws ExistException {
         try {
             //String hotelName=FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("selectedHotel");
             //System.out.println(hotelName);

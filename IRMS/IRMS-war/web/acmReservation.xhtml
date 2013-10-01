@@ -20,16 +20,16 @@
             <h:form id="reservationForm">
 
                 <p:growl id="messages" showDetail="true"/>
-                <p:tabView>
+
+                <p:tabView id="tabs">
+
                     <p:tab id="reservationTab" title="Reservations">
-
-
-
                         <p:panel>
                             <h:outputLabel for="hotel" value="Select Hotel: *" />  
                             <h:selectOneMenu id="hotel" value="#{hotelReservationManagedBean.hotelName}" required="true">  
                                 <f:selectItem itemLabel="Select Hotel" itemValue="" />  
-                                <f:selectItems value="#{hotelBean.hotelNames}" />  
+                                <f:selectItems value="#{hotelBean.hotelNames}" /> 
+                                <p:ajax update="reservationList" listener="#{hotelReservationManagedBean.handleHotelChange}"/>
                             </h:selectOneMenu>  
                         </p:panel>
 
@@ -89,7 +89,7 @@
                                     #{hotelReservationManagedBean.hotelName} Reservations
                                 </f:facet>
 
-                                <p:ajax event="rowEdit" listener="#{hotelReservationManagedBean.onEdit}" update=":reservationForm:messages" />  
+                                <p:ajax event="rowEdit" listener="#{hotelReservationManagedBean.onEdit}" update=":reservationForm:messages"/>
                                 <p:ajax event="rowEditCancel" listener="#{hotelReservationManagedBean.onCancel}" update=":reservationForm:messages"/>
 
                                 <p:column headerText="ID" sortBy="#{roomReservation.id}" filterBy="#{roomReservation.id}" filterMatchMode="contains"> 
@@ -212,17 +212,121 @@
                                 <p:column headerText="Edit">
                                     <p:rowEditor/>
                                 </p:column>
+
+                                <p:column headerText="Cancel">
+                                    <p:commandButton value="Cancel" onclick="cd.show();">
+                                        <p:confirmDialog message="Are you sure about cancelling this reservation?" header="Please confirm this operation!" severity="alert" widgetVar="cd">
+                                            <p:commandButton value="Yes" actionListener="#{hotelReservationManagedBean.cancelReservation}" update=":reservationForm:tabs:reservations :reservationForm:messages" process=":reservationForm:tabs:reservations" onclick="cd.hide();" >
+                                                <p:collector value="#{hotelReservationManagedBean.selectedReservation}" removeFrom="#{hotelReservationManagedBean.reservations}"/>
+                                            </p:commandButton>
+                                            <p:commandButton value="No" onclick="cd.hide();" type="button"/>
+                                        </p:confirmDialog>
+                                    </p:commandButton>
+                                </p:column> 
                             </p:dataTable>
                         </p:outputPanel>
-
                     </p:tab>
-                    <p:tab id="internalRequest" title="Internal Requests">
-                        To be updated
+
+                    <p:tab id="internalRequstTab" title="Internal Requests">
+                        <p:panel>
+                            <h:outputLabel for="hotel2" value="Select Hotel: *" />  
+                            <h:selectOneMenu id="hotel2" value="#{hotelReservationManagedBean.hotelName}" required="true">  
+                                <f:selectItem itemLabel="Select Hotel" itemValue="" />  
+                                <f:selectItems value="#{hotelBean.hotelNames}" />  
+                                <p:ajax update="requestList" listener="#{hotelReservationManagedBean.handleHotelChange}"/>
+                            </h:selectOneMenu>  
+                        </p:panel>
+
+                        <p:panel>
+                            <p:dataTable var="internalRoomRequest" value="#{hotelReservationManagedBean.requests}" id="requestList" paginator="true" rows="10" scrollable="true"> 
+
+                                <f:facet name="header">  
+                                    #{hotelReservationManagedBean.hotelName} Internal Requests
+                                </f:facet>
+
+                                <p:column headerText="ID" sortBy="#{internalRoomRequest.id}" filterBy="#{internalRoomRequest.id}" filterMatchMode="contains"> 
+                                    <h:outputText value="#{internalRoomRequest.id}"/>
+                                </p:column>
+
+                                <p:column headerText="Checkin Date" sortBy="#{internalRoomRequest.startDate}" filterBy="#{internalRoomRequest.startDate}" filterMatchMode="contains"> 
+                                    <h:outputText value="#{internalRoomRequest.startDate.time}" styleClass="date">
+                                        <f:convertDateTime type="both" dateStyle="short" />
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Checkout Date" sortBy="#{internalRoomRequest.endDate}" filterBy="#{internalRoomRequest.endDate}" filterMatchMode="contains"> 
+                                    <h:outputText value="#{internalRoomRequest.endDate.time}" styleClass="date">
+                                        <f:convertDateTime type="both" dateStyle="short" />
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Headcount" sortBy="#{internalRoomRequest.headcount}" filterBy="#{internalRoomRequest.headcount}" filterMatchMode="contains"> 
+                                    <h:outputText value="#{internalRoomRequest.headcount}" />
+                                </p:column>
+
+                                <p:column headerText="Remark" sortBy="#{internalRoomRequest.remark}" filterBy="#{internalRoomRequest.remark}" filterMatchMode="contains"> 
+                                    <h:outputText value="#{internalRoomRequest.remark}" />
+                                </p:column>
+
+                            </p:dataTable>
+                        </p:panel>
+                    </p:tab>
+                    <p:tab title="Room Status">
+                        <p:panel>
+                            <h:outputLabel for="hotel3" value="Select Hotel: *" />  
+                            <h:selectOneMenu id="hotel3" value="#{roomBean.hotelName}" required="true">  
+                                <f:selectItem itemLabel="Select Hotel" itemValue="" />  
+                                <f:selectItems value="#{hotelBean.hotelNames}" />  
+                                <p:ajax update="roomList" listener="#{roomBean.handleHotelChange}"/>
+                            </h:selectOneMenu>  
+                        </p:panel>
+
+                        <p:panel>
+                            <p:dataTable var="room" value="#{roomBean.rooms}" id="roomList" paginator="true" rows="10" scrollable="true" editable="true" rowKey="#{room.roomNumber}" selection="#{roomBean.selectedRoom}" selectionMode="single" style="100%"> 
+
+                                <f:facet name="header">  
+                                    #{roomBean.hotelName} Room Status
+                                </f:facet>
+
+                                <p:ajax event="rowEdit" listener="#{roomBean.onEditStatus}" update=":reservationForm:messages" />  
+                                <p:ajax event="rowEditCancel" listener="#{roomBean.onCancel}" update=":reservationForm:messages" />
+
+                                <p:column headerText="Room Number" sortBy="#{room.roomNumber}" filterBy="#{room.roomNumber}" filterMatchMode="contains"> 
+                                    #{room.roomNumber}
+                                </p:column>  
+
+                                <p:column headerText="Availability" sortBy="#{room.availabilityStatus}" filterBy="#{room.availabilityStatus}" filterMatchMode="contains">
+                                    <p:cellEditor>  
+                                        <f:facet name="output">  
+                                            <h:outputText value="#{room.availabilityStatus}" />  
+                                        </f:facet>  
+                                        <f:facet name="input">  
+                                            <p:inputText value="#{room.availabilityStatus}" style="width:100%"/>  
+                                        </f:facet>  
+                                    </p:cellEditor> 
+                                </p:column>  
+
+                                <p:column headerText="Housekeeping Status" sortBy="#{room.housekeepingStatus}" filterBy="#{room.housekeepingStatus}" filterMatchMode="contains">  
+                                    <p:cellEditor>  
+                                        <f:facet name="output">  
+                                            <h:outputText value="#{room.housekeepingStatus}" />  
+                                        </f:facet>  
+                                        <f:facet name="input">  
+                                            <p:inputText value="#{room.housekeepingStatus}" style="width:100%"/>  
+                                        </f:facet>  
+                                    </p:cellEditor> 
+                                </p:column>  
+
+                                <p:column headerText="Edit">
+                                    <p:rowEditor/>
+                                </p:column>
+
+                            </p:dataTable>
+                        </p:panel>
                     </p:tab>
                 </p:tabView>
             </h:form>
         </f:view>
-
     </ui:define>
 
 </ui:composition>

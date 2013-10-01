@@ -9,7 +9,7 @@ import entity.Hotel;
 import entity.RoomService;
 import entity.RoomServiceOrder;
 import exception.ExistException;
-import java.util.Collection;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -82,16 +82,17 @@ public class RoomServiceBean implements RoomServiceBeanRemote {
     }
 
     @Override
-    public Collection<RoomService> getRoomServices(String hotelName) throws ExistException {
+    public List<RoomService> getRoomServices(String hotelName) throws ExistException {
         hotel = em.find(Hotel.class, hotelName);
         if (hotel == null) {
             throw new ExistException("HOTEL NOT EXIST.");
         }
+        hotel.getRoomServices().size();
         return hotel.getRoomServices();
     }
     
     @Override
-    public void createRoomServiceOrder(Long accommodationBillId)throws ExistException{
+    public void createRoomServiceOrder(Long accommodationBillId, List<RoomService> selectedServices)throws ExistException{
         accommodationBill=em.find(AccommodationBill.class, accommodationBillId);
         if(accommodationBill==null){
             throw new ExistException("ACCOMMODATION BILL NOT EXIST.");
@@ -99,7 +100,8 @@ public class RoomServiceBean implements RoomServiceBeanRemote {
         serviceOrder=new RoomServiceOrder();
         serviceOrder.create();
         accommodationBill.getRoomServiceOrders().add(serviceOrder);
-        em.flush();
+        serviceOrder.setRoomServices(selectedServices);
+        em.persist(serviceOrder);
     }
 
     @Override

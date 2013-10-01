@@ -1,0 +1,215 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./templet/acmTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <ui:define name="topInsert">
+    </ui:define>
+
+    <ui:define name="leftInsert">
+    </ui:define>
+
+    <ui:define name="rightInsert">
+    </ui:define>
+
+    <ui:define name="contentInsert">
+        <f:view>
+
+
+            <p:growl id="messages" showDetail="true"/>
+
+            <p:tabView id="tabs">
+                <p:tab id="serviceMenu" title="Manage Room Services">
+                    <h:form>
+                        <p:panel>
+                            <h:outputLabel for="hotel" value="Select Hotel: *" />  
+                            <h:selectOneMenu id="hotel" value="#{roomServiceManagedBean.hotelName}" required="true">  
+                                <f:selectItem itemLabel="Select Hotel" itemValue="" />  
+                                <f:selectItems value="#{hotelBean.hotelNames}" />  
+                                <p:ajax update=":tabs:serviceList" listener="#{roomServiceManagedBean.handleHotelChange}"/>
+                            </h:selectOneMenu>  
+                        </p:panel>
+                    </h:form>
+
+
+                    <p:panel header="Create a new service" id="createService" toggleable="true" collapsed="true">  
+                        <h:panelGrid id="grid">  
+
+                            <p:row>
+                                <p:column><h:outputLabel value="Service Name: *" for="serviceName"></h:outputLabel>
+                                    <p:inputText id="serviceName" value="#{roomServiceManagedBean.newService.name}" required="true" />
+                                </p:column>
+                                <p:column><h:outputLabel value="Description: *" for="serviceDescription"></h:outputLabel>  
+                                    <p:inputText id="serviceDescription" required="true" value="#{roomServiceManagedBean.newService.description}"/>
+                                </p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column><h:outputLabel value="Price: *" for="servicePrice"></h:outputLabel>  
+                                    <p:inputText id="servicePrice" value="#{roomServiceManagedBean.newService.price}" required="true"/>
+                                </p:column>  
+                            </p:row>
+
+                            <p:row>
+                                <p:commandButton value="Reset" type="reset"/>  
+                                <p:commandButton id="add" value="Create" update="createService services"  
+                                                 action="#{roomServiceManagedBean.reinit}" actionListener="#{roomServiceManagedBean.createService}">  
+                                    <p:collector value="#{roomServiceManagedBean.newService}"   
+                                                 addTo="#{roomServiceManagedBean.services}" />  
+                                </p:commandButton>  
+                            </p:row>
+                        </h:panelGrid>  
+                    </p:panel>  
+
+
+                    <p:outputPanel id="services">
+
+                        <p:dataTable var="roomService" value="#{roomServiceManagedBean.services}" id="serviceList" paginator="true" rows="10"
+                                     editable="true" rowKey="#{roomService.name}" selection="#{roomServiceManagedBean.selectedService}" selectionMode="single"> 
+
+                            <f:facet name="header">  
+                                #{roomServiceManagedBean.hotelName} Room Services
+                            </f:facet>
+
+                            <p:ajax event="rowEdit" listener="#{roomServiceManagedBean.onEdit}" update=":messages" />  
+                            <p:ajax event="rowEditCancel" listener="#{roomServiceManagedBean.onCancel}" update=":messages" />
+
+
+                            <p:column headerText="Service Name" sortBy="#{roomService.name}" filterBy="#{roomService.name}" filterMatchMode="contains"> 
+                                #{roomService.name}
+                            </p:column>  
+
+                            <p:column headerText="Description" sortBy="#{roomService.description}" filterBy="#{roomService.description}" filterMatchMode="contains">
+                                <p:cellEditor>  
+                                    <f:facet name="output">  
+                                        <h:outputText value="#{roomService.description}" />  
+                                    </f:facet>  
+                                    <f:facet name="input">  
+                                        <p:inputText value="#{roomService.description}" style="width:100%"/>  
+                                    </f:facet>  
+                                </p:cellEditor> 
+                            </p:column>  
+
+                            <p:column headerText="Price" sortBy="#{roomService.price}" filterBy="#{roomService.price}" filterMatchMode="contains">  
+                                <p:cellEditor>  
+                                    <f:facet name="output">  
+                                        <h:outputText value="#{roomService.price}" />  
+                                    </f:facet>  
+                                    <f:facet name="input">  
+                                        <p:inputText value="#{roomService.price}" style="width:100%"/>  
+                                    </f:facet>  
+                                </p:cellEditor> 
+                            </p:column>  
+
+                            <p:column headerText="Edit">
+                                <p:rowEditor/>
+                            </p:column>
+
+                            <p:column headerText="Delete">
+                                <p:commandButton value="Delete" onclick="cd.show();">
+                                    <p:confirmDialog message="Are you sure about deleteing this room?" header="Please confirm this operation!" severity="alert" widgetVar="cd">
+                                        <p:commandButton value="Yes" actionListener="#{roomServiceManagedBean.deleteService}" update=":tabs:services :messages" process=":tabs:services" onclick="cd.hide();" >
+                                            <p:collector value="#{roomServiceManagedBean.selectedService}" removeFrom="#{roomServiceManagedBean.services}"/>
+                                        </p:commandButton>
+                                        <p:commandButton value="No" onclick="cd.hide();" type="button"/>
+                                    </p:confirmDialog>
+                                </p:commandButton>
+                            </p:column> 
+                        </p:dataTable>
+                    </p:outputPanel>
+                </p:tab>
+
+                <p:tab id="serviceOrder" title="Create Room Service Order">
+                    <h:form id="selectHotel">
+                        <p:panel>
+                            <h:outputLabel for="hotel2" value="Select Hotel: *" />  
+                            <h:selectOneMenu id="hotel2" value="#{roomServiceManagedBean.hotelName}" required="true">  
+                                <f:selectItem itemLabel="Select Hotel" itemValue="" />  
+                                <f:selectItems value="#{hotelBean.hotelNames}" />  
+                                <p:ajax update=":tabs:formCreateRoomServiceOrder:serviceList2" listener="#{roomServiceManagedBean.handleHotelChange}"/>
+                            </h:selectOneMenu>  
+                        </p:panel>
+                    </h:form>
+                    <h:form id="formCreateRoomServiceOrder">
+
+                        <p:panel id="createOrder">
+
+                            <p:dataTable var="roomService" value="#{roomServiceManagedBean.services}" id="serviceList2" paginator="true" rows="10"
+                                         rowKey="#{roomService.name}" selection="#{roomServiceManagedBean.selectedServices}"> 
+
+                                <f:facet name="header">  
+                                    #{roomServiceManagedBean.hotelName} Room Services
+                                </f:facet>
+
+                                <p:column selectionMode="multiple" style="width:2%"/>
+
+                                <p:column headerText="Service Name" sortBy="#{roomService.name}" filterBy="#{roomService.name}" filterMatchMode="contains"> 
+                                    #{roomService.name}
+                                </p:column>  
+
+                                <p:column headerText="Description" sortBy="#{roomService.description}" filterBy="#{roomService.description}" filterMatchMode="contains">
+                                    #{roomService.description}
+                                </p:column>  
+
+                                <p:column headerText="Price" sortBy="#{roomService.price}" filterBy="#{roomService.price}" filterMatchMode="contains">  
+                                    #{roomService.price}
+                                </p:column>  
+
+                                <f:facet name="footer">  
+                                    <p:commandButton id="viewSelectedServices" value="View Selected Services" icon="ui-icon-search"  
+                                                     update=":tabs:formDialogCreateRoomServiceOrder:orderList" onclick="serviceDialog.show();"/>  
+                                </f:facet>
+                            </p:dataTable>
+
+                        </p:panel>
+                    </h:form>
+                    <h:form id="formDialogCreateRoomServiceOrder">
+                        <p:dialog id="serviceOrderDialog" header="Order Detail" widgetVar="serviceDialog"  
+                                  showEffect="fade" hideEffect="explode" modal="false">  
+
+                            <p:outputLabel>Please Enter Accommodation Bill ID: </p:outputLabel><br></br>
+                            <p:inputText value="#{roomServiceManagedBean.accBillId}"></p:inputText>
+                            <br></br>
+                            <p:dataTable id="orderList" value="#{roomServiceManagedBean.selectedServices}" var="selectedService">  
+                                <f:facet name="header">  
+                                    #{roomServiceManagedBean.hotelName} Room Service Order
+                                </f:facet>
+
+                                <p:column headerText="Item Name">
+                                    #{selectedService.name}
+                                </p:column>
+
+                                <p:column headerText="Price">
+                                    #{selectedService.price}
+                                </p:column>
+
+                                <p:column headerText="Quantity">
+                                    <p:inputText value="#{selectedService.quantity}">
+                                        <p:ajax update="total" listener="#{roomServiceManagedBean.calculateTotal}" process="total"/>
+                                    </p:inputText>
+                                </p:column>
+                                
+                                <f:facet name="footer">  
+                                    Total: <h:outputText id="total" value="#{roomServiceManagedBean.total}"/>
+                                </f:facet>
+                            </p:dataTable>
+                            <br></br>
+                            <p:commandButton value="Confirm" actionListener="#{roomServiceManagedBean.createServiceOrder}" update=":messages" oncomplete="serviceDialog.hide();"/>
+                            <p:commandButton value="Cancel" onclick="serviceDialog.hide();" type="button"/>
+                        </p:dialog>  
+                    </h:form>
+
+                </p:tab>
+
+                <p:tab id="serviceOrderList" title="View Room Service Orders">
+                    To be updated.
+                </p:tab>
+
+            </p:tabView> 
+        </f:view>
+    </ui:define>
+
+</ui:composition>
