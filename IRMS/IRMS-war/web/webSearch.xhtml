@@ -1,0 +1,274 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view>
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+            <script type="text/javascript" src="./resources/js/primeui-0.9.6-min.js"></script>  
+
+            <link href="./resources/css/bootstrap_1.css" rel="stylesheet" type="text/css" />
+            <link href="./resources/css/bootstrap-responsive.css" rel="stylesheet" type="text/css" />
+
+            <script type="text/javascript" src="./resources/js/bootstarp.js"></script>  
+            <title>Welcome to Coral Island Resort</title>
+            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+            <script src="resources/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+ <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+            <script type="text/javascript">
+                      $(document).ready(function() {
+ 
+$( '#dialog').dialog({ autoOpen: false });
+$( '#opener' ).click(function() {
+$( '#dialog' ).dialog( 'open' );
+}); });
+
+
+
+    
+    
+   
+
+            </script>
+        </h:head>
+        <h:body>
+
+     
+            <div id="top" >
+                <div class="container" style="width:75%">
+                    <div id="top">    <div class="navbar navbar-inverse">
+                            <div class="navbar-inner">
+                                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </a>
+
+
+                                <div class="nav-collapse ">
+                                    <ul class="nav pull-left">
+
+                                        <li><a href="#">How To Get Here</a></li>
+                                        <li><a href="#">Getting Rewards</a></li>
+                                    </ul>
+
+
+                                    <ul class="nav pull-right">
+                                        <h:form id="search"  style="margin:0px">
+                                            <input  name="SearchQuery" type="text" size="30" placeholder="Search..." /> 
+                                            <a href="/IRMS-war/webSearch.xhtml" onclick="Search()"><img src="/IRMS-war/resources/img/SearchButton.png" style="opacity:0.5;"></img></a>
+                                        </h:form>
+
+
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="navbar navbar-inverse">
+                            <div class="navbar-inner">
+                                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </a>
+                                <a class="brand" href="#">Coral Island Resort</a>
+
+                                <div class="nav-collapse ">
+                                    <ul class="nav pull-right">
+                                        <li class="active"><a href="#">Home</a></li>
+                                        <li class="dropdown">
+                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                                Places to Stay
+
+                                            </a>
+                                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                                <li><a href="#">xxx Hotel</a></li>
+                                                <li><a href="#">xxx Hotel</a></li>
+                                                <li><a href="#">xxx Hotel</a></li>
+                                                <li><a href="#">xxx Hotel</a></li>
+                                                <li><a href="#">xxx Hotel</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="dropdown">
+                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                                Things to Do
+
+                                            </a>
+                                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                                <li><a href="#">Entertainment</a></li>
+                                                <li><a href="#">Attraction</a></li>
+                                                <li><a href="#">Shopping Mall</a></li>
+
+                                            </ul>
+                                        </li>
+
+
+                                        <li class="dropdown">
+                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                                Where to Eat
+
+                                            </a>
+                                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                                <li><a href="#">Celebrity Chefs</a></li>
+                                                <li><a href="#">Asian Cuisine</a></li>
+                                                <li><a href="#">Western Cuisine</a></li>
+                                                <li><a href="#">Bars &amp; Lounges</a></li>
+                                                <li><a href="#">Others Food Affair</a></li>
+                                            </ul>
+                                        </li>      
+
+
+                                        <li class="dropdown">
+                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                                Meetings &amp; Events
+
+                                            </a>
+                                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                                <li><a href="#">Business Meetings &amp; Conferences</a></li>
+                                                <li><a href="#">Weddings &amp; Solemnisation</a></li>
+                                                <li><a href="#">Social Events</a></li>
+                                                <li><a href="#">Browse All Venues</a></li>
+                                                <li><a href="#">Request For Proposal</a></li>
+                                            </ul>
+                                        </li>      
+
+
+                                        <li class="dropdown">
+                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                                Promotions
+
+                                            </a>
+                                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                                <li><a href="#">All Promotions</a></li>
+                                                <li><a href="#">Hot Deals</a></li>
+                                                <li><a href="#">Partner Exclusives</a></li>
+
+                                            </ul>
+                                        </li>      
+
+
+
+                                          <li class="dropdown">
+                                            <a  href="/IRMS-war/loginCustomer.xhtml" class="login-window" id="opener">
+                                                Login
+
+                                            </a>
+                                       <!-- <p:growl id="growl" showDetail="true" life="3000" />
+                                        <div id="dialog" title="Login" style="width: 400px" >
+    <h:panelGrid columns="2" cellpadding="5" style="width: 400px">
+			<h:outputLabel for="username" value="Username:" />
+                        <p:inputText value="{loginBean.username}" 
+					id="username" required="true" label="username" />
+			
+			<h:outputLabel for="password" value="Password:" />
+			<h:inputSecret value="{loginBean.password}"
+					id="password" required="true" label="password" />
+			
+                        
+                        <f:facet name="footer">
+				<p:commandButton id="loginButton" value="Login"  update="growl" 
+					actionListener="{loginBean.login}"
+                                     	oncomplete="handleLoginRequest(xhr, status, args)"/>
+			
+			</f:facet>
+                       
+		</h:panelGrid> 
+</div>-->
+                                        </li>    
+                                           
+
+                                   
+
+
+
+                                    </ul>
+                                </div>
+                            </div><!-- /.navbar-inner -->
+                        </div>
+                    </div>
+                    <ui:insert name="top"></ui:insert>
+                </div>
+            </div>
+
+
+
+
+
+            <div id="content" class="center_content" >  
+
+                <div class="container" style="width:75%">
+<f:view beforePhase="#{searchResultManagedBean.initView}"> 
+            <h:form>
+            <p:panel id="search" header="Search Employee" style="height:495px;">
+                <div style="margin-left:300px;margin-right:50px;margin-top:120px;">
+                    <h:outputText value="Name:" style="margin-right: 10px;"/>
+                    <p:autoComplete id="name" value="#{searchManagedBean.query}" required="true" requiredMessage="Name Cannot be Null"  
+                                    completeMethod="#{searchManagedBean.complete}" />
+                    <p:spacer width="20"/>
+                    <p:commandButton value="Search" ajax="true" actionListener="#{searchManagedBean.query}"/>
+                    <p:message for="name"/><!-- update="statusMessages"-->
+                </div>
+            </p:panel>
+        </h:form>
+        </f:view>
+                      </div> 
+                       
+                    </div>
+               
+
+
+
+
+
+                <div class="container" style="width:75%">
+
+
+                    <div class="pod_cnt">
+                       
+                       
+                    </div>
+
+
+
+                </div>
+
+
+
+
+
+                <ui:insert name="content">
+
+
+                </ui:insert>
+          
+
+
+            <div id="bottom">
+                <div id="content" class="center_content" >
+                    <div class="container" style="width:75%">
+
+                        <footer>
+                            <br/><br/><br/>
+                            <p><font color="white">&copy; 2013 NUS IS3102 - AY 2013/2014 Sem 1. <br/>All Rights Reserved.</font></p>
+                        </footer> 
+
+
+                        <ui:insert name="bottom"></ui:insert>
+                    </div>
+                </div>
+            </div>
+
+        </h:body>
+    </f:view>
+</html>

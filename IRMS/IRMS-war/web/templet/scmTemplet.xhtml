@@ -70,11 +70,7 @@
                             <p:menuitem value="Generate Bill" url="/smpGenerateBill.xhtml"  />
                         </p:submenu>
                         
-                  <!--      <p:submenu label="Tenancy"  >
-                            <p:menuitem value="view TenancyMix" url="/smpTenancyMix.xhtml"  />
-                        
-                        </p:submenu>-->
-                          
+                     
                         
                         <p:submenu label="Concierge"  >
                             <p:menuitem value="create concierge order" url="/smpDeliveryOrder.xhtml"  />
@@ -114,7 +110,7 @@
 
                     
  <p:commandButton  id="logoutButton" value="Logout"
-					actionListener="#{LoginBean.logout}" />
+					actionListener="#{internalLogoutManagedBean.logout}" />
 				
  <p:commandButton onclick="goChangePass();" value="Change Password"/>
     </p:layoutUnit>
@@ -129,7 +125,7 @@
 
             </p:layout>
 
-       
+        
 
         </h:body>
 

@@ -101,7 +101,7 @@ public class CustomerLoginBean implements Serializable {
             if (username != null && password != null && cbb.verifyPassword(username, hashPassword)) {
                 loggedIn = true;
                 msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome", username);
-
+             
                 customer = cbb.findCustomer(username);
                 cbb.setLoginAttempToZero(username);
                 cbb.updateLoginAttempTime(username);
@@ -124,16 +124,37 @@ public class CustomerLoginBean implements Serializable {
               
               
             } //auth fails
-            else {
+            
+             else if (!cbb.checkUserExist(username)) {
                 loggedIn = false;
                 cbb.updateLoginAttemp(username);
                 cbb.updateLoginAttempTime(username);
 
-                msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", "Invalid credentials");
+                msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", "Username doesn't exist");
                 customer = null;
 
-                redirct = "loginSuccess";
+                redirct = "fail";
 
+            } else if (cbb.checkUserExist(username) && (!cbb.verifyPassword(username, hashPassword))) {
+                loggedIn = false;
+                cbb.updateLoginAttemp(username);
+                cbb.updateLoginAttempTime(username);
+
+                msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", "Wrong password");
+                customer = null;
+
+                redirct = "fail";
+
+
+            } else {
+                loggedIn = false;
+                cbb.updateLoginAttemp(username);
+                cbb.updateLoginAttempTime(username);
+
+                msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", "Invalid Credentials");
+                customer = null;
+
+                redirct = "fail";
             }
         } //time diff is less than 5 mins, don't allow login 
         else {
@@ -156,8 +177,13 @@ public class CustomerLoginBean implements Serializable {
         /*getSession(boolean create)如果 create 参数为 true，则创建（如有必要）并返回一个与当前请求关联的会话实例。如果 create 参数为 false，则返回与当前请求关联的任何现有会话实例；如果没有这样的会话，则返回 null。*/
         FacesMessage msg = null;
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+ //HttpServletRequest requests = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
 
         HttpSession session = (HttpSession) externalContext.getSession(false);
+     //   requests.getSession().setAttribute("isLogin",false);
+       // requests.getSession().setAttribute("role",null);
+       // requests.getSession().invalidate();
+       // HttpSession session = (HttpSession) externalContext.getSession(false);
 
         if (null != session) {
 
@@ -176,6 +202,8 @@ public class CustomerLoginBean implements Serializable {
             }
 
         }
+        else {logout = false;
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Logout", username);}
         FacesContext.getCurrentInstance().addMessage(null, msg);
         context.addCallbackParam("logout", logout);
 
@@ -187,7 +215,7 @@ public class CustomerLoginBean implements Serializable {
         boolean register = false;
         active = true;
 
-        if (username != null && password != null) {
+      /*  if (username != null && password != null) {
             String hashPassword = cbb.hashPassword(password);
 
             cbb.createCustomer(username, hashPassword, firstName, lastName, address, email, ageGroup, gender, phone);
@@ -200,7 +228,28 @@ public class CustomerLoginBean implements Serializable {
             msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Register Error", "Register Failed");
 
         }
+*/
+        if (cbb.checkUserExist(username)) {
+            register = false;
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Reigstered Failed", "Username Existed, use another username.");
+        } 
+        else if (!password.equals(confirmpassword)) {
+            register = false;
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Reigstered Failed", "Passwords don't match.");
+        }
+        else if (username != null && password != null ) {
+            String hashPassword = cbb.hashPassword(password);
+            cbb.createCustomer(username, hashPassword, firstName, lastName, address, email, ageGroup, gender, phone);
+            register = true;
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Reigstered Successfully", username);
+        } 
+        else {
+            register = false;
+            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Register Error", "Register Failed");
 
+        }
+        
+        
         FacesContext.getCurrentInstance().addMessage(null, msg);
         context.addCallbackParam("register", register);
 

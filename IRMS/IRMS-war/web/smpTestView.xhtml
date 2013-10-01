@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta http-equiv="X-UA-Compatible" content="EmulateIE8" />
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>Internal Portal - View Message</title>
+            </f:facet>
+
+            <link type="text/css" rel="stylesheet" href="./resources/css/default.css" />
+            <link type="text/css" rel="stylesheet" href="./resources/css/syntaxhighlighter/syntaxhighlighter.css" />
+
+            <style type="text/css">
+                .ui-layout-north {
+                    z-index:20 !important;
+                    overflow:visible !important;;
+                }
+
+                .ui-layout-north .ui-layout-unit-content {
+                    overflow:visible !important;
+                }
+            </style>
+        </h:head>
+
+
+        <h:body>
+
+          <h:form id="form">
+            <f:view beforePhase="#{receivedMsgManagedBean.View}">
+                <p:panel id="viewMsg" header="View Message" style="height:495px;">
+                    <div style="margin-top:35px;margin-left:200px;margin-right:50px;margin-bottom:20px;">
+                        <table style="border:solid #AFAFAF 2px;width:600px;height:300px;">
+                            <tr>
+                                <th colspan="2" style="font-weight:bold;text-align:center;background-color:#dddddd;height:50px;">
+                                    #{receivedMsgManagedBean.title}
+                                </th>
+                            </tr>
+                            <tr>
+                                <td style="height:50px;width:200px;padding-left:30px;border-bottom:solid #dddddd 2px;">
+                                    From: <h:outputText value ="#{receivedMsgManagedBean.sender}" />
+                                </td>
+                                <td style="height:50px;width:200px;padding-left:30px;border-bottom:solid #dddddd 2px;">
+                                    Sent time: <h:outputText value ="#{receivedMsgManagedBean.sendTime}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td algin="center" colspan="2" style="overflow:auto;padding:50px;text-align:center;">
+                                    <h:outputText value ="#{receivedMsgManagedBean.content}"/>
+                                </td>
+                            </tr>
+
+                        </table>
+                        <br />
+                        <p:commandButton value="Back"  ajax="false" actionListener="#{receivedMsgManagedBean.goBack}" />
+                    </div>
+                </p:panel>
+            </f:view>
+        </h:form>
+        </h:body>
+
+    </f:view>
+</html>

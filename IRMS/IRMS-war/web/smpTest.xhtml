@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta http-equiv="X-UA-Compatible" content="EmulateIE8" />
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>PrimeFaces - ShowCase</title>
+            </f:facet>
+
+            <link type="text/css" rel="stylesheet" href="./resources/css/default.css" />
+            <link type="text/css" rel="stylesheet" href="./resources/css/syntaxhighlighter/syntaxhighlighter.css" />
+
+            <style type="text/css">
+                .ui-layout-north {
+                    z-index:20 !important;
+                    overflow:visible !important;;
+                }
+
+                .ui-layout-north .ui-layout-unit-content {
+                    overflow:visible !important;
+                }
+            </style>
+        </h:head>
+
+
+        <h:body>
+
+            <h:form id="form">
+                <p:panel id="msgInbox" header="Private Message Inbox" style="height:495px;">
+
+                    <p:dataTable id="privateMsg" emptyMessage="No Message in your box" value="#{receivedMsgManagedBean.messageList}" selectionMode="single"  rowKey="#{messages.title}" selection="#{receivedMsgManagedBean.selectedMessage}"  var ="messages" paginator="true" rows="5">
+
+                        <p:column>
+                            <f:facet name="header">Title</f:facet>
+                                #{messages.title}
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">From</f:facet>
+                                #{messages.senderName}
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">Sending Time</f:facet>
+                                #{messages.sendTime}
+                        </p:column>
+
+                        <p:column style="font-weight:bold;">
+                            <f:facet name="header">Status</f:facet>
+                                #{messages.status}
+                        </p:column>
+ 
+                        <p:column style="width:70px;">
+                            <f:facet name="header">Read Message</f:facet>
+
+                            <p:commandButton action ="#{receivedMsgManagedBean.viewMsg(messages)}" image="ui-icon ui-icon-search" title="View" />  
+
+                            
+
+                        </p:column>
+
+ <p:column headerText="Delete">
+                        <p:commandButton image="ui-icon ui-icon-close" title="Delete" onclick="confirmation.show();">
+                            <p:confirmDialog message="Confirm to delete" showEffect="explode" hideEffect="explode"   header="Confirm" severity="alert" widgetVar="confirmation">
+                                <p:commandButton value="Confirm" actionListener="#{receivedMsgManagedBean.deleteMsg}" update=":form:msgInbox" process=":form:msgInbox" onclick="confirmation.hide();" >
+                                    <p:collector value="#{receivedMsgManagedBean.selectedMessage}" removeFrom="#{receivedMsgManagedBean.messageList}"/>
+                                </p:commandButton>
+                                <p:commandButton value="Cancel" onclick="confirmation.hide();" type="button"/>
+                            </p:confirmDialog>
+                        </p:commandButton>
+                    </p:column> 
+
+                    </p:dataTable>
+
+                   
+
+                </p:panel>
+            </h:form>
+        </h:body>
+
+    </f:view>
+</html>
+
+

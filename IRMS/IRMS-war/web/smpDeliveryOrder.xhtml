@@ -18,7 +18,7 @@
                         <p:column>Hotel Name:</p:column>                            
                         <p:selectOneMenu id="htlName" value="#{shoppingMallManagedBean.hotelName}">
                             <f:selectItem itemLabel="Select One" itemValue =""/> 
-                            <f:selectItem itemLabel="Hotel One" itemValue ="Hotel One"/> 
+                            <f:selectItem itemLabel="Hotel One" itemValue ="hao"/> 
                             <f:selectItem itemLabel="Hotel Two" itemValue ="Hotel Two"/> 
                         </p:selectOneMenu>              
                     </p:row>
@@ -54,22 +54,136 @@
                     </p:row> 
 
                     <p:row>
-                        <p:column colspan="2"><p:commandButton id="submitButton"  value="Submit" icon="ui-icon-plus" actionListener="#{shoppingMallManagedBean.createDeliveryOrder}" update="display,dol"/></p:column>
+                        <p:column colspan="2"><p:commandButton id="submitButton"  value="Submit" icon="ui-icon-plus" actionListener="#{shoppingMallManagedBean.createDeliveryOrder}" update=":c1:do1"/></p:column>
                     </p:row>
-
-
                 </h:panelGrid>
 
-                <p:panel id="display" header="Orders" style="margin-top:10px;">  
-                    <p:panelGrid columns="1" >                        
 
-                        <h:outputText value="Customer ID: #{shoppingMallManagedBean.customerID}" />
-
-                    </p:panelGrid>  
-
-                </p:panel>
             </p:panel>
 
         </h:form>  
+
+        <h:form id="c1">
+            <p:panel id ="do1" header="Create Delivery Order">
+                <p:messages id="doMsg" redisplay="false" />
+                <p:dataTable  paginator="true"  rows="10" style="border: solid 2px black;"
+                              value="#{shoppingMallManagedBean.deliveryOrder}" var="orders">
+                    <p:column id="OrderID" style="width:10px;"   
+                              headerText="Order ID "> 
+
+                        <h:outputText value="#{orders.id}" /> 
+                    </p:column> 
+
+                    <p:column id="CustomerID" style="width:10px;"   
+                              headerText="Customer ID "> 
+
+                        <h:outputText value="#{orders.customerID}" /> 
+                    </p:column> 
+
+                    <p:column id="CustomerName" style="width:10px;"   
+                              headerText="Customer Name "> 
+
+                        <h:outputText value="#{orders.customerName}" /> 
+                    </p:column> 
+
+                    <p:column id="contactNumber" style="width:10px;"   
+                              headerText="Contact Number"> 
+
+                        <h:outputText value="#{orders.contactNumber}" /> 
+                    </p:column>
+
+                    <p:column id="HotelName" style="width:10px;"   
+                              headerText="Hotel Name "> 
+
+                        <h:outputText value="#{orders.hotelName}" /> 
+                    </p:column>
+
+                    <p:column id="Items" style="width:10px;"   
+                              headerText="Number Of Items"> 
+
+                        <h:outputText value="#{orders.numOfItems}" /> 
+                    </p:column>
+
+                    <p:column id="orderTime" style="width:10px;"   
+                              headerText="Order Time"> 
+
+                        <h:outputText value="#{orders.orderTime.time}" styleClass="date"> <f:convertDateTime pattern="dd-MM-yyyy" />
+                        </h:outputText>    
+                    </p:column>
+
+                    <p:column id="status" style="width:10px;"   
+                              headerText="Status"> 
+
+                        <h:outputText value="#{orders.status}" /> 
+                    </p:column>
+
+                    <p:column id="editOrder" style="width:10px;"   
+                              headerText="Edit Order"> 
+
+                        <p:commandButton icon="ui-icon-document"  oncomplete="dlghao.show();">
+                            <f:setPropertyActionListener value="#{orders}" target="#{shoppingMallManagedBean.co}" />
+                        </p:commandButton>
+                    </p:column>
+
+                    <p:column id="deleteOrder" style="width:10px;"   
+                              headerText="Delete Order"> 
+
+                        <p:commandButton icon="ui-icon-close"  oncomplete="dlgDelete.show();">
+                            <f:setPropertyActionListener value="#{orders}" target="#{shoppingMallManagedBean.co}" />
+                        </p:commandButton>
+                    </p:column>
+
+
+
+                </p:dataTable>
+            </p:panel>
+        </h:form> 
+
+        <h:form id="form2">
+            <p:growl id="growl" showDetail="true" life="3000" />  
+
+            <p:dialog id ="dlg1" header="Edit Order" modal="false" showEffect="fade" hideEffect="fade" widgetVar="dlghao" width="600px" height="300" resizable="false"> 
+
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputText  value="Customer ID:" />
+                    <h:inputText value="#{shoppingMallManagedBean.customerID}" required="true" requiredMessage="Customer ID is required"/>
+                    <h:outputText  value="Customer Name:" />
+                    <h:inputText value="#{shoppingMallManagedBean.customerName}" required="true" requiredMessage="Customer Name is required"/>
+                    <h:outputText  value="Hotel Name:" />
+                    <h:inputText value="#{shoppingMallManagedBean.hotelName}" required="true" requiredMessage="Hotel Name is required"/>
+                    <h:outputText  value="Customer Contact" />
+                    <p:inputMask value ="#{shoppingMallManagedBean.customerContact}" mask="(+**) 999-99999" required="true" requiredMessage="customer contact is required"/>
+                    <h:outputText  value="Number Of Items:" />
+                    <h:inputText value="#{shoppingMallManagedBean.numOfItems}" required="true" requiredMessage="Number Of Items is required"/>
+
+
+                    <f:facet name="footer">
+                        <p:commandButton id="edit" value="Save" update=":c1:do1"
+                                         actionListener="#{shoppingMallManagedBean.editOrder}" oncomplete="dlghao.hide()"/>
+                    </f:facet>
+                </h:panelGrid>
+            </p:dialog>
+
+        </h:form>
+
+
+        <h:form id="form3">
+            <p:growl id="growl1" showDetail="true" life="3000" />  
+
+            <p:dialog id ="dlg2" header="Delete Order" modal="false" showEffect="fade" hideEffect="fade" widgetVar="dlgDelete" width="400px" height="200" resizable="false"> 
+
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputText  value="Do you wish to delete the order?" />
+                    <f:facet name="footer">
+                        <p:commandButton  id="delete" value="Yes" update=":c1:do1"  oncomplete="dlgDelete.hide()"
+                                          actionListener="#{shoppingMallManagedBean.deleteDeliveryOrder}" />
+                    </f:facet>
+                </h:panelGrid>
+            </p:dialog>
+
+        </h:form>
+
+
+
     </ui:define>
 </ui:composition>

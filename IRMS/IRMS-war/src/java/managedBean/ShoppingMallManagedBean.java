@@ -3,16 +3,20 @@
  * and open the template in the editor.
  */
 package managedBean;
-
+import ejb.UserLogBeanRemote;//added for logging 
+import ejb.AdminUserBeanRemote;//added for logging
 import ejb.ContractBeanRemote;
 import ejb.ManageCatalogBeanRemote;
 import ejb.ManageMallSpaceBeanRemote;
+import entity.ConciergeOrder;
 import entity.Contract;
 import entity.Mall;
 import entity.Shop;
 import entity.ShopOwner;
 import entity.TenantRecordEntity;
 import entity.Unit;
+import entity.UserAccount;//added for logging
+import entity.UserLog;//added for logging
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -46,6 +50,12 @@ public class ShoppingMallManagedBean implements Serializable {
     ManageMallSpaceBeanRemote mmsbr;
     @EJB
     ManageCatalogBeanRemote mcbr;
+    @EJB//added for logging 
+    AdminUserBeanRemote aub;//added for logging 
+    @EJB//added for logging 
+    UserLogBeanRemote ulb;//added for logging 
+    private UserLog ul;//added for logging 
+    private UserAccount ua;//added for logging 
     private String ContractType;
     private String Landlord;
     private static String Tenant;
@@ -87,7 +97,10 @@ public class ShoppingMallManagedBean implements Serializable {
     private String customerContact;
     private Integer numOfItems;
     private String OrderDescription;
-
+    private List<ConciergeOrder> deliveryOrder;
+    private ConciergeOrder co;
+    private String orderStatus;
+    
     public ShoppingMallManagedBean() {
     }
 
@@ -95,17 +108,64 @@ public class ShoppingMallManagedBean implements Serializable {
     public void init() {
         this.tenantList = cbr.getExistingTenant();
         this.contractList = cbr.getContractList();
+        this.deliveryOrder = mcbr.getListOfDeliveryOrders();
     }
-
+    public void editTable (ActionEvent evnt){
+       co = (ConciergeOrder)dataTable.getRowData();
+       System.err.println("Concierge order retrieved"+co.getCustomerID());
+       this.setCo(co);
+        
+    }
     public void createDeliveryOrder(ActionEvent event) {
         try {
             System.err.println("create the delivery order!");
             mcbr.deliveryItem(hotelName, customerName, customerID, customerContact, numOfItems, OrderDescription);
+             this.deliveryOrder = mcbr.getListOfDeliveryOrders();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "New delivery order created successfully", ""));
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "An error has occurred while creating the new delivery order: " + ex.getMessage(), ""));
+        }
+    }
+    
+    public void editOrder(ActionEvent evnt){
+        try {
+            System.err.println("edit the delivery order!"+this.getCo().getId());
+            mcbr.editTheOrder(customerName,customerID, customerContact, numOfItems, getCo().getId(),hotelName);
+             this.deliveryOrder = mcbr.getListOfDeliveryOrders();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "New delivery order created successfully", ""));
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "An error has occurred while creating the new delivery order: " + ex.getMessage(), ""));
+        }
+    }
+    
+    public void updateStatusOrder(ActionEvent event){
+            try {
+            System.err.println("update the delivery order!"+this.getCo().getId());
+            mcbr.updateDeliveryOrder(orderStatus, this.getCo().getId());
+             this.deliveryOrder = mcbr.getListOfDeliveryOrders();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Status has been changed successfully", ""));
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "An error has occurred while changing the new status: " + ex.getMessage(), ""));
+        }
+        
+    }
+    
+    public void deleteDeliveryOrder(ActionEvent event){
+          try {
+            System.err.println("delete the delivery order!"+this.getCo().getId());
+            mcbr.deleteDeliveryOrder(this.getCo().getId(), this.getCo().getHotelName());
+             this.deliveryOrder = mcbr.getListOfDeliveryOrders();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Status has been changed successfully", ""));
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "An error has occurred while deleting the new delivery order: " + ex.getMessage(), ""));
         }
     }
 
@@ -162,10 +222,10 @@ public class ShoppingMallManagedBean implements Serializable {
                     TenantContact = theOnlyTenant.getTenantContact();
                     System.err.println(IdentityCard);
                 }
-               
+
             }
-             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                        "Existing Tenant Information retrieved successfully", ""));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Existing Tenant Information retrieved successfully", ""));
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Tenant not found in the database", "!"));
@@ -193,13 +253,18 @@ public class ShoppingMallManagedBean implements Serializable {
 
         try {
             System.err.println("create the contract!");
-            
+       HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+       long userId = (Long)request.getSession().getAttribute("userId");
+     
+       ulb.addLog(userId, aub.getUserById(userId).getUserName(), "Create Contract");
+       System.out.println("add user log====================="+userId+aub.getUserById(userId).getUserName());
             cbr.signContract(ContractType, Landlord, Tenant, IdentityCard,
                     TenantTradeName, getSelectedUnits(), NameOfShoppingCenter,
                     Purpose, MinimumRent, RentRate, TenantAddress, LandlordContact,
                     TenantContact, upfrontRentalDeposit, getDate(), yearsToRenew);
+            
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                    "New Contract created successfully", ""));
+                    "New Contract created successfully", "Your action is recorded in the system"));
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "An error has occurred while creating the new contract: " + ex.getMessage(), ""));
@@ -213,8 +278,13 @@ public class ShoppingMallManagedBean implements Serializable {
             cbr.reNewContract(MinimumRent, RentRate,
                     upfrontRentalDeposit, getContractRecord(), yearsToRenew);
             this.contractList = cbr.getContractList();
+             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+       long userId = (Long)request.getSession().getAttribute("userId");
+       
+       ulb.addLog(userId, aub.getUserById(userId).getUserName(), "Renew Contract");
+       System.out.println("add user log=====================");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                    "Contract has been renewed successfully", ""));
+                    "Contract has been renewed successfully", "Your action is recorded in the system"));
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "An error has occurred while renewing the new contract: " + ex.getMessage(), ""));
@@ -226,8 +296,13 @@ public class ShoppingMallManagedBean implements Serializable {
 
             cbr.terminateContract(getContractRecord().getId());
             this.contractList = cbr.getContractList();
+              HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+       long userId = (Long)request.getSession().getAttribute("userId");
+       
+       ulb.addLog(userId, aub.getUserById(userId).getUserName(), "Terminate Contract");
+       System.out.println("add user log=====================");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                    "Contract has been terminated successfully", ""));
+                    "Contract has been terminated successfully", "Your action is recorded in the system"));
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "An error has occurred while terminating the new contract: " + ex.getMessage(), ""));
@@ -521,4 +596,30 @@ public class ShoppingMallManagedBean implements Serializable {
     public void setOrderDescription(String OrderDescription) {
         this.OrderDescription = OrderDescription;
     }
+
+    public List<ConciergeOrder> getDeliveryOrder() {
+        return deliveryOrder;
+    }
+
+    public void setDeliveryOrder(List<ConciergeOrder> deliveryOrder) {
+        this.deliveryOrder = deliveryOrder;
+    }
+
+    public ConciergeOrder getCo() {
+        return co;
+    }
+
+    public void setCo(ConciergeOrder co) {
+        this.co = co;
+    }
+
+    public String getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+    
+    
 }

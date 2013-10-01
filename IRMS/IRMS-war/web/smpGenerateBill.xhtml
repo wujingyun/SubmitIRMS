@@ -7,16 +7,17 @@
                 xmlns:f="http://java.sun.com/jsf/core">
 
     <ui:define name="center">
-        
     <h:form id="form4">
-            <p:panel>
+            <p:panel id="cr">
                 <p:panelGrid columns="3" >
                   <p:commandButton value="View Tenancy Mix" icon="ui-icon-extlink"  actionListener="#{billManagedBean.viewTenancyMix}"/>  
                   
                   <p:commandButton value="Set Commision Rate" icon="ui-icon-extlink" actionListener="#{billManagedBean.retrieveRate}" onclick="dlghao.show();"/>
+                  
                   <h:outputText value ="Current Commision Rate: #{billManagedBean.commisionRate}"/>
+                  
                 </p:panelGrid>
-                
+               
             </p:panel>            
         </h:form>
 
@@ -112,7 +113,7 @@
         
          <h:form id="form5">
             <p:growl id="growl" showDetail="true" life="3000" />   
-            <p:dialog id ="dlg5" header="Bill Status" modal="false" showEffect="fade" hideEffect="fade" widgetVar="dlghao" width="300px" height="200" resizable="false"> 
+            <p:dialog id ="dlg5" header="Commision Rate" modal="false" showEffect="fade" hideEffect="fade" widgetVar="dlghao" width="300px" height="200" resizable="false"> 
                 <h:panelGrid columns="2" cellpadding="5">
                     <h:outputText  value="Enter the new Commission Rate: " />
                     <p:inputText  value="#{billManagedBean.commisionRate}" size="5"/>
@@ -120,7 +121,7 @@
                     
                     <f:facet name="footer">
                             <p:commandButton id="editForm" value="Confirm" 
-                                             actionListener="#{billManagedBean.changeCommissionRate}" update="growl"  onclick="dlghao.hide();"/>
+                                             actionListener="#{billManagedBean.changeCommissionRate}" onclick="dlghao.hide();" update=":form4:cr"/>
                      </f:facet>
                     <f:facet name="footer">
                             <p:commandButton id="cancelForm" value="Cancel" 
@@ -134,7 +135,7 @@
         
         <h:form id="form3">
             <p:growl id="growl" showDetail="true" life="3000" />   
-            <p:dialog id ="dlg1" header="Bill Status" modal="false" showEffect="fade" hideEffect="fade" widgetVar="dlgOne" width="600px" height="400px" resizable="false"> 
+            <p:dialog id ="dlg1" header="Edit Shop Information" modal="false" showEffect="fade" hideEffect="fade" widgetVar="dlgOne" width="600px" height="400px" resizable="false"> 
                 <h:panelGrid columns="1" cellpadding="5">
                     <h:outputText  value="Description: " />
                     <p:inputTextarea rows="5" cols="30" counter="counter" maxlength="150" value="#{billManagedBean.description}"     
@@ -149,7 +150,7 @@
                     <p:inputMask value="#{billManagedBean.storeContact}" mask="(+**) 999-99999"/>
                      <f:facet name="footer">
                             <p:commandButton id="editForm" value="Save" 
-                                             actionListener="#{billManagedBean.saveShopInfo}"   onclick="dlgOne.hide();"/>
+                                             actionListener="#{billManagedBean.saveShopInfo}"   onclick="dlgOne.hide();" update=":form1:shopTable"/>
                      </f:facet>
 
                 </h:panelGrid>

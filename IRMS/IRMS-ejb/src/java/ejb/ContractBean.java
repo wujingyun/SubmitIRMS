@@ -62,12 +62,24 @@ public class ContractBean implements ContractBeanRemote {
             String ejbql ="SELECT c FROM Contract c";  
             Query q = em.createQuery(ejbql);
             contractList =new ArrayList();
-            
+            Calendar cal = Calendar.getInstance();
             for(Object o: q.getResultList()){
                 Contract c = (Contract)o;
-                if(c.isContractStatus()!=false)
+                
+                 if(c.getDateOfExpiry().getTime().before(cal.getTime())){
+                     
+                    c.setContractExpiry(true);
+                    System.err.println("status contract expiry"+c.isContractExpiry()+"");
+                    System.err.println(c.getDateOfExpiry().getTime());
+                    System.err.println(cal.getTime());
                     
+                }else{
+                     c.setContractExpiry(false);
+                 }
+                 
+                if(c.isContractStatus()!=false){                    
                     contractList.add(c);
+                }
                
             }  
         for (Contract e : contractList) {
@@ -95,6 +107,7 @@ public class ContractBean implements ContractBeanRemote {
             tenant     = new ShopOwner();
             tenantRecord = new TenantRecordEntity();
             System.out.println("sign contract years: "+ yearsToRenew);
+        if(Tenant==null) throw new ExistException("No tenant information was provided！");
         if(UnitAvailabilityCheck(UnitNo) ==false)
             throw new ExistException("The unit has been taken！");
            

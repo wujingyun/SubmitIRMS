@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./templet/internalTemplet.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+    
+  
+ <ui:define name="center">
+   <h:form>                      
+          <p:growl id="msgs" showDetail="true"/>  
+            <p:panel  header="Write Internal Message" >
+                <div >
+                    <div >
+                        <h:outputText value="To:" /><p:spacer width="10px"/>
+
+                        <p:autoComplete id="receiver" value="#{internalMessageManagedBean.receiver}" required="true" requiredMessage="Who do you want to send to?"  
+                                        completeMethod="#{internalMessageManagedBean.complete}"/>
+
+                        <h:outputText value="Title:" />
+                        <h:inputText value="#{internalMessageManagedBean.title}" />
+
+                    </div>
+                    <p:editor value="#{internalMessageManagedBean.msg}" widgetVar="editor" />  
+
+                    <h:panelGrid columns="2" >  
+                        <p:commandButton value="Send" image="ui-icon ui-icon-mail-closed"  actionListener="#{internalMessageManagedBean.sendMsg}" />  
+                        <p:commandButton value="Reset" type="reset"  image="ui-icon ui-icon-close" />  
+                    </h:panelGrid> 
+                </div>
+            </p:panel>
+        </h:form>
+
+ </ui:define>
+</ui:composition>

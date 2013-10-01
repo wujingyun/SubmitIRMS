@@ -4,9 +4,15 @@
  */
 package managedBean;
 
+import ejb.AdminUserBeanRemote;
+import ejb.ManageMallSpaceBeanRemote;
 import ejb.ManageTenantBeanRemote;
+import ejb.UserLogBeanRemote;
 import entity.Shop;
 import entity.ShopBill;
+import entity.Unit;
+import entity.UserAccount;
+import entity.UserLog;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,6 +29,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpServletRequest;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.model.chart.PieChartModel;
 import util.dao.TenancyMixData;
@@ -38,6 +45,14 @@ public class BillManagedBean implements Serializable {
 
     @EJB
     ManageTenantBeanRemote mtb;
+    @EJB
+    ManageMallSpaceBeanRemote mmsb;
+      @EJB//added for logging 
+    AdminUserBeanRemote aub;//added for logging 
+    @EJB//added for logging 
+    UserLogBeanRemote ulb;//added for logging 
+    private UserLog ul;//added for logging 
+    private UserAccount ua;//added for logging 
     /**
      * Creates a new instance of BillManagedBean
      */
@@ -53,14 +68,18 @@ public class BillManagedBean implements Serializable {
     private HashMap<String, Integer> cache;
     private static PieChartModel model;
     private LinkedList list;
-    private static double commisionRate;
+    private double commisionRate;
     private double commision;
+    private List<Unit> unitList;
+    
+    
     @PostConstruct
     public void init() {
         this.shopList = mtb.getShopList();
         this.cache = mtb.viewTenancyMix();
-        
-       commisionRate =mtb.sendCommisionRate();
+        this.commisionRate= mmsb.getMallRate();
+        this.unitList=mmsb.getUnitList();
+     //    commisionRate =mtb.sendCommisionRate();
     }
 
     public BillManagedBean() {
@@ -68,12 +87,15 @@ public class BillManagedBean implements Serializable {
     }
     
     public void retrieveRate(ActionEvent event){
-        commisionRate=mtb.sendCommisionRate();
+        System.err.println("retrieve rate commission rate"+commisionRate);
+        this.commisionRate= mmsb.getMallRate();
     }
     
     public void changeCommissionRate(ActionEvent evnt){
-        try {          
-            mtb.changeCommissionRate(commisionRate);
+        try {   
+            System.err.println("change commission rate"+commisionRate);
+            mmsb.getMall(commisionRate);
+            this.commisionRate= mmsb.getMallRate();
              FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Commission changed successfully", ""));
         }
@@ -89,6 +111,15 @@ public class BillManagedBean implements Serializable {
             System.err.println("createBill"+getCommision());
             mtb.creatBill(rentRate,getCommision(), getShopEntity().getShopID());
             this.setBills(bills);
+            
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+       long userId = (Long)request.getSession().getAttribute("userId");
+     
+       ulb.addLog(userId, aub.getUserById(userId).getUserName(), "Generate Bill");
+       System.out.println("add user log====================="+userId+aub.getUserById(userId).getUserName());
+        
+            
+            
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "New bill created successfully", ""));
         } catch (Exception ex) {
@@ -170,7 +201,7 @@ public class BillManagedBean implements Serializable {
     public void saveShopInfo(ActionEvent event) {
         try {
             mtb.EditShopInfo(getShopEntity().getShopID(), description, operatinghours, storeContact);
-
+            this.shopList = mtb.getShopList();
             //save shop
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "New information saved successfully", ""));
@@ -365,4 +396,12 @@ public class BillManagedBean implements Serializable {
         this.commision = commision;
     }
 
+    public List<Unit> getUnitList() {
+        return unitList;
+    }
+
+    public void setUnitList(List<Unit> unitList) {
+        this.unitList = unitList;
+    }
+    
 }

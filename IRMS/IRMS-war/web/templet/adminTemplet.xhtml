@@ -26,24 +26,24 @@
                     overflow:visible !important;
                 }
             </style>
-            
-            
+
+
         </h:head>
 
-<script type="text/javascript">
-	function goChangePass() {
-     
-          window.location="http://localhost:8080/IRMS-war/ChangePass.xhtml" ;
-        } 
-        
-</script>
+        <script type="text/javascript">
+            function goChangePass() {
+
+                window.location = "http://localhost:8080/IRMS-war/changePass.xhtml";
+            }
+
+        </script>
         <h:body>
-   
+
             <p:layout fullPage="true" >
 
                 <p:layoutUnit id="top" position="north" size="50">
-                
-                    <p:menubar>
+
+                                    <p:menubar>
                         <p:submenu label="Account Management" icon="ui-icon-document">
                           
                             <p:menuitem value="Create account" url="/register.xhtml" />
@@ -67,9 +67,10 @@
                             </p:submenu>
                         </p:submenu>
                     </p:menubar>
+
                 </p:layoutUnit>
 
-                
+
 
                 <p:layoutUnit id="left" position="west" size="300" resizable="true" closable="true" collapsible="true" header="Options" minSize="200">
                     <p:accordionPanel>
@@ -92,26 +93,24 @@
                 <p:layoutUnit id="right" position="east" size="250" header="My Account" resizable="true" closable="true" collapsible="true"
                               style="text-align:center">
 
-                    
- <p:commandButton  id="logoutButton" value="Logout"
-					actionListener="#{loginBean.logout}" />
-				
- <p:commandButton onclick="goChangePass();" value="Change Password"/>
-    </p:layoutUnit>
+
+                    <p:commandButton  id="logoutButton" value="Logout"
+                                      actionListener="#{internalLogoutManagedBean.logout}" />
+
+                    <p:commandButton onclick="goChangePass();" value="Change Password"/>
+                </p:layoutUnit>
 
                 <p:layoutUnit id="center" position="center">
                     <ui:insert name="center"> 
-                    <h:form>
-                       
-                    </h:form>
-                </ui:insert>
+                        <h:form>
+
+                        </h:form>
+                    </ui:insert>
                 </p:layoutUnit>
 
             </p:layout>
 
-            <p:dialog header="Basic Dialog" widgetVar="dlg" modal="true">
-                <h:outputText value="Resistance to PrimeFaces is futile!" />
-            </p:dialog>
+          
 
         </h:body>
 

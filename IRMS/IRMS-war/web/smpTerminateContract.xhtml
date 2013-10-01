@@ -7,9 +7,8 @@
                 xmlns:f="http://java.sun.com/jsf/core">
 
     <ui:define name="center">
-      
             <h:form id="form2"> 
-                <p:dataTable id="t2" paginator="true" rows="15" binding="#{shoppingMallManagedBean.dataTable}" style="border: solid 2px black;"
+                <p:dataTable  id="v1" paginator="true" rows="15" binding="#{shoppingMallManagedBean.dataTable}" style="border: solid 2px black;"
                               value="#{shoppingMallManagedBean.contractList}" var="contractRecord">
 
                     <p:column id="TenantColumn" filterBy="#{contractRecord.tenant}"   
@@ -56,6 +55,13 @@
                         <h:outputText value="#{contractRecord.dateOfExecution.time}" styleClass="date"> <f:convertDateTime pattern="dd-MM-yyyy" />
                         </h:outputText>   
                     </p:column>
+                    
+                     <p:column id="DateExpired"    
+                              headerText="Status"> 
+
+                         <h:outputText value="#{contractRecord.contractExpiry?'Expired':'Valid'}">
+                        </h:outputText>   
+                    </p:column>
 
 
                     <p:column headerText="Terminate a Contract">  
@@ -75,29 +81,12 @@
                    <p:panel>
                     <p:dialog id="dialogContract" header="Contract" modal="false" showEffect="fade" hideEffect="fade" widgetVar="dlg">  
                         <h:panelGrid columns="2" id="display">                        
-                            <h:outputText value="Contract Type: #{contractRecord.contractType}" />  
-                            <p:column>
-                            <h:outputText value="Date Of Expiry: "/> 
-                            <h:outputText value="#{contractRecord.dateOfExpiry.time}" styleClass="date"> <f:convertDateTime pattern="dd-MM-yyyy" />                              
-                            </h:outputText> 
-                            </p:column>
-                            <h:outputText value="Landlord: #{contractRecord.landlord}" /> 
-                            <h:outputText value="Landlord Contact: #{contractRecord.landlordContact}" /> 
-                            <h:outputText value="Shopping Center: #{contractRecord.nameOfShoppingCenter}" /> 
-                            <h:outputText value="Tenant: #{contractRecord.tenant}" /> 
-                        
-                            <h:outputText value="Tenant Contact: #{contractRecord.tenantContact}" />
-                            <h:outputText value="Tenant Address: #{contractRecord.tenantAddress}" /> 
-                            <h:outputText value="Tenant's ID: #{contractRecord.identityCard}" /> 
+                            <h:outputText value="Do you wish to terminate the contract?" />  
                            
-                            <h:outputText value="Cateogry: #{contractRecord.purpose}" /> 
-                            <h:outputText value="Minimum Rent:$ #{contractRecord.rentRate}" /> 
-                            <h:outputText value="Monthly Rent Rate:$ #{contractRecord.rentRate}" /> 
-                            <h:outputText value="Upfront Rental Deposit:$ #{contractRecord.upfrontRentalDeposit}" />
                         </h:panelGrid>  
                          <f:facet name="footer">
-                            <p:commandButton id="terminate" value="Terminate The Contract" update=":form2:t2 growl" 
-                                             actionListener="#{shoppingMallManagedBean.terminateContract}" onclick="dlg.hide();"/>
+                            <p:commandButton id="terminate" value="Terminate The Contract" update=":form2:v1" 
+                                             actionListener="#{shoppingMallManagedBean.terminateContract}" oncomplete="dlg.hide()"/>
                         </f:facet>
                     </p:dialog> 
                     
