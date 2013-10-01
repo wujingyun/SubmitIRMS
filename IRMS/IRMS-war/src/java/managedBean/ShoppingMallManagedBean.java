@@ -3,8 +3,8 @@
  * and open the template in the editor.
  */
 package managedBean;
-import ejb.UserLogBean;//added for logging 
-import ejb.AdminUserBean;//added for logging
+import ejb.UserLogBeanRemote;//added for logging 
+import ejb.AdminUserBeanRemote;//added for logging
 import ejb.ContractBeanRemote;
 import ejb.ManageCatalogBeanRemote;
 import ejb.ManageMallSpaceBeanRemote;
@@ -51,9 +51,9 @@ public class ShoppingMallManagedBean implements Serializable {
     @EJB
     ManageCatalogBeanRemote mcbr;
     @EJB//added for logging 
-    AdminUserBean aub;//added for logging 
+    AdminUserBeanRemote aub;//added for logging 
     @EJB//added for logging 
-    UserLogBean ulb;//added for logging 
+    UserLogBeanRemote ulb;//added for logging 
     private UserLog ul;//added for logging 
     private UserAccount ua;//added for logging 
     private String ContractType;
