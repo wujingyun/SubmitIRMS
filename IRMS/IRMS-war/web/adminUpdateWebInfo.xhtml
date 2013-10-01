@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./templet/adminTemplet.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="center">
+           <h:form>  
+  <p:selectOneMenu id="firstimage" value="#{WebManagedBean.firstimage}" required="true" 
+                                             requiredMessage="Select first image">  
+                                <f:selectItem itemLabel="Select Division" itemValue="" />  
+                                <f:selectItems value="#{loginBean.images}" />  
+                                
+                            </p:selectOneMenu>  
+        
+    <p:selectOneMenu id="secondimage" value="#{WebManagedBean.secondimage}" required="true" 
+                                             requiredMessage="Select second image">  
+                                <f:selectItem itemLabel="Select Division" itemValue="" />  
+                                <f:selectItems value="#{loginBean.images}" />  
+                                
+                            </p:selectOneMenu>  
+                <p:selectOneMenu id="thirdimage" value="#{WebManagedBean.secondimage}" required="true" 
+                                             requiredMessage="Select third image">  
+                                <f:selectItem itemLabel="Select Division" itemValue="" />  
+                                <f:selectItems value="#{loginBean.images}" />  
+                                
+                            </p:selectOneMenu>  
+                <p:selectOneMenu id="forthimage" value="#{WebManagedBean.secondimage}" required="true" 
+                                             requiredMessage="Select forth image">  
+                                <f:selectItem itemLabel="Select Division" itemValue="" />  
+                                <f:selectItems value="#{loginBean.images}" />  
+                                
+                            </p:selectOneMenu>  
+               
+           </h:form>
+                
+    </ui:define>
+
+</ui:composition>

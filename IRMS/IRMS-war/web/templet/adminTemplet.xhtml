@@ -10,7 +10,7 @@
             <f:facet name="first">
                 <meta http-equiv="X-UA-Compatible" content="EmulateIE8" />
                 <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
-                <title>Customer Relationship Management</title>
+                <title>Coral Island Resort - Admin Portal</title>
             </f:facet>
 
             <link type="text/css" rel="stylesheet" href="./resources/css/default.css" />
@@ -25,6 +25,10 @@
                 .ui-layout-north .ui-layout-unit-content {
                     overflow:visible !important;
                 }
+                
+                .ui-top {
+    background-image: none;
+    background-color: #E0F8F7; }
             </style>
 
 
@@ -41,8 +45,9 @@
 
             <p:layout fullPage="true" >
 
-                <p:layoutUnit id="top" position="north" size="50">
-
+                <p:layoutUnit id="top" position="north" size="50" styleClass="ui-top">
+                    <div class="ui-top">
+                    </div>
                                     <p:menubar>
                         <p:submenu label="Account Management" icon="ui-icon-document">
                           
@@ -81,11 +86,11 @@
                         </p:tab>
 
                         <p:tab title="Menu 2">
-                            <h:outputText value="Menu 2 Content" />
+                            <h:outputText value="Admin Menu1" />
                         </p:tab>
 
                         <p:tab title="Menu 3">
-                            <h:outputText value="Menu 3 Content" />
+                            <h:outputText value="Admin Menu2" />
                         </p:tab>
                     </p:accordionPanel>
                 </p:layoutUnit>
