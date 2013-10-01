@@ -7,15 +7,15 @@ package managedBean;
 import ejb.RoomServiceBeanRemote;
 import entity.Room;
 import entity.RoomService;
+import entity.RoomServiceOrder;
 import exception.ExistException;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import org.primefaces.event.RowEditEvent;
@@ -25,7 +25,7 @@ import org.primefaces.event.RowEditEvent;
  * @author Yang Zhennan
  */
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class RoomServiceManagedBean implements Serializable{
         
     @EJB
@@ -36,7 +36,7 @@ public class RoomServiceManagedBean implements Serializable{
     private RoomService newService= new RoomService();
     private RoomService selectedService;
     private List<RoomService> selectedServices;
-    private List<RoomService> selectedServicesTemp;
+    private List<RoomServiceOrder> orders;
     private Long accBillId;
     private double total=0;
 
@@ -49,6 +49,7 @@ public class RoomServiceManagedBean implements Serializable{
     @PostConstruct
     public void init() throws ExistException{
         this.services=serviceBean.getRoomServices(hotelName);
+        this.orders=serviceBean.getRoomServiceOrders(hotelName);
     }
     
     public String reinit(){
@@ -56,52 +57,25 @@ public class RoomServiceManagedBean implements Serializable{
         return null;
     }
     
-    public void copySelectedServices(ActionEvent event)
-    {
-        System.err.println("copySelectedServices");
-        selectedServicesTemp = new ArrayList<RoomService>();
-        
-        for(RoomService rs:selectedServicesTemp)
-        {
-            RoomService tempRS = new RoomService();
-            tempRS.setPrice(rs.getPrice());
-            tempRS.setQuantity(rs.getQuantity());
-            selectedServicesTemp.add(tempRS);
-        }
-    }
-    
     public void createService(ActionEvent event) throws ExistException{
+        //if(newService.getName()==null) System.out.println("service name is null");
+        //System.out.println(newService.getName()+" "+newService.getDescription()+ " "+ newService.getPrice());
         serviceBean.addRoomService(hotelName,newService.getName(), newService.getDescription(), newService.getPrice());
         services.add(newService);
     }
     
     public void createServiceOrder(ActionEvent event) throws ExistException{
-        serviceBean.createRoomServiceOrder(accBillId, selectedServices);
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Room Service Order has been created!",""));
-        this.setTotal(0);
+        //System.out.println(selectedServices.size());
+        serviceBean.createRoomServiceOrder(accBillId, selectedServices, hotelName);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Room Service Order has been created!",""));
+        this.total=0;
     }
-    
-    public void calculateTotal(){
-        System.err.println("calculateTotal");
-        for(int i=0; i<selectedServicesTemp.size(); i++){
-            
-            if(selectedServicesTemp != null)
-                if(selectedServicesTemp.get(i) == null) System.err.println("selectedServicesTemp.get(i) is null");
-            else
-                System.err.println("selectedServicesTemp is null");
-            
-            System.err.println("selectedServicesTemp.get(i).getPrice(): " + selectedServicesTemp.get(i).getPrice());
-            System.err.println("selectedServicesTemp.get(i).getQuantity(): " + selectedServicesTemp.get(i).getQuantity());
-            total=total+selectedServicesTemp.get(i).getPrice()*selectedServicesTemp.get(i).getQuantity();
-        }
-        
-        System.err.println("total: " + total);
-    }
-    
+
     public void deleteService(ActionEvent event) throws ExistException {
         try {
             //String hotelName=FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("selectedHotel");
             //System.out.println(hotelName);
+            //System.out.println(selectedService.getName());
             if(selectedService==null){
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Please select a room service", ""));
             }
@@ -169,7 +143,7 @@ public class RoomServiceManagedBean implements Serializable{
     public void setSelectedService(RoomService selectedService) {
         this.selectedService = selectedService;
     }
-
+    
     public List<RoomService> getSelectedServices() {
         return selectedServices;
     }
@@ -177,7 +151,7 @@ public class RoomServiceManagedBean implements Serializable{
     public void setSelectedServices(List<RoomService> selectedServices) {
         this.selectedServices = selectedServices;
     }
-
+    
     public Long getAccBillId() {
         return accBillId;
     }
@@ -194,13 +168,12 @@ public class RoomServiceManagedBean implements Serializable{
         this.total = total;
     }
 
-    public List<RoomService> getSelectedServicesTemp() {
-        return selectedServicesTemp;
+    public List<RoomServiceOrder> getOrders() {
+        return orders;
     }
 
-    public void setSelectedServicesTemp(List<RoomService> selectedServicesTemp) {
-        this.selectedServicesTemp = selectedServicesTemp;
+    public void setOrders(List<RoomServiceOrder> orders) {
+        this.orders = orders;
     }
-    
     
 }

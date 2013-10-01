@@ -19,6 +19,8 @@ public class RoomService implements Serializable {
     @Id
     private String name;
     @ManyToOne
+    private RoomServiceOrder roomServiceOrder;
+    @ManyToOne
     private Hotel hotel;
     private String description;
     private Integer quantity;
@@ -95,6 +97,14 @@ public class RoomService implements Serializable {
     @Override
     public String toString() {
         return "entity.RoomService[ id=" + name + " ]";
+    }
+
+    public RoomServiceOrder getRoomServiceOrder() {
+        return roomServiceOrder;
+    }
+
+    public void setRoomServiceOrder(RoomServiceOrder roomServiceOrder) {
+        this.roomServiceOrder = roomServiceOrder;
     }
     
 }

@@ -7,6 +7,7 @@ package entity;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,7 +26,8 @@ public class RoomServiceOrder implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToMany
+    private String hotelName;
+    @OneToMany(mappedBy="roomServiceOrder")
     private List<RoomService> roomServices;
     @ManyToOne
     private AccommodationBill accommodationBill;
@@ -34,7 +36,7 @@ public class RoomServiceOrder implements Serializable {
     private double total;
 
     public RoomServiceOrder() {
-    }
+    }  
     
     public void create(){
         this.setOrderTime(Calendar.getInstance());
@@ -69,6 +71,14 @@ public class RoomServiceOrder implements Serializable {
 
     public void setTotal(double total) {
         this.total = total;
+    }
+
+    public String getHotelName() {
+        return hotelName;
+    }
+
+    public void setHotelName(String hotelName) {
+        this.hotelName = hotelName;
     }
     
     public Long getId() {

@@ -9,10 +9,12 @@ import entity.Hotel;
 import entity.RoomService;
 import entity.RoomServiceOrder;
 import exception.ExistException;
+import java.util.Calendar;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -76,7 +78,7 @@ public class RoomServiceBean implements RoomServiceBeanRemote {
             throw new ExistException("ROOM SERVICE NOT EXIST.");
         }
         hotel.getRoomServices().remove(roomService);
-        hotel.setRoomServices(hotel.getRoomServices());
+        //hotel.setRoomServices(hotel.getRoomServices());
         em.remove(roomService);
         em.flush();
     }
@@ -92,15 +94,35 @@ public class RoomServiceBean implements RoomServiceBeanRemote {
     }
     
     @Override
-    public void createRoomServiceOrder(Long accommodationBillId, List<RoomService> selectedServices)throws ExistException{
+    public List<RoomServiceOrder> getRoomServiceOrders(String hotelName) throws ExistException {
+        hotel = em.find(Hotel.class, hotelName);
+        if (hotel == null) {
+            throw new ExistException("HOTEL NOT EXIST.");
+        }
+        Query q=em.createQuery("SELECT r FROM RoomServiceOrder r WHERE r:hotelName=:hotelName");
+        q.setParameter("hotelName", hotelName);
+        return q.getResultList();
+    }
+    
+    @Override
+    public void createRoomServiceOrder(Long accommodationBillId, List<RoomService> selectedServices, String hotelName)throws ExistException{
         accommodationBill=em.find(AccommodationBill.class, accommodationBillId);
         if(accommodationBill==null){
             throw new ExistException("ACCOMMODATION BILL NOT EXIST.");
         }
         serviceOrder=new RoomServiceOrder();
-        serviceOrder.create();
-        accommodationBill.getRoomServiceOrders().add(serviceOrder);
+        serviceOrder.setOrderTime(Calendar.getInstance());
         serviceOrder.setRoomServices(selectedServices);
+        serviceOrder.setHotelName(hotelName);
+        //System.out.println(serviceOrder.getRoomServices().size());
+        double total=0;
+        for(int i=0; i<serviceOrder.getRoomServices().size(); i++){
+            total=total+serviceOrder.getRoomServices().get(i).getPrice()*serviceOrder.getRoomServices().get(i).getQuantity();
+        }
+        serviceOrder.setTotal(total);
+        //System.out.println("Total"+serviceOrder.getTotal());
+        serviceOrder.setAccommodationBill(accommodationBill);
+        accommodationBill.getRoomServiceOrders().add(serviceOrder);
         em.persist(serviceOrder);
     }
 

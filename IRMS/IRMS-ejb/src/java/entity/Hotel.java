@@ -28,6 +28,7 @@ public class Hotel implements Serializable {
     private String address;
     private String telNumber;
     private String description;
+    private String url;
     private Integer capacity;
     private double overbookRate;
     private ArrayList<OverbookLimit> overbookLimits=new ArrayList();
@@ -267,5 +268,13 @@ public class Hotel implements Serializable {
     @Override
     public String toString() {
         return "entity.Hotel[ id=" + name + " ]";
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }
