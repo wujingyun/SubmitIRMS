@@ -115,6 +115,9 @@ public class ManageMallSpaceBean implements ManageMallSpaceBeanRemote {
         if (totalArea > maxArea) {
             throw new MaxQuotaException(MaxQuotaException.getINSUFFICIENT_SPACE());
         }
+        if(unitSpace<5)
+            throw new MaxQuotaException(MaxQuotaException.getINSUFFICIENT_SPACE());
+       
         unitEntity = new Unit();
         unitEntity.createUnit(unitNo, unitSpace);
 

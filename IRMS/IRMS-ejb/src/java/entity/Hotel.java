@@ -44,7 +44,8 @@ public class Hotel implements Serializable {
     private Collection<ConciergeOrder> conciergeOrders = new ArrayList();
     @OneToMany(mappedBy = "hotel")
     private Collection<DiscountScheme> discountSchemes = new ArrayList();
-
+    @OneToMany(mappedBy = "hotel")
+    private Collection<Staff> staffMembers = new ArrayList();
     public Hotel() {
     }
 
@@ -267,4 +268,14 @@ public class Hotel implements Serializable {
     public String toString() {
         return "entity.Hotel[ id=" + name + " ]";
     }
+
+    public Collection<Staff> getStaffMembers() {
+        return staffMembers;
+    }
+
+    public void setStaffMembers(Collection<Staff> staffMembers) {
+        this.staffMembers = staffMembers;
+    }
+    
+    
 }

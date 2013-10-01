@@ -107,6 +107,7 @@ public class ContractBean implements ContractBeanRemote {
             tenant     = new ShopOwner();
             tenantRecord = new TenantRecordEntity();
             System.out.println("sign contract years: "+ yearsToRenew);
+        if(Tenant==null) throw new ExistException("No tenant information was provided！");
         if(UnitAvailabilityCheck(UnitNo) ==false)
             throw new ExistException("The unit has been taken！");
            
