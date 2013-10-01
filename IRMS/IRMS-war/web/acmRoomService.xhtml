@@ -159,7 +159,8 @@
                                 </p:column>  
 
                                 <f:facet name="footer">  
-                                    <p:commandButton id="viewSelectedServices" value="View Selected Services" icon="ui-icon-search"  
+                                    <p:commandButton id="viewSelectedServices" value="View Selected Services" icon="ui-icon-search"
+                                                     actionListener="#{roomServiceManagedBean.copySelectedServices}"
                                                      update=":tabs:formDialogCreateRoomServiceOrder:orderList" onclick="serviceDialog.show();"/>  
                                 </f:facet>
                             </p:dataTable>
@@ -173,7 +174,7 @@
                             <p:outputLabel>Please Enter Accommodation Bill ID: </p:outputLabel><br></br>
                             <p:inputText value="#{roomServiceManagedBean.accBillId}"></p:inputText>
                             <br></br>
-                            <p:dataTable id="orderList" value="#{roomServiceManagedBean.selectedServices}" var="selectedService">  
+                            <p:dataTable id="orderList" value="#{roomServiceManagedBean.selectedService}" var="selectedService">  
                                 <f:facet name="header">  
                                     #{roomServiceManagedBean.hotelName} Room Service Order
                                 </f:facet>
@@ -188,7 +189,7 @@
 
                                 <p:column headerText="Quantity">
                                     <p:inputText value="#{selectedService.quantity}">
-                                        <p:ajax update="total" listener="#{roomServiceManagedBean.calculateTotal}" process="total"/>
+                                        <p:ajax event="keyup" update="total" listener="#{roomServiceManagedBean.calculateTotal}" />
                                     </p:inputText>
                                 </p:column>
                                 

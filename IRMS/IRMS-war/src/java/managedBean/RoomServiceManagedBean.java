@@ -9,12 +9,13 @@ import entity.Room;
 import entity.RoomService;
 import exception.ExistException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import org.primefaces.event.RowEditEvent;
@@ -24,7 +25,7 @@ import org.primefaces.event.RowEditEvent;
  * @author Yang Zhennan
  */
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class RoomServiceManagedBean implements Serializable{
         
     @EJB
@@ -35,6 +36,7 @@ public class RoomServiceManagedBean implements Serializable{
     private RoomService newService= new RoomService();
     private RoomService selectedService;
     private List<RoomService> selectedServices;
+    private List<RoomService> selectedServicesTemp;
     private Long accBillId;
     private double total=0;
 
@@ -54,6 +56,20 @@ public class RoomServiceManagedBean implements Serializable{
         return null;
     }
     
+    public void copySelectedServices(ActionEvent event)
+    {
+        System.err.println("copySelectedServices");
+        selectedServicesTemp = new ArrayList<RoomService>();
+        
+        for(RoomService rs:selectedServicesTemp)
+        {
+            RoomService tempRS = new RoomService();
+            tempRS.setPrice(rs.getPrice());
+            tempRS.setQuantity(rs.getQuantity());
+            selectedServicesTemp.add(tempRS);
+        }
+    }
+    
     public void createService(ActionEvent event) throws ExistException{
         serviceBean.addRoomService(hotelName,newService.getName(), newService.getDescription(), newService.getPrice());
         services.add(newService);
@@ -66,10 +82,20 @@ public class RoomServiceManagedBean implements Serializable{
     }
     
     public void calculateTotal(){
-        
-        for(int i=0; i<selectedServices.size(); i++){
-            total=total+selectedServices.get(i).getPrice()*selectedServices.get(i).getQuantity();
+        System.err.println("calculateTotal");
+        for(int i=0; i<selectedServicesTemp.size(); i++){
+            
+            if(selectedServicesTemp != null)
+                if(selectedServicesTemp.get(i) == null) System.err.println("selectedServicesTemp.get(i) is null");
+            else
+                System.err.println("selectedServicesTemp is null");
+            
+            System.err.println("selectedServicesTemp.get(i).getPrice(): " + selectedServicesTemp.get(i).getPrice());
+            System.err.println("selectedServicesTemp.get(i).getQuantity(): " + selectedServicesTemp.get(i).getQuantity());
+            total=total+selectedServicesTemp.get(i).getPrice()*selectedServicesTemp.get(i).getQuantity();
         }
+        
+        System.err.println("total: " + total);
     }
     
     public void deleteService(ActionEvent event) throws ExistException {
@@ -166,6 +192,14 @@ public class RoomServiceManagedBean implements Serializable{
 
     public void setTotal(double total) {
         this.total = total;
+    }
+
+    public List<RoomService> getSelectedServicesTemp() {
+        return selectedServicesTemp;
+    }
+
+    public void setSelectedServicesTemp(List<RoomService> selectedServicesTemp) {
+        this.selectedServicesTemp = selectedServicesTemp;
     }
     
     
