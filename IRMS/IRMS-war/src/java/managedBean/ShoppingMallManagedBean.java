@@ -255,15 +255,16 @@ public class ShoppingMallManagedBean implements Serializable {
             System.err.println("create the contract!");
        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
        long userId = (Long)request.getSession().getAttribute("userId");
-       
+     
        ulb.addLog(userId, aub.getUserById(userId).getUserName(), "Create Contract");
+       System.out.println("add user log====================="+userId+aub.getUserById(userId).getUserName());
             cbr.signContract(ContractType, Landlord, Tenant, IdentityCard,
                     TenantTradeName, getSelectedUnits(), NameOfShoppingCenter,
                     Purpose, MinimumRent, RentRate, TenantAddress, LandlordContact,
                     TenantContact, upfrontRentalDeposit, getDate(), yearsToRenew);
             
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                    "New Contract created successfully", ""));
+                    "New Contract created successfully", "Your action is recorded in the system"));
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "An error has occurred while creating the new contract: " + ex.getMessage(), ""));
@@ -277,9 +278,13 @@ public class ShoppingMallManagedBean implements Serializable {
             cbr.reNewContract(MinimumRent, RentRate,
                     upfrontRentalDeposit, getContractRecord(), yearsToRenew);
             this.contractList = cbr.getContractList();
-            
+             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+       long userId = (Long)request.getSession().getAttribute("userId");
+       
+       ulb.addLog(userId, aub.getUserById(userId).getUserName(), "Renew Contract");
+       System.out.println("add user log=====================");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                    "Contract has been renewed successfully", ""));
+                    "Contract has been renewed successfully", "Your action is recorded in the system"));
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "An error has occurred while renewing the new contract: " + ex.getMessage(), ""));
@@ -291,8 +296,13 @@ public class ShoppingMallManagedBean implements Serializable {
 
             cbr.terminateContract(getContractRecord().getId());
             this.contractList = cbr.getContractList();
+              HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+       long userId = (Long)request.getSession().getAttribute("userId");
+       
+       ulb.addLog(userId, aub.getUserById(userId).getUserName(), "Terminate Contract");
+       System.out.println("add user log=====================");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                    "Contract has been terminated successfully", ""));
+                    "Contract has been terminated successfully", "Your action is recorded in the system"));
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "An error has occurred while terminating the new contract: " + ex.getMessage(), ""));

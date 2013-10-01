@@ -63,7 +63,7 @@ public class AdminUserBean implements AdminUserBeanRemote {
            Query q = em.createQuery("SELECT ua FROM UserAccount ua where ua.userName=?1");
          q.setParameter(1,username);
       
-        System.out.println( " find user result=========================================================="+q.getResultList().size());
+        System.out.println( " find user first=========================================================="+q.getResultList().size());
         if(q.getResultList().size()!=0) {
                for (Object o : q.getResultList()) {
              user = (UserAccount) o;
@@ -78,14 +78,14 @@ public class AdminUserBean implements AdminUserBeanRemote {
 
 @Override
   public String getUserRole(String username) {
-      long roleId=0; String roleName="";
-     
+       long  roleId = 0;
+       String  roleName = null;
            Query q1 = em.createQuery("SELECT ua FROM UserAccount ua where ua.userName=?1");
            q1.setParameter(1,username);
           for (Object o : q1.getResultList()) {
              user = (UserAccount) o;
-              roleId=user.getUserrole();
-               System.out.println( " find user role id=========================================================="+roleId);
+            roleId=user.getUserrole();
+               System.out.println( "getUserROle find user role id=========================================================="+roleId);
         }
           Query q2 = em.createQuery("SELECT ur FROM UserRole ur where ur.role_id=?2");
            q2.setParameter(2,roleId);
@@ -93,7 +93,9 @@ public class AdminUserBean implements AdminUserBeanRemote {
              role = (UserRole) o;
               roleName=role.getRole_name();
             
-        } return roleName;
+        } 
+        System.out.println( "getUserROle find user role =========================================================="+roleName);
+        return roleName;
     }
 @Override
 public List<UserAccount> getAllUsers() throws ExistException{

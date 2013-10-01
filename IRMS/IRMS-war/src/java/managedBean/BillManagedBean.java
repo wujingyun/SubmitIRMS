@@ -4,11 +4,15 @@
  */
 package managedBean;
 
+import ejb.AdminUserBeanRemote;
 import ejb.ManageMallSpaceBeanRemote;
 import ejb.ManageTenantBeanRemote;
+import ejb.UserLogBeanRemote;
 import entity.Shop;
 import entity.ShopBill;
 import entity.Unit;
+import entity.UserAccount;
+import entity.UserLog;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,6 +29,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpServletRequest;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.model.chart.PieChartModel;
 import util.dao.TenancyMixData;
@@ -42,6 +47,12 @@ public class BillManagedBean implements Serializable {
     ManageTenantBeanRemote mtb;
     @EJB
     ManageMallSpaceBeanRemote mmsb;
+      @EJB//added for logging 
+    AdminUserBeanRemote aub;//added for logging 
+    @EJB//added for logging 
+    UserLogBeanRemote ulb;//added for logging 
+    private UserLog ul;//added for logging 
+    private UserAccount ua;//added for logging 
     /**
      * Creates a new instance of BillManagedBean
      */
@@ -100,6 +111,15 @@ public class BillManagedBean implements Serializable {
             System.err.println("createBill"+getCommision());
             mtb.creatBill(rentRate,getCommision(), getShopEntity().getShopID());
             this.setBills(bills);
+            
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+       long userId = (Long)request.getSession().getAttribute("userId");
+     
+       ulb.addLog(userId, aub.getUserById(userId).getUserName(), "Generate Bill");
+       System.out.println("add user log====================="+userId+aub.getUserById(userId).getUserName());
+        
+            
+            
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "New bill created successfully", ""));
         } catch (Exception ex) {

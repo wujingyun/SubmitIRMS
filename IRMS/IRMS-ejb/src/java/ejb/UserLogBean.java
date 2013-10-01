@@ -32,7 +32,7 @@ public class UserLogBean implements UserLogBeanRemote {
 @PersistenceContext()
     EntityManager em;
     UserAccount ua;
-      UserLog ul;
+ UserLog ul;
     private UserAccount user;
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
@@ -44,11 +44,15 @@ public void addLog(long userId, String userName, String description){
          if (user==null)   {System.out.println("no such user===================");}
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
- 
+    System.out.println("ADD LOG user==================="+user.getUserName());
         try {
             
             String sendTime = dateFormat.format(calendar.getTime());
-            ul.create(sendTime, userName, description);
+            System.out.println("ADD LOG DATE==================="+sendTime);
+          ul=new UserLog();
+          ul.create(sendTime, userName, description);
+          ul.setUseraccount(user);
+           System.out.println("ul created");
             } catch (Exception e) {
             e.printStackTrace();
         }
@@ -56,10 +60,10 @@ public void addLog(long userId, String userName, String description){
         //contact = new UserContact();
        List <UserLog> logList =(List <UserLog>) user.getUserLog();
        
-       logList.add(ul);
-       user.setUserLog(logList);
+      // logList.add(ul);
+       //user.setUserLog(logList);
         em.flush();//
-        em.persist(user);//persist
+        em.persist(ul);//persist
            System.out.println( " log added =========");
       
     }

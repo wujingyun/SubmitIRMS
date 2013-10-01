@@ -8,6 +8,7 @@ import java.io.Serializable;
 import ejb.AdminUserBeanRemote;
 import entity.AccessRight;
 import entity.UserAccount;
+import exception.ExistException;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.util.ArrayList;
@@ -159,7 +160,7 @@ public class LoginBean implements Serializable {
         //  FacesContext.getCurrentInstance().addMessage(null, msg);  
     }
 
-    public String login(ActionEvent actionEvent) {
+    public String login(ActionEvent actionEvent) throws ExistException {
 
 
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -193,15 +194,19 @@ public class LoginBean implements Serializable {
                 msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome", username);
 
                 user = aub.findUser(username);
+                String role=aub.getUserRole(username);
+                long userId=aub.getUser(username).getId();
+                System.out.println("first ============");
                 aub.setLoginAttempToZero(username);
+                 System.out.println("second ============");
                 aub.updateLoginAttempTime(username);
-                System.out.println("get role ============");
-                request.getSession().setAttribute("role", aub.getUserRole(username));
-                request.getSession().setAttribute("userId", user.getId());
-                System.out.println("get role finish============"+ aub.getUserRole(username)+ user.getId());
-                request.getSession().setAttribute("isLogin", true);
-
-
+                 System.out.println("third ============");
+               request.getSession().setAttribute("isLogin", true);
+                request.getSession().setAttribute("role", role);
+                request.getSession().setAttribute("userId", userId);
+                System.out.println("get role finish============"+ role);
+            
+  System.out.println("get userid finish============"+ userId);
 
                 // success,装入session中
 
@@ -212,7 +217,7 @@ public class LoginBean implements Serializable {
                 this.user = user;
 
 
-                if (aub.getUserRole(username).equalsIgnoreCase("SuperAdmin")) {
+                if (role.equalsIgnoreCase("SuperAdmin")) {
                     try {
 
                         externalContext.redirect("/IRMS-war/admin.xhtml");
@@ -222,17 +227,17 @@ public class LoginBean implements Serializable {
                         e.printStackTrace();
 
                     }
-                } else if (aub.getUserRole(username).contains("spm")) {
+                } else if (role.contains("spm")) {
                     try {
 
-                        externalContext.redirect("/IRMS-war/smpManagement.xhtml");
+                        externalContext.redirect("/IRMS-war/smpMain.xhtml");
 
                     } catch (IOException e) {
 
                         e.printStackTrace();
 
                     }
-                } else if (aub.getUserRole(username).contains("acm")) {
+                } else if (role.contains("acm")) {
                     try {
 
                         externalContext.redirect("/IRMS-war/acmTest.xhtml");
