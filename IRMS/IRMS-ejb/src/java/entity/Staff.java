@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
@@ -26,7 +27,23 @@ public class Staff implements Serializable {
     private Long id;
     @OneToMany(mappedBy = "staff")
     private Collection<RoomReservation> internalReservations = new ArrayList();
-
+    
+    @ManyToOne
+    private Hotel hotel;
+    
+    private String name;
+    private String shift;
+  
+    private String staffRole;//housekeeping(ad-hoc?2shifts routine 2shift +floorNo) receptionist 3shifts;
+    private String mon;
+    private String tue;
+    private String wed;
+    private String thurs;
+    private String fri;
+    private String sat;
+    private String sun;
+    
+    
     public Long getId() {
         return id;
     }
@@ -67,4 +84,94 @@ public class Staff implements Serializable {
     public String toString() {
         return "entity.Staff[ id=" + id + " ]";
     }
+
+    public Hotel getHotel() {
+        return hotel;
+    }
+
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getShift() {
+        return shift;
+    }
+
+    public void setShift(String shift) {
+        this.shift = shift;
+    }
+
+    public String getStaffRole() {
+        return staffRole;
+    }
+
+    public void setStaffRole(String staffRole) {
+        this.staffRole = staffRole;
+    }
+
+    public String getMon() {
+        return mon;
+    }
+
+    public void setMon(String mon) {
+        this.mon = mon;
+    }
+
+    public String getTue() {
+        return tue;
+    }
+
+    public void setTue(String tue) {
+        this.tue = tue;
+    }
+
+    public String getWed() {
+        return wed;
+    }
+
+    public void setWed(String wed) {
+        this.wed = wed;
+    }
+
+    public String getThurs() {
+        return thurs;
+    }
+
+    public void setThurs(String thurs) {
+        this.thurs = thurs;
+    }
+
+    public String getFri() {
+        return fri;
+    }
+
+    public void setFri(String fri) {
+        this.fri = fri;
+    }
+
+    public String getSat() {
+        return sat;
+    }
+
+    public void setSat(String sat) {
+        this.sat = sat;
+    }
+
+    public String getSun() {
+        return sun;
+    }
+
+    public void setSun(String sun) {
+        this.sun = sun;
+    }
+    
+    
 }
