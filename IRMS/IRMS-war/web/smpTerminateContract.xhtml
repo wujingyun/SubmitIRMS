@@ -1,21 +1,15 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this template, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-    <h:body>
-        <f:view> 
-            <h:head>
-                <title>Contract Management Module</title>
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./templet/scmTemplet.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
 
-            </h:head>
+    <ui:define name="center">
+      
             <h:form id="form2"> 
-                <p:dataTable  paginator="true" rows="15" binding="#{shoppingMallManagedBean.dataTable}" style="border: solid 2px black;"
+                <p:dataTable id="t2" paginator="true" rows="15" binding="#{shoppingMallManagedBean.dataTable}" style="border: solid 2px black;"
                               value="#{shoppingMallManagedBean.contractList}" var="contractRecord">
 
                     <p:column id="TenantColumn" filterBy="#{contractRecord.tenant}"   
@@ -79,7 +73,7 @@ and open the template in the editor.
                <h:form id="form1">  
                     <p:growl id="growl" showDetail="true" life="3000" />  
                    <p:panel>
-                    <p:dialog id="dialogContract" header="Contract" modal="true" showEffect="fade" hideEffect="fade" widgetVar="dlg">  
+                    <p:dialog id="dialogContract" header="Contract" modal="false" showEffect="fade" hideEffect="fade" widgetVar="dlg">  
                         <h:panelGrid columns="2" id="display">                        
                             <h:outputText value="Contract Type: #{contractRecord.contractType}" />  
                             <p:column>
@@ -102,13 +96,12 @@ and open the template in the editor.
                             <h:outputText value="Upfront Rental Deposit:$ #{contractRecord.upfrontRentalDeposit}" />
                         </h:panelGrid>  
                          <f:facet name="footer">
-                            <p:commandButton id="terminate" value="Terminate The Contract" update="growl" 
-                                             actionListener="#{shoppingMallManagedBean.terminateContract}"/>
+                            <p:commandButton id="terminate" value="Terminate The Contract" update=":form2:t2 growl" 
+                                             actionListener="#{shoppingMallManagedBean.terminateContract}" onclick="dlg.hide();"/>
                         </f:facet>
                     </p:dialog> 
                     
                 </p:panel>
                </h:form>
-        </f:view>
-    </h:body>
-</html>
+      </ui:define>
+</ui:composition>

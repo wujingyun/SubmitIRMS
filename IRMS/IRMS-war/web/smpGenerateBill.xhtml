@@ -1,28 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this template, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html>
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="./templet/systemAdminPortal.xhtml"
+                template="./templet/scmTemplet.xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core">
 
-    <ui:define name="topInsert">
-
-    </ui:define>
-
-    <ui:define name="leftInsert">
-
-    </ui:define>
-
-    <ui:define name="rightInsert">
-
-    </ui:define>
-
-    <ui:define name="contentInsert">
+    <ui:define name="center">
+        
     <h:form id="form4">
             <p:panel>
                 <p:panelGrid columns="3" >
@@ -106,7 +91,7 @@ and open the template in the editor.
 
         <h:form id="form2">
             <p:growl id="growl" showDetail="true" life="3000" />   
-            <p:dialog id ="dlg1" header="Bill Status" modal="true" showEffect="fade" hideEffect="fade" widgetVar="dlg" width="600px" height="400" resizable="false"> 
+            <p:dialog id ="dlg1" header="Bill Status" modal="false" showEffect="fade" hideEffect="fade" widgetVar="dlg" width="600px" height="400" resizable="false"> 
                 <h:panelGrid columns="2" cellpadding="5">
                     <h:outputText  value="Rent Rate: " />
                     <h:outputText  value="$ #{billManagedBean.rentRate}" />
@@ -127,7 +112,7 @@ and open the template in the editor.
         
          <h:form id="form5">
             <p:growl id="growl" showDetail="true" life="3000" />   
-            <p:dialog id ="dlg5" header="Bill Status" modal="true" showEffect="fade" hideEffect="fade" widgetVar="dlghao" width="300px" height="200" resizable="false"> 
+            <p:dialog id ="dlg5" header="Bill Status" modal="false" showEffect="fade" hideEffect="fade" widgetVar="dlghao" width="300px" height="200" resizable="false"> 
                 <h:panelGrid columns="2" cellpadding="5">
                     <h:outputText  value="Enter the new Commission Rate: " />
                     <p:inputText  value="#{billManagedBean.commisionRate}" size="5"/>
@@ -149,7 +134,7 @@ and open the template in the editor.
         
         <h:form id="form3">
             <p:growl id="growl" showDetail="true" life="3000" />   
-            <p:dialog id ="dlg1" header="Bill Status" modal="true" showEffect="fade" hideEffect="fade" widgetVar="dlgOne" width="600px" height="400px" resizable="false"> 
+            <p:dialog id ="dlg1" header="Bill Status" modal="false" showEffect="fade" hideEffect="fade" widgetVar="dlgOne" width="600px" height="400px" resizable="false"> 
                 <h:panelGrid columns="1" cellpadding="5">
                     <h:outputText  value="Description: " />
                     <p:inputTextarea rows="5" cols="30" counter="counter" maxlength="150" value="#{billManagedBean.description}"     
