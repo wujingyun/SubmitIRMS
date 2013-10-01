@@ -70,7 +70,18 @@ public class UserAccount implements Serializable {
  private long userrole;
      @OneToOne(cascade = {CascadeType.ALL})
     private UserContact contact; 
+ @OneToMany(mappedBy = "useraccount")
+    private Collection<UserLog> UserLog = new ArrayList();
 
+    public Collection<UserLog> getUserLog() {
+        return UserLog;
+    }
+
+    public void setUserLog(Collection<UserLog> UserLog) {
+        this.UserLog = UserLog;
+    }
+ 
+ 
   private String division; 
   private Boolean active;
     public void create(String userName, String password, long userrole, String division,Boolean active) {

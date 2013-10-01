@@ -38,7 +38,7 @@
 
 
                     <p:column headerText="Read Message">
-                        <p:commandButton image="ui-icon ui-icon-search" title="View" actionListener="#{receivedMsgManagedBean.viewContent}" oncomplete="readMsg.show();">
+                        <p:commandButton image="ui-icon ui-icon-search" title="View" update=":form:display" actionListener="#{receivedMsgManagedBean.viewContent}" oncomplete="readMsg.show();">
                         </p:commandButton>
                     </p:column> 
 
@@ -49,7 +49,7 @@
                     <p:column headerText="Delete">
                         <p:commandButton image="ui-icon ui-icon-close"  title="Delete" onclick="confirmation.show();">
                             <p:dialog header="Confirm to delete" modal="false" showEffect="explode" hideEffect="explode" widgetVar="confirmation">
-                                <p:commandButton value="Confirm" actionListener="#{receivedMsgManagedBean.deleteMsg}" update=":form:msgInbox" process=":form:msgInbox" onclick="confirmation.hide();" >
+                                <p:commandButton value="Confirm" actionListener="#{receivedMsgManagedBean.deleteMsg}" update=":form:myMsg" process=":form:msgInbox" onclick="confirmation.hide();" >
                                     <p:collector value="#{receivedMsgManagedBean.selectedMessage}" removeFrom="#{receivedMsgManagedBean.messageList}"/>
                                 </p:commandButton>
                                 <p:commandButton value="Cancel" onclick="confirmation.hide();" type="button"/>

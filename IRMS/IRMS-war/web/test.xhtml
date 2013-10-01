@@ -31,42 +31,7 @@
 
         <h:body>
 
-             <h:form id="form">  
-             <p:growl id="growl" showDetail="true"/>  
-           
-             <p:panel id="reset" header="Change Password" >
-                <h:panelGrid columns="2">
-                    <h:outputText value ="User Name "/>
-                    <h:inputText id="username"
-                                 value ="#{crmResetPasswordManagedBean.username}"/>
-                    <p:message for="username" display="icon"/>
-                    
-                    <h:outputLabel for="oldPass"
-                                   value="Old Password " />
-                    <h:inputText id="oldpass"
-                                 value="${crmResetPasswordManagedBean.oldpass}" />
-                   <p:message for="oldpass" display="icon"/>
-
-                    <h:outputLabel for="newpass1"
-                                   value="New Password1: " />
-                    <h:inputText id="newpass1"
-                                 value="${crmResetPasswordManagedBean.newpass1}" />
-                   <p:message for="newpass2" display="icon"/>
-                   
-                     <h:outputLabel for="newpass2"
-                                   value="New Password2: " />
-                    <h:inputText id="newpass2"
-                                 value="${crmResetPasswordManagedBean.newpass2}" />
-                   <p:message for="newpass2" display="icon"/>
- 
-           <p:commandButton value="Reset" type="reset" />  
-           <p:commandButton value="Submit" update="growl" actionListener="#{crmResetPasswordManagedBean.changePass}" id="btnSubmit"  />  
-  
-                </h:panelGrid>
-            </p:panel>
-             
-        </h:form>
-
+              
         </h:body>
 
     </f:view>

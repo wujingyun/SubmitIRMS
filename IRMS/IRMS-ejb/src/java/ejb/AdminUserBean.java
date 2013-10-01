@@ -113,6 +113,23 @@ public UserAccount getUserById(long employeeId) {
         return user;
     }
 
+
+@Override
+public void updateUserById(long userId, String userName,String email, String phone) throws ExistException {
+        user = em.find(UserAccount.class, userId);
+        if (user==null)   {System.out.println("no such user===================");}
+        //contact = new UserContact();
+        contact=user.getContact();
+        contact.setEmail(email);
+        contact.setPhone(phone);
+        user.setUserName(userName);
+        user.setContact(contact);
+        if (user==null) throw new ExistException("User does not exist!");
+         em.flush();//
+        em.persist(user);//p
+    }
+
+
 @Override
 public UserAccount getUser(String receiverName) throws ExistException{
        Query q = em.createQuery("SELECT ua FROM UserAccount ua where ua.userName=?1");

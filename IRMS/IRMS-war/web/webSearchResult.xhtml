@@ -213,19 +213,17 @@ $( '#dialog' ).dialog( 'open' );
                 <p:panel id="search" header="Search Result" style="height:495px;">
                     <div style="margin-left:50px;margin-right:50px;margin-top:30px;">
                         <p:growl id="msgs" showDetail="true" /> 
-                        <p:dataTable id="employees" value="#{searchResultManagedBean.employees}" var="employeeList" paginator="true" rows="6">
-                            <p:column headerText="Name">
-                                <h:outputText value="#{employeeList.employeeName}"/>
+                        <p:dataTable id="employees" value="#{searchManagedBean.hotels}" var="hotels" paginator="true" rows="6">
+                            <p:column headerText="Hotel ID">
+                                <h:outputText value="#{hotels}"/>
                             </p:column>
-                            <p:column headerText="User ID">
-                                <h:outputText value="#{employeeList.employeeId}"/>
+                            <p:column headerText="Hotel Name">
+                                <h:outputText value="#{hotels}"/>
                             </p:column>
-                            <p:column headerText="Department">
-                                <h:outputText value="#{employeeList.employeeDepartment}"/>
+                            <p:column headerText="Description">
+                                <h:outputText value="#{hotels}"/>
                             </p:column>
-                            <p:column headerText="Email">
-                                <h:outputText value="#{employeeList.employeeEmail}"/>
-                            </p:column>
+                            
                         </p:dataTable>
                     </div>
                 </p:panel>

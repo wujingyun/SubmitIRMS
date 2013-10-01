@@ -225,7 +225,7 @@ public class LoginBean implements Serializable {
                 } else if (aub.getUserRole(username).contains("spm")) {
                     try {
 
-                        externalContext.redirect("/IRMS-war/smpMain.xhtml");
+                        externalContext.redirect("/IRMS-war/smpManagement.xhtml");
 
                     } catch (IOException e) {
 

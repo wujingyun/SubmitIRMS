@@ -20,7 +20,7 @@
     </servlet-mapping>
     <session-config>
         <session-timeout>
-            300
+            20
         </session-timeout>
     </session-config>
     <welcome-file-list>

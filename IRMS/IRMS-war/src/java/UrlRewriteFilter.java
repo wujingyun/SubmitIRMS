@@ -179,7 +179,7 @@ public class UrlRewriteFilter implements Filter {
                 || path.contains("ResetResult.xhtml") || path.contains("crmResetResult.xhtml")
                 || path.contains("customerRegister.xhtml")|| path.contains("logout.xhtml")
                 || path.contains("accessDeniedPage.xhtml")|| path.contains("test.xhtml")
-                || path.startsWith("/javax.faces.resource")
+                || path.startsWith("/javax.faces.resource")|| path.contains("webSearch")
                 || path.startsWith("/resources")  
                 || path.endsWith("/")) {
            System.out.println("doesn't reqiure login=================================");

@@ -51,5 +51,7 @@ public String getUserRole(String username) ;
     public UserAccount getUserById(long employeeId) ;
     public UserAccount getUser(String receiverName) throws ExistException;
 
+    public void updateUserById(long userId, String userName, String email, String phone)throws ExistException;
+
   
 }

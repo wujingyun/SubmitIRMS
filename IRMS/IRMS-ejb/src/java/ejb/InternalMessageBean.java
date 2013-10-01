@@ -36,7 +36,7 @@ public class InternalMessageBean  {
     
    
     public InternalMessage getMessageById(Long messageId) throws ExistException{
-        System.out.println("MessageSessionBean--> get message with id" + messageId);
+        System.out.println("Message----- get message with id" + messageId);
         InternalMessage message = em.find(InternalMessage.class, messageId);
         if(message == null) {
             throw new ExistException("Message does not exist!");
@@ -47,7 +47,7 @@ public class InternalMessageBean  {
 
     public void addMessage(long senderId,long receiverId,String title,String msg,String type)
     {
-        System.out.println("MessageSessionBean-->creating a new message....");
+        System.out.println("Message------creating a new message....");
         InternalMessage message = new InternalMessage();
         
         InternalMessageReceive receiver = new InternalMessageReceive();
@@ -79,7 +79,7 @@ public class InternalMessageBean  {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("MessageSessionBean--> one new message sent: "+ msg + "--from person "+senderId);
+        System.out.println("Message------one new message sent: "+ msg + "--from person "+senderId);
         em.persist(message);
     }
     
@@ -89,7 +89,7 @@ public class InternalMessageBean  {
     public void editMessage(InternalMessage message)
     {
         em.merge(message);
-        System.out.println("MessageSessionBean--> message updated as " + message.getContent());
+        System.out.println("Message------message updated as " + message.getContent());
         em.flush();
     }
     

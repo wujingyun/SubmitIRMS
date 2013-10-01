@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./templet/adminTemplet.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                >
+
+    <ui:define name="center">
+        <h:form prependId="false">  
+  
+    <p:growl id="msgs" />  
+  
+    <p:panel  header="My Profile Editor">  
+        <h:panelGrid columns="2" columnClasses="column" cellpadding="5">  
+            
+            <h:outputText value="Account Name: " />  
+            <p:inplace id="account" editor="true">  
+                <p:inputText value="#{accountEdit.editaccount}"  requiredMessage="Please enter your account."
+                            required="true" label="text"/>  
+            </p:inplace>   
+  
+            <h:outputText value="Email: " />  
+            <p:inplace id="email" editor="true">  
+                <p:inputText value="#{accountEdit.editemail}"  
+                             required="true" label="email" size="40"
+                                     requiredMessage="Please enter your email address."
+                                     validatorMessage="Invalid email format">
+                 <f:validateRegex
+                                pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                </p:inputText>  
+            </p:inplace>  
+  
+            
+            
+            <h:outputText value="Phone " />  
+            <p:inplace id="phone" editor="true">  
+                <p:inputMask label="phone" value="#{accountEdit.editphone}" mask="(+99) 9999-9999" required="true" 
+                                     requiredMessage="Phone is required"/> 
+                
+            </p:inplace>  
+  
+           
+           
+        </h:panelGrid>  
+        
+          <p:separator />  
+                
+                <p:commandButton value="Submit" update="msgs" actionListener="#{accountEdit.update}" id="btnSubmit" />  
+
+    </p:panel>  
+  
+</h:form>  
+    </ui:define>
+</ui:composition>

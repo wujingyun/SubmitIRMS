@@ -3,7 +3,8 @@
  * and open the template in the editor.
  */
 package managedBean;
-
+import ejb.UserLogBean;//added for logging 
+import ejb.AdminUserBean;//added for logging
 import ejb.ContractBeanRemote;
 import ejb.ManageCatalogBeanRemote;
 import ejb.ManageMallSpaceBeanRemote;
@@ -14,6 +15,8 @@ import entity.Shop;
 import entity.ShopOwner;
 import entity.TenantRecordEntity;
 import entity.Unit;
+import entity.UserAccount;//added for logging
+import entity.UserLog;//added for logging
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -47,7 +50,12 @@ public class ShoppingMallManagedBean implements Serializable {
     ManageMallSpaceBeanRemote mmsbr;
     @EJB
     ManageCatalogBeanRemote mcbr;
-    
+    @EJB//added for logging 
+    AdminUserBean aub;//added for logging 
+    @EJB//added for logging 
+    UserLogBean ulb;//added for logging 
+    private UserLog ul;//added for logging 
+    private UserAccount ua;//added for logging 
     private String ContractType;
     private String Landlord;
     private static String Tenant;
@@ -245,11 +253,15 @@ public class ShoppingMallManagedBean implements Serializable {
 
         try {
             System.err.println("create the contract!");
-
+       HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+       long userId = (Long)request.getSession().getAttribute("userId");
+       
+       ulb.addLog(userId, aub.getUserById(userId).getUserName(), "Create Contract");
             cbr.signContract(ContractType, Landlord, Tenant, IdentityCard,
                     TenantTradeName, getSelectedUnits(), NameOfShoppingCenter,
                     Purpose, MinimumRent, RentRate, TenantAddress, LandlordContact,
                     TenantContact, upfrontRentalDeposit, getDate(), yearsToRenew);
+            
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "New Contract created successfully", ""));
         } catch (Exception ex) {
@@ -265,6 +277,7 @@ public class ShoppingMallManagedBean implements Serializable {
             cbr.reNewContract(MinimumRent, RentRate,
                     upfrontRentalDeposit, getContractRecord(), yearsToRenew);
             this.contractList = cbr.getContractList();
+            
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Contract has been renewed successfully", ""));
         } catch (Exception ex) {
