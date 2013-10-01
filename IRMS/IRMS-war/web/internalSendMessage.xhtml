@@ -25,7 +25,7 @@
                     <p:editor value="#{internalMessageManagedBean.msg}" widgetVar="editor" />  
 
                     <h:panelGrid columns="2" >  
-                        <p:commandButton value="Send" image="ui-icon ui-icon-mail-closed"  actionListener="#{internalMessageManagedBean.sendMsg}" />  
+                        <p:commandButton value="Send" image="ui-icon ui-icon-mail-closed" update="msgs"  actionListener="#{internalMessageManagedBean.sendMsg}" />  
                         <p:commandButton value="Reset" type="reset"  image="ui-icon ui-icon-close" />  
                     </h:panelGrid> 
                 </div>

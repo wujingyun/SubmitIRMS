@@ -138,11 +138,11 @@ public class UrlRewriteFilter implements Filter {
             }
         }
         if (!role.contains("customer")) {
-            if (!path.contains("internal")) {
+            if (path.contains("internal")) {
                 return true;
             }
         }
-        
+      
         
         
          if (role.contains("customer")) {

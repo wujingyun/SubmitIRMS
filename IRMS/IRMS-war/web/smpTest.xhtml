@@ -31,57 +31,120 @@
 
         <h:body>
 
-            <h:form id="form">
-                <p:panel id="msgInbox" header="Private Message Inbox" style="height:495px;">
+       
+            <h:form id="miniBarForm">
 
-                    <p:dataTable id="privateMsg" emptyMessage="No Message in your box" value="#{receivedMsgManagedBean.messageList}" selectionMode="single"  rowKey="#{messages.title}" selection="#{receivedMsgManagedBean.selectedMessage}"  var ="messages" paginator="true" rows="5">
+                <p:growl id="messages" showDetail="true"/>
 
-                        <p:column>
-                            <f:facet name="header">Title</f:facet>
-                                #{messages.title}
-                        </p:column>
-
-                        <p:column>
-                            <f:facet name="header">From</f:facet>
-                                #{messages.senderName}
-                        </p:column>
-
-                        <p:column>
-                            <f:facet name="header">Sending Time</f:facet>
-                                #{messages.sendTime}
-                        </p:column>
-
-                        <p:column style="font-weight:bold;">
-                            <f:facet name="header">Status</f:facet>
-                                #{messages.status}
-                        </p:column>
- 
-                        <p:column style="width:70px;">
-                            <f:facet name="header">Read Message</f:facet>
-
-                            <p:commandButton action ="#{receivedMsgManagedBean.viewMsg(messages)}" image="ui-icon ui-icon-search" title="View" />  
-
-                            
-
-                        </p:column>
-
- <p:column headerText="Delete">
-                        <p:commandButton image="ui-icon ui-icon-close" title="Delete" onclick="confirmation.show();">
-                            <p:confirmDialog message="Confirm to delete" showEffect="explode" hideEffect="explode"   header="Confirm" severity="alert" widgetVar="confirmation">
-                                <p:commandButton value="Confirm" actionListener="#{receivedMsgManagedBean.deleteMsg}" update=":form:msgInbox" process=":form:msgInbox" onclick="confirmation.hide();" >
-                                    <p:collector value="#{receivedMsgManagedBean.selectedMessage}" removeFrom="#{receivedMsgManagedBean.messageList}"/>
-                                </p:commandButton>
-                                <p:commandButton value="Cancel" onclick="confirmation.hide();" type="button"/>
-                            </p:confirmDialog>
-                        </p:commandButton>
-                    </p:column> 
-
-                    </p:dataTable>
-
-                   
-
+                <p:panel>
+                    <h:outputLabel for="hotel" value="Select Hotel: *" />  
+                    <h:selectOneMenu id="hotel" value="#{miniBarItemBean.hotelName}" required="true">  
+                        <f:selectItem itemLabel="Select Hotel" itemValue="" />  
+                        <f:selectItems value="#{hotelBean.hotelNames}" />  
+                        <p:ajax update="miniBarItemList" listener="#{miniBarItemBean.handleHotelChange}"/>
+                    </h:selectOneMenu>  
                 </p:panel>
+
+                <p:panel header="Create a new item" id="createItem" toggleable="true" collapsed="true">  
+                    <h:panelGrid id="grid">  
+
+                        <p:row>
+                            <p:column><h:outputLabel value="Item Name : *" for="itemName"></h:outputLabel>
+                                <p:inputText id="itemName" value="#{miniBarItemBean.newItem.name}" required="true" />
+                            </p:column>
+                            <p:column><h:outputLabel value="Price : *" for="itemPrice"></h:outputLabel>  
+                                <p:inputText id="itemPrice" required="true" value="#{miniBarItemBean.newItem.price}"/>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column><h:outputLabel value="Description: *" for="itemDescription"></h:outputLabel>  
+                                <p:inputText id="itemDescription" value="#{miniBarItemBean.newItem.description}" required="true"/>
+                            </p:column>  
+
+                            <p:column><h:outputLabel value="Quantity : *" for="itemQuantity"></h:outputLabel> 
+                                <p:inputText id="itemQuantity" required="true" value="#{miniBarItemBean.newItem.quantity}"/>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:commandButton value="Reset" type="reset"/>  
+                            <p:commandButton id="add" value="Create" update="createItem items"  
+                                             action="#{miniBarItemBean.reinit}" actionListener="#{miniBarItemBean.createItem}">  
+                                <p:collector value="#{miniBarItemBean.newItem}"   
+                                             addTo="#{miniBarItemBean.items}" />  
+                            </p:commandButton>  
+                        </p:row>
+                    </h:panelGrid>  
+                </p:panel>  
+
+                <p:outputPanel id="items">
+
+                    <p:dataTable var="miniBarItem" value="#{miniBarItemBean.items}" id="miniBarItemList" paginator="true" rows="10"
+                                 editable="true" rowKey="#{miniBarItem.name}" selection="#{miniBarItemBean.selectedItem}" selectionMode="single" style="100%"> 
+
+                        <f:facet name="header">  
+                            #{miniBarItemBean.hotelName} Mini Bar Items
+                        </f:facet>
+
+                        <p:ajax event="rowEdit" listener="#{miniBarItemBean.onEdit}" update=":miniBarForm:messages" />  
+                        <p:ajax event="rowEditCancel" listener="#{miniBarItemBean.onCancel}" update=":miniBarForm:messages" />
+
+                        <p:column headerText="Item Name" sortBy="#{miniBarItem.name}" filterBy="#{miniBarItem.name}" filterMatchMode="contains"> 
+                            #{miniBarItem.name}
+                        </p:column>  
+
+                        <p:column headerText="Description" sortBy="#{miniBarItem.description}" filterBy="#{miniBarItem.description}" filterMatchMode="contains">
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{miniBarItem.description}" />  
+                                </f:facet>  
+                                <f:facet name="input">  
+                                    <p:inputText value="#{miniBarItem.description}" style="width:100%"/>  
+                                </f:facet>  
+                            </p:cellEditor> 
+                        </p:column>  
+
+                        <p:column headerText="Price" sortBy="#{miniBarItem.price}" filterBy="#{miniBarItem.price}" filterMatchMode="contains">  
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{miniBarItem.price}" />  
+                                </f:facet>  
+                                <f:facet name="input">  
+                                    <p:inputText value="#{miniBarItem.price}" style="width:100%"/>  
+                                </f:facet>  
+                            </p:cellEditor> 
+                        </p:column>  
+
+                        <p:column headerText="Quantity" sortBy="#{miniBarItem.quantity}" filterBy="#{miniBarItem.quantity}" filterMatchMode="contains"> 
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{miniBarItem.quantity}" />  
+                                </f:facet>  
+                                <f:facet name="input">  
+                                    <p:inputText value="#{miniBarItem.quantity}" style="width:100%"/>  
+                                </f:facet>  
+                            </p:cellEditor> 
+                        </p:column>
+                        
+                        <p:column headerText="Edit">
+                            <p:rowEditor/>
+                        </p:column>
+
+                        <p:column headerText="Delete">
+                            <p:commandButton value="Delete" onclick="cd.show();">
+                                <p:confirmDialog message="Are you sure about deleteing this item?" header="Please confirm this operation!" severity="alert" widgetVar="cd">
+                                    <p:commandButton value="Yes" actionListener="#{miniBarItemBean.deleteItem}" update=":miniBarForm:items :miniBarForm:messages" process=":miniBarForm:items" onclick="cd.hide();" >
+                                        <p:collector value="#{miniBarItemBean.selectedItem}" removeFrom="#{miniBarItemBean.items}"/>
+                                    </p:commandButton>
+                                    <p:commandButton value="No" onclick="cd.hide();" type="button"/>
+                                </p:confirmDialog>
+                            </p:commandButton>
+                        </p:column> 
+                    </p:dataTable>
+                </p:outputPanel>
             </h:form>
+     
         </h:body>
 
     </f:view>

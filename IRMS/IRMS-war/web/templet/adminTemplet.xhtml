@@ -37,7 +37,7 @@
         <script type="text/javascript">
             function goChangePass() {
 
-                window.location = "http://localhost:8080/IRMS-war/changePass.xhtml";
+                window.location = "http://localhost:8080/IRMS-war/internalChangePass.xhtml";
             }
 
         </script>
@@ -52,25 +52,25 @@
                         <p:submenu label="Account Management" icon="ui-icon-document">
                           
                             <p:menuitem value="Create account" url="/register.xhtml" />
-                            <p:menuitem value="Activate account" url="/accountActivate.xhtml"/>
-                          <p:menuitem  value="Deactivate account" url="/accountDeactivate.xhtml"/>
+                            <p:menuitem value="Activate account" url="/adminAccountActivate.xhtml"/>
+                          <p:menuitem  value="Deactivate account" url="/adminAccountDeactivate.xhtml"/>
                     
                         </p:submenu>
 
-                        <p:submenu label="Edit" icon="ui-icon-pencil">
-                            <p:menuitem value="Undo" url="#" icon="ui-icon-arrowreturnthick-1-w"></p:menuitem>
-                            <p:menuitem value="Redo" url="#" icon="ui-icon-arrowreturnthick-1-e"></p:menuitem>
+                         <p:submenu label="Internal Message" icon="ui-icon-document">
+                          
+                            <p:menuitem value="Send Message" url="/internalSendMessage.xhtml" />
+                            <p:menuitem value="Message Box" url="/internalMessageBox.xhtml"/>
+                        
+                    
                         </p:submenu>
 
-                        <p:submenu label="Help" icon="ui-icon-help">
-                            <p:menuitem value="Contents" url="#" />
-                            <p:submenu label="Search" icon="ui-icon-search">
-                                <p:submenu label="Text">
-                                    <p:menuitem value="Workspace" url="#" />
-                                </p:submenu>
-                                <p:menuitem value="File" url="#" />
-                            </p:submenu>
+                         <p:submenu label="Profile" icon="ui-icon-document">
+                          
+                            <p:menuitem value="Edit Profile" url="/adminEditProfile.xhtml" />
+                         
                         </p:submenu>
+
                     </p:menubar>
 
                 </p:layoutUnit>

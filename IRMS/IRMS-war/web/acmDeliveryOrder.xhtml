@@ -1,10 +1,14 @@
-<html xmlns="http://www.w3.org/1999/xhtml" 
-      xmlns:h="http://java.sun.com/jsf/html" 
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui"> 
-    <h:head> 
-    </h:head> 
-    <h:body>
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                 template="./templet/adminTemplet_1.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+   
+
+    <ui:define name="center">
         <f:view>
              <h:form id="c1">
         <p:panel id ="do1" header="Delivery Orders">
@@ -106,5 +110,5 @@
             
             
         </f:view>               
-    </h:body>
-</html>
+   </ui:define>
+</ui:composition>

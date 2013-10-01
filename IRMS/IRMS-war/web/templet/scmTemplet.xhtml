@@ -42,7 +42,7 @@
 <script type="text/javascript">
 	function goChangePass() {
      
-          window.location="http://localhost:8080/IRMS-war/changePass.xhtml" ;
+          window.location="http://localhost:8080/IRMS-war/internalChangePass.xhtml" ;
         } 
         
 </script>
@@ -77,7 +77,14 @@
                         
                         </p:submenu>
                           
+                        <p:submenu label="Internal Message" icon="ui-icon-document">
+                          
+                            <p:menuitem value="Send Message" url="/internalSendMessage.xhtml" />
+                            <p:menuitem value="Message Box" url="/internalMessageBox.xhtml"/>
                         
+                    
+                        </p:submenu>
+
                         
                     </p:menubar>
                 </p:layoutUnit>

@@ -47,7 +47,7 @@ public class BillManagedBean implements Serializable {
     ManageTenantBeanRemote mtb;
     @EJB
     ManageMallSpaceBeanRemote mmsb;
-      @EJB//added for logging 
+      @EJB  //added for logging 
     AdminUserBeanRemote aub;//added for logging 
     @EJB//added for logging 
     UserLogBeanRemote ulb;//added for logging 
@@ -113,10 +113,10 @@ public class BillManagedBean implements Serializable {
             this.setBills(bills);
             
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-       long userId = (Long)request.getSession().getAttribute("userId");
-     
-       ulb.addLog(userId, aub.getUserById(userId).getUserName(), "Generate Bill");
-       System.out.println("add user log====================="+userId+aub.getUserById(userId).getUserName());
+           long userId = (Long)request.getSession().getAttribute("userId");
+     System.err.println(userId+".......................");
+            ulb.addLog(userId, aub.getUserById(userId).getUserName(), "Generate Bill");
+      // Systm.out.println("add user log====================="+userId+aub.getUserById(userId).getUserName());
         
             
             

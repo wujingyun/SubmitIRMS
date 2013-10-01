@@ -10,7 +10,7 @@
             <f:facet name="first">
                 <meta http-equiv="X-UA-Compatible" content="EmulateIE8" />
                 <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
-                <title>Coral Island Resort - Admin Portal</title>
+                <title>Coral Island Resort - Accomondation</title>
             </f:facet>
 
             <link type="text/css" rel="stylesheet" href="./resources/css/default.css" />
@@ -25,19 +25,24 @@
                 .ui-layout-north .ui-layout-unit-content {
                     overflow:visible !important;
                 }
-                
-                .ui-top {
-    background-image: none;
-    background-color: #E0F8F7; }
             </style>
 
-
+            <script type="text/javascript">
+                function test() {
+// validation here
+                    if (isValidated) {
+                        dlg.show();
+                    }
+                    else
+                        alert('Please fill in the entire form!');
+                }
+            </script>
         </h:head>
 
         <script type="text/javascript">
             function goChangePass() {
 
-                window.location = "http://localhost:8080/IRMS-war/changePass.xhtml";
+                window.location = "http://localhost:8080/IRMS-war/internalChangePass.xhtml";
             }
 
         </script>
@@ -45,34 +50,62 @@
 
             <p:layout fullPage="true" >
 
-                <p:layoutUnit id="top" position="north" size="50" styleClass="ui-top">
-                    <div class="ui-top">
-                    </div>
-                                    <p:menubar>
-                        <p:submenu label="Account Management" icon="ui-icon-document">
-                          
-                            <p:menuitem value="Create account" url="/register.xhtml" />
-                            <p:menuitem value="Activate account" url="/accountActivate.xhtml"/>
-                          <p:menuitem  value="Deactivate account" url="/accountDeactivate.xhtml"/>
-                    
+                <p:layoutUnit id="top" position="north" size="50">
+
+                    <p:menubar>
+                        <p:submenu label="Hotels" icon="ui-icon-document">
+
+                            <p:menuitem value="Hotel List" url="/acmMain.xhtml" />
+
+
                         </p:submenu>
 
-                        <p:submenu label="Edit" icon="ui-icon-pencil">
-                            <p:menuitem value="Undo" url="#" icon="ui-icon-arrowreturnthick-1-w"></p:menuitem>
-                            <p:menuitem value="Redo" url="#" icon="ui-icon-arrowreturnthick-1-e"></p:menuitem>
+                        <p:submenu label="Mini Bar" icon="ui-icon-pencil">
+                            <p:menuitem value="Mini Bar Item" url="/acmMiniBarItem.xhtml" ></p:menuitem>
+
                         </p:submenu>
 
-                        <p:submenu label="Help" icon="ui-icon-help">
-                            <p:menuitem value="Contents" url="#" />
-                            <p:submenu label="Search" icon="ui-icon-search">
-                                <p:submenu label="Text">
-                                    <p:menuitem value="Workspace" url="#" />
-                                </p:submenu>
-                                <p:menuitem value="File" url="#" />
-                            </p:submenu>
+                        <p:submenu label="Reservation"  >
+                            <p:menuitem value="Make Reservation" url="/acmReservation.xhtml"  />
+                            <p:menuitem value=" Check In/Out" url="#"  />
+
+                        </p:submenu>
+
+
+
+                        <p:submenu label="Room Service"  >
+                            <p:menuitem value="create concierge order" url="/acmRoomService.xhtml"  />
+
+                        </p:submenu>
+
+                        <p:submenu label="DiscountScheme" icon="ui-icon-document">
+
+                            <p:menuitem value="DiscountScheme" url="/acmDiscountScheme.xhtml" />
+
+                        </p:submenu>
+                        <p:submenu label="Logbook" icon="ui-icon-document">
+
+                            <p:menuitem value="Logbook" url="/acmLogbook.xhtml" />
+
+                        </p:submenu>
+                        <p:submenu label="Complaint" icon="ui-icon-document">
+
+                            <p:menuitem value="Complaint Register" url="/acmComplaintRegister.xhtml" />
+
+                        </p:submenu>
+                        <p:submenu label="Staff Schedule" icon="ui-icon-document">
+
+                            <p:menuitem value="Staff Schedule" url="# "/>
+
+                        </p:submenu>
+                        <p:submenu label="Internal Message" icon="ui-icon-document">
+
+                            <p:menuitem value="Send Message" url="/internalSendMessage.xhtml" />
+                            <p:menuitem value="Message Box" url="/internalMessageBox.xhtml"/>
+
+
                         </p:submenu>
                     </p:menubar>
-
                 </p:layoutUnit>
 
 
@@ -86,16 +119,19 @@
                         </p:tab>
 
                         <p:tab title="Menu 2">
-                            <h:outputText value="Admin Menu1" />
+                            <p:tab title="Menu 2">
+                                <h:outputText value="Menu 2 Content" />
+                            </p:tab>
+                            <h:outputText value="Menu 2 Content" />
                         </p:tab>
 
                         <p:tab title="Menu 3">
-                            <h:outputText value="Admin Menu2" />
+                            <h:outputText value="Menu 3 Content" />
                         </p:tab>
                     </p:accordionPanel>
                 </p:layoutUnit>
 
-                <p:layoutUnit id="right" position="east" size="250" header="My Account" resizable="true" closable="true" collapsible="true"
+                <p:layoutUnit id="right" position="east" size="250" header="Manage Account" resizable="true" closable="true" collapsible="true"
                               style="text-align:center">
 
 
@@ -115,7 +151,7 @@
 
             </p:layout>
 
-          
+
 
         </h:body>
 

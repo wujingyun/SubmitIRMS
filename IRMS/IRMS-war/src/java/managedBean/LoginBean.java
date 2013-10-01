@@ -240,7 +240,7 @@ public class LoginBean implements Serializable {
                 } else if (role.contains("acm")) {
                     try {
 
-                        externalContext.redirect("/IRMS-war/acmTest.xhtml");
+                        externalContext.redirect("/IRMS-war/acmMain.xhtml");
 
                     } catch (IOException e) {
 

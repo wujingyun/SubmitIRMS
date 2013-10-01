@@ -91,7 +91,7 @@ public class InternalLogoutManagedBean implements Serializable {
             if (role.equalsIgnoreCase("SuperAdmin")) {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("admin.xhtml");
             } else if (role.contains("spm")) {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("spmMain.xhtml");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("smpMain.xhtml");
             } else if (role.contains("acm")) {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("acmMain.xhtml");
             }
