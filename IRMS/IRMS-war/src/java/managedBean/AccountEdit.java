@@ -39,8 +39,9 @@ public class AccountEdit implements Serializable {
     @PostConstruct
     public void init() {
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-      //  long uid = (Long) request.getSession().getAttribute("userId");
-        UserAccount edituser = editaub.getUserById(2);
+        long uid = (Long) request.getSession().getAttribute("userId");
+        System.out.println(uid+"account edit get user id ================");
+        UserAccount edituser = editaub.getUserById(uid);
         editaccount = edituser.getUserName();
         editemail = edituser.getContact().getEmail();
         editphone = edituser.getContact().getPhone();
@@ -53,11 +54,12 @@ public class AccountEdit implements Serializable {
     
     public void update(ActionEvent event) throws  ExistException{
           HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-      //  long uid = (Long) request.getSession().getAttribute("userId");
-        UserAccount edituser = editaub.getUserById(2);
-        edituid=2;
+       long uid = (Long) request.getSession().getAttribute("userId");
+        UserAccount edituser = editaub.getUserById(uid);
+        edituid=uid;
+        System.out.println(edituid+"update");
         editaub.updateUserById(edituid, editaccount, editemail, editphone);
-         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Profile updated",""));
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Profile updated",""));
               
     }
 

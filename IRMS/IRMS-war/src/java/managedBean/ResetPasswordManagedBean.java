@@ -16,6 +16,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -88,36 +89,31 @@ FacesMessage msg = null;
     
        public void changePass(ActionEvent event) throws IOException, ExistException {
         FacesMessage msg = null;
+         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+           long userId = (Long)request.getSession().getAttribute("userId");
+           System.err.println(userId+".......................");
+           username= aub.getUserById(userId).getUserName();
+        
         System.out.println("==================================username to reset password" + username);
         systemUser = aub.findUser(username);
-        System.out.println("==================================user id to reset password");
+   
         
         String hashPassword = aub.hashPassword(oldpass);
-        if (systemUser == null) {
-            System.out.println("==================================user is null");
-            // FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Invalid UserName", ""));
-            System.out.println("==================================user is null2");
-
-            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid User Name", username);
-
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            System.out.println("==================================user is null3");
-
-        } else if (!aub.verifyPassword(username, hashPassword)) {
+       if (!aub.verifyPassword(username, hashPassword)) {
             System.out.println("==================================old pass wrong "+hashPassword);
-            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Old Password is wrong", "");
+            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Old Password is wrong", "");
 
             FacesContext.getCurrentInstance().addMessage(null, msg);
             
         } 
         else if ((newpass1.equalsIgnoreCase("")||newpass2.equalsIgnoreCase(""))){
         System.out.println("==================================empty new pass "+newpass1+newpass2);
-            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Empty new password", "");
+            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Empty new password", "");
 
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }else if (newpass1.compareTo(newpass2) != 0) {
               System.out.println("==================================new pass don't match ");
-            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Passwords don't match", "");
+            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Passwords don't match", "");
 
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } else {

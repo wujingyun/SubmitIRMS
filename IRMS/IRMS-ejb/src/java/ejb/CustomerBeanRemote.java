@@ -19,7 +19,7 @@ public interface CustomerBeanRemote {
       // String password, String mobilePhoneCountryCode, String moilePhoneNumber, Integer lotaltyPointBalance);
      
        public void createCustomer(String userName, String password, String firstName, String lastName, String address, String email, 
-       String ageGroup, String gender, String moilePhoneNumber); 
+       String ageGroup, String gender, String moilePhoneNumber,String sq, String answer); 
 
     public String hashPassword(String password);
 

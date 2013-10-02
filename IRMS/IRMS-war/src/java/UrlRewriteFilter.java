@@ -178,7 +178,7 @@ public class UrlRewriteFilter implements Filter {
                 || path.contains("passwordReset.xhtml")|| path.contains("crmPasswordReset.xhtml")
                 || path.contains("ResetResult.xhtml") || path.contains("crmResetResult.xhtml")
                 || path.contains("customerRegister.xhtml")|| path.contains("logout.xhtml")
-                || path.contains("accessDeniedPage.xhtml")|| path.contains("test.xhtml")
+                || path.contains("accessDeniedPage.xhtml")|| path.contains("smpTest.xhtml")
                 || path.startsWith("/javax.faces.resource")|| path.contains("webSearch")
                 || path.startsWith("/resources")  
                 || path.endsWith("/")) {
@@ -190,36 +190,7 @@ public class UrlRewriteFilter implements Filter {
             return false;
         }
     }
-/*
-    private Boolean checkAccessRight(String employeeId, String path) throws ExistException {
-        System.err.println("check access right");
-        if ( path.equals("/error.xhtml") ) {
-            return true;
-        } else {
-            EmployeeEntity employee = employeeManager.getEmployeeById(employeeId);
-            String accessRight = path.replaceAll(".xhtml", "");
-            accessRight = accessRight.substring(1);
 
-            Boolean flag = false;
-            List<RoleEntity> roleList = employee.getRoles();
-            for (RoleEntity role : roleList) {
-                System.out.println("first for loop...");
-                List<FunctionalityEntity> functionalityList = role.getFunctionalities();
-                for (FunctionalityEntity functionality : functionalityList) {
-                    System.err.println("functionality name: " + functionality.getFuncName());
-                    if (accessRight.contains(functionality.getFuncName())) {
-                        flag = true;
-                        System.err.println("flag in:" + flag);
-                        break;
-                    }
-                }
-            }
-
-            System.err.println("flag out:" + flag);
-            return flag;
-        }
-    }
-*/
     /**
      * Return the filter configuration object for this filter.
      */

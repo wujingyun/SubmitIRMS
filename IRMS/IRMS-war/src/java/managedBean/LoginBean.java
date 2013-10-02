@@ -402,7 +402,7 @@ public class LoginBean implements Serializable {
 
             aub.deactivateAcct(deactivateAccountName);
 
-            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Deactivate Successfully", username);
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Deactivate Successfully", "");
 
 
         } else {
@@ -424,7 +424,7 @@ public class LoginBean implements Serializable {
 
             aub.activateAcct(activateAccountName);
 
-            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Activate Successfully", username);
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Activate Successfully", "");
 
 
         } else {

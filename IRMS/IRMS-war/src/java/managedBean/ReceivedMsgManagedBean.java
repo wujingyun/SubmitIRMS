@@ -90,7 +90,11 @@ public class ReceivedMsgManagedBean implements Serializable {
         
 
         messageManager.removeMessage(id, receiverId);
-        selectedMessage = new InternalMessage();
+        //selectedMessage = new InternalMessage();
+        
+        messageList.remove(selectedMessage);
+        
+        System.err.println("messageList.size(): " + messageList.size());
     }
 
     public void View(PhaseEvent event) {

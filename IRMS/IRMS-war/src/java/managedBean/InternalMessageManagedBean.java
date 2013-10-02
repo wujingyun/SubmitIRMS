@@ -89,7 +89,7 @@ public class InternalMessageManagedBean implements Serializable {
             }
 
         
-          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Message Sent Successfully",""));
+          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Message Sent Successfully",""));
                 
        // FacesContext.getCurrentInstance().getExternalContext().redirect("createInternalMsgResult.xhtml");
     }

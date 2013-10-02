@@ -12,47 +12,7 @@
 
                 <p:growl id="messages" showDetail="true"/>
 
-                <p:panel header="Create a new hotel" id="createHotel" toggleable="true" collapsed="true">  
-                    <h:panelGrid id="grid">  
-                        <p:row>
-                            <p:column><h:outputLabel value="Hotel Name : *" for="hotelName"></h:outputLabel>
-                                <p:inputText id="hotelName" value="#{hotelBean.newHotel.name}" required="true" />
-                            </p:column>
-                            <p:column><h:outputLabel value="Address : *" for="hotelAddress"></h:outputLabel>  
-                                <p:inputText id="hotelAddress" required="true" value="#{hotelBean.newHotel.address}"/>
-                            </p:column>
-                        </p:row>
-
-                        <p:row>
-                            <p:column><h:outputLabel value="Contact Number: *" for="hotelContact"></h:outputLabel>  
-                                <p:inputText id="hotelContact" value="#{hotelBean.newHotel.telNumber}" required="true"/>
-                            </p:column>  
-
-                            <p:column><h:outputLabel value="Capacity : *" for="hotelCapacity"></h:outputLabel> 
-                                <p:inputText id="hotelCapacity" required="true" value="#{hotelBean.newHotel.capacity}"/>
-                            </p:column>
-                        </p:row>
-                        
-                        <p:row>
-                            <p:column><h:outputLabel value="Description: *" for="hotelDescription"></h:outputLabel>  
-                                <p:inputText id="hotelDescription" value="#{hotelBean.newHotel.description}" required="true"/>
-                            </p:column>
-                            
-                            <p:column><h:outputLabel value="Overbook Rate: *" for="hotelOverbookRate"></h:outputLabel>  
-                                <p:inputText id="hotelOverbookRate" value="#{hotelBean.newHotel.overbookRate}" required="true"/>
-                            </p:column>
-                        </p:row>
-
-                        <p:row>
-                            <p:commandButton value="Reset" type="reset"/>  
-                            <p:commandButton id="add" value="Create" update="createHotel hotels"  
-                                             action="#{hotelBean.reinit}" actionListener="#{hotelBean.createHotel}">  
-                                <p:collector value="#{hotelBean.newHotel}"   
-                                             addTo="#{hotelBean.hotels}" />  
-                            </p:commandButton>  
-                        </p:row>
-                    </h:panelGrid>  
-                </p:panel>  
+              
 
                 <p:outputPanel id="hotels">
 
@@ -65,8 +25,17 @@
                         <p:ajax event="rowEdit" listener="#{hotelBean.onEdit}" update=":hotelForm:messages" />  
                         <p:ajax event="rowEditCancel" listener="#{hotelBean.onCancel}" update=":hotelForm:messages" />
                         
-                        <p:column headerText="Hotel Name"> 
-                            #{hotel.name}
+                        <p:column headerText="Hotel Display Name"> 
+                            
+                             <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{hotel.name}" />  
+                                </f:facet>  
+                                <f:facet name="input">  
+                                    <p:inputText value="#{hotel.name}" style="width:100%"/>  
+                                </f:facet>  
+                            </p:cellEditor> 
+                          
                         </p:column>  
 
                         <p:column headerText="Address">
@@ -102,46 +71,28 @@
                             </p:cellEditor> 
                         </p:column>
 
-                        
-                        
-                        <p:column headerText="Capacity"> 
+                         <p:column headerText="url"> 
                             <p:cellEditor>  
                                 <f:facet name="output">  
-                                    <h:outputText value="#{hotel.capacity}" />  
+                                    <h:outputText value="#{hotel.url}" />  
                                 </f:facet>  
                                 <f:facet name="input">  
-                                    <p:inputText value="#{hotel.capacity}" style="width:100%"/>  
+                                    <p:inputText value="#{hotel.url}" style="width:100%"/>  
                                 </f:facet>  
                             </p:cellEditor> 
                         </p:column>
                         
                         
+                        
+                        
 
-                        <p:column headerText="Overbook Rate">
-                            <p:cellEditor>  
-                                <f:facet name="output">  
-                                    <h:outputText value="#{hotel.overbookRate}" />  
-                                </f:facet>  
-                                <f:facet name="input">  
-                                    <p:inputText value="#{hotel.overbookRate}" style="width:100%"/>  
-                                </f:facet>  
-                            </p:cellEditor>
-                        </p:column>
+                      
 
                         <p:column headerText="Edit">
                             <p:rowEditor/>
                         </p:column>
 
-                        <p:column headerText="Delete">
-                            <p:commandButton value="Delete" onclick="cd.show();">
-                                <p:confirmDialog message="Are you sure about deleteing this hotel?" header="Please confirm this operation!" severity="alert" widgetVar="cd">
-                                    <p:commandButton value="Yes" actionListener="#{hotelBean.deleteHotel}" update=":hotelForm:hotels :hotelForm:messages" process=":hotelForm:hotels" onclick="cd.hide();" >
-                                        <p:collector value="#{hotelBean.selectedHotel}" removeFrom="#{hotelBean.hotels}"/>
-                                    </p:commandButton>
-                                    <p:commandButton value="No" onclick="cd.hide();" type="button"/>
-                                </p:confirmDialog>
-                            </p:commandButton>
-                        </p:column> 
+                       
                     </p:dataTable>
                 </p:outputPanel>
             </h:form>

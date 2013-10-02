@@ -66,6 +66,10 @@ public class Customer implements Serializable
    
     private String mobilePhoneNumber;
     private Integer loyaltyPointBalance;
+     private String securityQuestion;
+    private String answer;
+    
+    
     private int logginAttemp;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Calendar registrationTimestamp;
@@ -74,7 +78,7 @@ public class Customer implements Serializable
     
     
     public void create(String userName, String password, String firstName, String lastName, String address, String email,  
-            String ageGroup, String gender, String moilePhoneNumber) {
+            String ageGroup, String gender, String moilePhoneNumber, String securityQuestion,String answer) {
        this.setUserName(userName);
        this.setPassword(password);
        this.setFirstName(firstName);
@@ -84,7 +88,32 @@ public class Customer implements Serializable
        this.setAgeGroup(ageGroup);
        this.setGender(gender);
        this.setMobilePhoneNumber(moilePhoneNumber);
-       
+       this.setSecurityQuestion(securityQuestion);
+       this.setAnswer(answer);
+    }
+
+    public Long getId() {
+        return Id;
+    }
+
+    public String getSecurityQuestion() {
+        return securityQuestion;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setId(Long Id) {
+        this.Id = Id;
+    }
+
+    public void setSecurityQuestion(String securityQuestion) {
+        this.securityQuestion = securityQuestion;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 
    

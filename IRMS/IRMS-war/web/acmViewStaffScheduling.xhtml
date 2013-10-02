@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./templet/adminTemplet_1.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <ui:define name="center">
+        <f:view>
+            
+           <h:form id="Main">
+                <p:growl id="msg" showDetail="true" life="3000" />  
+                <p:panel header="Staff Scheduling" style="margin-bottom:10px;">  
+
+                    <p:dataTable  id="t1" paginator="true" rows="15"  binding="#{staffSchedulingManagedBean.dataTable}" style="border: solid 2px black;"
+                                  value="#{staffSchedulingManagedBean.staffList}" var="staff"  >
+                     <p:column id="StaffName" filterBy="#{staff.name}"   
+                                  headerText="Name" footerText="Names"  
+                                  filterMatchMode="contains" > 
+                            <h:outputText value="#{staff.name}">
+
+                            </h:outputText>   
+                        </p:column> 
+                        
+
+                       <p:column headerText="Scheduled Roles">  
+                           <h:outputText value="#{staff.staffRole}">
+
+                            </h:outputText>    
+                        </p:column> 
+                        
+                     
+                        <p:column headerText="Scheduled Shifts">  
+                            <h:outputText value="#{staff.shift}">
+
+                            </h:outputText>
+                        </p:column> 
+                        
+                    <p:column headerText="Scheduled Level">  
+                        <h:outputText value="#{staff.floorLevel}">
+
+                            </h:outputText>
+                        </p:column> 
+                        
+                     <p:column headerText="Scheduled Day">  
+                         <h:outputText value="#{staff.week_day}">
+
+                            </h:outputText> 
+                        </p:column>
+                    </p:dataTable>
+                </p:panel> 
+            </h:form>        
+        </f:view>
+    </ui:define>
+</ui:composition>

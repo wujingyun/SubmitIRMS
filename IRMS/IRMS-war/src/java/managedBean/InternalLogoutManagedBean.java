@@ -83,11 +83,12 @@ public class InternalLogoutManagedBean implements Serializable {
 
     }
 
-    public void goBack() throws IOException 
+    public void goBack(ActionEvent event) throws IOException 
         {
-
+ System.out.println(".............");
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             String role = (String) request.getSession().getAttribute("role");
+            System.out.println(role+".............");
             if (role.equalsIgnoreCase("SuperAdmin")) {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("admin.xhtml");
             } else if (role.contains("spm")) {

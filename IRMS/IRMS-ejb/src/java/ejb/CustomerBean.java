@@ -33,7 +33,7 @@ public class CustomerBean implements CustomerBeanRemote
     
       @Override
   public void createCustomer(String userName, String password, String firstName, String lastName, String address, String email, 
-       String ageGroup, String gender, String moilePhoneNumber)
+       String ageGroup, String gender, String moilePhoneNumber, String sq, String answer)
     {    //cu = new Customer();
         //try{
             Query q = em.createQuery("SELECT c FROM Customer c where c.userName=?1");
@@ -46,7 +46,7 @@ public class CustomerBean implements CustomerBeanRemote
         else {
             cu = new Customer ();
 
-           cu.create(userName, password, firstName, lastName, address, email,ageGroup , gender,moilePhoneNumber);
+           cu.create(userName, password, firstName, lastName, address, email,ageGroup , gender,moilePhoneNumber,sq,answer);
         }
         
             //customer.setPassword(RandomPasswordGenerator.Password());

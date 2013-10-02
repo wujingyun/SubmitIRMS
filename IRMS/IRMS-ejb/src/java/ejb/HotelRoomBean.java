@@ -10,7 +10,9 @@ import entity.Hotel;
 import entity.Logbook;
 import entity.MiniBarItem;
 import entity.Room;
+import entity.UserAccount;
 import exception.ExistException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -52,6 +54,23 @@ public class HotelRoomBean implements HotelRoomBeanRemote {
         em.persist(hotel);
     }
 
+   @Override  
+   public  List<Hotel> getHotelByDescription(String description) {
+        Query q1 = em.createQuery("SELECT ua FROM Hotel ua where ua.description LIKE:custName OR ua.name LIKE:custName2");
+         q1.setParameter("custName", description);
+          q1.setParameter("custName2", description);
+           List <Hotel> hotelList = new ArrayList <Hotel> ();
+           
+          for (Object o : q1.getResultList()) {
+             hotel = (Hotel) o;
+             hotelList.add(hotel);
+             System.out.println( "hotel==========================================================");
+        }
+        
+        return hotelList;
+    }
+    
+    
     @Override
     public void addHotel(String name, String address, String telNumber, String description, Integer capacity, double overbookRate) throws ExistException {
         hotel = em.find(Hotel.class, name);

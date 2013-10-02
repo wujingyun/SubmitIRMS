@@ -7,6 +7,7 @@ package entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -35,17 +36,19 @@ public class Staff implements Serializable {
     private String shift;
   
     private String staffRole;//housekeeping(ad-hoc?2shifts routine 2shift +floorNo) receptionist 3shifts;
-    private String mon;
-    private String tue;
-    private String wed;
-    private String thurs;
-    private String fri;
-    private String sat;
-    private String sun;
+    
+    private String week_day;
+ 
+    private boolean editable;
+    private String floorLevel;
+    
     
     
     public Long getId() {
         return id;
+    }
+    public void createStaff(String name){
+        this.setName(name);
     }
 
     public void setId(Long id) {
@@ -117,61 +120,29 @@ public class Staff implements Serializable {
         this.staffRole = staffRole;
     }
 
-    public String getMon() {
-        return mon;
+    public boolean isEditable() {
+        return editable;
     }
 
-    public void setMon(String mon) {
-        this.mon = mon;
+    public void setEditable(boolean editable) {
+        this.editable = editable;
     }
 
-    public String getTue() {
-        return tue;
+    public String getFloorLevel() {
+        return floorLevel;
     }
 
-    public void setTue(String tue) {
-        this.tue = tue;
+    public void setFloorLevel(String floorLevel) {
+        this.floorLevel = floorLevel;
     }
 
-    public String getWed() {
-        return wed;
+    public String getWeek_day() {
+        return week_day;
     }
 
-    public void setWed(String wed) {
-        this.wed = wed;
+    public void setWeek_day(String week_day) {
+        this.week_day = week_day;
     }
 
-    public String getThurs() {
-        return thurs;
-    }
-
-    public void setThurs(String thurs) {
-        this.thurs = thurs;
-    }
-
-    public String getFri() {
-        return fri;
-    }
-
-    public void setFri(String fri) {
-        this.fri = fri;
-    }
-
-    public String getSat() {
-        return sat;
-    }
-
-    public void setSat(String sat) {
-        this.sat = sat;
-    }
-
-    public String getSun() {
-        return sun;
-    }
-
-    public void setSun(String sun) {
-        this.sun = sun;
-    }
-    
     
 }

@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./templet/adminTemplet_1.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <ui:define name="center">
+        <f:view>
+            <h:form id="Main">
+                <p:growl id="msg" showDetail="true" life="3000" />  
+                <p:panel header="Staff Scheduling" style="margin-bottom:10px;">  
+
+                    <p:dataTable  id="t1" paginator="true" rows="15"  binding="#{staffSchedulingManagedBean.dataTable}" style="border: solid 2px black;"
+                                  value="#{staffSchedulingManagedBean.hotel}" var="hotel"  >
+                        <p:column id="HotelName" filterBy="#{hotel.name}"   
+                                  headerText="Hotel Name" footerText="Names"  
+                                  filterMatchMode="contains" > 
+                            <h:outputText value="#{hotel.name}">
+
+                            </h:outputText>   
+                        </p:column> 
+
+                        <p:column id="telNumber"   
+                                  headerText="Telephone Number" footerText="Number"  
+                                  > 
+                            <h:outputText value="#{hotel.telNumber}">
+
+                            </h:outputText> 
+
+                        </p:column> 
+                        <p:column id="address"   style="width: 80px"  
+                                  headerText="Address " footerText="Address"  
+                                  > 
+                            <h:outputText value="#{hotel.address}">
+
+                            </h:outputText> 
+
+                        </p:column> 
+                        <p:column id="des"  style="width: 30px"  
+                                  headerText="Descriptioin" footerText="Descriptioin"  
+                                  > 
+                            <h:outputText value="#{hotel.description}">
+
+                            </h:outputText>   
+                        </p:column> 
+                        
+                        <p:column id="createStaf"  style="width: 30px"  
+                                  headerText="Create Staff" footerText="Create Staff"> 
+                           <p:column headerText="Create" style="width: 30px">  
+                               <p:commandButton icon="ui-icon-document" actionListener="#{staffSchedulingManagedBean.createStaff}"  oncomplete="dlg.show();"  update=":form2:dlg1"/>  
+                        </p:column> 
+                        </p:column> 
+                         <p:column headerText="View Staff Schedule" style="width: 30px">  
+                            <p:commandButton icon="ui-icon-document" actionListener="#{staffSchedulingManagedBean.editHotelBeta}"/>  
+                        </p:column> 
+
+                        <p:column headerText="Schedule Staff" style="width: 30px">  
+                            <p:commandButton icon="ui-icon-document" actionListener="#{staffSchedulingManagedBean.editHotel}"/>  
+                        </p:column> 
+                    </p:dataTable>
+                </p:panel> 
+            </h:form> 
+            
+            <h:form id="form2">
+                <p:growl id="cmsg" showDetail="true" life="3000" />
+                <p:dialog id ="dlg1" header="Create Staff Record" modal="false" showEffect="fade" hideEffect="fade" widgetVar="dlg" width="600px" height="400" resizable="false">
+                
+                      <h:panelGrid columns ="2" cellpadding ="5">
+                          <p:row>
+                     <p:column><h:outputText value="Name"/></p:column>
+                     </p:row>
+                          <p:row>    
+                     <p:column><p:inputText value="#{staffSchedulingManagedBean.name}" required="true" requiredMessage="Name is required" /></p:column>
+                       </p:row>
+                      </h:panelGrid>
+                     
+                      <h:panelGrid columns ="2" cellpadding ="5">
+                         
+                      <p:row>
+                     <p:column><h:outputText value="Hotel Name: "/></p:column>
+                     </p:row>
+                         <p:row>
+                         <p:selectOneMenu id="shifts" value="#{staffSchedulingManagedBean.hotelNameOnly}" effect="fade" requiredMessage="Hotel Name is required">  
+                        <f:selectItem itemLabel="Select Hotel" itemValue=""/>  
+                        <f:selectItems value="#{staffSchedulingManagedBean.hotelNames}"/>            
+                         </p:selectOneMenu>  
+                         </p:row>
+               
+                     <p:row>
+                      <p:column headerText="Create" style="width: 30px">  
+                          <p:commandButton icon="ui-icon-document"  actionListener="#{staffSchedulingManagedBean.createStaff}" update="cmsg" 
+                                   value="Confirm"/>  
+                        </p:column> 
+                         </p:row>
+                          
+                          <p:row>
+                      <p:column headerText="Cancel" style="width: 30px">  
+                          <p:commandButton icon="ui-icon-close"  update="cmsg" 
+                                    value="Cancel" 
+                                               onclick="dlg.hide();"/>  
+                        </p:column> 
+                         </p:row>
+                     </h:panelGrid>
+                 </p:dialog>
+                
+            </h:form>
+        </f:view>
+    </ui:define>
+</ui:composition>

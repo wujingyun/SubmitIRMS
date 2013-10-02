@@ -9,7 +9,7 @@
     <ui:define name="center">
             
             <h:form id="form1"> 
-                
+                    <p:growl id="growl" showDetail="true" life="3000" />  
                 <p:dataTable  id="b1" paginator="true"  rows="10" binding="#{billManagedBean.dataTable}" style="border: solid 2px black;"
                               value="#{billManagedBean.bills}" var="bills">
                    
@@ -56,14 +56,14 @@
             </h:form>
             
             <h:form id="form2">
-                  <p:growl id="growl" showDetail="true" life="3000" />  
+              
                   <p:dialog header="Bill Payment" showEffect="fade" hideEffect="fade" widgetVar="vb" > 
                    
                      
                             <h:outputText value="Are you sure the bill has been cleared?"/>            
                    
                     <p:commandButton  style="display:block; text-align:center" value="Okay" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" 
-                                      actionListener="#{billManagedBean.changeStatus}" onclick="vb.hide();" update="growl"/>
+                                      actionListener="#{billManagedBean.changeStatus}" onclick="vb.hide();" update=":form1:growl:b1"/>
              
                 </p:dialog>
             </h:form>
