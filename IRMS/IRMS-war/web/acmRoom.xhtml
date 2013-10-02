@@ -8,7 +8,7 @@
 
     
     <ui:define name="center">
-        <f:view>
+         <f:view>
             <h:form id="roomForm">
 
                 <p:growl id="messages" showDetail="true"/>
@@ -30,7 +30,10 @@
                                 <p:inputText id="roomNumber" value="#{roomBean.newRoom.roomNumber}" required="true" />
                             </p:column>
                             <p:column><h:outputLabel value="Type : *" for="roomType"></h:outputLabel>  
-                                <p:inputText id="roomType" required="true" value="#{roomBean.newRoom.type}"/>
+                                <h:selectOneMenu id="roomType" value="#{roomBean.newRoom.type}" required="true">  
+                                    <f:selectItem itemLabel="Standard" itemValue="Standard"/>  
+                                    <f:selectItem itemLabel="Suite" itemValue="Suite"/>  
+                                </h:selectOneMenu> 
                             </p:column>
                         </p:row>
 
@@ -103,41 +106,20 @@
                                 </f:facet>  
                             </p:cellEditor> 
                         </p:column>
-                        <!--
-                        <p:column headerText="Availability" sortBy="#{room.availabilityStatus}" filterBy="#{room.availabilityStatus}" filterMatchMode="contains"> 
-                            <p:cellEditor>  
-                                <f:facet name="output">  
-                                    <h:outputText value="#{room.availabilityStatus}" />  
-                                </f:facet>  
-                                <f:facet name="input">  
-                                    <p:inputText value="#{room.availabilityStatus}" style="width:100%"/>  
-                                </f:facet>  
-                            </p:cellEditor> 
-                        </p:column>
-
-                        <p:column headerText="Housekeeping Status" sortBy="#{room.housekeepingStatus}" filterBy="#{room.housekeepingStatus}" filterMatchMode="contains">
-                            <p:cellEditor>  
-                                <f:facet name="output">  
-                                    <h:outputText value="#{room.housekeepingStatus}" />  
-                                </f:facet>  
-                                <f:facet name="input">  
-                                    <p:inputText value="#{room.housekeepingStatus}" style="width:100%"/>  
-                                </f:facet>  
-                            </p:cellEditor>
-                        </p:column>
-                        -->
+                  
                         <p:column headerText="Edit">
                             <p:rowEditor/>
                         </p:column>
 
                         <p:column headerText="Delete">
                             <p:commandButton value="Delete" onclick="cd.show();">
-                                <p:confirmDialog message="Are you sure about deleteing this room?" header="Please confirm this operation!" severity="alert" widgetVar="cd">
+                                <p:dialog  header="Please confirm this operation!" modal="false" widgetVar="cd">
+                                    <h:outputText value="Are you sure about deleteing this?"/>
                                     <p:commandButton value="Yes" actionListener="#{roomBean.deleteRoom}" update=":roomForm:rooms :roomForm:messages" process=":roomForm:rooms" onclick="cd.hide();" >
                                         <p:collector value="#{roomBean.selectedRoom}" removeFrom="#{roomBean.rooms}"/>
                                     </p:commandButton>
                                     <p:commandButton value="No" onclick="cd.hide();" type="button"/>
-                                </p:confirmDialog>
+                                </p:dialog>
                             </p:commandButton>
                         </p:column> 
                     </p:dataTable>

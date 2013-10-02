@@ -145,12 +145,13 @@
 
                             <p:column headerText="Delete" width="5%">
                                 <p:commandButton value="Delete" onclick="cd.show();">
-                                    <p:confirmDialog message="Are you sure about deleteing this entry?" header="Please confirm this operation!" severity="alert" widgetVar="cd">
+                                    <p:dialog header="Please confirm this operation!"  widgetVar="cd" modal="false">
+                                        <h:outputText value="Are you sure about deleteing this entry?"/>
                                         <p:commandButton value="Yes" actionListener="#{complaintBean.deleteEntry}" update=":complaintForm:entries :complaintForm:messages" process=":complaintForm:entries" onclick="cd.hide();" >
                                             <p:collector value="#{complaintBean.selectedEntry}" removeFrom="#{complaintBean.entries}"/>
                                         </p:commandButton>
                                         <p:commandButton value="No" onclick="cd.hide();" type="button"/>
-                                    </p:confirmDialog>
+                                    </p:dialog>
                                 </p:commandButton>
                             </p:column> 
                     </p:dataTable>

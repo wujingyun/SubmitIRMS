@@ -10,7 +10,6 @@ import entity.Hotel;
 import entity.Logbook;
 import entity.MiniBarItem;
 import entity.Room;
-import entity.UserAccount;
 import exception.ExistException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -54,7 +53,8 @@ public class HotelRoomBean implements HotelRoomBeanRemote {
         em.persist(hotel);
     }
 
-   @Override  
+    
+     @Override  
    public  List<Hotel> getHotelByDescription(String description) {
         Query q1 = em.createQuery("SELECT ua FROM Hotel ua where ua.description LIKE:custName OR ua.name LIKE:custName2");
          q1.setParameter("custName", description);
@@ -70,7 +70,8 @@ public class HotelRoomBean implements HotelRoomBeanRemote {
         return hotelList;
     }
     
-    
+     
+     
     @Override
     public void addHotel(String name, String address, String telNumber, String description, Integer capacity, double overbookRate) throws ExistException {
         hotel = em.find(Hotel.class, name);
@@ -88,6 +89,21 @@ public class HotelRoomBean implements HotelRoomBeanRemote {
         if (hotel == null) {
             throw new ExistException("HOTEL NOT EXIST.");
         }
+        hotel.setAddress(address);
+        hotel.setTelNumber(telNumber);
+        hotel.setDescription(description);
+        hotel.setCapacity(capacity);
+        hotel.setOverbookRate(overbookRate);
+        em.flush();
+    }
+    
+     @Override
+    public void editHotelweb(String displayName, String name, String address, String telNumber, String description, Integer capacity, double overbookRate) throws ExistException {
+        hotel = em.find(Hotel.class, name);
+        if (hotel == null) {
+            throw new ExistException("HOTEL NOT EXIST.");
+        }
+         hotel.setDisplayName(displayName);
         hotel.setAddress(address);
         hotel.setTelNumber(telNumber);
         hotel.setDescription(description);
@@ -136,6 +152,8 @@ public class HotelRoomBean implements HotelRoomBeanRemote {
         }
         room = new Room();
         room.create(roomNumber, type, description, rate);
+        room.setAvailabilityStatus("Available");
+        room.setHousekeepingStatus("Clean");
         room.setHotel(hotel);
         hotel.getRooms().add(room);
         hotel.setRooms(hotel.getRooms());
@@ -297,4 +315,25 @@ public class HotelRoomBean implements HotelRoomBeanRemote {
         hotel.getMiniBarItems().size();
         return (List)hotel.getMiniBarItems();
     }
+
+    @Override
+    public List<String> getMiniBarItemsNames(String hotelName) throws ExistException {
+        List<String> names=new ArrayList<String>();
+        Integer size=this.getMiniBarItems(hotelName).size();
+        for(int i=0; i<size; i++){
+            String st=this.getMiniBarItems(hotelName).get(i).getName();
+            names.add(st);
+        }
+        return names;
+    }
+
+    @Override
+    public double findMiniBarItemPrice(String hotelName, String name) throws ExistException {
+        hotel = em.find(Hotel.class, hotelName);
+        if (hotel == null) {
+            throw new ExistException("HOTEL NOT EXIST.");
+        }
+        return hotel.findMiniBarItem(name).getPrice();
+    }
+    
 }

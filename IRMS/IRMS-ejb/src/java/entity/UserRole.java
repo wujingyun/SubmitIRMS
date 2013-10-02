@@ -16,7 +16,7 @@ import javax.persistence.ManyToMany;
 
 /**
  *
- * @author Hanbin
+ * @author WU JINGYUN
  */
 @Entity
 public class UserRole implements Serializable {

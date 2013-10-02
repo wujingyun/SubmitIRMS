@@ -28,7 +28,7 @@ import org.hibernate.validator.constraints.Length;
 
 /**
  *
- * @author Hanbin
+ * @author WU JINGYUN
  */
 @Entity
 public class UserAccount implements Serializable {

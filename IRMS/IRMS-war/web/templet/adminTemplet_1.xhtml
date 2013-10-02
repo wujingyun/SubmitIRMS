@@ -4,7 +4,6 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
-
     <f:view contentType="text/html">
         <h:head>
             <f:facet name="first">
@@ -55,6 +54,7 @@
                     <p:menubar>
                         <p:submenu label="Hotels" icon="ui-icon-document">
                             <p:menuitem value="Hotel List" url="/acmMain.xhtml" />
+                             <p:menuitem value="Room List" url="/acmRoom.xhtml" />
                         </p:submenu>
 
                         <p:submenu label="Mini Bar" icon="ui-icon-pencil">
@@ -68,7 +68,7 @@
                         
                         <p:submenu label="Reservation/Check In/Out"  >
                             <p:menuitem value="Make Reservation" url="/acmReservation.xhtml"  />
-                            <p:menuitem value=" Check In/Out" url="#"  />
+                            <p:menuitem value=" Check In/Out" url="/acmCheckInOut.xhtml"  />
                         </p:submenu>
 
                         <p:submenu label="DiscountScheme" icon="ui-icon-document">
@@ -90,7 +90,7 @@
                         </p:submenu>
                         
 <p:submenu label="Concierge"  >
-                            <p:menuitem value="create concierge order" url="/acmDeliveryOrder.xhtml"  />
+                            <p:menuitem value="manage concierge order" url="/acmDeliveryOrder.xhtml"  />
                      
                             
                         </p:submenu>
@@ -139,9 +139,8 @@
 
                 <p:layoutUnit id="center" position="center">
                     <ui:insert name="center"> 
-                        <h:form>
-
-                        </h:form>
+                        
+                        
                     </ui:insert>
                 </p:layoutUnit>
 
@@ -150,6 +149,5 @@
 
 
         </h:body>
-
-    </f:view>
+</f:view>
 </html>

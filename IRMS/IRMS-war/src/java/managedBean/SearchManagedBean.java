@@ -18,7 +18,7 @@ import javax.faces.event.PhaseEvent;
 
 /**
  *
- * @author Ser3na
+ * @author WU JINGYUN
  */
 @ManagedBean
 @ViewScoped

@@ -1,0 +1,350 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                 template="./templet/adminTemplet_1.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+   
+    <ui:define name="center">
+        <f:view>
+
+            <p:growl id="messages" showDetail="true" life="3000"/>
+
+            <p:tabView id="tabs">
+
+                <p:tab title="Check In &amp; Consumption Record">
+                    <h:form id="accBill">
+                        <p:panel>
+                            <h:outputLabel for="hotel" value="Select Hotel: *" />  
+                            <h:selectOneMenu id="hotel" value="#{checkInOutManagedBean.hotelName}" required="true">  
+                                <f:selectItem itemLabel="Select Hotel" itemValue="" />  
+                                <f:selectItems value="#{hotelBean.hotelNames}" />  
+                                <p:ajax update=":tabs:dialogForm:billList" listener="#{checkInOutManagedBean.handleHotelChange}"/>
+                            </h:selectOneMenu>  
+                        </p:panel>
+
+                        <p:panel header="Create a new accommodation bill" id="createBill" toggleable="true" collapsed="true">  
+                            <h:panelGrid id="grid">  
+                                <p:row>
+                                    <p:column><h:outputLabel value="Reservation ID : *" for="reservationId"></h:outputLabel>
+                                        <p:inputText id="reservationId" value="#{checkInOutManagedBean.newBill.roomReservationId}" required="true" />
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:commandButton value="Reset" type="reset"/>  
+                                    <p:commandButton id="add" value="Create" update="createBill :tabs:dialogForm:bills :messages"  
+                                                     action="#{checkInOutManagedBean.reinit}" actionListener="#{checkInOutManagedBean.createBill}">  
+                                        <p:collector value="#{checkInOutManagedBean.newBill}"   
+                                                     addTo="#{checkInOutManagedBean.bills}" />  
+                                    </p:commandButton>  
+                                </p:row>
+                            </h:panelGrid>  
+                        </p:panel> 
+                    </h:form>
+                    <h:form id="dialogForm">
+                        <p:outputPanel id="bills">
+                            <p:dataTable var="bill" value="#{checkInOutManagedBean.bills}" id="billList" paginator="true" rows="10"
+                                         rowKey="#{bill.id}" selection="#{checkInOutManagedBean.selectedBill}" selectionMode="single" style="100%" > 
+
+                                <f:facet name="header">  
+                                    #{checkInOutManagedBean.hotelName} Accommodation Bills
+                                </f:facet>
+
+                                <p:column headerText="Bill ID" sortBy="#{bill.id}" filterBy="#{bill.id}" filterMatchMode="contains"> 
+                                    #{bill.id}
+                                </p:column>  
+
+                                <p:column headerText="Reservation ID" sortBy="#{bill.roomReservationId}" filterBy="#{bill.roomReservationId}" filterMatchMode="contains">
+                                    #{bill.roomReservationId}  
+                                </p:column>  
+
+                                <p:column headerText="Billing Time" sortBy="#{bill.dateTime.time}" filterBy="#{bill.dateTime.time}" filterMatchMode="contains">
+                                    <h:outputText value="#{bill.dateTime.time}" styleClass="date">
+                                        <f:convertDateTime type="both" dateStyle="short" />
+                                    </h:outputText>
+                                </p:column>
+
+
+                                <p:column headerText="Minibar Items">
+                                    <p:commandButton value="Add" icon="ui-icon-search" onclick="miniBarDialog.show();">
+                                    </p:commandButton> 
+                                </p:column>
+
+                                <p:column headerText="Overseas Call">
+                                    <p:commandButton value="Add" icon="ui-icon-search" onclick="overseasCallDialog.show();">
+                                        <p:dialog id="overSeasCallDialog" header="Add Overseas Call Charge" widgetVar="overseasCallDialog"  
+                                                  showEffect="fade" hideEffect="explode" modal="false">
+                                            <h:outputLabel value="Add Overseas Call Charge : *" for="overseasCall"></h:outputLabel>
+                                            <p:inputText id="overseasCall" value="#{checkInOutManagedBean.overseasCallCharge}" required="true"/>
+                                            <br></br>
+                                            <p:commandButton value="Add" actionListener="#{checkInOutManagedBean.addOverseasCallCharge}" onclick="overseasCallDialog.hide();" update=":messages"/>
+                                            <br></br>
+                                        </p:dialog>
+                                    </p:commandButton> 
+                                </p:column>
+
+                            </p:dataTable>
+                        </p:outputPanel>
+
+                        <p:dialog id="miniBarDialog" header="Add Minibar Consumption" widgetVar="miniBarDialog"  
+                                  showEffect="fade" hideEffect="explode" modal="false">
+                            <h:form>
+                                <p:panel header="Record mini bar consumptions" id="minibarConsumption" toggleable="true" collapsed="true">
+                                    <p:panel>
+                                        <h:outputLabel for="barItem" value="Select Item: *" />  
+                                        <h:selectOneMenu id="barItem" value="#{checkInOutManagedBean.newItem.name}" required="true">
+                                            <f:selectItem itemLabel="Select Item" itemValue="" />
+                                            <f:selectItems value="#{checkInOutManagedBean.itemNames}" />  
+                                        </h:selectOneMenu>
+
+                                        <h:outputLabel for="itemQuantity" value="Quantity"/>
+                                        <p:inputText id="itemQuantity" value="#{checkInOutManagedBean.newItem.quantity}" required="tr"></p:inputText>
+
+                                        <br></br>
+                                        <p:commandButton id="add3" value="Add" update="items"
+                                                         action="#{checkInOutManagedBean.reinitItem}" actionListener="#{checkInOutManagedBean.addItem}">  
+                                            <p:collector value="#{checkInOutManagedBean.newItem}"   
+                                                         addTo="#{checkInOutManagedBean.items}" />  
+                                        </p:commandButton>
+                                    </p:panel>
+
+                                    <p:outputPanel id="items">
+                                        <p:dataTable var="item" value="#{checkInOutManagedBean.items}" id="itemList" emptyMessage=""> 
+
+                                            <p:column headerText="Item Name"> 
+                                                #{item.name}
+                                            </p:column>  
+                                            <p:column headerText="Quantity">
+                                                #{item.quantity}
+                                            </p:column>  
+
+                                            <p:column headerText="Price">
+                                                #{item.price}
+                                            </p:column>
+
+                                        </p:dataTable>
+                                    </p:outputPanel>
+                                </p:panel>
+                            </h:form>
+                        </p:dialog>
+                    </h:form>
+                </p:tab>
+
+                <p:tab title="Incidental Charges Record">
+
+                    <h:form id="accBill2">
+                        <p:panel>
+                            <h:outputLabel for="hotel2" value="Select Hotel: *" />  
+                            <h:selectOneMenu id="hotel2" value="#{checkInOutManagedBean.hotelName}" required="true">  
+                                <f:selectItem itemLabel="Select Hotel" itemValue="" />  
+                                <f:selectItems value="#{hotelBean.hotelNames}" />  
+                                <p:ajax update=":tabs:dialogForm2:billList2" listener="#{checkInOutManagedBean.handleHotelChange}"/>
+                            </h:selectOneMenu>  
+                        </p:panel>
+                    </h:form>
+                    <h:form id="dialogForm2">
+                        <p:outputPanel id="bills2">
+                            <p:dataTable var="bill" value="#{checkInOutManagedBean.bills}" id="billList2" paginator="true" rows="10"
+                                         rowKey="#{bill.id}" selection="#{checkInOutManagedBean.selectedBill}" selectionMode="single" style="100%" > 
+
+                                <f:facet name="header">  
+                                    #{checkInOutManagedBean.hotelName} Accommodation Bills
+                                </f:facet>
+
+                                <p:column headerText="Bill ID" sortBy="#{bill.id}" filterBy="#{bill.id}" filterMatchMode="contains"> 
+                                    #{bill.id}
+                                </p:column>  
+
+                                <p:column headerText="Reservation ID" sortBy="#{bill.roomReservationId}" filterBy="#{bill.roomReservationId}" filterMatchMode="contains">
+                                    #{bill.roomReservationId}  
+                                </p:column>  
+
+                                <p:column headerText="Billing Time" sortBy="#{bill.dateTime.time}" filterBy="#{bill.dateTime.time}" filterMatchMode="contains">
+                                    <h:outputText value="#{bill.dateTime.time}" styleClass="date">
+                                        <f:convertDateTime type="both" dateStyle="short" />
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Incidental Charges">
+                                    <p:commandButton value="Add" icon="ui-icon-search" onclick="incidentalDialog.show();">
+                                    </p:commandButton> 
+                                </p:column>
+
+                            </p:dataTable>
+                        </p:outputPanel>
+
+                        <p:dialog id="incidentalDialog" header="Add Incidental Charges" widgetVar="incidentalDialog"  
+                                  showEffect="fade" hideEffect="explode" modal="false">
+                            <h:form>
+                                <p:panel header="Record incidental charges" id="incidentalCharges" toggleable="true" collapsed="true">
+                                    <p:panel>
+                                        <h:outputLabel for="chargeName" value="Charge Name: *" />  
+                                        <p:inputText id="chargeName" value="#{checkInOutManagedBean.newCharge.chargeName}" required="true"/>
+                                        <br></br>
+                                        <h:outputLabel for="chargeDescription" value="Description: *" />  
+                                        <p:inputText id="chargeDescription" value="#{checkInOutManagedBean.newCharge.description}" required="true"/>
+                                        <br></br>
+                                        <h:outputLabel for="chargePrice" value="Price: *"/>
+                                        <p:inputText id="chargePrice" value="#{checkInOutManagedBean.newCharge.price}"></p:inputText>
+
+                                        <br></br>
+                                        <p:commandButton id="add4" value="Add" update="charges"
+                                                         action="#{checkInOutManagedBean.reinitCharge}" actionListener="#{checkInOutManagedBean.addCharge}">  
+                                            <p:collector value="#{checkInOutManagedBean.newCharge}"   
+                                                         addTo="#{checkInOutManagedBean.charges}" />  
+                                        </p:commandButton>
+                                    </p:panel>
+
+                                    <p:outputPanel id="charges">
+                                        <p:dataTable var="charge" value="#{checkInOutManagedBean.charges}" id="chargeList" emptyMessage=""> 
+
+                                            <p:column headerText="Charge Name"> 
+                                                #{charge.chargeName}
+                                            </p:column>  
+                                            <p:column headerText="Description">
+                                                #{charge.description}  
+                                            </p:column>  
+                                            <p:column headerText="Price">
+                                                #{charge.price}  
+                                            </p:column>
+                                        </p:dataTable>
+                                    </p:outputPanel>
+                                </p:panel>
+                            </h:form>
+                        </p:dialog>
+                    </h:form>
+                </p:tab>
+
+                <p:tab title="Check Out">
+
+                    <h:form id="accBill3">
+                        <p:panel>
+                            <h:outputLabel for="hotel3" value="Select Hotel: *" />  
+                            <h:selectOneMenu id="hotel3" value="#{checkInOutManagedBean.hotelName}" required="true">  
+                                <f:selectItem itemLabel="Select Hotel" itemValue="" />  
+                                <f:selectItems value="#{hotelBean.hotelNames}" />  
+                                <p:ajax update=":tabs:dialogForm3:billList3" listener="#{checkInOutManagedBean.handleHotelChange}"/>
+                            </h:selectOneMenu>  
+                        </p:panel>
+                    </h:form>
+                    <h:form id="dialogForm3">
+                        <p:outputPanel id="bills3">
+                            <p:dataTable var="bill" value="#{checkInOutManagedBean.bills}" id="billList3" paginator="true" rows="10" editable="true"
+                                         rowKey="#{bill.id}" selection="#{checkInOutManagedBean.selectedBill}" selectionMode="single" style="100%" > 
+
+                                <p:ajax event="rowEdit" listener="#{checkInOutManagedBean.onEdit}" update=":messages" />  
+                                <p:ajax event="rowEditCancel" listener="#{checkInOutManagedBean.onCancel}" update=":messages" /> 
+
+                                <f:facet name="header">  
+                                    #{checkInOutManagedBean.hotelName} Accommodation Bills
+                                </f:facet>
+
+                                <p:column headerText="Bill ID" sortBy="#{bill.id}" filterBy="#{bill.id}" filterMatchMode="contains"> 
+                                    #{bill.id}
+                                </p:column>  
+
+                                <p:column headerText="Reservation ID" sortBy="#{bill.roomReservationId}" filterBy="#{bill.roomReservationId}" filterMatchMode="contains">
+                                    #{bill.roomReservationId}  
+                                </p:column>  
+
+                                <p:column headerText="Billing Time" sortBy="#{bill.dateTime.time}" filterBy="#{bill.dateTime.time}" filterMatchMode="contains">
+                                    <h:outputText value="#{bill.dateTime.time}" styleClass="date">
+                                        <f:convertDateTime type="both" dateStyle="short" />
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Payment Status" sortBy="#{bill.paymentStatus}" filterBy="#{bill.paymentStatus}" filterMatchMode="contains">
+                                    <p:cellEditor>  
+                                        <f:facet name="output">  
+                                            <h:outputText value="#{bill.paymentStatus}" />  
+                                        </f:facet>  
+                                        <f:facet name="input">  
+                                            <p:selectOneMenu value="#{bill.paymentStatus}" style="width:100%"> 
+                                                <f:selectItem itemLabel="Pending" itemValue="Pending" />
+                                                <f:selectItem itemLabel="Partial" itemValue="Patial" />
+                                                <f:selectItem itemLabel="Full" itemValue="Full" />
+                                            </p:selectOneMenu>  
+                                        </f:facet>  
+                                    </p:cellEditor>  
+                                </p:column> 
+                                
+                                <p:column headerText="Select discount">
+                                    <p:selectOneMenu value="#{checkInOutManagedBean.selectedScheme}" style="100%"> 
+                                        <f:selectItem itemLabel="Select scheme" itemValue="" />  
+                                        <f:selectItems value="#{checkInOutManagedBean.schemes}" />
+                                        <p:ajax listener="#{checkInOutManagedBean.applyDiscount}"/>
+                                    </p:selectOneMenu> 
+                                </p:column>
+
+                                <p:column headerText="Tally Bill">
+                                    <p:commandButton value="View" icon="ui-icon-search" onclick="tallyBillDialog.show();" actionListener="#{checkInOutManagedBean.caculateTotal}" update=":tabs:dialogForm3:finalBill">
+                                    </p:commandButton> 
+                                </p:column>
+
+                                <p:column headerText="Edit">  
+                                    <p:rowEditor/>  
+                                </p:column>  
+
+                            </p:dataTable>
+                        </p:outputPanel>
+
+                        <p:dialog id="tallyBillDialog" header="View Tallied Bill" widgetVar="tallyBillDialog"  
+                                  showEffect="fade" hideEffect="explode" modal="false">
+                            <p:panel id="finalBill">
+                                
+                                <table border="2" align="center" frame="void">
+                                    <tr>
+                                        #{checkInOutManagedBean.hotelName} Accommodation Bill
+                                    </tr>
+                                    <tr>
+                                        <td>Item</td>
+                                        <td>Subtotal(SGD)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Accommodation</td>
+                                        <td>#{checkInOutManagedBean.accommodationTotal}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Room Services:</td>
+                                        <td>#{checkInOutManagedBean.roomServicesTotal}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Minibar Items:</td>
+                                        <td>#{checkInOutManagedBean.minibarTotal}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Overseas Call:</td>
+                                        <td>#{checkInOutManagedBean.overseasCallTotal}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Incidental charges</td>
+                                        <td>#{checkInOutManagedBean.incidentalTotal}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Discount Scheme</td>
+                                        <td>#{checkInOutManagedBean.selectedScheme}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Discount Rate</td>
+                                        <td>#{checkInOutManagedBean.discountRate}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total:</td>
+                                        <td>#{checkInOutManagedBean.totalTotal}</td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+
+                            <h:commandButton value="Print &amp; Check Out" type="button" actionListener="#{checkInOutManagedBean.checkOut}">  
+                                <p:printer target="finalBill" />  
+                            </h:commandButton> 
+
+                        </p:dialog>
+                    </h:form>
+                </p:tab>
+            </p:tabView>
+        </f:view>
+    </ui:define>
+</ui:composition>

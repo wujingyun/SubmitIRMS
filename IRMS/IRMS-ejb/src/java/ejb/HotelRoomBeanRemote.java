@@ -34,8 +34,10 @@ public interface HotelRoomBeanRemote {
     public List<Hotel> getHotels();
     public List<Room> getRooms(String hotelName)throws ExistException;
     public List<MiniBarItem> getMiniBarItems(String hotelName)throws ExistException;
+    public List<String> getMiniBarItemsNames(String hotelName) throws ExistException;
+    public double findMiniBarItemPrice(String hotelName, String name) throws ExistException;
 
     public List<Hotel> getHotelByDescription(String description);
 
-   
+    public void editHotelweb(String displayName, String name, String address, String telNumber, String description, Integer capacity, double overbookRate) throws ExistException;
 }

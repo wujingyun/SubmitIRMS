@@ -5,10 +5,9 @@
 package entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,7 +28,8 @@ public class RoomReservation implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @ManyToMany
-    private Collection<Room> rooms=new ArrayList();
+    private List<Room> rooms;
+    private String roomString;
     @ManyToOne
     private Customer customer;
     @ManyToOne
@@ -67,11 +67,11 @@ public class RoomReservation implements Serializable {
         this.setRoomAllocationStatus("Pending");
     }
 
-    public Collection<Room> getRooms() {
+    public List<Room> getRooms() {
         return rooms;
     }
 
-    public void setRooms(Collection<Room> rooms) {
+    public void setRooms(List<Room> rooms) {
         this.rooms = rooms;
     }
 
@@ -234,5 +234,13 @@ public class RoomReservation implements Serializable {
     @Override
     public String toString() {
         return "entity.RoomReservation[ id=" + id + " ]";
+    }
+
+    public String getRoomString() {
+        return roomString;
+    }
+
+    public void setRoomString(String roomString) {
+        this.roomString = roomString;
     }
 }

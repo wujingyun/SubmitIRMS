@@ -99,7 +99,7 @@ public class RoomServiceBean implements RoomServiceBeanRemote {
         if (hotel == null) {
             throw new ExistException("HOTEL NOT EXIST.");
         }
-        Query q=em.createQuery("SELECT r FROM RoomServiceOrder r WHERE r:hotelName=:hotelName");
+        Query q=em.createQuery("SELECT r FROM RoomServiceOrder r WHERE r.hotelName=:hotelName");
         q.setParameter("hotelName", hotelName);
         return q.getResultList();
     }

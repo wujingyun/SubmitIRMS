@@ -132,12 +132,13 @@
 
                         <p:column headerText="Delete">
                             <p:commandButton value="Delete" onclick="cd.show();">
-                                <p:confirmDialog message="Are you sure about deleteing this hotel?" header="Please confirm this operation!" severity="alert" widgetVar="cd">
+                                <p:dialog  header="Please confirm this operation!" widgetVar="cd" modal="false">
+                                    <h:outputText value="Are you sure about deleteing this hotel?"/>
                                     <p:commandButton value="Yes" actionListener="#{hotelBean.deleteHotel}" update=":hotelForm:hotels :hotelForm:messages" process=":hotelForm:hotels" onclick="cd.hide();" >
                                         <p:collector value="#{hotelBean.selectedHotel}" removeFrom="#{hotelBean.hotels}"/>
                                     </p:commandButton>
                                     <p:commandButton value="No" onclick="cd.hide();" type="button"/>
-                                </p:confirmDialog>
+                                </p:dialog>
                             </p:commandButton>
                         </p:column> 
                     </p:dataTable>

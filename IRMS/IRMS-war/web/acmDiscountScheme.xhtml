@@ -130,12 +130,13 @@
 
                         <p:column headerText="Delete">
                             <p:commandButton value="Delete" onclick="cd.show();">
-                                <p:confirmDialog message="Are you sure about deleteing this scheme?" header="Please confirm this operation!" severity="alert" widgetVar="cd">
+                                <p:dialog  header="Please confirm this operation!"  widgetVar="cd" modal="false">
+                                    <h:outputText value="Are you sure about deleteing this scheme?"/>
                                     <p:commandButton value="Yes" actionListener="#{discountSchemeBean.deleteScheme}" update=":discountForm:discountSchemes :discountForm:messages" process=":discountForm:discountSchemes" onclick="cd.hide();" >
                                         <p:collector value="#{discountSchemeBean.selectedScheme}" removeFrom="#{discountSchemeBean.schemes}"/>
                                     </p:commandButton>
                                     <p:commandButton value="No" onclick="cd.hide();" type="button"/>
-                                </p:confirmDialog>
+                                </p:dialog>
                             </p:commandButton>
                         </p:column> 
                     </p:dataTable>

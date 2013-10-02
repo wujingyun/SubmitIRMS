@@ -9,7 +9,6 @@
    
 
     <ui:define name="center">
-      
 
 
             <p:growl id="messages" showDetail="true"/>
@@ -100,12 +99,13 @@
 
                                 <p:column headerText="Delete">
                                     <p:commandButton value="Delete" onclick="cd.show();">
-                                        <p:confirmDialog message="Are you sure about deleteing this room service?" header="Please confirm this operation!" severity="alert" widgetVar="cd">
+                                        <p:dialog  header="Please confirm this operation!" modal="false" widgetVar="cd">
+                                            <h:outputText value="Are you sure about deleteing this?"/>
                                             <p:commandButton value="Yes" actionListener="#{roomServiceManagedBean.deleteService}" update=":tabs:serviceForm:services :messages" process=":tabs:serviceForm:services" onclick="cd.hide();" >
                                                 <p:collector value="#{roomServiceManagedBean.selectedService}" removeFrom="#{roomServiceManagedBean.services}"/>
                                             </p:commandButton>
                                             <p:commandButton value="No" onclick="cd.hide();" type="button"/>
-                                        </p:confirmDialog>
+                                        </p:dialog>
                                     </p:commandButton>
                                 </p:column> 
                             </p:dataTable>
@@ -191,7 +191,7 @@
                 </p:tab>
 
                 <p:tab id="serviceOrderList" title="View Room Service Orders">
-                    <h:form id="serviceFor3">
+                    <h:form id="serviceForm3">
                         <p:panel>
                             <h:outputLabel for="hotel3" value="Select Hotel: *" />  
                             <h:selectOneMenu id="hotel3" value="#{roomServiceManagedBean.hotelName}" required="true">  
@@ -231,6 +231,7 @@
                 </p:tab>
 
             </p:tabView>
+            
        
     </ui:define>
 

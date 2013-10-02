@@ -107,16 +107,18 @@ public class CustomerLoginBean implements Serializable {
         //if attemp number larger than 5 and account has locked, only allow login after 5 mins .  
 
         //attemp number lesser than 5 or it's 5 mins after last attemp, allow login
-        if ((cbb.getLoginAttemp(username) <= 5) || (cbb.checkLockOut(username) == true)) {
-            System.out.println("login number============" + cbb.getLoginAttemp(username));
+        if ((cbb.getLoginAttemp(username) <= 2) || (cbb.checkLockOut(username) == true)) {
+           // System.out.println("login number============" + cbb.getLoginAttemp(username));
             //have to reset attemp number to 0 and update attemp time(in the case where account is unlocked
             //, otherwise, if login fails again, the account will be locked for another 5 min
             if (cbb.checkLockOut(username)) {
                 cbb.setLoginAttempToZero(username);
                 cbb.updateLoginAttempTime(username);
             }
+            System.out.println("login number============" +username);
+            System.out.println("login number============" + hashPassword);
             //auth
-            if (username != null && password != null && cbb.verifyPassword(username, hashPassword)) {
+            if ((username != null) && (password != null) && (cbb.verifyPassword(username, hashPassword))) {
                 loggedIn = true;
                 msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome", username);
              
@@ -145,7 +147,7 @@ public class CustomerLoginBean implements Serializable {
               
             } //auth fails
             
-             else if (!cbb.checkUserExist(username)) {
+             else if (!cbb.checkCustomerExist(username)) {
                 loggedIn = false;
                 cbb.updateLoginAttemp(username);
                 cbb.updateLoginAttempTime(username);
@@ -155,7 +157,7 @@ public class CustomerLoginBean implements Serializable {
 
                 redirct = "fail";
 
-            } else if (cbb.checkUserExist(username) && (!cbb.verifyPassword(username, hashPassword))) {
+            } else if (cbb.checkCustomerExist(username) && (!cbb.verifyPassword(username, hashPassword))) {
                 loggedIn = false;
                 cbb.updateLoginAttemp(username);
                 cbb.updateLoginAttempTime(username);
@@ -249,7 +251,7 @@ public class CustomerLoginBean implements Serializable {
 
         }
 */
-        if (cbb.checkUserExist(username)) {
+        if (cbb.checkCustomerExist(username)) {
             register = false;
             msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Reigstered Failed", "Username Existed, use another username.");
         } 
@@ -277,7 +279,7 @@ public class CustomerLoginBean implements Serializable {
     }
 
     public void isUsernameValid() {
-        boolean ifUserExist = cbb.checkUserExist(username);
+        boolean ifUserExist = cbb.checkCustomerExist(username);
         if (ifUserExist) {
             UserExist = "Invalid Username, same username already exist.";
 

@@ -2,11 +2,12 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
                  template="./templet/adminTemplet_1.xhtml"
-                xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core">
 
    
+
     <ui:define name="center">
         <f:view>
             <h:form id="reservationForm">
@@ -29,23 +30,26 @@
                             <h:panelGrid id="grid">  
 
                                 <p:row>
-                                    <p:column><h:outputLabel value="Customer ID: *" for="reservationCustomerId"></h:outputLabel>
-                                        <p:inputText id="reservationCustomerId" value="#{hotelReservationManagedBean.newReservation.customerId}" required="true" />
+                                    <p:column><h:outputLabel value="Customer ID: *" for="customerId"></h:outputLabel>
+                                        <p:inputText id="customerId" value="#{hotelReservationManagedBean.newReservation.customerId}" required="true" />
                                     </p:column>
-                                    <p:column><h:outputLabel value="Room Type: *" for="reservationRoomType"></h:outputLabel>  
-                                        <p:inputText id="reservationRoomType" required="true" value="#{hotelReservationManagedBean.newReservation.roomType}"/>
+                                    <p:column><h:outputLabel value="Room Type: *" for="roomType"></h:outputLabel>  
+                                        <h:selectOneMenu id="roomType" value="#{hotelReservationManagedBean.newReservation.roomType}" required="true">  
+                                            <f:selectItem itemLabel="Standard" itemValue="Standard"/>  
+                                            <f:selectItem itemLabel="Suite" itemValue="Suite"/>  
+                                        </h:selectOneMenu> 
                                     </p:column>
                                 </p:row>
 
                                 <p:row>
                                     <p:column>
                                         <h:outputLabel value="Checkin Date:"/>
-                                        <p:calendar value="#{hotelReservationManagedBean.newReservation.endDate}" showOn="button"/> 
+                                        <p:calendar value="#{hotelReservationManagedBean.newReservation.startDate}" showOn="button"/> 
                                     </p:column>
 
                                     <p:column>
                                         <h:outputLabel value="Checkout Date:"/>
-                                        <p:calendar value="#{hotelReservationManagedBean.newReservation.startDate}" showOn="button"/>  
+                                        <p:calendar value="#{hotelReservationManagedBean.newReservation.endDate}" showOn="button"/>  
                                     </p:column>
                                 </p:row>
 
@@ -168,6 +172,17 @@
                                     </p:cellEditor> 
                                 </p:column>
 
+                                <p:column headerText="Room Allocated" sortBy="#{roomReservation.roomString}" filterBy="#{roomReservation.roomString}" filterMatchMode="contains"> 
+                                    <p:cellEditor>  
+                                        <f:facet name="output">  
+                                            <h:outputText value="#{roomReservation.roomString}" />  
+                                        </f:facet>  
+                                        <f:facet name="input">  
+                                            <p:inputText value="#{roomReservation.roomString}" style="width:100%"/>  
+                                        </f:facet>  
+                                    </p:cellEditor> 
+                                </p:column>
+
                                 <p:column headerText="Status" sortBy="#{roomReservation.status}" filterBy="#{roomReservation.status}" filterMatchMode="contains"> 
                                     <p:cellEditor>  
                                         <f:facet name="output">  
@@ -207,12 +222,13 @@
 
                                 <p:column headerText="Cancel">
                                     <p:commandButton value="Cancel" onclick="cd.show();">
-                                        <p:confirmDialog message="Are you sure about cancelling this reservation?" header="Please confirm this operation!" severity="alert" widgetVar="cd">
+                                        <p:dialog  header="Please confirm this operation!" modal="false" widgetVar="cd">
+                                            <h:outputText value="Are you sure about deleteing this?"/>
                                             <p:commandButton value="Yes" actionListener="#{hotelReservationManagedBean.cancelReservation}" update=":reservationForm:tabs:reservations :reservationForm:messages" process=":reservationForm:tabs:reservations" onclick="cd.hide();" >
                                                 <p:collector value="#{hotelReservationManagedBean.selectedReservation}" removeFrom="#{hotelReservationManagedBean.reservations}"/>
                                             </p:commandButton>
                                             <p:commandButton value="No" onclick="cd.hide();" type="button"/>
-                                        </p:confirmDialog>
+                                        </p:dialog>
                                     </p:commandButton>
                                 </p:column> 
                             </p:dataTable>

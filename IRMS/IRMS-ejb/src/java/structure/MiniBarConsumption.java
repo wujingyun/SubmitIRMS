@@ -6,6 +6,7 @@ package structure;
 
 import entity.MiniBarItem;
 import exception.ExistException;
+import java.io.Serializable;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -13,11 +14,14 @@ import javax.persistence.PersistenceContext;
  *
  * @author Yang Zhennan
  */
-public class MiniBarConsumption {
+public class MiniBarConsumption implements Serializable {
     @PersistenceContext()
     EntityManager em;
     private MiniBarItem miniBarItem;
     private Integer quantity;
+    
+    public MiniBarConsumption(){
+    }
     
     public MiniBarConsumption(String itemName, Integer quantity) throws ExistException{
         this.miniBarItem=em.find(MiniBarItem.class, itemName);
@@ -31,11 +35,8 @@ public class MiniBarConsumption {
         return miniBarItem;
     }
 
-    public void setMiniBarItem(String itemName) throws ExistException {
-        this.miniBarItem = em.find(MiniBarItem.class, itemName);
-        if(this.miniBarItem==null){
-            throw new ExistException("MINI BAR ITEM NOTE EXIST.");
-        }
+    public void setMiniBarItem(MiniBarItem miniBarItem) throws ExistException {
+        this.miniBarItem = miniBarItem;
     }
 
     public Integer getQuantity() {

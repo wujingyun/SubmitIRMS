@@ -111,12 +111,13 @@
 
                         <p:column headerText="Delete">
                             <p:commandButton value="Delete" onclick="cd.show();">
-                                <p:confirmDialog message="Are you sure about deleteing this item?" header="Please confirm this operation!" severity="alert" widgetVar="cd">
+                                <p:dialog  header="Please confirm this operation!"  widgetVar="cd" modal="false">
+                                    <h:outputText value="Are you sure about deleteing this?"/>
                                     <p:commandButton value="Yes" actionListener="#{miniBarItemBean.deleteItem}" update=":miniBarForm:items :miniBarForm:messages" process=":miniBarForm:items" onclick="cd.hide();" >
                                         <p:collector value="#{miniBarItemBean.selectedItem}" removeFrom="#{miniBarItemBean.items}"/>
                                     </p:commandButton>
                                     <p:commandButton value="No" onclick="cd.hide();" type="button"/>
-                                </p:confirmDialog>
+                                </p:dialog>
                             </p:commandButton>
                         </p:column> 
                     </p:dataTable>

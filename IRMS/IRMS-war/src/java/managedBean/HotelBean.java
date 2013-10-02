@@ -105,6 +105,17 @@ public class HotelBean implements Serializable {
 
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
+    
+    public void onEditweb(RowEditEvent event) throws ExistException {
+        if(selectedHotel==null){
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Please select a hotel", ""));
+            }
+        this.hotelBean.editHotelweb(selectedHotel.getDisplayName(),selectedHotel.getName(),selectedHotel.getAddress(), selectedHotel.getTelNumber(),selectedHotel.getDescription(), selectedHotel.getCapacity(), selectedHotel.getOverbookRate());
+        
+        FacesMessage msg = new FacesMessage("Hotel: " +((Hotel) event.getObject()).getName()+" Edited", "");
+
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
 
     public void onCancel(RowEditEvent event) {
         FacesMessage msg = new FacesMessage("Cancelled editing Hotel: " +((Hotel) event.getObject()).getName()+" ", "");

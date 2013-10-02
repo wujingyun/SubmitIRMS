@@ -29,6 +29,7 @@ public class Hotel implements Serializable {
     private String telNumber;
     private String description;
     private String url;
+	private String displayName;
     private Integer capacity;
     private double overbookRate;
     private ArrayList<OverbookLimit> overbookLimits=new ArrayList();
@@ -45,7 +46,7 @@ public class Hotel implements Serializable {
     @OneToMany(mappedBy = "hotel")
     private Collection<ConciergeOrder> conciergeOrders = new ArrayList();
     @OneToMany(mappedBy = "hotel")
-    private Collection<DiscountScheme> discountSchemes = new ArrayList();
+    private List<DiscountScheme> discountSchemes = new ArrayList();
     @OneToMany(mappedBy = "hotel")
     private Collection<Staff> staffMembers = new ArrayList();
     public Hotel() {
@@ -58,14 +59,6 @@ public class Hotel implements Serializable {
         this.setDescription(description);
         this.setCapacity(capacity);
         this.setOverbookRate(overbookRate);
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getUrl() {
-        return url;
     }
 
     public Room findRoom(Integer roomNumber) {
@@ -157,6 +150,22 @@ public class Hotel implements Serializable {
         this.description = description;
     }
 
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
     public Integer getCapacity() {
         return capacity;
     }
@@ -246,11 +255,11 @@ public class Hotel implements Serializable {
         this.conciergeOrders = conciergeOrders;
     }
 
-    public Collection<DiscountScheme> getDiscountSchemes() {
+    public List<DiscountScheme> getDiscountSchemes() {
         return discountSchemes;
     }
 
-    public void setDiscountSchemes(Collection<DiscountScheme> discountSchemes) {
+    public void setDiscountSchemes(List<DiscountScheme> discountSchemes) {
         this.discountSchemes = discountSchemes;
     }
 

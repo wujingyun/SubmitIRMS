@@ -22,17 +22,17 @@
                             IR Hotels
                         </f:facet>
                         
-                        <p:ajax event="rowEdit" listener="#{hotelBean.onEdit}" update=":hotelForm:messages" />  
+                        <p:ajax event="rowEdit" listener="#{hotelBean.onEditweb}" update=":hotelForm:messages" />  
                         <p:ajax event="rowEditCancel" listener="#{hotelBean.onCancel}" update=":hotelForm:messages" />
                         
                         <p:column headerText="Hotel Display Name"> 
                             
                              <p:cellEditor>  
                                 <f:facet name="output">  
-                                    <h:outputText value="#{hotel.name}" />  
+                                    <h:outputText value="#{hotel.displayName}" />  
                                 </f:facet>  
                                 <f:facet name="input">  
-                                    <p:inputText value="#{hotel.name}" style="width:100%"/>  
+                                    <p:inputText value="#{hotel.displayName}" style="width:100%"/>  
                                 </f:facet>  
                             </p:cellEditor> 
                           

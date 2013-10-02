@@ -397,6 +397,7 @@ System.out.println("========================================================Deac
             loginAttemp=loginAttemp+1;
               System.out.println("4==================================");
              user.setLogginAttemp(loginAttemp);
+             System.out.println("4=================================="+loginAttemp);
         em.flush();//
         em.persist(user);//persist
         }

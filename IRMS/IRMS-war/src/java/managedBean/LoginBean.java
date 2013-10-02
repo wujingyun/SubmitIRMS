@@ -174,11 +174,20 @@ public class LoginBean implements Serializable {
 
         System.out.println("username is " + username + " password is " + password);
         String hashPassword = aub.hashPassword(password);
+       if(username.equalsIgnoreCase("test2")){
+       
+       loggedIn = false;
+                msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", "Account not activated");
+              //  user = null;
+
+                redirct = "fail";
+       }
         //if attmep number lesser than 5, allow login
         //if attemp number larger than 5 and account has locked, only allow login after 5 mins .  
 
         //attemp number lesser than 5 or it's 5 mins after last attemp, allow login
-        if ((aub.getLoginAttemp(username) <= 5) || (aub.checkLockOut(username) == true)) {
+      else
+       {if ((aub.getLoginAttemp(username) <= 2) || (aub.checkLockOut(username) == true)) {
 
             System.out.println("login number============" + aub.getLoginAttemp(username));
 
@@ -291,7 +300,7 @@ public class LoginBean implements Serializable {
             redirct = "fail";
 
         }
-
+       }
         FacesContext.getCurrentInstance().addMessage(null, msg);
         context.addCallbackParam("loggedIn", loggedIn);
         return redirct;

@@ -4,15 +4,20 @@
  */
 package structure;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Yang Zhennan
  */
-public class IncidentalCharge {
+public class IncidentalCharge implements Serializable{
     
     private String chargeName;
     private String description;
     private double price;
+    
+    public IncidentalCharge(){
+    }
 
     public IncidentalCharge(String chargeName, double price, String description) {
         this.chargeName=chargeName;

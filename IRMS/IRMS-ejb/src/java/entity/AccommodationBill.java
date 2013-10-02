@@ -5,8 +5,11 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,34 +30,37 @@ public class AccommodationBill implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String hotelName;
+    private Long roomReservationId;
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar dateTime;
+    private Date dateTime;
     @OneToOne
     private RoomReservation roomReservation;
     @OneToMany
     private Collection<DiscountScheme> discountSchemes;
-    private Collection<MiniBarConsumption> miniBarConsumptions;
+    private List<MiniBarConsumption> miniBarConsumptions=new ArrayList<MiniBarConsumption>();
     @OneToMany(mappedBy="accommodationBill")
     private Collection<RoomServiceOrder> roomServiceOrders;
     @OneToOne(mappedBy="accommodationBill")
     private HotelPayment hotelPayment;
-    private double overseasCallCharge;
-    private Collection<IncidentalCharge> incidentalCharges;
+    private String paymentStatus;
+    private double overseasCallCharge=0;
+    private List<IncidentalCharge> incidentalCharges=new ArrayList<IncidentalCharge>();
     private double total;
 
     public AccommodationBill() {
     }
     
     public void create(){
-        this.setOverseasCallCharge(0);
-        this.dateTime=Calendar.getInstance();
+        //this.setOverseasCallCharge(0);
+        //this.dateTime=Calendar.getInstance().getTime();
     }
 
-    public Calendar getDateTime() {
+    public Date getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(Calendar dateTime) {
+    public void setDateTime(Date dateTime) {
         this.dateTime = dateTime;
     }
     
@@ -74,11 +80,11 @@ public class AccommodationBill implements Serializable {
         this.discountSchemes = discountSchemes;
     }
 
-    public Collection<MiniBarConsumption> getMiniBarConsumptions() {
+    public List<MiniBarConsumption> getMiniBarConsumptions() {
         return miniBarConsumptions;
     }
 
-    public void setMiniBarConsumptions(Collection<MiniBarConsumption> miniBarConsumptions) {
+    public void setMiniBarConsumptions(List<MiniBarConsumption> miniBarConsumptions) {
         this.miniBarConsumptions = miniBarConsumptions;
     }
 
@@ -106,11 +112,11 @@ public class AccommodationBill implements Serializable {
         this.overseasCallCharge = overseasCallCharge;
     }
 
-    public Collection<IncidentalCharge> getIncidentalCharges() {
+    public List<IncidentalCharge> getIncidentalCharges() {
         return incidentalCharges;
     }
 
-    public void setIncidentalCharges(Collection<IncidentalCharge> incidentalCharges) {
+    public void setIncidentalCharges(List<IncidentalCharge> incidentalCharges) {
         this.incidentalCharges = incidentalCharges;
     }
 
@@ -153,6 +159,30 @@ public class AccommodationBill implements Serializable {
     @Override
     public String toString() {
         return "entity.AccommodationBill[ id=" + id + " ]";
+    }
+
+    public String getHotelName() {
+        return hotelName;
+    }
+
+    public void setHotelName(String hotelName) {
+        this.hotelName = hotelName;
+    }
+
+    public Long getRoomReservationId() {
+        return roomReservationId;
+    }
+
+    public void setRoomReservationId(Long roomReservationId) {
+        this.roomReservationId = roomReservationId;
+    }
+
+    public String getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
     }
     
 }
