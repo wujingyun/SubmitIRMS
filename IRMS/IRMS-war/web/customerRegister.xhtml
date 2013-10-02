@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-                 template="./templet/simpleTemplet.xhtml"
+                template="./templet/simpleTemplet.xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core"
@@ -82,26 +82,26 @@
                         <p:watermark for="lname" value="Last Name *" />
                         <p:message for="lname" display="icon"/>
                     </p:row>
-<p:row>
-                    <h:outputText value="Gender: " />  
-                    <p:selectOneRadio id="options" value="#{customerLoginBean.gender}" required="true"  
-                                      requiredMessage="Please enter your gender.">  
-                        <f:selectItem itemLabel="Female" itemValue="Female" />  
-                        <f:selectItem itemLabel="Male" itemValue="Male" />  
-                    </p:selectOneRadio> 
-                    
-</p:row>    
-                    
                     <p:row>
-                   <h:outputLabel for="age" value="Age Group:" />  
-            <h:selectOneMenu id="age" value="#{customerLoginBean.ageGroup}" required="true"
-                               requiredMessage="Please select your age group.">  
-                <f:selectItem itemLabel="Select One" itemValue="" />  
-                <f:selectItems value="#{customerLoginBean.ageGroups}" />  
-            </h:selectOneMenu>  
-                    
-</p:row>       
-                    
+                        <h:outputText value="Gender: " />  
+                        <p:selectOneRadio id="options" value="#{customerLoginBean.gender}" required="true"  
+                                          requiredMessage="Please enter your gender.">  
+                            <f:selectItem itemLabel="Female" itemValue="Female" />  
+                            <f:selectItem itemLabel="Male" itemValue="Male" />  
+                        </p:selectOneRadio> 
+
+                    </p:row>    
+
+                    <p:row>
+                        <h:outputLabel for="age" value="Age Group:" />  
+                        <h:selectOneMenu id="age" value="#{customerLoginBean.ageGroup}" required="true"
+                                         requiredMessage="Please select your age group.">  
+                            <f:selectItem itemLabel="Select One" itemValue="" />  
+                            <f:selectItems value="#{customerLoginBean.ageGroups}" />  
+                        </h:selectOneMenu>  
+
+                    </p:row>       
+
                     <p:row>
                         <h:outputText value="Address " />  
                         <p:inputText id="address" required="true" label="address" size="100"
@@ -134,6 +134,22 @@
                                      requiredMessage="Phone is required" /> 
                         <p:watermark for="phone" value="Phone # with country code*" />
                         <p:message for="phone" display="icon" />
+                    </p:row>
+
+
+
+                    <p:row> 
+                        <h:outputText value ="Select a security question:"/>
+                        <h:selectOneMenu value="#{customerLoginBean.sq}" >
+                            <f:selectItem itemLabel="What's your favourite sport?" itemValue="q1" />
+                            <f:selectItem itemLabel="What's the name of your pet?" itemValue="q2" />
+                            <f:selectItem itemLabel="What's your favourite book?" itemValue="q3" />
+                            <f:selectItem itemLabel="What's your favourite subject?" itemValue="q4" />
+                        </h:selectOneMenu>
+                    </p:row>
+                    <p:row> 
+                        <h:outputText value ="Answer:"/>
+                        <h:inputText value="#{customerLoginBean.answer}" requiredMessage="Please select your answer" required="true" />
                     </p:row>
 
 

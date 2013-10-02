@@ -16,6 +16,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -36,7 +37,24 @@ public class CrmResetPasswordManagedBean {
     private String newpass1;
     private String newpass2;
     private String oldpass;
+private String securityQuestion;
+    private String answer;
 
+    public void setSecurityQuestion(String securityQuestion) {
+        this.securityQuestion = securityQuestion;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+    public String getSecurityQuestion() {
+        return securityQuestion;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
     public CrmResetPasswordManagedBean() {
     }
 
@@ -59,7 +77,15 @@ public class CrmResetPasswordManagedBean {
             FacesContext.getCurrentInstance().addMessage(null, msg);
             System.out.println("==================================user is null3");
 
-        } else {
+        } 
+        else if(!(customer.getSecurityQuestion().equals(securityQuestion))||!(customer.getAnswer().equals(answer)))
+        {FacesMessage msg = null;
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cannot pass security questions", "");
+
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            System.out.println("==================================user is null3");
+        }
+        else {
             String uuid = UUID.randomUUID().toString();
             String[] sArray = uuid.split("-");
             String initialPwd = sArray[0];
@@ -74,22 +100,14 @@ public class CrmResetPasswordManagedBean {
 
     public void changePass(ActionEvent event) throws IOException, ExistException {
         FacesMessage msg = null;
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+           long userId = (Long)request.getSession().getAttribute("userId");
+           System.err.println(userId+".......................");
+           username= cbb.getCustomerById(userId).getUserName();
+        
         System.out.println("==================================username to reset password" + username);
-        customer = cbb.findCustomer(username);
-        System.out.println("==================================user id to reset password");
-        System.out.println(customer);
         String hashPassword = cbb.hashPassword(oldpass);
-        if (customer == null) {
-            System.out.println("==================================user is null");
-            // FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Invalid UserName", ""));
-            System.out.println("==================================user is null2");
-
-            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid User Name", username);
-
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            System.out.println("==================================user is null3");
-
-        } else if (!cbb.verifyPassword(username, hashPassword)) {
+        if (!cbb.verifyPassword(username, hashPassword)) {
             System.out.println("==================================old pass wrong "+hashPassword);
             msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Old Password is wrong", "");
 

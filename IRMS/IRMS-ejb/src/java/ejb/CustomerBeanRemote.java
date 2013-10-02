@@ -42,4 +42,6 @@ public interface CustomerBeanRemote {
     public Customer findCustomer(String username);
 
     public boolean checkUserExist(String username);
+
+    public Customer getCustomerById(long Id);
 }

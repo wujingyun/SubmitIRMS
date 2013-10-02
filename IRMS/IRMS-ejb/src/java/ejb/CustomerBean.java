@@ -71,6 +71,13 @@ public class CustomerBean implements CustomerBeanRemote
         }*/
     }
     
+    @Override
+public Customer getCustomerById(long Id) {
+        cu = em.find(Customer.class, Id);
+        if(cu == null)  System.out.println("Customer does not exist!");
+        return cu;
+    }
+    
     
     @Override
   public Customer findCustomer(String username) {

@@ -25,24 +25,24 @@
                         
 
                        <p:column headerText="Scheduled Roles">  
-                            <p:selectOneMenu id="staffroles" value="#{staffSchedulingManagedBean.staffRole}" effect="fade" requiredMessage="Scheduled Roles is required">  
+                            <p:selectOneMenu id="staffroles" value="#{staff.staffRole}" effect="fade" requiredMessage="Scheduled Roles is required">  
                                 <f:selectItem itemLabel="Select Role" itemValue="" />  
                                 <f:selectItems value="#{staffSchedulingManagedBean.roles}" />  
                                 <p:ajax update="shifts"  
-                                        listener="#{staffSchedulingManagedBean.handleRoleChange}" />  
+                                        listener="#{staffSchedulingManagedBean.handleRoleChange(staff.staffRole)}" />  
                             </p:selectOneMenu>  
                         </p:column> 
                         
                      
                         <p:column headerText="Scheduled Shifts">  
-                            <p:selectOneMenu id="shifts" value="#{staffSchedulingManagedBean.shift}" effect="fade" requiredMessage="Scheduled Shifts is required">  
+                            <p:selectOneMenu id="shifts" value="#{staff.shift}" effect="fade" requiredMessage="Scheduled Shifts is required">  
                                 <f:selectItem itemLabel="Select Shift" itemValue=""/>  
                                 <f:selectItems value="#{staffSchedulingManagedBean.shifts}" />                              
                             </p:selectOneMenu>  
                         </p:column> 
                         
                     <p:column headerText="Scheduled Level">  
-                            <p:selectOneMenu id="floor" value="#{staffSchedulingManagedBean.floorLevel}" effect="fade" requiredMessage="Scheduled Level is required">  
+                            <p:selectOneMenu id="floor" value="#{staff.floorLevel}" effect="fade" requiredMessage="Scheduled Level is required">  
                                 <f:selectItem itemLabel="Select Storey" itemValue=""/>  
                                 <f:selectItem itemLabel="Storey 1" itemValue ="1"/> 
                                 <f:selectItem itemLabel="Storey 2" itemValue ="2"/> 
@@ -55,7 +55,7 @@
                         </p:column> 
                         
                      <p:column headerText="Scheduled Day">  
-                            <p:selectOneMenu id="day" value="#{staffSchedulingManagedBean.day}" effect="fade" requiredMessage="Scheduled Day is required">  
+                         <p:selectOneMenu id="day" value="#{staff.week_day}" effect="fade" requiredMessage="Scheduled Day is required">  
                                 <f:selectItem itemLabel="Select Day"  itemValue=""/>  
                                 <f:selectItem itemLabel="Odd Days" itemValue ="MON WED FRI SUN"/> 
                                 <f:selectItem itemLabel="Even Days" itemValue ="TUE THURS SAT"/>                           

@@ -51,6 +51,8 @@ public class CustomerLoginBean implements Serializable {
     private String email;
     private String address;
     private String phone;
+    private String sq;
+    private String answer;
     private boolean active;
     private String activateAccountName;
     private String deactivateAccountName;
@@ -60,6 +62,22 @@ public class CustomerLoginBean implements Serializable {
     private Map<String, String> ageGroups = new HashMap<String, String>();
     private String ageGroup;
     private String gender;
+
+    public void setSq(String sq) {
+        this.sq = sq;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+    public String getSq() {
+        return sq;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
 
     public CustomerLoginBean() {
 
@@ -105,6 +123,8 @@ public class CustomerLoginBean implements Serializable {
                 customer = cbb.findCustomer(username);
                 cbb.setLoginAttempToZero(username);
                 cbb.updateLoginAttempTime(username);
+                long customerId=cbb.findCustomer(username).getId();
+                 request.getSession().setAttribute("userId", customerId);
                 System.out.println("get role ============");
                 request.getSession().setAttribute("role", "customer");
                 System.out.println("get role finish============");
@@ -239,7 +259,7 @@ public class CustomerLoginBean implements Serializable {
         }
         else if (username != null && password != null ) {
             String hashPassword = cbb.hashPassword(password);
-            //cbb.createCustomer(username, hashPassword, firstName, lastName, address, email, ageGroup, gender, phone);
+            cbb.createCustomer(username, hashPassword, firstName, lastName, address, email, ageGroup, gender, phone,sq,answer);
             register = true;
             msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Reigstered Successfully", username);
         } 

@@ -82,7 +82,8 @@ public class StaffSchedulingManagedBean implements Serializable {
         roles_Shifts.put("Housekeeping",houseshift);
     
     }
-     public void handleRoleChange() {  
+     public void handleRoleChange(String staffRole) { 
+         System.err.println("staff.staffRole: " + staffRole);
         if(staffRole !=null && !staffRole.equals("")){  
             shifts = roles_Shifts.get(staffRole);
             this.setShift(shift);
@@ -97,7 +98,7 @@ public class StaffSchedulingManagedBean implements Serializable {
               staff = (Staff) dataTable.getRowData();
               System.err.println("save the Staff ID!");
               System.err.println(" id"+staff.getId()+" "+staffRole+" "+shift);
-              ssr.setShifts(this.getStaff().getId(),this.getStaffRole(), this.getShift(), this.getFloorLevel(), this.getDay());
+              ssr.setShifts(this.getStaff().getId(),this.getStaff().getStaffRole(), this.getStaff().getShift(), this.getStaff().getFloorLevel(), this.getStaff().getWeek_day());
           //   String hName = staff.getHotel().getName();
             // System.err.println(hName);
              
