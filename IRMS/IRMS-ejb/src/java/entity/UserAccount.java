@@ -35,18 +35,15 @@ public class UserAccount implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-      private Long id;
-
-    @NotNull 
-    @Length(min = 2, max = 32) 
+    private Long id;
+    @NotNull
+    @Length(min = 2, max = 32)
     private String userName;
-   
-    @NotNull  
- @Length(min = 6, max = 32) 
-  private String password;  
-    
+    @NotNull
+    @Length(min = 6, max = 32)
+    private String password;
     private int logginAttemp;
- @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Calendar last_attemp;
 
     public void setLast_attemp(Calendar last_attemp) {
@@ -56,6 +53,7 @@ public class UserAccount implements Serializable {
     public Calendar getLast_attemp() {
         return last_attemp;
     }
+
     public void setLogginAttemp(int logginAttemp) {
         this.logginAttemp = logginAttemp;
     }
@@ -63,14 +61,13 @@ public class UserAccount implements Serializable {
     public int getLogginAttemp() {
         return logginAttemp;
     }
-
 //    @ManyToOne(targetEntity=UserRole.class)  
- //   @JoinColumn(name="role_id", referencedColumnName="id") 
+    //   @JoinColumn(name="role_id", referencedColumnName="id") 
     //public Collection<UserRole> userrole = new ArrayList<UserRole>();
- private long userrole;
-     @OneToOne(cascade = {CascadeType.ALL})
-    private UserContact contact; 
- @OneToMany(mappedBy = "useraccount")
+    private long userrole;
+    @OneToOne(cascade = {CascadeType.ALL})
+    private UserContact contact;
+    @OneToMany(mappedBy = "useraccount")
     private Collection<UserLog> UserLog = new ArrayList();
 
     public Collection<UserLog> getUserLog() {
@@ -80,16 +77,15 @@ public class UserAccount implements Serializable {
     public void setUserLog(Collection<UserLog> UserLog) {
         this.UserLog = UserLog;
     }
- 
- 
-  private String division; 
-  private Boolean active;
-    public void create(String userName, String password, long userrole, String division,Boolean active) {
+    private String division;
+    private Boolean active;
+
+    public void create(String userName, String password, long userrole, String division, Boolean active) {
         this.setUserName(userName);
         this.setPassword(password);
         this.setDivision(division);
-         this.setActive(active);
-          this.setUserrole(userrole);
+        this.setActive(active);
+        this.setUserrole(userrole);
     }
 
     public String getDivision() {
@@ -107,22 +103,23 @@ public class UserAccount implements Serializable {
     public Boolean getActive() {
         return active;
     }
-    
-    
+
     public void setId(Long id) {
         this.id = id;
     }
 
     public Long getId() {
         return id;
-    }  public UserContact getContact() {
+    }
+
+    public UserContact getContact() {
         return contact;
     }
 
     public void setContact(UserContact contact) {
         this.contact = contact;
     }
-    
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -130,7 +127,6 @@ public class UserAccount implements Serializable {
     public String getPassword() {
         return password;
     }
-
 
     public long getUserrole() {
         return userrole;
@@ -147,8 +143,4 @@ public class UserAccount implements Serializable {
     public void setUserName(String userName) {
         this.userName = userName;
     }
-
-    
-  
-    
 }

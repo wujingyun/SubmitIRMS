@@ -36,7 +36,6 @@ public class InternalMessageBean  {
     
    
     public InternalMessage getMessageById(Long messageId) throws ExistException{
-        System.out.println("Message----- get message with id" + messageId);
         InternalMessage message = em.find(InternalMessage.class, messageId);
         if(message == null) {
             throw new ExistException("Message does not exist!");
@@ -47,16 +46,14 @@ public class InternalMessageBean  {
 
     public void addMessage(long senderId,long receiverId,String title,String msg,String type)
     {
-        System.out.println("Message------creating a new message....");
+        System.out.println("InternalMessageBean --> addMessage");
         InternalMessage message = new InternalMessage();
-        
         InternalMessageReceive receiver = new InternalMessageReceive();
         receiver.setDeleted(false);
         receiver.setOpened(false);
         receiver.setReceiverId(receiverId);
         receiver.setSenderId(senderId);
         receiver.setMessage(message);
-        //retrieve senderName from employee table
         UserAccount sender = em.find(UserAccount.class,senderId);
         message.setSenderName(sender.getUserName());
         
@@ -79,7 +76,7 @@ public class InternalMessageBean  {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("Message------one new message sent: "+ msg + "--from person "+senderId);
+        System.out.println("InternalMessageBean --> addMessage, message: "+ msg + ",sender:"+senderId);
         em.persist(message);
     }
     
@@ -89,7 +86,6 @@ public class InternalMessageBean  {
     public void editMessage(InternalMessage message)
     {
         em.merge(message);
-        System.out.println("Message------message updated as " + message.getContent());
         em.flush();
     }
     
@@ -97,7 +93,6 @@ public class InternalMessageBean  {
     public void removeMessage(Long messageId, long receiverId)throws ExistException
     {
         InternalMessage message = em.find(InternalMessage.class, messageId);
-//        List<ReceiverInfo> infoList = message.getRecInfo();
         if(message == null) {
             throw new ExistException("Message does not exist!");
         }
@@ -126,7 +121,7 @@ public class InternalMessageBean  {
 
 
     public List<InternalMessage> getAllMessages(){
-        Query query = em.createQuery("SELECT s1 FROM InternalMessage s1");
+        Query query = em.createQuery("SELECT im FROM InternalMessage im");
         return query.getResultList();
     }
     

@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import javax.persistence.CascadeType;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,6 +22,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
 
@@ -75,6 +77,12 @@ public class Customer implements Serializable
     private Calendar registrationTimestamp;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Calendar last_attemp;
+    
+    
+    @OneToOne(cascade = {CascadeType.ALL})
+    private Membership membership; 
+    @OneToMany(cascade = {CascadeType.ALL})
+    private PointTrans pointTrans; 
     
     
     public void create(String userName, String password, String firstName, String lastName, String address, String email,  
@@ -170,6 +178,14 @@ public class Customer implements Serializable
 
     public Calendar getLast_attemp() {
         return last_attemp;
+    }
+
+    public void setMembership(Membership membership) {
+        this.membership = membership;
+    }
+
+    public Membership getMembership() {
+        return membership;
     }
 
     public void setCustomerId(Long customerId) {

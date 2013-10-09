@@ -39,7 +39,7 @@ public class ReceiveMessageBean  {
     {
         InternalMessageReceive info = em.find(InternalMessageReceive.class, Id);
         if(info == null) {
-            throw new ExistException("InternalMessageReceive does not exist!");
+            throw new ExistException("No Internal Message Received!");
         }
         return info;
     }
@@ -47,13 +47,13 @@ public class ReceiveMessageBean  {
 
     public void addReceiverInfo(InternalMessageReceive info)
     {
-        System.out.println("InternalMessageReceive--> add ReceiverInfo");
+        System.out.println("ReceiveMessageBean --> add ReceiverInfo");
         em.persist(info);
     }
    
     public void editEmployee(InternalMessageReceive info)
     {
-        System.out.println("InternalMessageReceive--> edit ReceiverInfo");
+        System.out.println("ReceiveMessageBean --> edit ReceiverInfo");
         em.merge(info);
     }
     
@@ -64,18 +64,18 @@ public class ReceiveMessageBean  {
         if(receiverInfo == null) {
             throw new ExistException("ReceiverInfo does not exist!");
         }
-         System.out.println("ReceiverInfoSessionBean--> remove ReceiverInfo");
+         System.out.println("ReceiveMessageBean --> remove ReceiverInfo");
         em.remove(receiverInfo);
     }
  
     public List<InternalMessageReceive> getAllReceiverInfo(){
-        Query query = em.createQuery("SELECT s1 FROM InternalMessageReceive s1");
+        Query query = em.createQuery("SELECT im FROM InternalMessageReceive im");
         return query.getResultList();
     }
   
     public List<InternalMessageReceive> getRecInfoBySender(long id){
-        Query query = em.createQuery("SELECT s1 FROM InternalMessageReceive s1 WHERE s1.senderId = :inRecId");
-        query.setParameter("inRecId", id);
+        Query query = em.createQuery("SELECT im FROM InternalMessageReceive im WHERE im.senderId = :recID");
+        query.setParameter("recID", id);
         List<InternalMessageReceive> recInfo = null;
         
         try{
@@ -101,10 +101,10 @@ public class ReceiveMessageBean  {
     }
 
     public List<InternalMessageReceive> getRecInfoByReceiver(long id){
-        Query query = em.createQuery("SELECT s1 FROM InternalMessageReceive s1 WHERE s1.receiverId = ?1");
+        Query query = em.createQuery("SELECT s1 FROM InternalMessageReceive im WHERE im.receiverId = ?1");
         query.setParameter(1, id);
         List<InternalMessageReceive> recInfo = null;
-        System.out.println("getRecinfobyreceiver===================");
+        System.out.println("ReceiveMessageBean-->getRecInfoByReceiver");
         try{
             recInfo = query.getResultList();
         }
@@ -116,11 +116,9 @@ public class ReceiveMessageBean  {
     }
 
     public List<InternalMessage> getMessageByReceiver(long id){
-        System.out.println("get record information by receiveer==========");
         List<InternalMessageReceive> recInfo = getRecInfoByReceiver(id);
-        System.out.println("get record information by receiveer==========");
         List<InternalMessage> msg = new ArrayList<InternalMessage>();
-         System.out.println("get record =========="+recInfo.size());
+        System.out.println("ReceiveMessageBean --> getMessageByReceiver"+recInfo.size());
         for (int i=0;i<recInfo.size();i++) {
             msg.add(recInfo.get(i).getMessage());
         }
