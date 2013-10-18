@@ -68,14 +68,14 @@ public class UserAccount implements Serializable {
     @OneToOne(cascade = {CascadeType.ALL})
     private UserContact contact;
     @OneToMany(mappedBy = "useraccount")
-    private Collection<UserLog> UserLog = new ArrayList();
+    private Collection<UserLog> userLog = new ArrayList();
 
     public Collection<UserLog> getUserLog() {
-        return UserLog;
+        return userLog;
     }
 
     public void setUserLog(Collection<UserLog> UserLog) {
-        this.UserLog = UserLog;
+        this.userLog = UserLog;
     }
     private String division;
     private Boolean active;

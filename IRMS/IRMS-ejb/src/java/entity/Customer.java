@@ -81,8 +81,10 @@ public class Customer implements Serializable
     
     @OneToOne(cascade = {CascadeType.ALL})
     private Membership membership; 
-    @OneToMany(cascade = {CascadeType.ALL})
-    private PointTrans pointTrans; 
+    @OneToMany(mappedBy="customer")
+   
+    private Collection<PointTrans> pointTrans = new ArrayList();
+   
     
     
     public void create(String userName, String password, String firstName, String lastName, String address, String email,  

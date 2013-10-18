@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 /**
@@ -25,7 +26,7 @@ public class Membership implements Serializable {
     private String membershipType;
     @OneToOne(cascade = {CascadeType.ALL})
     private LoyaltyPlan loyaltyPlan;
-
+    
     public void create(String membershipType) {
         this.setMembershipType(membershipType);
     }

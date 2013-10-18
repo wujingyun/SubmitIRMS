@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 
 /**
@@ -18,13 +19,14 @@ import javax.persistence.Temporal;
  */
 @Entity
 public class PointTrans implements Serializable {
-     @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String type;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Calendar date_of_pointTrans;
-     
+    @ManyToOne
+    private Customer customer; 
     private int point; 
     private Long shopId;
     
