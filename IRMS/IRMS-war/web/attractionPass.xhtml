@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core" >
+    <h:head>
+        <title>Welcome to JSF PrimeFaces Demo</title>
+    </h:head>
+    <h:body>  
+        <f:view>
+            <h:form id="PassTicketForm">
+
+                <p:growl id="messages"  showDetail="true"/>
+
+                <p:panel>
+                    <h:outputLabel   value="Select Attraction: *" />  
+                    <p:column>
+                    <h:selectOneMenu id="attraction" value="#{attractionManagedBean.attractionName}" required="true">  
+                        <f:selectItem itemLabel="Select Attraction" itemValue="" />  
+                        <f:selectItems value="#{attractionManagedBean.attList}" var="attraction" itemLabel="#{attraction.name}" itemValue="#{attraction.name}"/>  
+                        <p:ajax update="passList" listener="#{attractionManagedBean.handleAttractionChange}"/>
+                    </h:selectOneMenu>
+                    </p:column>
+                </p:panel>
+    
+                
+                 <p:panel header="Create a new Pass" id="createPass" toggleable="true" collapsed="true">  
+                    <h:panelGrid id="grid">  
+
+                        <p:row>
+                            <p:column><h:outputLabel value="Pass Name : *" ></h:outputLabel>
+                                <p:inputText id="itemName" value="#{attractionManagedBean.newPass.passName}" required="true" />
+                            </p:column>
+                            <p:column><h:outputLabel value="Price : *" ></h:outputLabel>  
+                                <p:inputText id="itemPrice" required="true" value="#{attractionManagedBean.newPass.price}"/>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column><h:outputLabel value="Pass Type: *"></h:outputLabel>  
+                                <p:inputText id="itemType" value="#{attractionManagedBean.newPass.passType}" required="true"/>
+                            </p:column>  
+
+                            <p:column><h:outputLabel value="Remarks : *" ></h:outputLabel> 
+                                <p:inputText id="itemRemarks" required="true" value="#{attractionManagedBean.newPass.remarks}"/>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:commandButton value="Reset" type="reset"/>  
+                            <p:commandButton id="add" value="Create" update="createPass passes"  
+                                             action ="#{attractionManagedBean.reinitPass}" actionListener="#{attractionManagedBean.passCreate}">  
+                                <p:collector value="#{attractionManagedBean.newPass}"   
+                                             addTo="#{attractionManagedBean.ap}" />  
+                            </p:commandButton>  
+                        </p:row>
+                    </h:panelGrid>  
+                </p:panel>  
+                
+                <p:outputPanel id="passes">
+
+                    <p:dataTable var="pass"  value="#{attractionManagedBean.ap}" id="passList" editable="true" rowKey="#{pass.passName}" selection="#{attractionManagedBean.selectedPass}" selectionMode="single"> 
+
+                        <f:facet name="header">  
+                            IR Passes
+                        </f:facet>
+                        
+                        <p:ajax event="rowEdit" listener="#{attractionManagedBean.onPassEdit}" update=":PassTicketForm:messages" />  
+                        <p:ajax event="rowEditCancel" listener="#{attractionManagedBean.onPassCancel}" update=":PassTicketForm:messages" />
+                        
+                        <p:column headerText="pass Name"> 
+                            #{pass.passName}
+                        </p:column>  
+
+                        <p:column headerText="Pass Type">
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{pass.passType}" />  
+                                </f:facet>  
+                                <f:facet name="input">  
+                                    <p:inputText value="#{pass.passType}" style="width:100%"/>  
+                                </f:facet>  
+                            </p:cellEditor> 
+                        </p:column>  
+
+                        <p:column headerText="Pass Price">  
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{pass.price}" />  
+                                </f:facet>  
+                                <f:facet name="input">  
+                                    <p:inputText value="#{pass.price}" style="width:100%"/>  
+                                </f:facet>  
+                            </p:cellEditor> 
+                        </p:column>  
+
+                        <p:column headerText="Remarks"> 
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{pass.remarks}" />  
+                                </f:facet>  
+                                <f:facet name="input">  
+                                    <p:inputText value="#{pass.remarks}" style="width:100%"/>  
+                                </f:facet>  
+                            </p:cellEditor> 
+                        </p:column>
+
+                    
+
+
+                        <p:column headerText="Edit">
+                            <p:rowEditor/>
+                        </p:column>
+
+                        <p:column headerText="Delete">
+                            <p:commandButton value="Delete" onclick="cd.show();">
+                                <p:dialog  header="Please confirm this operation!" widgetVar="cd" modal="false">
+                                    <h:outputText value="Are you sure about deleteing this Pass?"/>
+                                    <p:commandButton value="Yes" actionListener="#{attractionManagedBean.deletePass}" update=":PassTicketForm:passes :PassTicketForm:messages" process=":PassTicketForm:passes" onclick="cd.hide();" >
+                                        <p:collector value="#{attractionManagedBean.selectedPass}" removeFrom="#{attractionManagedBean.ap}"/>
+                                    </p:commandButton>
+                                    <p:commandButton value="No" onclick="cd.hide();" type="button"/>
+                                </p:dialog>
+                            </p:commandButton>
+                        </p:column> 
+                    </p:dataTable>
+                </p:outputPanel>
+                
+            </h:form>
+            
+        </f:view>
+    </h:body>
+</html>
+
+

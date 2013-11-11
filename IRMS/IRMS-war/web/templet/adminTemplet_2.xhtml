@@ -16,19 +16,22 @@
             <link type="text/css" rel="stylesheet" href="./resources/css/default.css" />
             <link type="text/css" rel="stylesheet" href="./resources/css/syntaxhighlighter/syntaxhighlighter.css" />
 
-            <style type="text/css">
+           
+                 <style type="text/css">
                 .ui-layout-north {
                     z-index:20 !important;
-                    overflow:visible !important;;
+                    overflow:visible !important;
                 }
 
                 .ui-layout-north .ui-layout-unit-content {
                     overflow:visible !important;
+                    background-color: #4D4749;
                 }
-                
+.ui-layout-west .ui-widget-content{background-color: #E0F8F1;}
                 .ui-top {
-    background-image: none;
-    background-color: #E0F8F7; }
+                    background-image: none;
+                    background-color: #4D4749; }
+                
             </style>
 
 
@@ -49,17 +52,20 @@
 
             <p:layout fullPage="true" >
 
-                <p:layoutUnit id="top" position="north" size="50" styleClass="ui-top">
+                <p:layoutUnit id="top" position="north" size="80" styleClass="ui-top">
                     <div class="ui-top">
                     </div>
-                     <p>Welcome ! #{loginBean.username} 
+                     <img src="/IRMS-war/resources/img/index.jpg" style="opacity:0.7; margin-top:5px; width:100px; height:60px"/>
+                       <p style="color:white; margin-top:-35px; margin-left:8%" >
+                      
+                         Welcome ! WU JINGYUN, #{loginBean.username} 
                        
-<p:commandLink  id="logoutButton" value="Logout  |  "
+<p:commandLink  style="color:#B8DCDB" id="logoutButton" value="Logout  |  "
                                       actionListener="#{internalLogoutManagedBean.logout}" />
 
-                    <p:commandLink onclick="goChangePass();" value=" Change Password"/>
+                    <p:commandLink style="color:#B8DCDB"  onclick="goChangePass();" value=" Change Password"/>
                    
-                        <p:commandLink style="margin-left:75%" onclick="goIndex();" value="Coral Website" />
+                        <p:commandLink  style="margin-left:70%; color:#B8DCDB" onclick="goIndex();" value="Coral Website" />
                   
                     </p>
                    
@@ -70,13 +76,13 @@
 
                 <p:layoutUnit id="left" position="west" size="245" resizable="true" closable="true" collapsible="true" header="Options" minSize="180" >
                                  <p:menubar>
-                        <p:submenu label="My account" icon="ui-icon-document">
+                        <p:submenu label="My Profile" icon="ui-icon-pencil">
                           
                             <p:menuitem value="Edit Profile" url="/adminEditProfile.xhtml" />
                          
                         </p:submenu>
                                      
-                         <p:submenu label="Account Management" icon="ui-icon-document">
+                         <p:submenu label="Account Management" icon="ui-icon-person">
                           
                             <p:menuitem value="Create account" url="/register.xhtml" />
                             <p:menuitem value="Activate account" url="/adminAccountActivate.xhtml"/>
@@ -84,7 +90,7 @@
                     
                         </p:submenu>
 
-                         <p:submenu label="Internal Message" icon="ui-icon-document">
+                         <p:submenu label="Internal Message" icon="ui-icon-mail-closed">
                           
                             <p:menuitem value="Send Message" url="/internalSendMessage.xhtml" />
                             <p:menuitem value="Message Box" url="/internalMessageBox.xhtml"/>
@@ -112,10 +118,13 @@
 
                 <p:layoutUnit id="center" position="center">
                     <ui:insert name="center"> 
-                        <h:form>
-
-                        </h:form>
+                       
                     </ui:insert>
+                     <p style="margin-top:45px"><center><font color="black" size="1px">About Coral Island Resort | Corporate Social Responsibility | Partners | Press Room | Careers | Legal Information | Sitemap | Contact Us | Feedback </font>
+                    </center></p>
+
+                    <p><center><font color="black" size="1px">&copy; 2013 NUS IS3102 - AY 2013/2014 Sem 1. All Rights Reserved.</font></center></p>
+
                 </p:layoutUnit>
 
             </p:layout>

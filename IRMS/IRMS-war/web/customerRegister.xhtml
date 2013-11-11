@@ -30,41 +30,40 @@
                 <h:panelGrid columns="1" cellpadding="5">  
 
                     <p:focus context="panel" />  
-
-                    <h:outputLabel for="username" value="Username:" />
-                    <p:inputText id="username" required="true" label="username"
+                    <p:row>
+                    <h:outputLabel value="Username  :" />
+                    <p:inputText id="username" required="true" 
                                  size="40" requiredMessage="Please enter your username."
                                  value="#{customerLoginBean.username}">  
                         <p:ajax event="keyup" update="out"   
                                 listener="#{customerLoginBean.isUsernameValid()}"
                                 />  
                     </p:inputText>   
-                    <p:watermark for="username" value="Username *" />
                     <h:outputText id="out" value="#{customerLoginBean.userExist}" /> 
-
-
-
-
-                    <h:outputLabel for="password" value="Password:" />
+</p:row>
+<p:row>                                   
+                    <h:outputLabel value="Password  :" />
                     <p:password value="#{customerLoginBean.password}" 
-                                id="password" required="true" label="password"  requiredMessage="Password is required">
+                                id="password" required="true"  requiredMessage="Password is required">
                         <p:ajax event="keyup"   
                                 listener="#{customerLoginBean.updatePassword()}"/>  
                     </p:password>
-                    <h:outputText value="Password 2: "/>        
+       </p:row>    <p:row>         
+                    <h:outputText value="Confirm Password: "/>        
                     <p:password id="confirmpassword" value="#{customerLoginBean.confirmpassword}" 
                                 required="true">
                         <p:ajax event="keyup" update="match"   
                                 listener="#{customerLoginBean.matchPassword()}"/>  
 
                     </p:password>
+                     <p:watermark for="confirmpassword" value="Please repeat password *" />
                     <h:outputText id="match" value="#{customerLoginBean.match}" /> 
-
+  </p:row> 
 
                     <p:separator /> 
-
+                    <p><b>Basic Information</b></p>
                     <p:row>
-                        <h:outputText value="First Name: " />  
+                        <h:outputText value="FirstName :" />  
                         <p:inputText id="fname" required="true" label="fname" size="40"
                                      requiredMessage="Please enter your firstname."
                                      value="#{customerLoginBean.firstName}">
@@ -75,7 +74,7 @@
 
 
                     <p:row>
-                        <h:outputText value="Last Name: " />  
+                        <h:outputText value="LastName  :" />  
                         <p:inputText id="lname" required="true" label="lname" size="40"
                                      value="#{customerLoginBean.lastName}">
                         </p:inputText>
@@ -83,27 +82,21 @@
                         <p:message for="lname" display="icon"/>
                     </p:row>
                     <p:row>
-                        <h:outputText value="Gender: " />  
+                        <h:outputText value="Gender    :" />  
                         <p:selectOneRadio id="options" value="#{customerLoginBean.gender}" required="true"  
                                           requiredMessage="Please enter your gender.">  
                             <f:selectItem itemLabel="Female" itemValue="Female" />  
                             <f:selectItem itemLabel="Male" itemValue="Male" />  
                         </p:selectOneRadio> 
 
-                    </p:row>    
+                    </p:row> 
+                     <p:row>
+ <h:outputText value="Date of Birth:" /> 
+    <p:calendar value="#{customerLoginBean.dob}" id="popupButtonCal" required="true"  requiredMessage="Date of birth is required" />  
+                   </p:row>    
 
                     <p:row>
-                        <h:outputLabel for="age" value="Age Group:" />  
-                        <h:selectOneMenu id="age" value="#{customerLoginBean.ageGroup}" required="true"
-                                         requiredMessage="Please select your age group.">  
-                            <f:selectItem itemLabel="Select One" itemValue="" />  
-                            <f:selectItems value="#{customerLoginBean.ageGroups}" />  
-                        </h:selectOneMenu>  
-
-                    </p:row>       
-
-                    <p:row>
-                        <h:outputText value="Address " />  
+                        <h:outputText value="Address   :" />  
                         <p:inputText id="address" required="true" label="address" size="100"
                                      requiredMessage="Please enter your  address."
                                      value="#{customerLoginBean.address}">
@@ -114,7 +107,7 @@
 
 
                     <p:row>
-                        <h:outputText value="Email: " />  
+                        <h:outputText value="Email     :" />  
                         <p:inputText id="email" required="true" label="email" size="40"
                                      requiredMessage="Please enter your email address."
                                      validatorMessage="Invalid email format"
@@ -122,14 +115,14 @@
                             <f:validateRegex
                                 pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
                         </p:inputText>
-                        <p:watermark for="email" value="Email Address *" />
+                        <p:watermark for="email" value="Please enter valid email address *" />
                         <p:message for="email" display="icon"/>
                     </p:row>
 
 
 
                     <p:row>             
-                        <h:outputText value="Phone: " />  
+                        <h:outputText value="Phone     :" />  
                         <p:inputMask id="phone" value="#{customerLoginBean.phone}" mask="(+99) 9999-9999" required="true" 
                                      requiredMessage="Phone is required" /> 
                         <p:watermark for="phone" value="Phone # with country code*" />
@@ -138,9 +131,9 @@
 
 
 
-                    <p:row> 
+                    <!--<p:row> 
                         <h:outputText value ="Select a security question:"/>
-                        <h:selectOneMenu value="#{customerLoginBean.sq}" >
+                        <h:selectOneMenu value="" >
                             <f:selectItem itemLabel="What's your favourite sport?" itemValue="q1" />
                             <f:selectItem itemLabel="What's the name of your pet?" itemValue="q2" />
                             <f:selectItem itemLabel="What's your favourite book?" itemValue="q3" />
@@ -149,9 +142,9 @@
                     </p:row>
                     <p:row> 
                         <h:outputText value ="Answer:"/>
-                        <h:inputText value="#{customerLoginBean.answer}" requiredMessage="Please select your answer" required="true" />
+                        <h:inputText value="" requiredMessage="Please select your answer" required="true" />
                     </p:row>
-
+-->
 
                 </h:panelGrid>  
 

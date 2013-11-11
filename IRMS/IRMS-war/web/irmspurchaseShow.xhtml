@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta http-equiv="X-UA-Compatible" content="EmulateIE8" />
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>Coral Island Resort - Admin Portal</title>
+            </f:facet>
+
+            <link type="text/css" rel="stylesheet" href="./resources/css/default.css" />
+            <link type="text/css" rel="stylesheet" href="./resources/css/syntaxhighlighter/syntaxhighlighter.css" />
+
+   
+                 <style type="text/css">
+           
+                
+            </style>
+
+
+        </h:head>
+
+        <script type="text/javascript">
+          
+
+        </script>
+        <h:body>
+
+        <div id="content" class="center_content" >  
+
+            <div class="container" style="width:75%">
+                <h:form>
+                    <p:growl id="msgs" showDetail="true"/>  
+                   
+  <p:panel  header="Purchase Show Ticket" id="panel" style="height:795px; background-color:#F5F2F3 ">  
+                <h:panelGrid columns="1" cellpadding="5">  
+                     
+                       
+                        <h:outputText value="Show:   #{showPurchaseManagedBean.showTitle} "/> 
+              
+<h:outputText value="Available Time Slot:"/>
+<p:selectOneMenu id="ms" value="#{showPurchaseManagedBean.purchaseShowId}" required="true" 
+                                             requiredMessage="show is required">   
+                                <f:selectItem itemLabel="Select show" itemValue="" />  
+                                <f:selectItems value="#{showPurchaseManagedBean.entShowList}"  />
+                                
+                         </p:selectOneMenu>    
+
+<p:commandButton action="irmsShowInfor_1.xhtml?faces-redirect=true" value="Select seat" ajax="false"/>
+                       
+                </h:panelGrid>
+
+                    </p:panel>
+                </h:form>
+            </div>
+
+
+
+        </div>
+
+</h:body>
+    </f:view>
+</html>

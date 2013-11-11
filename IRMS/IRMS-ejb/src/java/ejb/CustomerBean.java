@@ -8,6 +8,7 @@ import entity.Customer;
 import entity.UserAccount;
 import java.security.MessageDigest;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.ejb.EJB;
@@ -29,7 +30,7 @@ public class CustomerBean implements CustomerBeanRemote {
     EntityManager em;
     Customer cu;
     private Customer customer;
-
+    private List<Customer> customerList;
     @Override
     public void createCustomer(String userName, String password, String firstName, String lastName, String address, String email,
             String ageGroup, String gender, String moilePhoneNumber, String sq, String answer) {    //cu = new Customer();
@@ -68,6 +69,24 @@ public class CustomerBean implements CustomerBeanRemote {
          }*/
     }
 
+    
+        @Override
+    public List<Customer> getCustomerList() {
+      
+        customerList= new ArrayList();
+        String ejbql ="SELECT DISTINCT c FROM Customer c GROUP BY c.userName";
+        Query q = em.createQuery(ejbql);
+        for(Object o: q.getResultList()){
+            Customer t =(Customer)o;
+            customerList.add(t);       
+        }
+        em.flush();
+       return customerList;
+   }
+    
+        
+        
+        
     @Override
     public Customer getCustomerById(long Id) {
         cu = em.find(Customer.class, Id);

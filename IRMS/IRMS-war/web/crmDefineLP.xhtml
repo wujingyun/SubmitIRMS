@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./templet/adminTemplet_2.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+ 
+
+    <ui:define name="center">
+        <h:form id="form">  
+
+            <p:growl id="msgs" showDetail="true"/>  
+
+            <p:panel  header="New Account" id="panel" style="margin-bottom:10px;">  
+                <h:panelGrid columns="1" cellpadding="5">  
+ <p:row>
+                        <h:outputText value="Membership: "/> 
+              
+
+                            <p:selectOneMenu id="ms" value="#{loyaltyProgramManagedBean.membership}" required="true" 
+                                             requiredMessage="Membership is required">  
+                                <f:selectItem itemLabel="Select Membership:" itemValue="" />  
+                                <f:selectItems value="#{loyaltyProgramManagedBean.membershipList}" />  
+                              <p:ajax update="rewardPoint, redeemPoint"  
+                                        listener="#{loyaltyProgramManagedBean.handleMembershipChange()}" />  
+                       </p:selectOneMenu>          
+                        
+                        
+                          
+                   
+ </p:row>
+                    <p:row>
+                      <h:outputText value="reward Point(for every $50 purchase) : " /> 
+                      <p:inplace id="rewardPoint" editor="true">  
+                            <p:inputText value="#{loyaltyProgramManagedBean.rewardPoint}"  requiredMessage="Please enter your account."
+                            required="true" label="rewardPoint"/>  
+            </p:inplace> </p:row>  
+                    <p:row>
+                       <h:outputText value="redeem Point(for every $1 cash) : " />          
+                                   <p:inplace id="redeemPoint" editor="true">  
+                                       <p:inputText value="#{loyaltyProgramManagedBean.redeemPoint}"  requiredMessage="Please enter your account."
+                            required="true" label="redeemPoint"/>  
+            </p:inplace>  </p:row>
+                </h:panelGrid>
+                <p:separator />  
+                <p:commandButton value="Reset" type="reset" />  
+                <p:commandButton value="Submit" update="msgs" actionListener="#{loyaltyProgramManagedBean.updateRRPlan}" id="btnSubmit"/>  
+
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+  
+</ui:composition>

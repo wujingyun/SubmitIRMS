@@ -20,7 +20,7 @@ public interface CustomerBeanRemote {
      
        public void createCustomer(String userName, String password, String firstName, String lastName, String address, String email, 
        String ageGroup, String gender, String moilePhoneNumber,String sq, String answer); 
-
+public List<Customer> getCustomerList() ;
     public String hashPassword(String password);
 
     public String hashPassword2(long uid, String password);

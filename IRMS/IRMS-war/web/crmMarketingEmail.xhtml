@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./templet/adminTemplet_2.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+    
+  
+ <ui:define name="center">
+   <h:form>                      
+      <p:growl id="msgs" showDetail="true"/> 
+            <p:panel  header="Write Marketing Message" >
+                     <div >
+                    <div >
+                        <h:outputText value="To:" /><p:spacer width="10px"/>
+
+                                <h:outputText value="Customer Group: " />  
+                                <p:selectManyCheckbox id="lineDirection" value="#{internalMessageManagedBean.employee}">  
+            <f:selectItem itemLabel="Age Group(lesser than 18)" itemValue="Age Group(lesser than 18)" />  
+            <f:selectItem itemLabel="Age Group(18-25)" itemValue="Age Group (18-25)" />  
+            <f:selectItem itemLabel="Age Group(26-35)" itemValue="Age Group(26-35)" />  
+            <f:selectItem itemLabel="Age Group(36-45)" itemValue="Age Group(36-45)" />  
+            <f:selectItem itemLabel="Age Group(46-65)"  itemValue="Age Group(46-65)" />  
+            
+            <f:selectItem itemLabel="CLV Group1" itemValue="CLV Group1" /> 
+            <f:selectItem itemLabel="CLV Group2" itemValue="CLV Group2" /> 
+            <f:selectItem itemLabel="CLV Group3" itemValue="CLV Group3" /> 
+            <f:selectItem itemLabel="CLV Group4" itemValue="CLV Group4" /> 
+            <f:selectItem itemLabel="CLV Group5" itemValue="CLV Group5" /> 
+            
+             <f:selectItem itemLabel="OPremier Membership" itemValue="Premier Membership" /> 
+            <f:selectItem itemLabel="Gold Membership" itemValue="Gold Membership" /> 
+            <f:selectItem itemLabel="Platinum Membership" itemValue="Platinum Membership" /> 
+            <f:selectItem itemLabel="Diamond Membership" itemValue="Diamond Membership" /> 
+            
+            
+            
+        </p:selectManyCheckbox> 
+                        <h:outputText value="Title:" />
+                        <h:inputText value="#{internalMessageManagedBean.title}" />
+
+                    </div>
+                    <p:editor value="#{internalMessageManagedBean.msg}" widgetVar="editor" />  
+
+                    <h:panelGrid columns="2" >  
+                        <p:commandButton value="Send" image="ui-icon ui-icon-mail-closed" update="msgs"  actionListener="#{internalMessageManagedBean.sendMsg}" />  
+                        <p:commandButton value="Reset" type="reset"  image="ui-icon ui-icon-close" />  
+                    </h:panelGrid> 
+                </div>
+            </p:panel>
+        </h:form>
+ </ui:define>
+</ui:composition>

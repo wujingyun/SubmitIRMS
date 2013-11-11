@@ -85,8 +85,17 @@ public class Customer implements Serializable
    
     private Collection<PointTrans> pointTrans = new ArrayList();
    
-    
-    
+    @OneToMany(mappedBy="customer")
+    private Collection<AttractionTicketTrans> attractionTicketTrans = new ArrayList();
+    @OneToMany(mappedBy="customer")
+    private Collection<AttractionPassTrans> attractionPassTrans = new ArrayList();
+     @OneToMany(mappedBy="customer",cascade= CascadeType.ALL)
+    private Collection<ShowTicketTrans> showTicketTrans = new ArrayList();
+     
+      @OneToMany(mappedBy="customer")
+    private Collection<PackageTrans> packageTrans = new ArrayList();
+      private double clv;
+      private String classificationGroup;
     public void create(String userName, String password, String firstName, String lastName, String address, String email,  
             String ageGroup, String gender, String moilePhoneNumber, String securityQuestion,String answer) {
        this.setUserName(userName);
@@ -126,10 +135,18 @@ public class Customer implements Serializable
         this.answer = answer;
     }
 
+    public Collection<AttractionPassTrans> getAttractionPassTrans() {
+        return attractionPassTrans;
+    }
+
    
 
     public Long getCustomerId() {
         return Id;
+    }
+
+    public void setAttractionPassTrans(Collection<AttractionPassTrans> attractionPassTrans) {
+        this.attractionPassTrans = attractionPassTrans;
     }
 
     public Collection<RoomReservation> getRoomReservations() {
@@ -186,6 +203,14 @@ public class Customer implements Serializable
         this.membership = membership;
     }
 
+    public void setPointTrans(Collection<PointTrans> pointTrans) {
+        this.pointTrans = pointTrans;
+    }
+
+    public Collection<PointTrans> getPointTrans() {
+        return pointTrans;
+    }
+
     public Membership getMembership() {
         return membership;
     }
@@ -200,6 +225,46 @@ public class Customer implements Serializable
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public void setAttractionTicketTrans(Collection<AttractionTicketTrans> attractionTicketTrans) {
+        this.attractionTicketTrans = attractionTicketTrans;
+    }
+
+    public void setShowTicketTrans(Collection<ShowTicketTrans> showTicketTrans) {
+        this.showTicketTrans = showTicketTrans;
+    }
+
+    public void setPackageTrans(Collection<PackageTrans> packageTrans) {
+        this.packageTrans = packageTrans;
+    }
+
+    public void setClv(double clv) {
+        this.clv = clv;
+    }
+
+    public void setClassificationGroup(String classificationGroup) {
+        this.classificationGroup = classificationGroup;
+    }
+
+    public String getClassificationGroup() {
+        return classificationGroup;
+    }
+
+    public Collection<AttractionTicketTrans> getAttractionTicketTrans() {
+        return attractionTicketTrans;
+    }
+
+    public Collection<ShowTicketTrans> getShowTicketTrans() {
+        return showTicketTrans;
+    }
+
+    public Collection<PackageTrans> getPackageTrans() {
+        return packageTrans;
+    }
+
+    public double getClv() {
+        return clv;
     }
 
     

@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./templet/generalWebPortal_1.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+
+
+    <ui:define name="content">
+
+
+
+        <div id="content" class="center_content" >  
+
+            <div class="container" style="width:75%">
+                <h:form>
+                    <p:growl id="msgs" showDetail="true"/>  
+                    <p:panel id="search"  style="height:795px; background-color:#F5F2F3 ">
+
+                        <p:breadCrumb> 
+                            <p:menuitem value="Coral Home Page" url="/Index.xhtml" />  
+                            <p:menuitem value="Hotel" url="#" />  
+                            <p:menuitem value="Rooms" url="#" />  
+                            <p:menuitem value="Deluxe" url="#" /> 
+                        </p:breadCrumb> 
+                        <h2> Deluxe Room </h2>
+
+                        <P>Retreat to this bright 39-square metre space in Tower 3. Book the Deluxe Room with City View on the 19th floor and above for a piece of the best city-skyline view of a five-star hotel in Singapore.
+                        </P>
+
+
+
+                        <p:tabView id="tabView">  
+
+                            <p:tab id="tab1" title="GALLERY">  
+                                <h:panelGrid columns="2" cellpadding="10">  
+                                    <p:galleria value="#{galleriaManagedBean.images}" var="image" panelWidth="500" panelHeight="313" showCaption="true">  
+                                        <p:graphicImage value="/resources/img/deluxe/#{image.image}" alt=" #{image.description}" title="Deluxe Room" />  
+                                    </p:galleria>  
+
+                                    <h:outputText id="tab1Text"   value="
+                                                  Retreat to this bright 39-square metre space in Tower 3. Book the Deluxe Room with City View on the 19th floor and above for a piece of the best city-skyline view of a five-star hotel in Singapore.
+                                                  "/>
+                                </h:panelGrid>  
+
+                            </p:tab>  
+
+                            <p:tab id="tab2" title="PRIVILEGES">  
+                                <h:panelGrid columns="2" cellpadding="10">  
+                                    <p> <h:outputText id="tab2Text1" value="    
+                                                  Access to the stunning Sands SkyPark Infinity Pool"/></p>
+                                    <p> <h:outputText id="tab2Text2" value="
+                                                  Complimentary high-speed internet (wired/wireless)"/></p>
+                                    <p><h:outputText id="tab2Text3" value="
+                                                  Entry to award-winning Banyan Tree Fitness Club"/>  </p>
+                                </h:panelGrid>  
+                            </p:tab>  
+                            <p:tab id="tab2" title="FWATURES">  
+                                <h:panelGrid columns="2" cellpadding="10">  
+
+                                    <h:outputText id="tab2Text" value="    
+                                                  39-square metre room
+                                                  King or two twin beds
+                                                  Walk-in shower + Paiza bathroom amenities
+                                                  Iron and ironing board
+                                                  In-room safe
+                                                  Wheelchair-accessible rooms available
+                                                  Non-smoking/smoking rooms available"/>  
+                                </h:panelGrid>  
+                            </p:tab> 
+
+
+                        </p:tabView>  
+
+
+ <p style="margin-top:45px"><center><font color="black" size="1px">About Coral Island Resort | Corporate Social Responsibility | Partners | Press Room | Careers | Legal Information | Sitemap | Contact Us | Feedback </font>
+                    </center></p>
+
+                    <p><center><font color="black" size="1px">&copy; 2013 NUS IS3102 - AY 2013/2014 Sem 1. All Rights Reserved.</font></center></p>
+
+                    </p:panel>
+                </h:form>
+            </div>
+
+
+
+        </div>
+
+    </ui:define>
+
+</ui:composition>

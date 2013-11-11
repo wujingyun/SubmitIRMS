@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./templet/generalWebPortal_1.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+
+
+    <ui:define name="content">
+
+
+
+        <div id="content" class="center_content" >  
+
+            <div class="container" style="width:75%">
+                <h:form>
+                    <p:growl id="msgs" showDetail="true"/>  
+                    <p:panel id="search"  style="height:795px; background-color:#F5F2F3 ">
+
+                        <p:breadCrumb> 
+                            <p:menuitem value="Coral Home Page" url="/Index.xhtml" />  
+                            <p:menuitem value="Entertainment" url="#" />  
+                            <p:menuitem value="Show" url="#" />  
+
+                        </p:breadCrumb> 
+                        <h2>Richard Clayderman Romantique Tour</h2>
+                        <h4>2 November 2013, Grand Theatre </h4>
+<a   class="btn btn-lg btn-danger" href="irmspurchaseShow.xhtml?showTitle=Richard Clayderman Romantique Tour" >Purchase ticket</a>
+
+                        <P>With his lush and sophisticated instrumental approach to pop music, Richard Clayderman's albums routinely sell millions of copies and his concerts are quickly sold out. Ballade Pour Adeline is the greatest hit of all time, with 22 million singles sold - even more than It's Now or Never by Elvis Presley!
+                        </P>
+
+
+
+                        <p:tabView id="tabView">  
+
+               
+
+                            <p:tab id="tab1" title="Event Information">  
+                                <h:panelGrid columns="2" cellpadding="10">  
+                                    <p> <h:outputText id="tab2Text1" value="    
+                                                      Richard Clayderman is a classically-trained pianist who enrolled in the Paris 
+                                                      Conservatory of Music at the age of 12. Four years later, he was placed first 
+                                                      in a piano competition at the school. Despite his classical background, 
+                                                      Clayderman opted for popular music when he launched his professional career. 
+                                                      Touring as an opening act for French rock musician Johnny Hallyday introduced 
+                                                      him to an international following. Clayderman's debut album, Ballade Pour Adeline
+                                                      was recorded at the urging of producers and composers Oliver Toussaint and Paul 
+                                                      de Senneville in 1977, sold more than 20 million copies and was distributed in 
+                                                      38 countries. Touted as the 'Prince of Romance', Clayderman promises to play the
+                                                      romantic piano tunes in his live concerts.
+                                                      He has a vast discography of well over 200 albums and has enjoyed an upsurge in
+                                                      mainstream popularity, in part due to the classical crossover explosion era. 
+                                                      His 2013 album Romantique for Decca is arguably his highest-profile release ever 
+                                                      - featuring a mélange of film music, pop and light classical standards, and a 
+                                                      re-recording of his best-known tune,Ballade pour Adeline.The shy Frenchman never 
+                                                      intended to be a performer - let alone become a superstar. Today, his distinctive 
+                                                      piano reinterpretations of familiar tunes from every era and genre are still heard
+                                                      in every corner of the world. Whether we know it or not, his music has become the 
+                                                      soundtrack of our lives. Catch him at the MasterCard® Theatres, Marina Bay Sands."/></p>
+                                </h:panelGrid>  
+                            </p:tab>  
+                            <p:tab id="tab2" title="Admission and Venue policy">  
+                                <h:panelGrid columns="2" cellpadding="10">  
+                                    <h5>Age admission policy</h5>
+                                    <h:outputText id="tab2Text" value="                                                  
+                                                  Children under 3 year of age may be admitted free of charge,
+                                                  provided they do not occupy a seat (they must be seated on the lap of a parent or guardian).
+                                                  Children age 3 year and above must purchase a ticket for admission.
+                                                  "/>  
+                                    <h5>Booster Seats</h5>
+                                    <h:outputText id="tab2Text" value="                                                  
+                                                  Booster seats are available on a first come, first served basis from 1 hour prior to show up until show time. They are not guaranteed and are not included with the purchase of your ticket. Patrons are welcome to bring their own. The ones provided by Marina Bay Sands may not be taken out of the Theatre Foyer at any time."/>  
+                                    <h5>Late Seating Policy</h5>
+                                    <h:outputText id="tab2Text" value="                                                  
+                                                  For the enjoyment of all audience members, all events start promptly at the time printed on the ticket. Please be seated 15 minutes before the performance start time. Entry for latecomers and re-admission will not be permitted until the first appropriate pause in the show.
+"/>  
+                                    <h5>Photography rules and regulations</h5>
+                                    <h:outputText id="tab2Text" value="                                                  
+                                                  No photography, video recording and audio recording is allowed for this event."/>  
+                                </h:panelGrid>  
+                            </p:tab> 
+
+
+                        </p:tabView>  
+
+
+                        <p style="margin-top:45px"><center><font color="black" size="1px">About Coral Island Resort | Corporate Social Responsibility | Partners | Press Room | Careers | Legal Information | Sitemap | Contact Us | Feedback </font>
+                            </center></p>
+
+                        <p><center><font color="black" size="1px">&copy; 2013 NUS IS3102 - AY 2013/2014 Sem 1. All Rights Reserved.</font></center></p>
+
+                    </p:panel>
+                </h:form>
+            </div>
+
+
+
+        </div>
+
+    </ui:define>
+
+</ui:composition>

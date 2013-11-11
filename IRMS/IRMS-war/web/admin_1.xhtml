@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./templet/adminTemplet.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+ 
+
+    <ui:define name="center">
+       <p:tabView id="tabView">  
+
+                <p:tab id="tab1" title="GALLERY">  
+                    <h:panelGrid columns="2" cellpadding="10">  
+                        <p:galleria value="#{galleriaManagedBean.images}" var="image" panelWidth="500" panelHeight="313" showCaption="true">  
+                            <p:graphicImage value="/resources/img/deluxe/#{image}" alt="Image Description for #{image}" title="#{image}"/>  
+                        </p:galleria>  
+                    </h:panelGrid>  
+                </p:tab>  
+       </p:tabView>
+    </ui:define>
+
+  
+</ui:composition>

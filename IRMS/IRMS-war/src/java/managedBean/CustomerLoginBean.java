@@ -48,6 +48,7 @@ public class CustomerLoginBean implements Serializable {
     private String password;
     private String firstName;
     private String lastName;
+     private Date dob;
     private String email;
     private String address;
     private String phone;
@@ -253,17 +254,17 @@ public class CustomerLoginBean implements Serializable {
 */
         if (cbb.checkCustomerExist(username)) {
             register = false;
-            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Reigstered Failed", "Username Existed, use another username.");
+            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Reigstered Failed", "Username Existed, use another username.");
         } 
         else if (!password.equals(confirmpassword)) {
             register = false;
-            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Reigstered Failed", "Passwords don't match.");
+            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Reigstered Failed", "Passwords don't match.");
         }
         else if (username != null && password != null ) {
             String hashPassword = cbb.hashPassword(password);
             cbb.createCustomer(username, hashPassword, firstName, lastName, address, email, ageGroup, gender, phone,sq,answer);
             register = true;
-            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Reigstered Successfully", username);
+            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Reigstered Successfully", username);
         } 
         else {
             register = false;
@@ -444,5 +445,13 @@ public class CustomerLoginBean implements Serializable {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public Date getDob() {
+        return dob;
+    }
+
+    public void setDob(Date dob) {
+        this.dob = dob;
     }
 }

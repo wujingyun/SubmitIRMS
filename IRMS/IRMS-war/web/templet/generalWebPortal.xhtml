@@ -4,6 +4,7 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
+      
       xmlns:p="http://primefaces.org/ui">
     <f:view>
         <h:head>
@@ -13,13 +14,14 @@
 
             <link href="./resources/css/bootstrap_1.css" rel="stylesheet" type="text/css" />
             <link href="./resources/css/bootstrap-responsive.css" rel="stylesheet" type="text/css" />
-
-            <script type="text/javascript" src="./resources/js/bootstarp.js"></script>  
+  
+           
             <title>Welcome to Coral Island Resort</title>
             <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
             <script src="resources/js/bootstrap.min.js"></script>
             <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
             <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+             <script type="text/javascript" src="./resources/js/bootstrap.js"></script>  
             <script type="text/javascript">
                 $(document).ready(function() {
 
@@ -28,8 +30,20 @@
                         $('#dialog').dialog('open');
                     });
                 });
+$(function ()    
+{ $("popover").popover();    
+});   
 
-
+$('#popover').popover({ 
+    
+    html : true,
+    title: function() {
+      return $("#popover-head").html();
+    },
+    content: function() {
+      return $("#popover-content").html();
+    }
+});
 
             </script>
         </h:head>
@@ -56,14 +70,47 @@
 
 
                                     <ul class="nav pull-right">
-                                        <h:form id="search"  style="margin:0px">
+                                        
+                                       
                                             <!--   <input  name="q" type="text" size="30" placeholder="Search..." /> -->
-                                            <a href="/IRMS-war/webSearch.xhtml"><img src="/IRMS-war/resources/img/SearchButton.png" style="opacity:0.5;"></img></a>
-                                        </h:form>
+                                            <a href="/IRMS-war/webSearch.xhtml"><img src="/IRMS-war/resources/img/SearchButton.png" style="opacity:0.5; margin-top:5px"></img></a>
+                                            <a  id="popover" data-toggle="popover" class="btn btn-lg btn-danger" href="#" data-content="hah">Book</a>
+                                     <!--  <div class="popover fade bottom in" style="top: 24.4667px; left: 232.167px; display: block;width: 400px;">
+                                           <div class="arrow"></div>
+                                         
+                                           <div class="popover-content"><form>
+      <h:panelGrid columns="2" style="margin-bottom:10px; " cellpadding="5">  
+  
+        
+        <p:selectOneRadio id="options" value="">  
+            <f:selectItem itemLabel="Hotel" itemValue="1"/>  
+            <f:selectItem   itemLabel="Attraction" itemValue="2" />  
+            <f:selectItem itemLabel="Show" itemValue="3" />  
+            <f:selectItem itemLabel="Restaurant" itemValue="3" />  
+            <f:selectItem itemLabel="Package" itemValue="3" />  
+        </p:selectOneRadio>  <br></br>
+  <p:commandButton id="submitButton" value="Book" />  
+    </h:panelGrid>
+  </form></div>
+                                           
+                                       </div>-->
+                                      
+                                   
+                                        <!-- <a data-content="And here's some amazing content. It's very engaging. right?" title="" data-toggle="popover" class="btn btn-lg btn-danger" href="#" data-original-title="A Title">Book</a>-->
+                                      
+<div id="popover-head" class="hide">some title</div>
+<div id="popover-content" class="hide">
+  <form>
+    <!-- my form -->
+  </form>
+</div>
+                                       
+                                        
+                                        </ul>
 
 
 
-                                    </ul>
+                                   
                                 </div>
                             </div>
                         </div>
@@ -208,124 +255,7 @@
 
             <div id="content" class="center_content" >  
 
-                <div class="container" style="width:75%">
-
-                    <div id="myCarousel" class="carousel slide">
-                        <div class="carousel-inner">
-                            <div class="item active">
-                                <img src="./resources/img/122.jpg" alt="" style="width:100%;"/>
-                                <div class="carousel-caption">
-                                    <h4>Coral Island Resort</h4>
-                                    <p>This is where barefoot luxury meets unpretentious style.</p>
-                                    <p>Whatever you choose to do at here, you’ll do it in complete seclusion</p><br/>
-
-                                </div>
-                                <div class="carousel-caption-button">   <a class="btn btn-primary" target="_blank" href="#">Find out more</a></div>
-                            </div> 
-
-                            <div class="item">
-
-                                <img src="./resources/img/222.jpg" alt="" style="width:100%; "/>
-                                <div class="carousel-caption">
-                                    <h4>Indulging Moments</h4>
-                                    <p>Indulge your senses in our spectacular Ocean Suites</p>
-                                    <p>or with one of our luxuriant ESPA treatments.</p><br/>
-
-                                </div>
-                                <div class="carousel-caption-button">   <a class="btn btn-primary" target="_blank" href="#">Find out more</a></div>
-
-                            </div>
-
-                            <div class="item">
-                                <img src="./resources/img/822.jpg" alt="" style="width:100%;"/>
-                                <div class="carousel-caption">
-                                    <h4>Immersive Moments</h4>
-                                    <p>Immerse yourself in a magical marine world seen through</p>
-                                    <p>our planet’s largest window to the ocean at S.E.A. Aquarium.</p><br/>
-
-                                </div>
-                                <div class="carousel-caption-button">   <a class="btn btn-primary" target="_blank" href="#">Find out more</a></div>
-                            </div>
-
-                            <div class="item">
-                                <img src="./resources/img/142.jpg" alt="" style="width:100%; "/>
-                                <div class="carousel-caption">
-                                    <h4>Rewarding Moments</h4>
-                                    <p>Be it a VIP backstage tour, private parties or attraction previews,</p>
-                                    <p>RWS Invites members get access to special year-round events and offerings.</p><br/>
-
-                                </div>
-                                <div class="carousel-caption-button">    <a class="btn btn-primary" target="_blank" href="#">Find out more</a></div>
-                            </div>
-
-
-
-                        </div> 
-                        <a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>
-                        <a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>
-                    </div>
-                </div>
-
-
-
-
-
-                <div class="container" style="width:75%">
-
-
-                    <div class="pod_cnt">
-                        <div class="podv2">
-                            <a href="" title="Legends of R&amp;B Show">
-                                <img src="./resources/img/11.jpg" alt="" title="" border="0"/>
-                            </a>
-                            <div>
-                                <span>
-                                    <a title="Legends of R&amp;B Show" href="">Legends of R&amp;B Show</a>
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="podv2">
-                            <a href="" title="">
-                                <img src="./resources/img/22.jpg" alt="" title="" border="0"/>
-                            </a>
-                            <div>
-                                <span>
-                                    <a title="" href="">3rd city to host a Men's Fashion Week</a>
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="podv2">
-                            <a href=" " title="Pacquiao vs Rios Boxing Fight">
-                                <img src="./resources/img/33.jpg" alt="" title="Pacquiao vs Rios Boxing Fight" border="0"/>
-                            </a>
-                            <div>
-                                <span>
-                                    <a title="" href=" ">Pacquiao vs Rios Boxing Fight</a>
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="podv2">
-                            <a href="" title="Catch the Prince of Romance">
-                                <img src="./resources/img/44.jpg" alt="" title="Catch the Prince of Romance" border="0"/>
-                            </a>
-                            <div>
-                                <span>
-                                    <a title="" href="">Catch the Prince of Romance<span class="glyphicon glyphicon-envelope"></span></a>
-                                </span>
-                            </div></div>
-                    </div>
-
-
-
-                </div>
-
-
-
-
-
+               
                 <ui:insert name="content">
 
 
@@ -341,7 +271,9 @@
 
                         <footer>
                             <br/><br/><br/>
-                            <p><font color="white">&copy; 2013 NUS IS3102 - AY 2013/2014 Sem 1. <br/>All Rights Reserved.</font></p>
+                            <p><center><font color="white" size="1px">About Coral Island Resort | Corporate Social Responsibility | Partners | Press Room | Careers | Legal Information | Sitemap | Contact Us | Feedback </font>       </center></p>
+                      
+                            <p><center><font color="white" size="1px">&copy; 2013 NUS IS3102 - AY 2013/2014 Sem 1. All Rights Reserved.</font>     </center></p>
                         </footer> 
 
 

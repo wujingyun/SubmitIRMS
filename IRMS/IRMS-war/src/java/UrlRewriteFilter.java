@@ -173,14 +173,18 @@ public class UrlRewriteFilter implements Filter {
    
 
     private Boolean checkRequireLogin(String path) {
-        if (path.contains("index.xhtml") 
+        if (path.contains("index.xhtml") ||path.contains("irmsjquery")
                 || path.contains("loginCustomer.xhtml") || path.contains("loginInternalUser.xhtml") 
                 || path.contains("passwordReset.xhtml")|| path.contains("crmPasswordReset.xhtml")
                 || path.contains("ResetResult.xhtml") || path.contains("crmResetResult.xhtml")
                 || path.contains("customerRegister.xhtml")|| path.contains("logout.xhtml")
                 || path.contains("accessDeniedPage.xhtml")|| path.contains("smpTest.xhtml")
                 || path.startsWith("/javax.faces.resource")|| path.contains("webSearch")
-                || path.startsWith("/resources")   || path.startsWith("/ui.xhtml")  
+                || path.startsWith("/resources")   || path.startsWith("/ui.xhtml") || path.contains("smp")  || path.contains("acm")  || path.contains("crm") 
+                || path.startsWith("/ui_1.xhtml") || path.startsWith("/ui_2.xhtml") || path.startsWith("/admin")  
+                || path.startsWith("/mobileIndex.xhtml")     || path.contains("irms")|| path.contains("attraction")
+                        
+                        || path.startsWith("/internalSendMessage.xhtml")|| path.contains("Deluxe")  
                 || path.endsWith("/")) {
            System.out.println("doesn't reqiure login=================================");
            return true;

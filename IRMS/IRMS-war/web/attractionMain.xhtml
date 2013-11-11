@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+       xmlns:f="http://java.sun.com/jsf/core" >
+    <h:head>
+        <title>Welcome to JSF PrimeFaces Demo</title>
+    </h:head>
+    <h:body>  
+        <f:view>
+            
+            <h:form id="attractionForm">
+
+                <p:growl id="messages"  showDetail="true"/>
+
+                <p:panel header="Create a new attraction" id="createAttraction" toggleable="true" collapsed="true">  
+                    <h:panelGrid id="grid">  
+                        <p:row>
+                            <p:column><h:outputLabel value="Attraction Name : *" ></h:outputLabel>
+                                <p:inputText id="attractionName" value="#{attractionManagedBean.att.name}" required="true" requiredMessage="Attraction name is required"/>
+                            </p:column>
+                            <p:column><h:outputLabel value="Location : *" ></h:outputLabel>  
+                                <p:inputText id="attractionLocation" required="true" value="#{attractionManagedBean.att.location}"/>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column><h:outputLabel value="Operating Hours: *" ></h:outputLabel>  
+                                <p:inputMask id="opHours" value="#{attractionManagedBean.att.operatingHours}" required="true" mask="99:99-99:99" requiredMessage="Operating Hours are required"/>
+                            </p:column>  
+
+                            <p:column><h:outputLabel value="Maximum Quota : *"  ></h:outputLabel> 
+                                <p:inputText id="quota" required="true" value="#{attractionManagedBean.att.maxQuota}" requiredMessage="Max quota is required"/>
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>
+                            
+                            <p:column><h:outputLabel value="Description : *" for="description"></h:outputLabel>  
+                                <p:inputTextarea rows="5" cols="30"  maxlength="150" id="description" value="#{attractionManagedBean.att.descriptions}"/>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:commandButton value="Reset" type="reset"/>  
+                            <p:commandButton id="add" value="Create" update="createAttraction attractions" 
+                                             action="#{attractionManagedBean.reinit}" actionListener="#{attractionManagedBean.attrationCreate}">  
+                                <p:collector value="#{attractionManagedBean.att}"   
+                                             addTo="#{attractionManagedBean.attList}" />  
+                            </p:commandButton>  
+                        </p:row>
+                    </h:panelGrid>  
+                </p:panel>
+                
+                <p:outputPanel id="attractions">
+
+                    <p:dataTable var="attraction"  value="#{attractionManagedBean.attList}" id="attractionList" editable="true" rowKey="#{attraction.name}" selection="#{attractionManagedBean.selectedAttraction}" selectionMode="single"> 
+
+                        <f:facet name="header">  
+                            IR Attractions
+                        </f:facet>
+                        
+                        <p:ajax event="rowEdit" listener="#{attractionManagedBean.onEdit}" update=":attractionForm:messages" />  
+                        <p:ajax event="rowEditCancel" listener="#{attractionManagedBean.onCancel}" update=":attractionForm:messages" />
+                        
+                        <p:column headerText="Attraction Name"> 
+                            #{attraction.name}
+                        </p:column>  
+
+                        <p:column headerText="Max Quota">
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{attraction.maxQuota}" />  
+                                </f:facet>  
+                                <f:facet name="input">  
+                                    <p:inputText value="#{attraction.maxQuota}" style="width:100%"/>  
+                                </f:facet>  
+                            </p:cellEditor> 
+                        </p:column>  
+
+                        <p:column headerText="Operating Hours">  
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{attraction.operatingHours}" />  
+                                </f:facet>  
+                                <f:facet name="input">  
+                                    <p:inputMask value="#{attraction.operatingHours}" mask="99:99-99:99" style="width:100%"/>  
+                                </f:facet>  
+                            </p:cellEditor> 
+                        </p:column>  
+
+                        <p:column headerText="Location"> 
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{attraction.location}" />  
+                                </f:facet>  
+                                <f:facet name="input">  
+                                    <p:inputText value="#{attraction.location}" style="width:100%"/>  
+                                </f:facet>  
+                            </p:cellEditor> 
+                        </p:column>
+
+                        <p:column headerText="Description"> 
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{attraction.descriptions}" />  
+                                </f:facet>  
+                                <f:facet name="input">  
+                                    <p:inputText value="#{attraction.descriptions}" style="width:100%"/>  
+                                </f:facet>  
+                            </p:cellEditor> 
+                        </p:column>
+
+
+                        <p:column headerText="Edit">
+                            <p:rowEditor/>
+                        </p:column>
+
+                        <p:column headerText="Delete">
+                            <p:commandButton value="Delete" onclick="cd.show();">
+                                <p:dialog  header="Please confirm this operation!" widgetVar="cd" modal="false">
+                                    <h:outputText value="Are you sure about deleteing this attraction?"/>
+                                    <p:commandButton value="Yes" actionListener="#{attractionManagedBean.deleteAttraction}" update=":attractionForm:attractions :attractionForm:messages" process=":attractionForm:attractions" onclick="cd.hide();" >
+                                        <p:collector value="#{attractionManagedBean.selectedAttraction}" removeFrom="#{attractionManagedBean.attList}"/>
+                                    </p:commandButton>
+                                    <p:commandButton value="No" onclick="cd.hide();" type="button"/>
+                                </p:dialog>
+                            </p:commandButton>
+                        </p:column> 
+                        
+                       
+                        
+                    </p:dataTable>
+                </p:outputPanel>
+                
+            </h:form>
+        </f:view>
+      </h:body>
+</html>
+      
+       
+        
+

@@ -1,0 +1,218 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta http-equiv="X-UA-Compatible" content="EmulateIE8" />
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>Coral Island Resort - Admin Portal</title>
+            </f:facet>
+
+            <link type="text/css" rel="stylesheet" href="./resources/css/default.css" />
+            <link type="text/css" rel="stylesheet" href="./resources/css/syntaxhighlighter/syntaxhighlighter.css" />
+
+   
+                 <style type="text/css">
+           
+                
+            </style>
+
+
+        </h:head>
+
+        <script type="text/javascript">
+function paypal(){
+   
+                    alert("haha");
+                    $.get("https://api-3t.sandbox.paypal.com/nvp", {
+                        
+                        USER: "yangzhennanedward_api1.gmail.com",
+                        PWD: "DGD5RJ594724AA9P",
+                        SIGNATURE: "AFcWxV21C7fd0v3bYYYRCpSSRl31AwReZ9BMIbEjm4.e6RT-EQ5Je2Hb",
+                        METHOD: "SetExpressCheckout",
+                        VERSION: "98",
+                        PAYMENTREQUEST_0_PAYMENTACTION: "SALE",
+                        PAYMENTREQUEST_0_AMT: "10",
+                        PAYMENTREQUEST_0_CURRENCYCODE: "SGD",
+                        cancelUrl: "home",
+                        returnUrl: "home",
+                    })
+                   
+                            .done(function(data) {
+                        alert("Data Loaded:" + data.TOKEN);
+                    });
+                  return false;
+}
+                
+
+        </script>
+        <h:body>
+
+        <div id="content" class="center_content" >  
+
+            <div class="container" style="width:75%">
+
+<div class="panel">
+                 
+                        <legend style="color:#4d4d4d">Booking Summary</legend>
+                        <div class="row">
+                            <div class="large-10 columns">
+                                <label for="right-label" class="left-align,inline"><h6>Show:</h6></label>
+                            </div>
+                            <div class="large-2 columns">
+                                <label id="showTitle" for="right-label" class="right-align,inline"><strong>${showPurchaseConfirmManagedBean.showTitle}</strong></label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="large-10 columns">
+                                <label for="right-label" class="left-align,inline"><h6>Show Seat:</h6></label>
+                            </div>
+                            <div class="large-2 columns">
+                                <label id="seat" for="right-label" class="right-align,inline"><strong>${showPurchaseConfirmManagedBean.seat}</strong></label>
+                            </div>
+                            <input id="showId" type="hidden" value="${showPurchaseConfirmManagedBean.showId}"/>
+                        </div>
+                        
+                        
+                        <div class="row">
+                            <div class="large-5 columns">
+                                <label for="right-label" class="left-align,inline"><h6>Total Amount:</h6></label>
+                            </div>
+                            <div class="large-7 columns">
+                                <label for="right-label" class="right-align,inline"><strong>${showPurchaseConfirmManagedBean.totalAmount}</strong></label>
+                            </div>
+                        </div>
+              
+                
+                        </div>
+
+          
+                   <h:form  id="paymentForm" >
+                        <fieldset>
+                            
+                            <div class="row">
+                                <div class="large-12 columns">
+                                    <label for="right-label" class="left-align,inline"><strong>Select Payment Method</strong></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="large-12 columns">
+                                    <select name="payment" id="customDropdown">
+                                        <option value="">Please Select</option>
+                                        <option value="Visa">Visa</option>
+                                        <option value="MasterCard">MasterCard</option>
+                                        <option value="JCB">JCB</option>
+                                        <option value="American Express">American Express</option>
+                                        <option value="PayPal">PayPal</option>
+                                        <option value="Carte Bleue">Carte Bleue</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="large-12 columns">
+                                    <label for="right-label" class="left-align,inline"><strong>Card Number</strong></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="large-12 columns">
+                                    <input required="true" type="text" id="input-cardNo"  placeholder="cardNo" name="cardNo"/>
+                                    <small class="error">Please enter your card number.</small>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="large-12 columns">
+                                    <label for="right-label" class="left-align,inline"><strong>Card Holder Name</strong></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="large-12 columns">
+                                    <input required="true" type="text" id="input-cardName"  placeholder="cardName" name="cardName"/>
+                                    <small class="error">Please enter the name of the card holder.</small>
+                                </div>
+                            </div>
+
+                            <div class="row">                                
+                                <div class="large-12 columns">
+                                    <label for="right-label" class="left-align,inline"><strong>Expire Date</strong></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="small-4 columns">
+                                    <select name="cardMonth" id="button dropdown">
+                                        <option value="0">Month</option>
+                                        <option value="1">Jan</option>
+                                        <option value="2">Feb</option>
+                                        <option value="3">Mar</option>
+                                        <option value="4">Apr</option>
+                                        <option value="5">May</option>
+                                        <option value="6">Jun</option>
+                                        <option value="7">Jul</option>
+                                        <option value="8">Aug</option>
+                                        <option value="9">Sep</option>
+                                        <option value="10">Oct</option>
+                                        <option value="11">Nov</option>
+                                        <option value="12">Dec</option>
+                                    </select>
+                                </div>
+                                <div class="small-6 columns">
+                                    <select name="cardYear" id="button dropdown">
+                                        <option value="">Year</option>
+                                        <option value="2013">2013</option>
+                                        <option value="2014">2014</option>
+                                        <option value="2015">2015</option>
+                                        <option value="2016">2016</option>
+                                        <option value="2017">2017</option>
+                                        <option value="2018">2018</option>
+                                        <option value="2019">2019</option>
+                                        <option value="2020">2020</option>
+                                        <option value="2021">2021</option>
+                                        <option value="2022">2022</option>
+                                        <option value="2023">2023</option>                                   
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="large-12 columns">
+                                    <label for="right-label" class="left-align,inline"><strong>CVC-code</strong></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="large-6 columns">
+                                    <input required="true" type="text" id="input-cardCVC"  placeholder="cardCVC" name="cardCVC"/>
+                                    <small class="error">Please enter the card CVC number.</small>
+                                </div>
+                            </div>
+
+
+
+                           
+                            <div class="row">
+                                <div class="small-1 columns">
+                                    <input type="checkbox" name="subscribe" value="true" required="true"/>
+                                </div>
+                                <div class="small-11 columns"> 
+                                    <strong><label><strong>I agree with the booking conditions and general terms by booking this ticket.</strong></label></strong>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="large-12 columns">
+                                  <p:commandButton value="Submit" ajax="false" update="msgs" actionListener="#{showPurchaseConfirmManagedBean.BookTicket}"  oncomplete="paypal()" id="btnSubmit" />  
+    <p:growl id="msgs" showDetail="true"/>  
+
+                                </div>
+                            </div>
+                        </fieldset>
+                    </h:form>          
+                </div>
+            </div>
+
+</h:body>
+    </f:view>
+</html>

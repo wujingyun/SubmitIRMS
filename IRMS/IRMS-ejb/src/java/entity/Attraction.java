@@ -5,10 +5,14 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -16,42 +20,97 @@ import javax.persistence.Id;
  */
 @Entity
 public class Attraction implements Serializable {
-    private static final long serialVersionUID = 1L;
+  
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    public Long getId() {
-        return id;
+    private String name;
+    
+    private int maxQuota;
+  
+    private String operatingHours;
+    private String location;
+    private String descriptions;
+    
+    @OneToMany(cascade={CascadeType.REMOVE})
+    private Collection<AttractionPass> pass = new ArrayList<AttractionPass>();
+    
+    @OneToMany(cascade={CascadeType.REMOVE})
+    private Collection<AttractionTicket> ticket = new ArrayList<AttractionTicket>();
+    
+    public Attraction(){}
+    
+    public void createAttraction(String name,int maxQuota,String operatingHours,String location,String descriptions){
+        this.setName(name);
+        this.setLocation(location);
+        this.setMaxQuota(maxQuota);     
+        this.setOperatingHours(operatingHours);
+        this.setDescriptions(descriptions);
+       
+    }
+    
+    public void editAttraction(int maxQuota,String operatingHours,String location,String descriptions){
+        
+        this.setLocation(location);
+        this.setMaxQuota(maxQuota);      
+        this.setDescriptions(descriptions);
+   
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public String getName() {
+        return name;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Attraction)) {
-            return false;
-        }
-        Attraction other = (Attraction) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+    public int getMaxQuota() {
+        return maxQuota;
     }
 
-    @Override
-    public String toString() {
-        return "entity.Attraction[ id=" + id + " ]";
+    public void setMaxQuota(int maxQuota) {
+        this.maxQuota = maxQuota;
     }
+
+    public String getOperatingHours() {
+        return operatingHours;
+    }
+
+    public void setOperatingHours(String operatingHours) {
+        this.operatingHours = operatingHours;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public Collection<AttractionPass> getPass() {
+        return pass;
+    }
+
+    public void setPass(Collection<AttractionPass> pass) {
+        this.pass = pass;
+    }
+
+    public Collection<AttractionTicket> getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(Collection<AttractionTicket> ticket) {
+        this.ticket = ticket;
+    }  
+
+    public String getDescriptions() {
+        return descriptions;
+    }
+
+    public void setDescriptions(String descriptions) {
+        this.descriptions = descriptions;
+    }
+
+   
     
 }

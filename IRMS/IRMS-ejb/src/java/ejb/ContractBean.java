@@ -53,8 +53,7 @@ public class ContractBean implements ContractBeanRemote {
             tenantList.add(t);       
         }
         em.flush();
-       return tenantList;
-      
+       return tenantList; 
    }
     
     @Override
