@@ -12,6 +12,8 @@ import entity.AttractionTicket;
 import entity.Customer;
 import exception.ExistException;
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +54,8 @@ public class AttractionPurchaseManagedBean implements Serializable {
      private String username;
     private String password;
     private Customer customer;
+    private Date doa;
+   // private Calendar doaCalender;
    private String selectPassId1;
    private String selectPassId2;
    private String selectPassId3;
@@ -64,8 +68,8 @@ public class AttractionPurchaseManagedBean implements Serializable {
    private String quantity4;
    private String quantity5;
    private String quantity6;
-  private int q1, q2, q3;
-  private int q4, q5, q6;
+  private int q1=0, q2=0, q3=0;
+  private int q4=0, q5=0, q6=0;
     /**
      * Creates a new instance of CreateInternalMsgManagedBean
      */
@@ -156,9 +160,13 @@ public class AttractionPurchaseManagedBean implements Serializable {
              q4=Integer.parseInt(quantity4);
                q5=Integer.parseInt(quantity5);
                  q6=Integer.parseInt(quantity6);
-       if (q4!=0){ System.out.println("BookTicket"+selectTicketId1);asbr.purchaseTicket(customerId, q4,selectTicketId1);}
-       if (q5!=0){System.out.println("BookTicket"+selectTicketId2);asbr.purchaseTicket(customerId, q5,selectTicketId2);}
-       if (q6!=0){System.out.println("BookTicket"+selectTicketId3);asbr.purchaseTicket(customerId, q6,selectTicketId3);}
+                  System.out.println("BookTicket"+selectTicketId2);
+                 Calendar doaCalender= Calendar.getInstance();
+  doaCalender.setTime(doa);
+ System.out.println("BookTicket----->set Calendar"+doaCalender);
+       if (q4!=0){ System.out.println("BookTicket"+selectTicketId1);asbr.purchaseTicket(customerId, q4,selectTicketId1, doaCalender);}
+       if (q5!=0){System.out.println("BookTicket"+selectTicketId2);asbr.purchaseTicket(customerId, q5,selectTicketId2,doaCalender);}
+       if (q6!=0){System.out.println("BookTicket"+selectTicketId3);asbr.purchaseTicket(customerId, q6,selectTicketId3,doaCalender);}
        }
         catch (Exception e) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Attraction Ticket purchase Fail",""));
@@ -509,5 +517,13 @@ public class AttractionPurchaseManagedBean implements Serializable {
 
     public Map<String, String> getAtList() {
         return atList;
+    }
+
+    public Date getDoa() {
+        return doa;
+    }
+
+    public void setDoa(Date doa) {
+        this.doa = doa;
     }
 }

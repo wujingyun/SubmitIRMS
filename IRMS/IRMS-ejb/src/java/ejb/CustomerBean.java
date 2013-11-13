@@ -5,11 +5,13 @@
 package ejb;
 
 import entity.Customer;
+import entity.Membership;
 import entity.UserAccount;
 import java.security.MessageDigest;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -30,10 +32,13 @@ public class CustomerBean implements CustomerBeanRemote {
     EntityManager em;
     Customer cu;
     private Customer customer;
+    private Membership  membership;
     private List<Customer> customerList;
+    
+    
     @Override
     public void createCustomer(String userName, String password, String firstName, String lastName, String address, String email,
-            String ageGroup, String gender, String moilePhoneNumber, String sq, String answer) {    //cu = new Customer();
+            Date dob, String gender, String moilePhoneNumber) {    //cu = new Customer();
         //try{
         Query q = em.createQuery("SELECT c FROM Customer c where c.userName=?1");
         q.setParameter(1, userName);
@@ -44,11 +49,20 @@ public class CustomerBean implements CustomerBeanRemote {
         } else {
             cu = new Customer();
 
-            cu.create(userName, password, firstName, lastName, address, email, ageGroup, gender, moilePhoneNumber, sq, answer);
+            cu.create(userName, password, firstName, lastName, address, email, dob, gender, moilePhoneNumber);
         }
 
         //customer.setPassword(RandomPasswordGenerator.Password());
         cu.setLoyaltyPointBalance(0);
+       
+        cu.setTotalAmountSpend(0.0);
+        membership=new Membership();
+          Query query2 = em.createQuery("SELECT m FROM Membership m where m.membershipType='Premier'");
+        membership=(Membership) query2.getSingleResult();
+        membership.getCustomer().add(cu);
+        cu.setMembership(membership);
+       
+        membership.setCustomer(membership.getCustomer());
         //  customer.setCustomerTier(CustomerTier.CLASSIC);
         Calendar cal = Calendar.getInstance();
         cu.setRegistrationTimestamp(cal);

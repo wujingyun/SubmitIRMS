@@ -204,8 +204,8 @@ private Long showIdlong;
   array = seat.split("\\,",-1); 
   System.out.println("bookTicket"+array.length);
   try{ HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        long uid =1;
-                //= (Long) request.getSession().getAttribute("userId");
+        long uid = (Long) request.getSession().getAttribute("userId");
+         System.out.println("bookTicket  userid "+uid);
         ticketSeatList=new ArrayList();
         for (int i=0;i<array.length-1;i++){
             ticketSeatList.add(Long.valueOf(array[i])); 

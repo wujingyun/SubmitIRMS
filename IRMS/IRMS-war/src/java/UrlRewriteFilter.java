@@ -183,7 +183,7 @@ public class UrlRewriteFilter implements Filter {
                 || path.startsWith("/resources")   || path.startsWith("/ui.xhtml") || path.contains("smp")  || path.contains("acm")  || path.contains("crm") 
                 || path.startsWith("/ui_1.xhtml") || path.startsWith("/ui_2.xhtml") || path.startsWith("/admin")  
                 || path.startsWith("/mobileIndex.xhtml")     || path.contains("irms")|| path.contains("attraction")
-                        
+                        || path.contains("fb")  
                         || path.startsWith("/internalSendMessage.xhtml")|| path.contains("Deluxe")  
                 || path.endsWith("/")) {
            System.out.println("doesn't reqiure login=================================");

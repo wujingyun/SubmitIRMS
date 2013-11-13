@@ -1,0 +1,211 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core" >
+    <h:head>
+        <title>Manage Fb Package</title>
+    </h:head>
+    <h:body>  
+        <f:view>
+            <h:form id="RDishForm">
+                <p:growl id="message"  showDetail="true"/>
+                <p:panel>
+                    <p:outputLabel   value="Select Restaurant: *" />  
+                    <p:column>
+                        <p:selectOneMenu id="Restaurants" value="#{restaurantManagedBean.fbRName}" required="true">  
+                            <f:selectItem itemLabel="Select Restaurant" itemValue="" />  
+                            <f:selectItems value="#{restaurantManagedBean.restaurantList}" var="attraction" itemLabel="#{attraction.restaurantName}" itemValue="#{attraction.restaurantName}"/>  
+                            <p:ajax update=":requestForm1:createRequest :requestForm2:passes" listener="#{restaurantManagedBean.handleRestaurantComboChange}"/>
+                        </p:selectOneMenu>
+                    </p:column>
+                </p:panel>                             
+            </h:form>
+
+            <h:form id="requestForm1">
+                <p:growl id="messages"  showDetail="true"/>
+                <p:panel header="Create a new Combo" id="createRequest" toggleable="true" collapsed="true">  
+                    <h:panelGrid id="grid" columns="2" style="margin-bottom:10px" cellpadding="5" >  
+
+                        <h:outputLabel value="Combo Name: *"  ></h:outputLabel> 
+                        <p:inputText id="cName" value="#{restaurantManagedBean.combo.name}" required="true" requiredMessage="Combo Name is required"/>
+
+
+
+                        <h:outputText value="Select Appetizers: *"  ></h:outputText> 
+                        <p:selectCheckboxMenu id ="app" value ="#{restaurantManagedBean.selectedAppetizer}" label="Appetizers" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                            <f:selectItems value="#{restaurantManagedBean.appetizer}" var="dishes" itemLabel="#{dishes.name}:  $ #{dishes.price}" itemValue="#{dishes.name}" />  
+                        </p:selectCheckboxMenu>
+
+
+                        <h:outputText value="Select Main Dish: *"  ></h:outputText> 
+                        <p:selectCheckboxMenu id ="md" value ="#{restaurantManagedBean.selectedMainDish}" label="Main Dish" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                            <f:selectItems value="#{restaurantManagedBean.mainDish}" var="main" itemLabel="#{main.name}:  $ #{main.price}" itemValue="#{main.name}" />  
+                        </p:selectCheckboxMenu>
+
+
+                        <h:outputText value="Select Side Dish: *"  ></h:outputText> 
+                        <p:selectCheckboxMenu id ="sd" value ="#{restaurantManagedBean.selectedSideDish}" label="Side Dish" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                            <f:selectItems value="#{restaurantManagedBean.sideDish}" var="side" itemLabel="#{side.name}:  $ #{side.price}" itemValue="#{side.name}" />  
+                        </p:selectCheckboxMenu>
+
+
+
+                        <h:outputText value="Select Veggie: *"  ></h:outputText> 
+                        <p:selectCheckboxMenu id ="v" value ="#{restaurantManagedBean.selectedVeggie}" label="Veggie" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                            <f:selectItems value="#{restaurantManagedBean.veggie}" var="veggies" itemLabel="#{veggies.name}:  $ #{veggies.price}" itemValue="#{veggies.name}" />  
+                        </p:selectCheckboxMenu>
+
+
+
+                        <h:outputText value="Select Soup: *"  ></h:outputText> 
+                        <p:selectCheckboxMenu id ="sp" value ="#{restaurantManagedBean.selectedSoup}" label="Soup" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                            <f:selectItems value="#{restaurantManagedBean.soup}" var="soup" itemLabel="#{soup.name}:  $ #{soup.price}" itemValue="#{soup.name}" />  
+                        </p:selectCheckboxMenu>
+
+
+
+                        <h:outputText value="Select Dessert: *"  ></h:outputText> 
+                        <p:selectCheckboxMenu id ="d" value ="#{restaurantManagedBean.selectedDessert}" label="Dessert" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                            <f:selectItems value="#{restaurantManagedBean.dessert}" var="dessert" itemLabel="#{dessert.name}:  $ #{dessert.price}" itemValue="#{dessert.name}" />  
+                        </p:selectCheckboxMenu>
+
+
+                        <p:row>
+                            <p:commandButton value="Reset" type="reset"/>  
+                            <p:commandButton value="Add" update="messages :requestForm2:passList" 
+                                             actionListener="#{restaurantManagedBean.createCombo}">                             
+                            </p:commandButton>  
+                        </p:row>
+
+                    </h:panelGrid>
+                </p:panel>
+
+            </h:form>
+
+            <h:form id="requestForm2">
+                 <p:growl id="comboMsg"  showDetail="true"/>
+                <p:outputPanel id="passes">
+
+                    <p:dataTable paginator="true" rows="8" var="pass"  value="#{restaurantManagedBean.comboList}" id="passList" editable="true" rowKey="#{pass.name}" selection="#{restaurantManagedBean.selectedCombos}" selectionMode="single"> 
+
+                        <f:facet name="header">  
+                            Combos in #{pass.restaurant.restaurantName}
+                        </f:facet>
+
+                        <p:column headerText="Name" filterBy="#{pass.name}" filterMatchMode="contains" style="width:200px"> 
+                            #{pass.name}
+                        </p:column> 
+
+                        <p:column headerText="Dishes in Combo"  style="width:200px">
+                            <p:dataTable value="#{pass.dish}" var="dList" editable="true" rowKey="#{dList.name}">
+                                <f:facet name="header">  
+                                    Content
+                                </f:facet>
+
+                                <p:column>
+                                    <h:outputText value="#{dList.type}  :   Dish Name:#{dList.name} :  Price: $ #{dList.price}" />
+                                </p:column>
+
+                                <p:column headerText="Delete">
+                                    <p:commandButton value="Delete" onclick="cd1.show();"> 
+                                        <f:setPropertyActionListener value="#{dList}" target="#{restaurantManagedBean.selectedDish}" />
+
+                                        <p:dialog  header="Please confirm this operation!" widgetVar="cd1" modal="false">
+                                            <h:outputText value="Are you sure about removing this record?"/>
+                                            <p:commandButton value="Yes" actionListener="#{restaurantManagedBean.deleteDishInPackage}" update=":requestForm2:passList :requestForm2:comboMsg" process=":requestForm2:passList" onclick="cd1.hide();" >
+
+                                            </p:commandButton>
+                                            <p:commandButton value="No" onclick="cd1.hide();" type="button"/>
+                                        </p:dialog>
+                                    </p:commandButton>
+                                </p:column> 
+                            </p:dataTable> 
+
+                        </p:column>
+
+                        <p:column headerText="Total Price"> 
+                            <h:outputText id="text1" value="$ #{pass.price}">
+                                <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+                            </h:outputText>
+                        </p:column>     
+
+                         <p:column headerText="Delete">
+                            <p:commandButton value="Delete" onclick="cd.show();">
+                                <p:dialog  header="Please confirm this operation!" widgetVar="cd" modal="false">
+                                    <h:outputText value="Are you sure about removing this record?"/>
+                                                                                                                       
+                                    <p:commandButton value="Yes" actionListener="#{restaurantManagedBean.deleteCombo}" update=":requestForm2:passList :requestForm2:comboMsg" process=":requestForm2:passList" onclick="cd.hide();" >
+                                        <p:collector value="#{restaurantManagedBean.selectedCombos}" removeFrom="#{restaurantManagedBean.comboList}"/>
+                                    </p:commandButton>
+                                    <p:commandButton value="No" onclick="cd.hide();" type="button"/>
+                                </p:dialog>
+                            </p:commandButton>
+                        </p:column>      
+
+                       <p:column headerText="Add">
+                            <p:commandButton value="Add Dish" onclick="cd2.show();">
+                                <p:dialog  header="Please confirm this operation!" widgetVar="cd2" modal="false">
+                                    <h:outputText value="Adding new dish to the Combo?"/>
+                                    <h:panelGrid id="grid1" columns="2" style="margin-bottom:10px" cellpadding="5" >  
+
+                                        <h:outputText value="Select Appetizers: *"  ></h:outputText> 
+                                        <p:selectCheckboxMenu id ="app1" value ="#{restaurantManagedBean.selectedAppetizer}" label="Appetizers" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                                            <f:selectItems value="#{restaurantManagedBean.appetizer}" var="dishes" itemLabel="#{dishes.name}:  $ #{dishes.price}" itemValue="#{dishes.name}" />  
+                                        </p:selectCheckboxMenu>
+
+
+                                        <h:outputText value="Select Main Dish: *"  ></h:outputText> 
+                                        <p:selectCheckboxMenu id ="md1" value ="#{restaurantManagedBean.selectedMainDish}" label="Main Dish" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                                            <f:selectItems value="#{restaurantManagedBean.mainDish}" var="main" itemLabel="#{main.name}:  $ #{main.price}" itemValue="#{main.name}" />  
+                                        </p:selectCheckboxMenu>
+
+
+                                        <h:outputText value="Select Side Dish: *"  ></h:outputText> 
+                                        <p:selectCheckboxMenu id ="sd1" value ="#{restaurantManagedBean.selectedSideDish}" label="Side Dish" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                                            <f:selectItems value="#{restaurantManagedBean.sideDish}" var="side" itemLabel="#{side.name}:  $ #{side.price}" itemValue="#{side.name}" />  
+                                        </p:selectCheckboxMenu>
+
+
+
+                                        <h:outputText value="Select Veggie: *"  ></h:outputText> 
+                                        <p:selectCheckboxMenu id ="v1" value ="#{restaurantManagedBean.selectedVeggie}" label="Veggie" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                                            <f:selectItems value="#{restaurantManagedBean.veggie}" var="veggies" itemLabel="#{veggies.name}:  $ #{veggies.price}" itemValue="#{veggies.name}" />  
+                                        </p:selectCheckboxMenu>
+
+
+
+                                        <h:outputText value="Select Soup: *"  ></h:outputText> 
+                                        <p:selectCheckboxMenu id ="sp1" value ="#{restaurantManagedBean.selectedSoup}" label="Soup" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                                            <f:selectItems value="#{restaurantManagedBean.soup}" var="soup" itemLabel="#{soup.name}:  $ #{soup.price}" itemValue="#{soup.name}" />  
+                                        </p:selectCheckboxMenu>
+
+
+
+                                        <h:outputText value="Select Dessert: *"  ></h:outputText> 
+                                        <p:selectCheckboxMenu id ="d1" value ="#{restaurantManagedBean.selectedDessert}" label="Dessert" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                                            <f:selectItems value="#{restaurantManagedBean.dessert}" var="dessert" itemLabel="#{dessert.name}:  $ #{dessert.price}" itemValue="#{dessert.name}" />  
+                                        </p:selectCheckboxMenu>
+
+
+                                        <p:commandButton value="Yes" actionListener="#{restaurantManagedBean.editCombo}" update=":requestForm2:passList :requestForm2:comboMsg" process=":requestForm2:passList" onclick="cd.hide();" >
+
+                                        </p:commandButton>
+                                        <p:commandButton value="No" onclick="cd2.hide();" type="button"/>
+                                    </h:panelGrid>
+                                </p:dialog>
+                            </p:commandButton>
+                        </p:column>   
+
+                      
+
+                    </p:dataTable>
+                </p:outputPanel>
+
+            </h:form>
+
+
+        </f:view>
+    </h:body>
+</html>

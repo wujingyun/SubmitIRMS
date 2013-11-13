@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      template="./templet/adminFBTemplet.xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+      <ui:define name="center">
+               <h:form id="conntract">
+                <p:growl id="contractMsg"  showDetail="true"/>
+                <p:panel header="Create Contract" id="createContract"  toggleable="true" collapsed="true"> 
+                    <h:panelGrid id="quoteCreate" columns="2" style="margin-bottom:10px" cellpadding="5" >
+                        <p:column>
+                        <h:outputText value="Select Quotation : *"  ></h:outputText> 
+                        <p:selectOneMenu id ="lo" value ="#{centralKitchenManagedBean.selectedQuotation}" label="Quotation" filter="true" filterMatchMode="startsWith" panelStyle="width:600px" style="width:300px">
+                            <f:selectItem itemLabel="Quotation" itemValue="" />  
+                            <f:selectItems value="#{centralKitchenManagedBean.quotatonList}" var="olist" itemLabel="Quotation ID: #{olist.id} : Customer : #{olist.reservation.customerName} : Banquet Hall : #{olist.reservation.banquet.banquetHallName}: Price: $ #{olist.totalPrice}" itemValue="#{olist.id}" />  
+                        </p:selectOneMenu>
+                     </p:column>  
+                        
+                      <p:column>
+                            <p:growl id="growl" showDetail="true"/>  
+                            <p:column>Select Date:</p:column> 
+                            <p:calendar value="#{centralKitchenManagedBean.fbContract.bookingDate}" mode="popup" id="popupCal">  
+                                <p:ajax event="dateSelect" listener="#{centralKitchenManagedBean.handleDateSelect}" update="growl" />  
+                            </p:calendar>  
+                    </p:column>  
+                  
+                                  
+                   
+                    </h:panelGrid> 
+
+                    <p:commandButton value="Create " update="contractMsg :bubu:passes" 
+                                     actionListener="#{centralKitchenManagedBean.createContract}">                             
+                    </p:commandButton>  
+
+                </p:panel>
+            </h:form> 
+            
+            
+             <h:form id ="editContract">
+                <p:growl id="cMsg"  showDetail="true"/>
+                <p:panel header="Update Contract Status" id="editQuotation"  toggleable="true" collapsed="true">
+                    <h:panelGrid id="editCreate" columns="2" style="margin-bottom:10px" cellpadding="5" >
+                        <h:outputText value="Select Contract : *"  ></h:outputText> 
+                        <p:selectOneMenu id ="oke" value ="#{centralKitchenManagedBean.selectedContract}" label="Contract" filter="true" filterMatchMode="startsWith" panelStyle="width:600px" style="width:300px">
+                            <f:selectItem itemLabel="Contract" itemValue="" />  
+                            <f:selectItems value="#{centralKitchenManagedBean.contractList}" var="olist" itemLabel="Contract ID: #{olist.id} : Customer : #{olist.quote.reservation.customerName} : Price: $ #{olist.quote.totalPrice}" itemValue="#{olist.id}" />  
+                        </p:selectOneMenu>
+                        
+                     <h:outputLabel value="Contract Status : *" ></h:outputLabel>
+                     <p:selectOneMenu id ="ose" value ="#{centralKitchenManagedBean.contractStatus}" label="Contract Status" filter="true" filterMatchMode="startsWith" panelStyle="width:600px" style="width:300px">
+                            <f:selectItem itemLabel="Contract" itemValue="" />  
+                            <f:selectItem itemLabel="In process" itemValue="In process"/>  
+                            <f:selectItem itemLabel="Completed" itemValue="Completed"/>
+                            <f:selectItem itemLabel="Cancelled" itemValue="Cancelled"/>  
+                      </p:selectOneMenu>
+
+                    <p:commandButton value="Update" update="cMsg :bubu:passes" 
+                                     actionListener="#{centralKitchenManagedBean.updateContractStatus}">                             
+                    </p:commandButton>  
+                    
+                    </h:panelGrid>
+
+                </p:panel>
+            </h:form>
+            
+            
+            <h:form id="bubu">
+
+                <p:outputPanel id="passes">
+
+                    <p:dataList value="#{centralKitchenManagedBean.contractList}" var="car" type="ordered" itemType="1" paginator="true" rows="3" style="width: 500px">  
+                        <f:facet name="header">
+                            Contract Lists 
+                        </f:facet>
+
+                        <h:outputText value="Contract ID:"  >  </h:outputText>  
+                        #{car.id} ---
+
+                        <p:column>
+                        <h:outputText value="Head Count:"  >   </h:outputText>  
+                        #{car.quote.headCount} ---
+                        </p:column>
+                        
+                      
+                        <h:outputText value="Date: "></h:outputText>
+                         <h:outputText value="#{car.bookingDate}"  styleClass="date">
+                                <f:convertDateTime pattern="dd-MM-yyyy" />
+                            </h:outputText>   
+                         <h:outputText value="---"></h:outputText>
+                        
+                         <h:outputText value="Contract Status :"  >   </h:outputText>  
+                        #{car.contractStatus}---
+
+
+                        <h:outputText value="Customer Name:"  >  </h:outputText>
+                        #{car.quote.reservation.customerName} ---
+
+
+                        <h:outputText value="Banquet Name:"  >    </h:outputText>
+                        #{car.quote.reservation.banquet.banquetHallName} ---
+
+
+                        <p:dataList value="#{car.quote.orderList.fbpack}" var="d" type="ordered" itemType="i" style="width: 500px">
+
+                            <h:outputText value="Package:"  ></h:outputText>         #{d.packageName}
+                            <p:dataList value="#{d.singleDish}" var="single" type="ordered" itemType="1">
+
+                                #{single.type} : #{single.dishName} 
+
+                            </p:dataList>
+                            <h:outputText value="Total sum for the packages:"  ></h:outputText>      $ #{d.totalPrice}
+                        </p:dataList>
+
+
+                        <h:outputText value="Additional Dishes:"  ></h:outputText>
+                        <p:dataList value="#{car.quote.orderList.singDish}" var="ds" type="ordered" itemType="1" style="width: 500px">
+
+                            #{ds.dishName} <h:outputText value=":   Price:"  ></h:outputText>$ #{ds.price}
+                        </p:dataList>
+                        <h:outputText value="Total Sum for the OrderList:"  ></h:outputText>      
+                        $ #{car.quote.orderList.price}---
+                        <h:outputText value="Total Sum for the Contract:"  >   </h:outputText>  
+                        $ #{car.quote.totalPrice}
+                    </p:dataList>
+
+                </p:outputPanel>
+
+            </h:form>
+            
+            
+    </ui:define>
+</ui:composition>

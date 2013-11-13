@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      template="./templet/adminFBTemplet.xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+      <ui:define name="center">
+            <h:form id="requestForm1">
+                <p:growl id="messages"  showDetail="true"/>
+                <p:panel header="Create a new order list" id="createRequest"  toggleable="true" collapsed="true" style="width: 500px">  
+                    <h:panelGrid id="grid" columns="2" style="margin-bottom:10px" cellpadding="5" >  
+
+                        <h:outputText value="Select Appetizers: *"  ></h:outputText> 
+                        <p:selectCheckboxMenu id ="app" value ="#{centralKitchenManagedBean.selectedAppetizer}" label="Appetizers" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                            <f:selectItems value="#{centralKitchenManagedBean.appetizer}" var="dishes" itemLabel="#{dishes.dishName}:  $ #{dishes.price}" itemValue="#{dishes.dishName}" />  
+                        </p:selectCheckboxMenu>
+
+
+                        <h:outputText value="Select Main Dish: *"  ></h:outputText> 
+                        <p:selectCheckboxMenu id ="md" value ="#{centralKitchenManagedBean.selectedMainDish}" label="Main Dish" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                            <f:selectItems value="#{centralKitchenManagedBean.mainDish}" var="dishes" itemLabel="#{dishes.dishName}:  $ #{dishes.price}" itemValue="#{dishes.dishName}" />  
+                        </p:selectCheckboxMenu>
+
+
+                        <h:outputText value="Select Side Dish: *"  ></h:outputText> 
+                        <p:selectCheckboxMenu id ="sd" value ="#{centralKitchenManagedBean.selectedSideDish}" label="Side Dish" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                            <f:selectItems value="#{centralKitchenManagedBean.sideDish}" var="dishes" itemLabel="#{dishes.dishName}:  $ #{dishes.price}" itemValue="#{dishes.dishName}" />  
+                        </p:selectCheckboxMenu>
+
+
+
+                        <h:outputText value="Select Veggie: *"  ></h:outputText> 
+                        <p:selectCheckboxMenu id ="v" value ="#{centralKitchenManagedBean.selectedVeggie}" label="Veggie" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                            <f:selectItems value="#{centralKitchenManagedBean.veggie}" var="dishes" itemLabel="#{dishes.dishName}:  $ #{dishes.price}" itemValue="#{dishes.dishName}" />  
+                        </p:selectCheckboxMenu>
+
+
+
+                        <h:outputText value="Select Soup: *"  ></h:outputText> 
+                        <p:selectCheckboxMenu id ="sp" value ="#{centralKitchenManagedBean.selectedSoup}" label="Soup" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                            <f:selectItems value="#{centralKitchenManagedBean.soup}" var="dishes" itemLabel="#{dishes.dishName}:  $ #{dishes.price}" itemValue="#{dishes.dishName}" />  
+                        </p:selectCheckboxMenu>
+
+
+
+                        <h:outputText value="Select Dessert: *"  ></h:outputText> 
+                        <p:selectCheckboxMenu id ="d" value ="#{centralKitchenManagedBean.selectedDessert}" label="Dessert" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                            <f:selectItems value="#{centralKitchenManagedBean.dessert}" var="dish" itemLabel="#{dish.dishName}:  $ #{dish.price}" itemValue="#{dish.dishName}" />  
+                        </p:selectCheckboxMenu>
+
+                        <h:outputText value="Select Packages: *"  ></h:outputText> 
+                        <p:selectCheckboxMenu id ="pa" value ="#{centralKitchenManagedBean.listOfPackages}" label="Packages" filter="true" filterMatchMode="startsWith" panelStyle="width:350px">
+                            <f:selectItems value="#{centralKitchenManagedBean.packageList}" var="dishes" itemLabel="Package Name: #{dishes.packageName}   ;  Price: $ #{dishes.totalPrice}"  itemDescription="#{dishes.singleDish.size()} Dishes included" itemValue="#{dishes.packageName}" />  
+                        </p:selectCheckboxMenu>
+
+                        <p:row>
+
+                            <p:commandButton value="Add" update="messages :orderlist:passes :deleteList:deleteOrderlist :editList:editOrderlists" 
+                                             actionListener="#{centralKitchenManagedBean.createOrderList}">                             
+                            </p:commandButton>  
+                        </p:row>
+                    </h:panelGrid>
+                </p:panel>
+
+            </h:form>
+            
+            <h:form id="editList">
+            <p:growl id="editOrderMsg"  showDetail="true"/>
+                <p:panel header="Edit an order list" id="editOrderlists"  toggleable="true" collapsed="true" style="width: 500px"> 
+                    <h:panelGrid id="gridEdit" columns="2" style="margin-bottom:10px" cellpadding="5" >
+                         <h:outputText value="Select Order List : *"  ></h:outputText> 
+                         <p:selectOneMenu id ="lo" value ="#{centralKitchenManagedBean.selectedOneOrderList}" label="OrderList" filter="true" filterMatchMode="startsWith" panelStyle="width:150px" style="width:150px">
+                             <f:selectItems value="#{centralKitchenManagedBean.listOfOrderList}" var="list" itemLabel="Order ID: #{list.id}" itemValue="#{list.id}" />  
+                        </p:selectOneMenu>
+                         
+                           <h:outputText value="Select Appetizers: *"  ></h:outputText> 
+                        <p:selectCheckboxMenu id ="app1" value ="#{centralKitchenManagedBean.selectedAppetizer}" label="Appetizers" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                            <f:selectItems value="#{centralKitchenManagedBean.appetizer}" var="dishes" itemLabel="#{dishes.dishName}:  $ #{dishes.price}" itemValue="#{dishes.dishName}" />  
+                        </p:selectCheckboxMenu>
+
+
+                        <h:outputText value="Select Main Dish: *"  ></h:outputText> 
+                        <p:selectCheckboxMenu id ="md1" value ="#{centralKitchenManagedBean.selectedMainDish}" label="Main Dish" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                            <f:selectItems value="#{centralKitchenManagedBean.mainDish}" var="dishes" itemLabel="#{dishes.dishName}:  $ #{dishes.price}" itemValue="#{dishes.dishName}" />  
+                        </p:selectCheckboxMenu>
+
+
+                        <h:outputText value="Select Side Dish: *"  ></h:outputText> 
+                        <p:selectCheckboxMenu id ="sd1" value ="#{centralKitchenManagedBean.selectedSideDish}" label="Side Dish" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                            <f:selectItems value="#{centralKitchenManagedBean.sideDish}" var="dishes" itemLabel="#{dishes.dishName}:  $ #{dishes.price}" itemValue="#{dishes.dishName}" />  
+                        </p:selectCheckboxMenu>
+
+
+
+                        <h:outputText value="Select Veggie: *"  ></h:outputText> 
+                        <p:selectCheckboxMenu id ="v1" value ="#{centralKitchenManagedBean.selectedVeggie}" label="Veggie" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                            <f:selectItems value="#{centralKitchenManagedBean.veggie}" var="veg" itemLabel="#{veg.dishName}:  $ #{veg.price}" itemValue="#{veg.dishName}" />  
+                        </p:selectCheckboxMenu>
+
+
+
+                        <h:outputText value="Select Soup: *"  ></h:outputText> 
+                        <p:selectCheckboxMenu id ="sp1" value ="#{centralKitchenManagedBean.selectedSoup}" label="Soup" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                            <f:selectItems value="#{centralKitchenManagedBean.soup}" var="sop" itemLabel="#{sop.dishName}:  $ #{sop.price}" itemValue="#{sop.dishName}" />  
+                        </p:selectCheckboxMenu>
+
+
+
+                        <h:outputText value="Select Dessert: *"  ></h:outputText> 
+                        <p:selectCheckboxMenu id ="d1" value ="#{centralKitchenManagedBean.selectedDessert}" label="Dessert" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                            <f:selectItems value="#{centralKitchenManagedBean.dessert}" var="dish" itemLabel="#{dish.dishName}:  $ #{dish.price}" itemValue="#{dish.dishName}" />  
+                        </p:selectCheckboxMenu>
+
+                        <h:outputText value="Select Packages: *"  ></h:outputText> 
+                        <p:selectCheckboxMenu id ="pa1" value ="#{centralKitchenManagedBean.listOfPackages}" label="Packages" filter="true" filterMatchMode="startsWith" panelStyle="width:350px">
+                            <f:selectItems value="#{centralKitchenManagedBean.packageList}" var="pacs" itemLabel="Package Name: #{pacs.packageName}   ;  Price: $ #{pacs.totalPrice}"  itemDescription="#{pacs.singleDish.size()} Dishes included" itemValue="#{pacs.packageName}" />  
+                        </p:selectCheckboxMenu>
+                          <p:row>
+
+                            <p:commandButton value="Edit" update="editOrderMsg :orderlist:passes" 
+                                             actionListener="#{centralKitchenManagedBean.editOrderList}">                             
+                            </p:commandButton>  
+                        </p:row>
+                    </h:panelGrid>
+                </p:panel>
+            </h:form>
+            
+            <h:form id="deleteList">
+            <p:growl id="mesgOrder"  showDetail="true"/>
+                <p:panel header="Delete an order list" id="deleteOrderlist"  toggleable="true" collapsed="true" style="width: 500px"> 
+                    <h:panelGrid id="gridDelete" columns="2" style="margin-bottom:10px" cellpadding="5" >
+                        <h:outputText value="Select Order List : *"  ></h:outputText> 
+                        <p:selectCheckboxMenu id ="ol" value ="#{centralKitchenManagedBean.selectedOrderList}" label="OrderList" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                             <f:selectItems value="#{centralKitchenManagedBean.listOfOrderList}" var="dishes" itemLabel="Order ID: #{dishes.id}" itemValue="#{dishes.id}" />  
+                        </p:selectCheckboxMenu>
+                        
+                        <p:row>
+
+                            <p:commandButton value="Delete" update="mesgOrder :orderlist:passes :editList:editOrderlists" 
+                                             actionListener="#{centralKitchenManagedBean.deleteOrderlist}">                             
+                            </p:commandButton>  
+                        </p:row>
+                    </h:panelGrid>  
+                </p:panel>         
+            </h:form>
+            
+            <h:form id="sendOrder">
+                 <p:growl id="mesgSend"  showDetail="true"/>
+                 <p:panel header="Send an order list" id="sendOrderlist"  toggleable="true" collapsed="true" style="width: 800px">
+                     <h:panelGrid id="sendMail" columns="2" style="margin-bottom:10px" cellpadding="5" >
+                         <h:outputText value="Select Order List : *"  ></h:outputText> 
+                        <p:selectOneMenu id ="lol" value ="#{centralKitchenManagedBean.selectedOneOrderList}" label="OrderList" filter="true" filterMatchMode="startsWith" panelStyle="width:150px" style="width:150px">
+                             <f:selectItems value="#{centralKitchenManagedBean.listOfOrderList}" var="list" itemLabel="Order ID: #{list.id}" itemValue="#{list.id}" />  
+                        </p:selectOneMenu>
+                          <h:outputText value="Select Recipient : *"  ></h:outputText> 
+                         <p:selectOneMenu id="emailOfReciepient" value="#{centralKitchenManagedBean.emailSentOrderList}" label="Email Order List" style="width:150px">
+                             <f:selectItem itemLabel="Recipient" itemValue="" />  
+                             <f:selectItems value="#{banquetManagedBean.reservationList}" var="list" itemLabel="Customer: #{list.customerName} : Email: #{list.customerEmail}" itemValue="#{list.customerEmail}" />  
+                         </p:selectOneMenu>
+                         
+                          <p:row>
+
+                            <p:commandButton value="Send" update="mesgSend" 
+                                             actionListener="#{centralKitchenManagedBean.sendOrderList}">                             
+                            </p:commandButton>  
+                        </p:row>
+                     </h:panelGrid>
+                 </p:panel>
+            </h:form>
+
+            <h:form id="orderlist">
+                <p:outputPanel id="passes">
+                  
+                    <p:dataList value="#{centralKitchenManagedBean.listOfOrderList}" var="car" type="ordered" itemType="1" paginator="true" rows="3" style="width: 500px">  
+                        <f:facet name="header">
+                            Order Lists
+                        </f:facet>
+                        <h:outputText value="Order List ID:"  ></h:outputText>  
+                            #{car.id}
+                        <h:outputText value="Total Sum for the OrderList:"  ></h:outputText>      
+                           $ #{car.price}
+                        
+                        <p:dataList value="#{car.fbpack}" var="d" type="ordered" itemType="i" style="width: 500px">
+
+                            <h:outputText value="Package:"  ></h:outputText>         #{d.packageName}
+                            <p:dataList value="#{d.singleDish}" var="single" type="ordered" itemType="1">
+
+                              #{single.type} : #{single.dishName} 
+
+                            </p:dataList>
+                            <h:outputText value="Total sum for the packages:"  ></h:outputText>      $ #{d.totalPrice}
+                        </p:dataList>
+
+
+                        <h:outputText value="Additional Dishes:"  ></h:outputText>
+                        <p:dataList value="#{car.singDish}" var="ds" type="ordered" itemType="1" style="width: 500px">
+
+                            #{ds.dishName} <h:outputText value=":   Price:"  ></h:outputText>$ #{ds.price}
+                        </p:dataList>
+
+                    </p:dataList>
+
+                </p:outputPanel>
+            </h:form>
+
+
+         
+    </ui:define>
+</ui:composition>

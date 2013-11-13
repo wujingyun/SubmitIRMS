@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core" >
+    <h:head>
+        <title> </title>
+    </h:head>
+    <h:body>  
+        <f:view>
+  <h:form id="RDishForm">
+                <p:growl id="message"  showDetail="true"/>
+                <p:panel>
+                        <h:panelGrid columns="1" cellpadding="5">  
+                   <p:row>
+                    <p:outputLabel   value="Select Restaurant: *" />  
+                    <p:column>
+                        <p:selectOneMenu id="Restaurants" value="#{restaurantReservationManagedBean.fbRName}" required="true">  
+                            <f:selectItem itemLabel="Select Restaurant" itemValue="" />  
+                            <f:selectItems value="#{restaurantReservationManagedBean.restaurantList}" var="attraction" itemLabel="#{attraction.restaurantName}" itemValue="#{attraction.restaurantName}"/>  
+                           
+                        </p:selectOneMenu>
+                    </p:column></p:row>
+                    <p:row>
+                    <p:selectOneMenu value="#{restaurantReservationManagedBean.selectPeriod}">  
+                                <f:selectItem itemLabel="Select Period" itemValue="" />  
+            <f:selectItem itemLabel="Noon" itemValue="Noon" />  
+            <f:selectItem itemLabel="Dinner" itemValue="Dinner" />  
+            <f:selectItem itemLabel="Supper" itemValue="Supper" />  
+        </p:selectOneMenu>  
+                </p:row>
+                    <p:row>
+            <p:column>Select Date:</p:column> 
+                            <p:calendar value="#{restaurantReservationManagedBean.attendDate}" mode="popup" id="popupCal">  
+                                   </p:calendar>
+           <p:column><h:outputLabel value="Time Slot: *" ></h:outputLabel>  
+                                <p:inputMask id="opHours" value="#{restaurantReservationManagedBean.timeSlot}" required="true" mask="99:99" requiredMessage="Attend Time is required"/>
+                            </p:column>  
+            </p:row>
+                            
+                            
+                            
+                            
+                             <p:row>
+                        <p:column><h:outputLabel value="Your name: *"  ></h:outputLabel> 
+                                <p:inputText id="name" required="true" value="#{restaurantReservationManagedBean.customerName}" requiredMessage="Name is required" >
+                                      </p:inputText> 
+                            </p:column>
+                        </p:row>
+                            
+                    <p:row>
+                        <p:column><h:outputLabel value="Contact Information : *"  ></h:outputLabel> 
+                                <p:inputText id="emailR" required="true" value="#{restaurantReservationManagedBean.contactInfo}" requiredMessage="Email is required" validatorMessage="Invalid email format">
+                                     <f:validateRegex
+                                pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                                </p:inputText> 
+                            </p:column>
+                        </p:row>
+                    
+                    
+                    
+             
+                    
+                    
+                    <p:row>
+<p:commandButton id="Button" value="Reserve Restaurant" update="growl" 
+                                                 actionListener="#{restaurantReservationManagedBean.reservatFbTable}" />
+                        </p:row>       <p:growl id="growl" showDetail="true" life="3000" />
+                      
+                        </h:panelGrid>
+                    </p:panel>                             
+            </h:form>    
+             
+        </f:view>
+    </h:body>
+</html>
+
+
+
+

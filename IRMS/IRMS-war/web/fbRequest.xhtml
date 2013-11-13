@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core" >
+    <h:head>
+        <title> </title>
+    </h:head>
+    <h:body>  
+        <f:view>
+
+            <h:form id="requestForm">
+                <p:growl id="messages"  showDetail="true"/>
+
+                <p:panel header="Create a new Request" id="createRequest" toggleable="true" collapsed="true">  
+                    <h:panelGrid id="grid">  
+                        <p:row>
+                            <p:column><h:outputLabel value="Customer Name : *" ></h:outputLabel>
+                                <p:inputText id="cName" value="#{banquetManagedBean.request.customerName}" required="true" requiredMessage="Customer name is required"/>
+                            </p:column>
+                            <p:column><h:outputLabel value="Customer Contact : *" ></h:outputLabel>  
+                                <p:inputMask id="contactR" value="#{banquetManagedBean.request.contact}" required="true"  mask="(+**) 999-99999" requiredMessage="Contact is required" />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column><h:outputLabel value="Email : *"  ></h:outputLabel> 
+                                <p:inputText id="emailR" required="true" value="#{banquetManagedBean.request.email}" requiredMessage="Email is required" validatorMessage="Invalid email format">
+                                    <f:validateRegex
+                                        pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                                </p:inputText> 
+                            </p:column>
+
+                            <p:column><h:outputLabel value="Venue : *"  ></h:outputLabel> 
+                                <p:selectOneMenu value="#{banquetManagedBean.request.venue}" label="Banquets" filter="true" filterMatchMode="contains" panelStyle="width:200px" style="width:200px" >
+                                    <f:selectItem itemLabel="Select One" itemValue="" />  
+                                    <f:selectItems value="#{banquetManagedBean.banquetList}" var="banquet" itemLabel="#{banquet.banquetHallName}" itemDescription="#{banquet.location}" itemValue="#{banquet.banquetHallName}"/> 
+                                </p:selectOneMenu>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+
+                            <p:column><h:outputLabel value="Duration (in days): *" ></h:outputLabel>  
+                                <p:inputText id="durationR" value="#{banquetManagedBean.request.duration}"  required="true" requiredMessage="Duration is required" style="width:70px"/>
+                            </p:column>
+                            <p:column><h:outputLabel value="Capacity : *" ></h:outputLabel>
+                                <p:inputText id="capacityR" value="#{banquetManagedBean.request.capacity}" required="true" requiredMessage="Capacity is required"/>
+                            </p:column>
+                        </p:row>
+                        
+                        
+                        <p:row>   
+                            <p:growl id="growl" showDetail="true"/>  
+                            <p:column>Select Date:</p:column> 
+                            <p:calendar value="#{banquetManagedBean.request.bookingDate}" mode="popup" id="popupCal">  
+                                <p:ajax event="dateSelect" listener="#{banquetManagedBean.handleDateSelect}" update="growl" />  
+                            </p:calendar>  
+                        </p:row>
+                        
+
+                        <p:row>
+                            <p:commandButton value="Reset" type="reset"/>  
+                            <p:commandButton value="Create" update="createRequest" 
+                                             action="#{banquetManagedBean.reinit}" actionListener="#{banquetManagedBean.requestCreate}">  
+                                <p:collector value="#{banquetManagedBean.request}"   
+                                             addTo="#{banquetManagedBean.requestList}" />  
+                            </p:commandButton>  
+                        </p:row>
+                    </h:panelGrid>  
+                </p:panel>
+
+            </h:form>
+        </f:view>
+    </h:body>
+</html>
+
+
+
+

@@ -5,6 +5,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -28,18 +30,23 @@ public class AttractionTicketTrans implements Serializable {
     private Customer customer;
    private int quantity;
 
-     private String purchaseDate;
+    @Temporal(javax.persistence.TemporalType.DATE)
+     private Calendar purchaseDate;
+    @Temporal(javax.persistence.TemporalType.DATE)
+     private Calendar attendDate;
     @OneToOne (cascade = {CascadeType.ALL})
        private AttractionTicket attractionTicket; 
     @OneToOne(cascade = {CascadeType.ALL})
     private OnlinePayment onlinePayment; 
+     private double amount;
     public AttractionTicketTrans() {
     }
-public void createAttractionTicketTrans (Customer customer,int quantity, String purchaseDate, AttractionTicket attractionTicket) {
+public void createAttractionTicketTrans (Customer customer,int quantity, Calendar purchaseDate, Calendar attendDate,  AttractionTicket attractionTicket) {
         this.setCustomer(customer);
         this.setAttractionTicket(attractionTicket);
         this.setPurchaseDate(purchaseDate);
         this.setQuantity(quantity);
+        this.setAttendDate(attendDate);
     }
     
     public Long getId() {
@@ -48,6 +55,22 @@ public void createAttractionTicketTrans (Customer customer,int quantity, String 
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Calendar getAttendDate() {
+        return attendDate;
+    }
+
+    public void setAttendDate(Calendar attendDate) {
+        this.attendDate = attendDate;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 
     public void setCustomer(Customer customer) {
@@ -66,7 +89,7 @@ public void createAttractionTicketTrans (Customer customer,int quantity, String 
         this.quantity = quantity;
     }
 
-    public void setPurchaseDate(String purchaseDate) {
+    public void setPurchaseDate(Calendar purchaseDate) {
         this.purchaseDate = purchaseDate;
     }
 
@@ -74,7 +97,7 @@ public void createAttractionTicketTrans (Customer customer,int quantity, String 
         this.attractionTicket = attractionTicket;
     }
 
-    public String getPurchaseDate() {
+    public Calendar getPurchaseDate() {
         return purchaseDate;
     }
 

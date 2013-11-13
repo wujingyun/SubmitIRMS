@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      template="./templet/adminFBTemplet.xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    
+      <ui:define name="center">
+          
+            <h:form id="quotation">
+                <p:growl id="quoteMsg"  showDetail="true"/>
+                <p:panel header="Create Quotation" id="createQuote"  toggleable="true" collapsed="true"> 
+                    <h:panelGrid id="quoteCreate" columns="2" style="margin-bottom:10px" cellpadding="5" >
+                        <h:outputText value="Select Order List : *"  ></h:outputText> 
+                        <p:selectOneMenu id ="lo" value ="#{centralKitchenManagedBean.selectedOneOrderList}" label="OrderList" filter="true" filterMatchMode="startsWith" panelStyle="width:400px" style="width:300px">
+                            <f:selectItem itemLabel="OrderList" itemValue="" />  
+                            <f:selectItems value="#{centralKitchenManagedBean.listOfOrderList}" var="olist" itemLabel="Order ID: #{olist.id} : Price: $ #{olist.price}" itemValue="#{olist.id}" />  
+                        </p:selectOneMenu>
+                    </h:panelGrid>
+                    <h:panelGrid id="reservationCreate" columns="2" style="margin-bottom:10px" cellpadding="5" >
+                        <h:outputText value="Select Reservations : *"  ></h:outputText> 
+
+                        <p:selectOneMenu id ="reservation" value ="#{centralKitchenManagedBean.selectedReservationID}" label="Reservation List" filter="true" filterMatchMode="startsWith" panelStyle="width:800px" style="width:800px">
+                            <f:selectItem itemLabel="Reservations" itemValue="" />  
+                            <f:selectItems value="#{banquetManagedBean.reservationList}" var="list" itemLabel="Reservation ID: #{list.id} : Customer: #{list.customerName} :  Banquet Hall: #{list.banquet.banquetHallName}" itemValue="#{list.id}" />  
+                        </p:selectOneMenu>
+
+                        <h:outputLabel value="Head Count : *" ></h:outputLabel>
+                        <p:inputText id="cName" value="#{centralKitchenManagedBean.headCount}" required="true" requiredMessage="head count is required"/>
+
+                    </h:panelGrid> 
+
+                    <p:commandButton value="Create " update="quoteMsg :bubu:passes :editQuote:editQuotation :deleteQuo:dQuotation" 
+                                     actionListener="#{centralKitchenManagedBean.createQuotation}">                             
+                    </p:commandButton>  
+
+                </p:panel>
+            </h:form>
+
+            <h:form id ="editQuote">
+                <p:growl id="eMsg"  showDetail="true"/>
+                <p:panel header="Edit Quotation" id="editQuotation"  toggleable="true" collapsed="true">
+                    <h:panelGrid id="editCreate" columns="2" style="margin-bottom:10px" cellpadding="5" >
+                        <h:outputText value="Select Quotation : *"  ></h:outputText> 
+                        <p:selectOneMenu id ="oke" value ="#{centralKitchenManagedBean.selectedQuotation}" label="Quotation" filter="true" filterMatchMode="startsWith" panelStyle="width:600px" style="width:300px">
+                            <f:selectItem itemLabel="Quotation" itemValue="" />  
+                            <f:selectItems value="#{centralKitchenManagedBean.quotatonList}" var="olist" itemLabel="Quotation ID: #{olist.id} : Customer : #{olist.reservation.customerName} : Price: $ #{olist.totalPrice}" itemValue="#{olist.id}" />  
+                        </p:selectOneMenu>
+                     <h:outputLabel value="Head Count : *" ></h:outputLabel>
+                    <p:inputText id="hc" value="#{centralKitchenManagedBean.headCount}" required="true" requiredMessage="head count is required"/>
+
+                    <p:commandButton value="Edit" update="eMsg :bubu:passes" 
+                                     actionListener="#{centralKitchenManagedBean.editQuotation}">                             
+                    </p:commandButton>  
+                    
+                    </h:panelGrid>
+
+                </p:panel>
+            </h:form>
+            
+            <h:form id="deleteQuo">
+                 <p:growl id="dqMsg"  showDetail="true"/>
+                 <p:panel header="Delete Quotation" id="dQuotation"  toggleable="true" collapsed="true">
+                     <h:panelGrid id="dqCreate" columns="2" style="margin-bottom:10px" cellpadding="5" >
+                        <h:outputText value="Select Quotation : *"  ></h:outputText> 
+                        <p:selectOneMenu id ="okdq" value ="#{centralKitchenManagedBean.selectedQuotation}" label="Quotation" filter="true" filterMatchMode="startsWith" panelStyle="width:600px" style="width:300px">
+                            <f:selectItem itemLabel="Quotation" itemValue="" />  
+                            <f:selectItems value="#{centralKitchenManagedBean.quotatonList}" var="olist" itemLabel="Quotation ID: #{olist.id} : Customer : #{olist.reservation.customerName} : Price: $ #{olist.totalPrice}" itemValue="#{olist.id}" />  
+                        </p:selectOneMenu>
+                        
+                        
+                    <p:commandButton value="Delete" update="dqMsg :bubu:passes :editQuote:editQuotation" 
+                                     actionListener="#{centralKitchenManagedBean.deleteQuotation}">                             
+                    </p:commandButton>  
+                    </h:panelGrid>
+                     
+                 </p:panel>                
+            </h:form>
+
+         
+
+
+            <h:form id="bubu">
+
+                <p:outputPanel id="passes">
+
+                    <p:dataList value="#{centralKitchenManagedBean.quotatonList}" var="car" type="ordered" itemType="1" paginator="true" rows="3" style="width: 500px">  
+                        <f:facet name="header">
+                            Quotation Lists 
+                        </f:facet>
+
+                        <h:outputText value="Quotation ID:"  >  </h:outputText>  
+                        #{car.id} ---
+
+
+                        <h:outputText value="Head Count:"  >   </h:outputText>  
+                        #{car.headCount} ---
+
+
+                       
+
+
+                        <h:outputText value="Customer Name:"  >  </h:outputText>
+                        #{car.reservation.customerName} ---
+
+
+                        <h:outputText value="Banquet Name:"  >    </h:outputText>
+                        #{car.reservation.banquet.banquetHallName} ---
+
+
+                        <p:dataList value="#{car.orderList.fbpack}" var="d" type="ordered" itemType="i" style="width: 500px">
+
+                            <h:outputText value="Package:"  ></h:outputText>         #{d.packageName}
+                            <p:dataList value="#{d.singleDish}" var="single" type="ordered" itemType="1">
+
+                                #{single.type} : #{single.dishName} 
+
+                            </p:dataList>
+                            <h:outputText value="Total sum for the packages:"  ></h:outputText>      $ #{d.totalPrice}
+                        </p:dataList>
+
+
+                        <h:outputText value="Additional Dishes:"  ></h:outputText>
+                        <p:dataList value="#{car.orderList.singDish}" var="ds" type="ordered" itemType="1" style="width: 500px">
+
+                            #{ds.dishName} <h:outputText value=":   Price:"  ></h:outputText>$ #{ds.price}
+                        </p:dataList>
+                        <h:outputText value="Total Sum for the OrderList:"  ></h:outputText>      
+                        $ #{car.orderList.price}---
+                        <h:outputText value="Total Sum for the Quotation:"  >   </h:outputText>  
+                        $ #{car.totalPrice} ---
+                    </p:dataList>
+
+                </p:outputPanel>
+
+            </h:form>
+
+                 
+    </ui:define>
+</ui:composition>

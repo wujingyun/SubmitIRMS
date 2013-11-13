@@ -4,6 +4,7 @@
  */
 package ejb;
 
+import java.util.Date;
 import javax.ejb.Local;
 
 /**
@@ -13,4 +14,6 @@ import javax.ejb.Local;
 @Local
 public interface EmailSessionBeanLocal {
     public void emailInitialPassward(String toEmailAdress, String initialPassword);
+     public void emailRestaurantResConfirm(String contactInfo, String customerName, String fbRName,Date attendDate, String selectPeriod ) ;
+      
 }

@@ -6,6 +6,7 @@ package ejb;
 
 import entity.Membership;
 import entity.PointTrans;
+import entity.ShowTicketTrans;
 import exception.ExistException;
 import java.util.List;
 import javax.ejb.Local;
@@ -24,4 +25,5 @@ public interface LoyaltyPlanBeanRemote {
            public boolean updateMembership(long customerId, String membership) throws ExistException;
        public List<PointTrans> getPointTransByCID(long id) ;
        public int getPointByCID(long id) ;
+       public List<ShowTicketTrans>  getShowTicketTransByCID(long id) throws ExistException;
 }

@@ -73,33 +73,39 @@ public class CustomerAnalysisManagedBean implements Serializable {
             System.out.println("CustomerAnalysisManagedBean --> calculateCLV");
             CustomerList = cbb.getCustomerList();
             for (int i = 0; i < CustomerList.size(); i++) {
+                Customer=new Customer();
                 Customer = CustomerList.get(i);
-               // avgExpenditure = cirbb.getAvgExpenditure(Customer.getId());
-                avgExpenditure=100;
+                System.out.println("CustomerAnalysisManagedBean --> calculateCLV"+Customer.getId());
+                avgExpenditure = cirbb.getAvgExpenditure(Customer.getId());
+                System.out.println("CustomerAnalysisManagedBean --> calculateCLV"+avgExpenditure);
+                acquisition=0;
                 visit=10;
                 if (Customer.getMembership().getMembershipType().equalsIgnoreCase("Premier")) {
                     life = 12;
-                    acquisition = 100;
+                  
                 } else if (Customer.getMembership().getMembershipType().equalsIgnoreCase("Gold")) {
                     life = 24;
-                    acquisition = 200;
+                   
                 } else if (Customer.getMembership().getMembershipType().equalsIgnoreCase("Platinum")) {
                     life = 36;
-                    acquisition = 300;
+                  
                 } else if (Customer.getMembership().getMembershipType().equalsIgnoreCase("Diamond")) {
                     life = 48;
-                    acquisition = 400;
+                    
                 }
 
-                CLV = avgExpenditure * life * visit - acquisition;
+                CLV = avgExpenditure * life * visit - acquisition; 
+                System.out.println("CustomerAnalysisManagedBean --> calculateCLV"+CLV+Customer.getUserName());
+                cirbb.setCustomerClv(Customer.getId(), CLV);
             }
-            Customer.setClv(CLV);
+           
 
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Calculation Error", ""));
             return;
         }
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Calculated Successfully", ""));
+          //  FacesContext.getCurrentInstance().getExternalContext().redirect("crmAdminViewCustomerAnalysisResult.xhtml");   
     }
 
     public void customerClassification(ActionEvent event) throws IOException, ExistException {
@@ -108,18 +114,22 @@ public class CustomerAnalysisManagedBean implements Serializable {
             CustomerList = cbb.getCustomerList();
             Maxclv = cirbb.getMaxClv();
             Minclv = cirbb.getMinClv();
-            double g2up = (4 / 5) * Maxclv + (1 / 5) * Minclv;
-            double g3up = (3 / 5) * Maxclv + (2 / 5) * Minclv;
-            double g4up = (2 / 5) * Maxclv + (3 / 5) * Minclv;
-            double g5up = (1 / 5) * Maxclv + (4 / 5) * Minclv;
+            double g2up = (4/5) * Maxclv + (1/5) * Minclv;
+            double g3up = (3/5) * Maxclv + (2/5) * Minclv;
+            double g4up = (2/5) * Maxclv + (3/5) * Minclv;
+            double g5up = (1/5) * Maxclv + (4/5) * Minclv;
+            System.out.println("CustomerAnalysisManagedBean --> customerClassification"+g2up+g3up+g4up+g5up);
+            
             for (int i = 0; i < CustomerList.size(); i++) {
                 Customer = CustomerList.get(i);
                 CLV=Customer.getClv();
+                System.out.println("CustomerAnalysisManagedBean --> customerClassification"+CLV);
                 if(CLV>g2up)Customer.setClassificationGroup("Group1");
                 if((CLV>g3up) && (CLV<=g2up))Customer.setClassificationGroup("Group2");
                 if((CLV>g4up)&& (CLV<=g3up))Customer.setClassificationGroup("Group3");
                 if((CLV>g5up)&& (CLV<=g4up))Customer.setClassificationGroup("Group4");
                 if(CLV<=g5up)Customer.setClassificationGroup("Group5");
+                System.out.println("CustomerAnalysisManagedBean --> customerClassification"+Customer.getClassificationGroup());
             }
             
 

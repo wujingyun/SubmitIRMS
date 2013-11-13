@@ -34,15 +34,17 @@ public class AttractionPassTrans implements Serializable {
     private Customer customer;
      private int quantity;
 
-     private String purchaseDate;
+    @Temporal(javax.persistence.TemporalType.DATE)
+     private Calendar purchaseDate;
     @OneToOne (cascade = {CascadeType.ALL})
        private AttractionPass attractionPass; 
     @OneToOne(cascade = {CascadeType.ALL})
     private OnlinePayment onlinePayment; 
+    private double amount;
     public AttractionPassTrans() {
     }
 
-     public void createAttractionPassTrans (Customer customer,int quantity, String purchaseDate, AttractionPass attractionPass) {
+     public void createAttractionPassTrans (Customer customer,int quantity, Calendar purchaseDate, AttractionPass attractionPass) {
         this.setCustomer(customer);
         this.setAttractionPass(attractionPass);
         this.setPurchaseDate(purchaseDate);
@@ -54,6 +56,14 @@ public class AttractionPassTrans implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 
     public AttractionPass getAttractionPass() {
@@ -84,7 +94,7 @@ public class AttractionPassTrans implements Serializable {
         this.quantity = quantity;
     }
 
-    public void setPurchaseDate(String purchaseDate) {
+    public void setPurchaseDate(Calendar purchaseDate) {
         this.purchaseDate = purchaseDate;
     }
 
@@ -92,7 +102,7 @@ public class AttractionPassTrans implements Serializable {
         return quantity;
     }
 
-    public String getPurchaseDate() {
+    public Calendar getPurchaseDate() {
         return purchaseDate;
     }
 

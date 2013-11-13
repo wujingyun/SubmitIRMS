@@ -37,6 +37,7 @@ public class ShowTicketTrans implements Serializable {
         private List<TicketSeat> ticketSeat= new ArrayList();
         @OneToOne(cascade = {CascadeType.ALL})
     private OnlinePayment onlinePayment; 
+         private double amount;
     public ShowTicketTrans() {
     }
 
@@ -50,6 +51,14 @@ public class ShowTicketTrans implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 
     public void setCustomer(Customer customer) {

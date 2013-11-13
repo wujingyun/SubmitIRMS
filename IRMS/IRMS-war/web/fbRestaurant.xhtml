@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core" >
+    <h:head>
+        <title> </title>
+    </h:head>
+    <h:body>  
+        <f:view>
+            
+             <h:form id="restaurantForm">
+                <p:growl id="messages"  showDetail="true"/>
+
+                <p:panel header="Add a new Restaurant" id="createRequest" toggleable="true" collapsed="true">  
+                    <h:panelGrid id="grid">  
+                        <p:row>
+                            <p:column><h:outputLabel value="Restaurant Name : *" ></h:outputLabel>
+                                <p:inputText id="BName" value="#{restaurantManagedBean.restaurant.restaurantName}" required="true" requiredMessage="Restaurant Name is required"/>
+                            </p:column>
+                            <p:column><h:outputLabel value="Contact : *" ></h:outputLabel>  
+                                <p:inputMask id="contactB" value="#{restaurantManagedBean.restaurant.contact}" required="true"  mask="(+**) 999-99999" requiredMessage="Contact is required" />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:commandButton value="Add" update="messages :addR:passes" 
+                                             action="#{restaurantManagedBean.reinitRest}" actionListener="#{restaurantManagedBean.createRestaurant}">  
+     
+                            </p:commandButton>  
+                        </p:row>
+                    </h:panelGrid>  
+                </p:panel>
+             </h:form>
+            
+            <h:form id="addR">
+                <p:growl id="msg"  showDetail="true"/>
+              <p:outputPanel id="passes">
+
+                 <p:dataTable paginator="true" rows="8" var="pass"  value="#{restaurantManagedBean.restaurantList}" id="passList" editable="true" rowKey="#{pass.restaurantName}" selection="#{restaurantManagedBean.selectedRestaurant}" selectionMode="single"> 
+
+                        <f:facet name="header">  
+                          Restaurants
+                        </f:facet>              
+                        
+                        <p:column headerText="Restaurant Names"> 
+                            #{pass.restaurantName}
+                        </p:column>  
+
+                        <p:column headerText="Restaurant Contact">                
+                                #{pass.contact}
+                        </p:column>  
+
+                     
+                    </p:dataTable>
+                </p:outputPanel>
+
+            </h:form>   
+               
+        </f:view>
+        </h:body>
+</html>

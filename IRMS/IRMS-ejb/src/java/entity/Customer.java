@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.CascadeType;
 
 import javax.persistence.Column;
@@ -18,6 +19,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -64,13 +66,15 @@ public class Customer implements Serializable
     @Column(length = 64)
     private String email;
     private String ageGroup;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date dob;
     private String gender;
    
     private String mobilePhoneNumber;
     private Integer loyaltyPointBalance;
      private String securityQuestion;
     private String answer;
-    
+    private double totalAmountSpend;
     
     private int logginAttemp;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
@@ -79,36 +83,46 @@ public class Customer implements Serializable
     private Calendar last_attemp;
     
     
-    @OneToOne(cascade = {CascadeType.ALL})
+    @ManyToOne
     private Membership membership; 
-    @OneToMany(mappedBy="customer")
+   
+    
+    @OneToMany(mappedBy="customer",cascade= CascadeType.ALL)
    
     private Collection<PointTrans> pointTrans = new ArrayList();
    
-    @OneToMany(mappedBy="customer")
+    @OneToMany(mappedBy="customer",cascade= CascadeType.ALL)
     private Collection<AttractionTicketTrans> attractionTicketTrans = new ArrayList();
-    @OneToMany(mappedBy="customer")
+    @OneToMany(mappedBy="customer",cascade= CascadeType.ALL)
     private Collection<AttractionPassTrans> attractionPassTrans = new ArrayList();
      @OneToMany(mappedBy="customer",cascade= CascadeType.ALL)
     private Collection<ShowTicketTrans> showTicketTrans = new ArrayList();
      
-      @OneToMany(mappedBy="customer")
+      @OneToMany(mappedBy="customer",cascade= CascadeType.ALL)
     private Collection<PackageTrans> packageTrans = new ArrayList();
       private double clv;
       private String classificationGroup;
+     
     public void create(String userName, String password, String firstName, String lastName, String address, String email,  
-            String ageGroup, String gender, String moilePhoneNumber, String securityQuestion,String answer) {
+            Date dob, String gender, String moilePhoneNumber) {
        this.setUserName(userName);
        this.setPassword(password);
        this.setFirstName(firstName);
        this.setLastName(lastName);
        this.setAddress(address);
        this.setEmail(email);
-       this.setAgeGroup(ageGroup);
+       this.setDob(dob);
        this.setGender(gender);
        this.setMobilePhoneNumber(moilePhoneNumber);
-       this.setSecurityQuestion(securityQuestion);
-       this.setAnswer(answer);
+       
+    }
+
+    public double getTotalAmountSpend() {
+        return totalAmountSpend;
+    }
+
+    public void setTotalAmountSpend(double totalAmountSpend) {
+        this.totalAmountSpend = totalAmountSpend;
     }
 
     public Long getId() {
@@ -125,6 +139,14 @@ public class Customer implements Serializable
 
     public void setId(Long Id) {
         this.Id = Id;
+    }
+
+    public Date getDob() {
+        return dob;
+    }
+
+    public void setDob(Date dob) {
+        this.dob = dob;
     }
 
     public void setSecurityQuestion(String securityQuestion) {

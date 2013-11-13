@@ -5,12 +5,14 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 /**
@@ -24,6 +26,8 @@ public class Membership implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String membershipType;
+    @OneToMany(mappedBy="membership",cascade= CascadeType.ALL)
+     private List<Customer> customer;
     @OneToOne(cascade = {CascadeType.ALL})
     private LoyaltyPlan loyaltyPlan;
     
@@ -39,6 +43,15 @@ public class Membership implements Serializable {
         this.id = id;
     }
 
+    public List<Customer> getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(List<Customer> customer) {
+        this.customer = customer;
+    }
+
+  
     public void setMembershipType(String membershipType) {
         this.membershipType = membershipType;
     }

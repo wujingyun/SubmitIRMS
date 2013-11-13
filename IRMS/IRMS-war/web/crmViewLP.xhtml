@@ -12,89 +12,34 @@
         <h:form id="form1">
             <p:panel id="msgInbox" header="View Loyalty Program" style="height:500px;">
 
-                <p:dataTable id="myMsg" emptyMessage="No Message in your box" value="#{loyaltyProgramManagedBean.customerList}" selectionMode="single"  rowKey="#{customers.id}"  selection="#{loyaltyProgramManagedBean.selectedCustomer}"  var ="customers" paginator="true" rows="5">
+                <p:dataTable id="myMsg" emptyMessage="No Show Booking in your box" value="#{customerLoyaltyProgramManagedBean.ticketSeat}" selectionMode="single"  rowKey="#{ticketSeat.id}"  selection="#{customerLoyaltyProgramManagedBean.selectedCustomer}"  var ="ticketSeat" paginator="true" rows="5">
 
                     <p:column>
-                        <f:facet name="header">ID</f:facet>
-                            #{customers.id}
+                        <f:facet name="header">Show Name</f:facet>
+                            #{ticketSeat.ticketCat.entshow.showName}
                     </p:column>
-
                     <p:column>
-                        <f:facet name="header">Name</f:facet>
-                            #{customers.firstName}
+                        <f:facet name="header">Seat ID</f:facet>
+                            #{ticketSeat.seatId}
                     </p:column>
-
-
+                    <p:column>
+                        <f:facet name="header">Seat Category</f:facet>
+                            #{ticketSeat.ticketCat.catName}
+                    </p:column>
 
                     <p:column style="font-weight:bold;">
-                        <f:facet name="header">Point</f:facet>
-                            #{customers.loyaltyPointBalance}
+                        <f:facet name="header">Price</f:facet>
+                            #{ticketSeat.ticketCat.catPrice}
                     </p:column>
 
 
-                    <p:column headerText="Transaction History">
-                        <p:commandButton image="ui-icon ui-icon-search" title="View" update=":form1:display" actionListener="#{loyaltyProgramManagedBean.viewContent}" oncomplete="readMsg.show();">
-                        </p:commandButton>
-                    </p:column> 
+                    
 
-                    <p:column>
-                        <f:facet name="header">Membership</f:facet>
-                            #{customers.membership.membershipType} 
-                    </p:column>
-
-                    <p:column headerText="Update Membership">
-                        <p:commandButton image="ui-icon ui-icon-close"  title="Update" onclick="confirmation.show();">
-                            <p:dialog header="Confirm to udpate" modal="false" showEffect="explode" hideEffect="explode" widgetVar="confirmation">
-                                <p:selectOneMenu id="ms" value="#{loyaltyProgramManagedBean.updateMs}" required="true" 
-                                                 requiredMessage="Membership is required">  
-                                    <f:selectItem itemLabel="Select membership" itemValue=" " />  
-                                    <f:selectItems value="#{loyaltyProgramManagedBean.membershipList}" />  
-
-
-                                </p:selectOneMenu>   
-                                <p:commandButton value="Update" actionListener="#{loyaltyProgramManagedBean.updateMembership}" update=":form1:myMsg" oncomplete="confirmation.hide();"/> 
-
-                                <p:commandButton value="Cancel" onclick="confirmation.hide();" type="button"/>
-
-                            </p:dialog>
-                        </p:commandButton>
-                    </p:column> 
+                   
 
 
                 </p:dataTable>
 
-
-
-
-
-                <p:dialog  header="Transaction History"  showEffect="explode"  hideEffect="explode"  modal="false" widgetVar="readMsg" >
-                    <h:panelGrid  id="display">                        
-
-                        <p:dataTable id="trans" emptyMessage="No Transaction" value="#{loyaltyProgramManagedBean.transactionList}" selectionMode="single"  rowKey="#{transaction.id}"    var ="transaction" paginator="true" rows="5">
-
-                            <p:column>
-                                <f:facet name="header">Transaction ID</f:facet>
-                                    #{transaction.id}
-                            </p:column>
-
-                            <p:column>
-                                <f:facet name="header">Shop</f:facet>
-                                    #{transaction.shopId}
-                            </p:column>
-
-                            <p:column>
-                                <f:facet name="header">Point</f:facet>
-                                    #{transaction.point}
-                            </p:column>
-                            <p:column style="font-weight:bold;">
-                                <f:facet name="header">Type</f:facet>
-                                #{transaction.type}
-                            </p:column>
-
-
-                        </p:dataTable>
-                    </h:panelGrid>
-                </p:dialog>
             </p:panel>
         </h:form>  
 

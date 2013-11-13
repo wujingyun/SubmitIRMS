@@ -10,6 +10,7 @@ import entity.InternalMessageReceive;
 import entity.LoyaltyPlan;
 import entity.Membership;
 import entity.PointTrans;
+import entity.ShowTicketTrans;
 import exception.ExistException;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +39,7 @@ public class LoyaltyPlanBean implements LoyaltyPlanBeanRemote {
     private List<Membership> membershipList;
     private List<LoyaltyPlan> loyaltyPlanList;
     private String point;
+   private  List<ShowTicketTrans> showTicketTrans;
 
     @Override
     public List<Membership> getMembersihpType() {
@@ -143,4 +145,20 @@ public class LoyaltyPlanBean implements LoyaltyPlanBeanRemote {
         //customer.setLoyaltyPointBalance(totalPoint);
         return totalPoint;
     }
+        @Override
+    public List<ShowTicketTrans>  getShowTicketTransByCID(long id) throws ExistException {
+      showTicketTrans = new ArrayList();
+        Query query = em.createQuery("SELECT c from Customer c where c.Id=?1");
+        query.setParameter(1, id);
+
+        customer = (Customer) query.getSingleResult();
+        if (customer == null) {
+            throw new ExistException("customer does not exist!");
+
+        } else {
+            showTicketTrans=(List<ShowTicketTrans>) customer.getShowTicketTrans();
+            em.persist(customer);
+            return showTicketTrans;
+        }
+        }
 }

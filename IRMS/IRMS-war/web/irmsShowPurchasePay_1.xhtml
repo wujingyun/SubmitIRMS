@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta http-equiv="X-UA-Compatible" content="EmulateIE8" />
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>Coral Island Resort - Admin Portal</title>
+            </f:facet>
+
+            <link type="text/css" rel="stylesheet" href="./resources/css/default.css" />
+            <link type="text/css" rel="stylesheet" href="./resources/css/syntaxhighlighter/syntaxhighlighter.css" />
+
+   
+                 <style type="text/css">
+           
+                
+            </style>
+
+
+        </h:head>
+
+        <script type="text/javascript">
+
+        </script>
+        <h:body>
+
+        <div id="content" class="center_content" >  
+
+            <div class="container" style="width:75%">
+
+<div class="panel">
+                 
+                        <legend style="color:#4d4d4d">Booking Summary</legend>
+                        <div class="row">
+                            <div class="large-10 columns">
+                                <label for="right-label" class="left-align,inline"><h6>Show:</h6></label>
+                            </div>
+                            <div class="large-2 columns">
+                                <label id="showTitle" for="right-label" class="right-align,inline"><strong>${showPurchaseConfirmManagedBean.showTitle}</strong></label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="large-10 columns">
+                                <label for="right-label" class="left-align,inline"><h6>Show Seat:</h6></label>
+                            </div>
+                            <div class="large-2 columns">
+                                <label id="seat" for="right-label" class="right-align,inline"><strong>${showPurchaseConfirmManagedBean.seat}</strong></label>
+                            </div>
+                            <input id="showId" type="hidden" value="${showPurchaseConfirmManagedBean.showId}"/>
+                        </div>
+                        
+                        
+                        <div class="row">
+                            <div class="large-5 columns">
+                                <label for="right-label" class="left-align,inline"><h6>Total Amount:</h6></label>
+                            </div>
+                            <div class="large-7 columns">
+                                <label for="right-label" class="right-align,inline"><strong>${showPurchaseConfirmManagedBean.totalAmount}</strong></label>
+                            </div>
+                        </div>
+              
+                
+                        </div>
+
+                
+             <!--  <form method="post" action="https://api-3t.sandbox.paypal.com/nvp">
+		<input type="hidden" name="USER" value="yangzhennanedward-facilitator_api1.gmail.com"/>
+		<input type="hidden" name="PWD" value="1383549509"/>
+		<input type="hidden" name="SIGNATURE" value="Ara5fmxXza7tWDN41y2ktfzbYv5IAP6fIrXQAHUduXbwlFENwQOwpwxv"/>
+		<input type="hidden" name="VERSION" value="78.0"/>
+		<input type="hidden" name="SALE"
+			value="Sale"/>
+		<input name="PAYMENTREQUEST_0_AMT" value="19.95"/>
+		<input type="hidden" name="RETURNURL"
+			value="http://localhost:8080/IRMS-war/irmsShowPurchasePay.xhtml"/>
+		<input type="hidden" name="CANCELURL"
+			value="http://localhost:8080/IRMS-war/irmsShowPurchasePay.xhtml"/>
+		<img src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" align="left" style="margin-right:7px;">
+                     <input type="submit" name="METHOD" value="SetExpressCheckout"/></img>
+	</form> -->
+              <h:form  id="paymentForm" >
+                 
+          
+     </h:form>         
+                </div>
+            </div>
+
+</h:body>
+    </f:view>
+</html>

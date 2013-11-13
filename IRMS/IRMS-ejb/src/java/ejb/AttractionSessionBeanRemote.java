@@ -9,12 +9,13 @@ import entity.AttractionPass;
 import entity.AttractionTicket;
 import entity.Customer;
 import exception.ExistException;
+import java.util.Calendar;
 import java.util.List;
 import javax.ejb.Remote;
 
 /**
  *
- * @author wangxiahao
+ * @author WU JINGYUN
  */
 @Remote
 public interface AttractionSessionBeanRemote {
@@ -44,5 +45,5 @@ public interface AttractionSessionBeanRemote {
     public void deleteTicket(String attractionName, String name) throws ExistException;
     
      public void buyPass(Long customerId,int quantity,  String attractionPassId) throws ExistException;
-     public void purchaseTicket(Long customerId,int quantity,  String ticketId) throws ExistException;
+   public void purchaseTicket(Long customerId, int quantity, String ticketId,Calendar attendDate) throws ExistException;
 }

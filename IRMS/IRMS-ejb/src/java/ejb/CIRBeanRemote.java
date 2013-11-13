@@ -18,6 +18,7 @@ import javax.ejb.Remote;
 @Remote
 public interface CIRBeanRemote {
      public double getAvgExpenditure(long customerId);
+      public void setCustomerClv(Long customerId,double CLV) throws ExistException ;
       public double getMaxClv();
                public double getMinClv();
 }

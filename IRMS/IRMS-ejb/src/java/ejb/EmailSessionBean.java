@@ -4,6 +4,7 @@
  */
 package ejb;
 
+import java.util.Date;
 import java.util.Properties;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -54,6 +55,49 @@ public class EmailSessionBean {
             message.setText("Dear Customer,"
                     + "\nYour initial password is:" + initialPassword +
                     "\nPlease login to change your password.\n\n"
+                    + "\nBest Regards,\nCoral Island.");
+                    
+
+            Transport.send(message);
+
+            System.out.println("Done");
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    
+    
+
+       public void emailRestaurantResConfirm(String contactInfo, String customerName, String fbRName,Date attendDate, String selectPeriod ) {
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.port", "465");
+
+        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("resortcoral", "hehehehe");
+            }
+        });
+
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("resortcoral@gmail.com"));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(contactInfo));
+            message.setSubject("Initial Password");
+            message.setText("Dear "+customerName + " :"
+                     + "\n"
+                    + "\nThank you for your reservation.  "
+                    + "\nYou have successfully make the reservation for Restaurant " + fbRName +
+                    "\n Date:  "+attendDate+
+                    "\n Time slot: "+selectPeriod
+                    + "\n\nThank you .\n\n"
                     + "\nBest Regards,\nCoral Island.");
                     
 

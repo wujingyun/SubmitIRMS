@@ -67,7 +67,10 @@
                      
                       <p:panel  header="Purchase Pass" id="purchase" style="margin-bottom:10px;">  
                  <h:panelGrid columns="2" cellpadding="5">  
-                      
+                         <p:row>
+ <h:outputText value="Date to Attend:" /> 
+    <p:calendar value="#{attractionPurchaseManagedBean.doa}" id="popupButtonCal" required="true"  requiredMessage="Date is required" />  
+                   </p:row>    
                             <p:selectOneMenu  id="selectPassId1" value="#{attractionPurchaseManagedBean.selectTicketId1}">  
             <f:selectItem itemLabel="Select One" itemValue="" />  
             <f:selectItems value="#{attractionPurchaseManagedBean.atList}" />
@@ -91,7 +94,7 @@
         </p:selectOneMenu>  
                      
                      
-                      <p:column headerText="Select pass">   </p:column> 
+                     
                             <p:selectOneMenu value="#{attractionPurchaseManagedBean.selectTicketId2}">  
             <f:selectItem itemLabel="Select One" itemValue="" />  
             <f:selectItems value="#{attractionPurchaseManagedBean.atList}" />
@@ -113,7 +116,7 @@
              <p:ajax  listener="#{attractionPurchaseManagedBean.handlepassChange()}" />  
         </p:selectOneMenu>  
                        
-                      <p:column headerText="Select pass">  
+                      
                             <p:selectOneMenu value="#{attractionPurchaseManagedBean.selectTicketId3}">  
             <f:selectItem itemLabel="Select One" itemValue="" />  
            <f:selectItems value="#{attractionPurchaseManagedBean.atList}" />
@@ -133,7 +136,7 @@
             <f:selectItem itemLabel="10" itemValue="10" />  
              <p:ajax  listener="#{attractionPurchaseManagedBean.handlepassChange()}" />  
         </p:selectOneMenu>  
-                        </p:column> 
+                      
                       </h:panelGrid>  
                       </p:panel>
                 </p:outputPanel>

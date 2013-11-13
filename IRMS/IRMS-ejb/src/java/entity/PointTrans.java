@@ -6,6 +6,7 @@ package entity;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -94,6 +95,18 @@ public class PointTrans implements Serializable {
     @Override
     public String toString() {
         return "entity.PointTrans[ id=" + id + " ]";
+    }
+
+    public void setDate_of_pointTrans(Date date) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
     
 }

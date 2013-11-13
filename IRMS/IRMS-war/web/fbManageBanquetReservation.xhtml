@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      template="./templet/adminFBTemplet.xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+      <ui:define name="center">
+            <h:form id="requestForm">
+                <p:growl id="messages"  showDetail="true"/>
+               
+                <p:outputPanel id="passes">
+
+                    <p:dataTable paginator="true" rows="8" var="pass"  value="#{banquetManagedBean.requestList}" id="passList" editable="true" rowKey="#{pass.id}" selection="#{banquetManagedBean.selectedRequest}" selectionMode="single"> 
+
+                        <f:facet name="header">  
+                            Requests
+                        </f:facet>
+
+                        <p:column headerText="ID"> 
+                            #{pass.id}
+                        </p:column> 
+
+                        <p:column headerText="Customer Name"> 
+                            #{pass.customerName}
+                        </p:column>  
+
+                        <p:column headerText="Customer Contact"> 
+                            #{pass.contact}
+                        </p:column> 
+
+                        <p:column headerText="Customer Email"> 
+                            #{pass.email}
+                        </p:column> 
+
+                        <p:column headerText="Venue"> 
+                            #{pass.venue}
+                        </p:column> 
+
+                        <p:column id="dae" sortBy="#{pass.bookingDate.time}"
+                                  headerText="Date Reserved"   
+                                  > 
+                            <h:outputText value="#{pass.bookingDate.time}"  styleClass="date">
+                                <f:convertDateTime pattern="dd-MM-yyyy" />
+                            </h:outputText>   
+                        </p:column> 
+
+                        <p:column headerText="Capacity"> 
+                            #{pass.capacity}
+                        </p:column>     
+
+                        <p:column headerText="Duration(in days)"> 
+                            #{pass.duration}
+                        </p:column> 
+
+                        <p:column headerText="Delete">
+                            <p:commandButton value="Delete" onclick="cd.show();">
+                                <p:dialog  header="Please confirm this operation!" widgetVar="cd" modal="false">
+                                    <h:outputText value="Are you sure about removing this record?"/>
+                                    <p:commandButton value="Yes" actionListener="#{banquetManagedBean.requestDelete}" update=":requestForm:passes :requestForm:messages" process=":requestForm:passes" onclick="cd.hide();" >
+                                        <p:collector value="#{banquetManagedBean.selectedRequest}" removeFrom="#{banquetManagedBean.requestList}"/>
+                                    </p:commandButton>
+                                    <p:commandButton value="No" onclick="cd.hide();" type="button"/>
+                                </p:dialog>
+                            </p:commandButton>
+                        </p:column>                      
+                    </p:dataTable>
+                </p:outputPanel>
+            </h:form>
+
+
+            <h:form id="BanquetRForm">
+                <p:growl id="m1"  showDetail="true"/>
+                <p:panel header="Make Reservation" id="createReservation" toggleable="true" collapsed="true">
+                    <h:panelGrid id="grid">  
+                        <p:row>
+                            <p:column>
+                                <h:outputLabel value="Venue : *"  ></h:outputLabel> 
+                                <p:selectOneMenu value="#{banquetManagedBean.banquetName}" label="Banquets" filter="true" filterMatchMode="contains" panelStyle="width:200px" style="width:200px" >
+                                    <f:selectItem itemLabel="Select One" itemValue="" />  
+                                    <f:selectItems value="#{banquetManagedBean.banquetList}" var="banquet" itemLabel="#{banquet.banquetHallName}" itemDescription="#{banquet.location}" itemValue="#{banquet.banquetHallName}"/> 
+                                </p:selectOneMenu>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>  
+                            <p:column>
+                                <p:growl id="growlDateReserved" showDetail="true"/>  
+                                <p:column>Select Date Reserved:</p:column> 
+                                <p:calendar value="#{banquetManagedBean.reservation.dateReserved}" mode="popup" id="popCal">  
+                                    <p:ajax event="dateSelect" listener="#{banquetManagedBean.handleDateSelect}" update="growlDateReserved" />  
+                                </p:calendar>  
+                            </p:column>
+                            <p:column>
+                                <p:growl id="growlDateEnded" showDetail="true"/>  
+                                <p:column>Select Date Ended:</p:column> 
+                                <p:calendar value="#{banquetManagedBean.reservation.dateEnded}" mode="popup" id="popipCal">  
+                                    <p:ajax event="dateSelect" listener="#{banquetManagedBean.handleDateSelect}" update="growlDateEnded" />  
+                                </p:calendar>  
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column><h:outputLabel value="Customer Name : *" ></h:outputLabel>
+                                <p:inputText id="cName" value="#{banquetManagedBean.reservation.customerName}" required="true" requiredMessage="Customer name is required"/>
+                            </p:column>
+                            <p:column><h:outputLabel value="Customer Contact : *" ></h:outputLabel>  
+                                <p:inputMask id="contactR" value="#{banquetManagedBean.reservation.contact}" required="true"  mask="(+**) 999-99999" requiredMessage="Contact is required" />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column><h:outputLabel value="Email : *"  ></h:outputLabel> 
+                                <p:inputText id="emailR" required="true" value="#{banquetManagedBean.reservation.customerEmail}" requiredMessage="Email is required" validatorMessage="Invalid email format">
+                                    <f:validateRegex
+                                        pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                                </p:inputText> 
+                            </p:column>
+
+                            <p:column>
+                                <h:outputLabel value="Purpose : *" ></h:outputLabel>
+                                <p:inputText id="capacityR" value="#{banquetManagedBean.reservation.purpose}" required="true" requiredMessage="Capacity is required"/>
+                            </p:column>
+                        </p:row>
+
+
+                        <p:row>
+                            <p:commandButton value="Reset" type="reset"/>  
+                            <p:commandButton value="Create" update=":BanquetRForm:m1" 
+                                             action="#{banquetManagedBean.reinitReservation}" actionListener="#{banquetManagedBean.createBanquetReservation}">  
+                                <p:collector value="#{banquetManagedBean.reservationList}"   
+                                             addTo="#{banquetManagedBean.reservationList}" />  
+                            </p:commandButton>  
+                        </p:row>
+                    </h:panelGrid>  
+                </p:panel>
+
+
+
+            </h:form>
+       </ui:define>
+</ui:composition>

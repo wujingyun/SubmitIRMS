@@ -141,7 +141,7 @@ this.setSelectedCat(selectedCat);
     }
     
     
-     public void BookTicket() throws ExistException{
+     /*public void BookTicket() throws ExistException{
   try{ HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         long uid =1;
                 //= (Long) request.getSession().getAttribute("userId");
@@ -161,7 +161,7 @@ this.setSelectedCat(selectedCat);
           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Ticket Reserved Successfully",""));
                 
      }
-
+*/
     public Customer getCustomer() {
         return customer;
     }

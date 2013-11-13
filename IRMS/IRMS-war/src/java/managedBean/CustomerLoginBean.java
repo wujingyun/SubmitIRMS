@@ -262,7 +262,7 @@ public class CustomerLoginBean implements Serializable {
         }
         else if (username != null && password != null ) {
             String hashPassword = cbb.hashPassword(password);
-            cbb.createCustomer(username, hashPassword, firstName, lastName, address, email, ageGroup, gender, phone,sq,answer);
+            cbb.createCustomer(username, hashPassword, firstName, lastName, address, email, dob, gender, phone);
             register = true;
             msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Reigstered Successfully", username);
         } 

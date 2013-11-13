@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core" >
+    <h:head>
+        <title>Restaurant Dish Management</title>
+    </h:head>
+    <h:body>  
+        <f:view>
+            <h:form id="RDishForm">
+                  <p:growl id="messages"  showDetail="true"/>
+                   <p:panel>
+                    <p:outputLabel   value="Select Restaurant: *" />  
+                    <p:column>
+                        <p:selectOneMenu id="Restaurants" value="#{restaurantManagedBean.fbRName}" required="true">  
+                        <f:selectItem itemLabel="Select Restaurant" itemValue="" />  
+                        <f:selectItems value="#{restaurantManagedBean.restaurantList}" var="attraction" itemLabel="#{attraction.restaurantName}" itemValue="#{attraction.restaurantName}"/>  
+                        <p:ajax update=":RADForm:passList" listener="#{restaurantManagedBean.handleRestaurantChange}"/>
+                    </p:selectOneMenu>
+                    </p:column>
+                </p:panel>                             
+            </h:form>
+            
+            <h:form id="newDishForm">
+                   <p:growl id="NDmsg"  showDetail="true"/>     
+                <p:panel header="Create a new Dish" id="editOrderlists"  toggleable="true" collapsed="true" > 
+                    <h:panelGrid id="gridEdit" columns="2" style="margin-bottom:10px" cellpadding="5" >
+                         <p:row>
+                            <p:column><h:outputLabel value="Dish Name : *" ></h:outputLabel>
+                                <p:inputText id="BName" value="#{restaurantManagedBean.dish.name}" required="true" requiredMessage="Dish name is required"/>
+                            </p:column>
+                             
+                            <p:column><h:outputLabel value="Type : *" ></h:outputLabel>                                 
+                                <p:selectOneMenu id="contactB" value="#{restaurantManagedBean.dish.type}"  required="true" requiredMessage="Type is required" panelStyle="width:200px" style="width:200px" >
+                                <f:selectItem itemLabel="Select" itemValue =""/> 
+                                <f:selectItem itemLabel="Appetizers" itemValue ="Appetizers"/> 
+                                <f:selectItem itemLabel="Main Dish" itemValue ="Main Dish"/> 
+                                <f:selectItem itemLabel="Side Dish" itemValue ="Side Dish"/>
+                                <f:selectItem itemLabel="Veggie" itemValue ="Veggie"/>
+                                <f:selectItem itemLabel="Soup" itemValue ="Soup"/>
+                                <f:selectItem itemLabel="Dessert" itemValue ="Dessert"/>
+                                </p:selectOneMenu> 
+                            </p:column>
+                        </p:row>
+                        
+                          <p:row>
+                             <p:column><h:outputLabel value="Price: *$"  ></h:outputLabel> 
+                                 <p:inputText id="priceD" value="#{restaurantManagedBean.dish.price}" required="true"  requiredMessage="Price is required" />
+                            </p:column>
+                        </p:row>
+                 
+                        
+                        <p:row>
+                         
+                            <p:commandButton value="Add" update="NDmsg :RADForm:passes" 
+                                             action="#{restaurantManagedBean.reinitDish}" actionListener="#{restaurantManagedBean.createDish}">  
+                              
+                            </p:commandButton>  
+                        </p:row>
+                        
+                    </h:panelGrid>
+                </p:panel>
+            </h:form>
+            
+            <h:form id="RADForm">
+                  <p:growl id="Rmsgs"  showDetail="true"/>                 
+                  <p:outputPanel id="passes">
+                      <p:dataTable paginator="true" rows="8" var="pass"  value="#{restaurantManagedBean.dishList}" id="passList" editable="true" rowKey="#{pass.name}" selection="#{restaurantManagedBean.selectedDish}" selectionMode="single"> 
+
+                        <f:facet name="header">  
+                          Dishes
+                        </f:facet>
+                        
+                        <p:ajax event="rowEdit" listener="#{restaurantManagedBean.onRowDishEdit}" update=":RADForm:Rmsgs" />  
+                        <p:ajax event="rowEditCancel" listener="#{restaurantManagedBean.onRowDishCancel}" update=":RADForm:Rmsgs" />
+                        
+                        <p:column headerText="Dish Name"> 
+                            #{pass.name}
+                        </p:column>  
+
+                        <p:column headerText="Type" sortBy="#{pass.type}">
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{pass.type}" />  
+                                </f:facet>  
+                                <f:facet name="input">  
+                                 
+  
+                                <p:selectOneMenu id="typeSelect" value="#{pass.type}"  required="true" requiredMessage="type is required" panelStyle="width:200px" style="width:200px" >
+                                <f:selectItem itemLabel="Select" itemValue =""/> 
+                                <f:selectItem itemLabel="Appetizers" itemValue ="Appetizers"/> 
+                                <f:selectItem itemLabel="Main Dish" itemValue ="Main Dish"/> 
+                                <f:selectItem itemLabel="Side Dish" itemValue ="Side Dish"/>
+                                <f:selectItem itemLabel="Veggie" itemValue ="Veggie"/>
+                                <f:selectItem itemLabel="Soup" itemValue ="Soup"/>
+                                <f:selectItem itemLabel="Dessert" itemValue ="Dessert"/>
+                                </p:selectOneMenu> 
+                                </f:facet>  
+                            </p:cellEditor> 
+                        </p:column>  
+
+                        <p:column headerText="Price" sortBy="#{pass.price}">  
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="$ #{pass.price}" />  
+                                </f:facet>  
+                                <f:facet name="input">                                  
+                                    <p:inputText value="#{pass.price}" />  
+                                </f:facet>  
+                            </p:cellEditor> 
+                        </p:column>  
+                       
+                        
+                   <p:column headerText="Edit">
+                            <p:rowEditor/>
+                        </p:column>
+
+                        <p:column headerText="Delete">
+                            <p:commandButton value="Delete" onclick="cd.show();">
+                                <p:dialog  header="Please confirm this operation!" widgetVar="cd" modal="false">
+                                    <h:outputText value="Are you sure about removing this record?"/>
+                                    <p:commandButton value="Yes" actionListener="#{restaurantManagedBean.deleteDish}" update=":RADForm:passes :RADForm:Rmsgs" process=":RADForm:passes" onclick="cd.hide();" >
+                                        <p:collector value="#{restaurantManagedBean.selectedDish}" removeFrom="#{restaurantManagedBean.dishList}"/>
+                                    </p:commandButton>
+                                    <p:commandButton value="No" onclick="cd.hide();" type="button"/>
+                                </p:dialog>
+                            </p:commandButton>
+                        </p:column> 
+                    </p:dataTable>
+                      
+                  </p:outputPanel>
+            </h:form>           
+        </f:view>
+    </h:body>
+</html>
+

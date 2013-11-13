@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      template="./templet/adminFBCKTemplet.xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+      <ui:define name="center">
+            <h:form id="requestForm1">
+                <p:growl id="messages"  showDetail="true"/>
+                <p:panel header="Create a new package" id="createRequest" toggleable="true" collapsed="true">  
+                    <h:panelGrid id="grid" columns="2" style="margin-bottom:10px" cellpadding="5" >  
+
+                        <h:outputLabel value="Package Name: *"  ></h:outputLabel> 
+                        <p:inputText id="cName" value="#{centralKitchenManagedBean.fbPackage.packageName}" required="true" requiredMessage="Package Name is required"/>
+
+
+
+                        <h:outputText value="Select Appetizers: *"  ></h:outputText> 
+                        <p:selectCheckboxMenu id ="app" value ="#{centralKitchenManagedBean.selectedAppetizer}" label="Appetizers" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                            <f:selectItems value="#{centralKitchenManagedBean.appetizer}" var="dishes" itemLabel="#{dishes.dishName}:  $ #{dishes.price}" itemValue="#{dishes.dishName}" />  
+                        </p:selectCheckboxMenu>
+
+
+                        <h:outputText value="Select Main Dish: *"  ></h:outputText> 
+                        <p:selectCheckboxMenu id ="md" value ="#{centralKitchenManagedBean.selectedMainDish}" label="Main Dish" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                            <f:selectItems value="#{centralKitchenManagedBean.mainDish}" var="dishes" itemLabel="#{dishes.dishName}:  $ #{dishes.price}" itemValue="#{dishes.dishName}" />  
+                        </p:selectCheckboxMenu>
+
+
+                        <h:outputText value="Select Side Dish: *"  ></h:outputText> 
+                        <p:selectCheckboxMenu id ="sd" value ="#{centralKitchenManagedBean.selectedSideDish}" label="Side Dish" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                            <f:selectItems value="#{centralKitchenManagedBean.sideDish}" var="dishes" itemLabel="#{dishes.dishName}:  $ #{dishes.price}" itemValue="#{dishes.dishName}" />  
+                        </p:selectCheckboxMenu>
+
+
+
+                        <h:outputText value="Select Veggie: *"  ></h:outputText> 
+                        <p:selectCheckboxMenu id ="v" value ="#{centralKitchenManagedBean.selectedVeggie}" label="Veggie" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                            <f:selectItems value="#{centralKitchenManagedBean.veggie}" var="dishes" itemLabel="#{dishes.dishName}:  $ #{dishes.price}" itemValue="#{dishes.dishName}" />  
+                        </p:selectCheckboxMenu>
+
+
+
+                        <h:outputText value="Select Soup: *"  ></h:outputText> 
+                        <p:selectCheckboxMenu id ="sp" value ="#{centralKitchenManagedBean.selectedSoup}" label="Soup" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                            <f:selectItems value="#{centralKitchenManagedBean.soup}" var="dishes" itemLabel="#{dishes.dishName}:  $ #{dishes.price}" itemValue="#{dishes.dishName}" />  
+                        </p:selectCheckboxMenu>
+
+
+
+                        <h:outputText value="Select Dessert: *"  ></h:outputText> 
+                        <p:selectCheckboxMenu id ="d" value ="#{centralKitchenManagedBean.selectedDessert}" label="Dessert" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                            <f:selectItems value="#{centralKitchenManagedBean.dessert}" var="dishes" itemLabel="#{dishes.dishName}:  $ #{dishes.price}" itemValue="#{dishes.dishName}" />  
+                        </p:selectCheckboxMenu>
+
+
+                        <p:row>
+                            <p:commandButton value="Reset" type="reset"/>  
+                            <p:commandButton value="Add" update="messages :requestForm2:passes" 
+                                             actionListener="#{centralKitchenManagedBean.createPackage}">                             
+                            </p:commandButton>  
+                        </p:row>
+
+                    </h:panelGrid>
+                </p:panel>
+
+            </h:form>
+
+            <h:form id="requestForm2">
+
+                <p:outputPanel id="passes">
+
+                    <p:dataTable paginator="true" rows="8" var="pass"  value="#{centralKitchenManagedBean.packageList}" id="passList" editable="true" rowKey="#{pass.packageName}" selection="#{centralKitchenManagedBean.selectedPackage}" selectionMode="single"> 
+
+                        <f:facet name="header">  
+                            Packages
+                        </f:facet>
+
+                        <p:column headerText="Name" filterBy="#{pass.packageName}" filterMatchMode="contains" style="width:200px"> 
+                            #{pass.packageName}
+                        </p:column> 
+
+                        <p:column headerText="Dishes in package"  style="width:200px">
+                            <p:dataTable value="#{pass.singleDish}" var="dList" editable="true" rowKey="#{dList.dishName}">
+                                <f:facet name="header">  
+                                    Content
+                                </f:facet>
+
+                                <p:column>
+                                    <h:outputText value="#{dList.type}  :   Dish Name:#{dList.dishName} :  Price: $ #{dList.price}" />
+                                </p:column>
+
+                                <p:column headerText="Delete">
+                                    <p:commandButton value="Delete" onclick="cd1.show();"> 
+                                        <f:setPropertyActionListener value="#{dList}" target="#{centralKitchenManagedBean.selectedSingleDish}" />
+
+                                        <p:dialog  header="Please confirm this operation!" widgetVar="cd1" modal="false">
+                                            <h:outputText value="Are you sure about removing this record?"/>
+                                            <p:commandButton value="Yes" actionListener="#{centralKitchenManagedBean.deleteDishInPackage}" update=":requestForm2:passes :requestForm1:messages" process=":requestForm2:passes" onclick="cd1.hide();" >
+
+                                            </p:commandButton>
+                                            <p:commandButton value="No" onclick="cd1.hide();" type="button"/>
+                                        </p:dialog>
+                                    </p:commandButton>
+                                </p:column> 
+                            </p:dataTable> 
+
+                        </p:column>
+
+                        <p:column headerText="Total Price"> 
+                            <h:outputText id="text1" value="$ #{pass.totalPrice}">
+                              <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+                            </h:outputText>
+                        </p:column>     
+
+
+
+                        <p:column headerText="Delete">
+                            <p:commandButton value="Delete" onclick="cd.show();">
+                                <p:dialog  header="Please confirm this operation!" widgetVar="cd" modal="false">
+                                    <h:outputText value="Are you sure about removing this record?"/>
+                                    <p:commandButton value="Yes" actionListener="#{centralKitchenManagedBean.deletePackage}" update=":requestForm2:passes :requestForm1:messages" process=":requestForm2:passes" onclick="cd.hide();" >
+                                        <p:collector value="#{centralKitchenManagedBean.selectedPackage}" removeFrom="#{centralKitchenManagedBean.packageList}"/>
+                                    </p:commandButton>
+                                    <p:commandButton value="No" onclick="cd.hide();" type="button"/>
+                                </p:dialog>
+                            </p:commandButton>
+                        </p:column>      
+
+
+                        <p:column headerText="Add">
+                            <p:commandButton value="Add Dish" onclick="cd2.show();">
+                                <p:dialog  header="Please confirm this operation!" widgetVar="cd2" modal="false">
+                                    <h:outputText value="Adding new dish to the package?"/>
+                                    <h:panelGrid id="grid1" columns="2" style="margin-bottom:10px" cellpadding="5" >  
+
+                                        <h:outputText value="Select Appetizers: *"  ></h:outputText> 
+                                        <p:selectCheckboxMenu id ="app1" value ="#{centralKitchenManagedBean.selectedAppetizer}" label="Appetizers" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                                            <f:selectItems value="#{centralKitchenManagedBean.appetizer}" var="dishes" itemLabel="#{dishes.dishName}:  $ #{dishes.price}" itemValue="#{dishes.dishName}" />  
+                                        </p:selectCheckboxMenu>
+
+
+                                        <h:outputText value="Select Main Dish: *"  ></h:outputText> 
+                                        <p:selectCheckboxMenu id ="md1" value ="#{centralKitchenManagedBean.selectedMainDish}" label="Main Dish" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                                            <f:selectItems value="#{centralKitchenManagedBean.mainDish}" var="dishes" itemLabel="#{dishes.dishName}:  $ #{dishes.price}" itemValue="#{dishes.dishName}" />  
+                                        </p:selectCheckboxMenu>
+
+
+                                        <h:outputText value="Select Side Dish: *"  ></h:outputText> 
+                                        <p:selectCheckboxMenu id ="sd1" value ="#{centralKitchenManagedBean.selectedSideDish}" label="Side Dish" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                                            <f:selectItems value="#{centralKitchenManagedBean.sideDish}" var="dishes" itemLabel="#{dishes.dishName}:  $ #{dishes.price}" itemValue="#{dishes.dishName}" />  
+                                        </p:selectCheckboxMenu>
+
+
+
+                                        <h:outputText value="Select Veggie: *"  ></h:outputText> 
+                                        <p:selectCheckboxMenu id ="v1" value ="#{centralKitchenManagedBean.selectedVeggie}" label="Veggie" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                                            <f:selectItems value="#{centralKitchenManagedBean.veggie}" var="dishes" itemLabel="#{dishes.dishName}:  $ #{dishes.price}" itemValue="#{dishes.dishName}" />  
+                                        </p:selectCheckboxMenu>
+
+
+
+                                        <h:outputText value="Select Soup: *"  ></h:outputText> 
+                                        <p:selectCheckboxMenu id ="sp1" value ="#{centralKitchenManagedBean.selectedSoup}" label="Soup" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                                            <f:selectItems value="#{centralKitchenManagedBean.soup}" var="dishes" itemLabel="#{dishes.dishName}:  $ #{dishes.price}" itemValue="#{dishes.dishName}" />  
+                                        </p:selectCheckboxMenu>
+
+
+
+                                        <h:outputText value="Select Dessert: *"  ></h:outputText> 
+                                        <p:selectCheckboxMenu id ="d1" value ="#{centralKitchenManagedBean.selectedDessert}" label="Dessert" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                                            <f:selectItems value="#{centralKitchenManagedBean.dessert}" var="dishes" itemLabel="#{dishes.dishName}:  $ #{dishes.price}" itemValue="#{dishes.dishName}" />  
+                                        </p:selectCheckboxMenu>
+
+                                        <p:commandButton value="Yes" actionListener="#{centralKitchenManagedBean.editPackage}" update=":requestForm2:passes :requestForm1:messages" process=":requestForm2:passes" onclick="cd.hide();" >
+
+                                        </p:commandButton>
+                                        <p:commandButton value="No" onclick="cd2.hide();" type="button"/>
+                                    </h:panelGrid>
+                                </p:dialog>
+                            </p:commandButton>
+                        </p:column>   
+
+                    </p:dataTable>
+                </p:outputPanel>
+
+            </h:form>
+       </ui:define>
+</ui:composition>

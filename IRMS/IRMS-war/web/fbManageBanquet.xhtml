@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core" >
+    <h:head>
+        <title> </title>
+    </h:head>
+    <h:body>  
+        <f:view>
+            <h:form id="requestForm">
+                <p:growl id="messages"  showDetail="true"/>
+
+                <p:panel header="Add a new Banquet" id="createRequest" toggleable="true" collapsed="true">  
+                    <h:panelGrid id="grid">  
+                        <p:row>
+                            <p:column><h:outputLabel value="Banquet Hall Name : *" ></h:outputLabel>
+                                <p:inputText id="BName" value="#{banquetManagedBean.banquet.banquetHallName}" required="true" requiredMessage="Banquet name is required"/>
+                            </p:column>
+                            <p:column><h:outputLabel value="Banquet Location : *" ></h:outputLabel>  
+                                <p:inputText id="contactB" value="#{banquetManagedBean.banquet.location}" required="true"  requiredMessage="Banquet location is required" />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            
+
+                            <p:column><h:outputLabel value="Capacity: *"  ></h:outputLabel> 
+                                <p:inputText id="capacityB" value="#{banquetManagedBean.banquet.capacity}" required="true"  requiredMessage="Banquet capacity is required" />
+                            </p:column>
+                        </p:row>
+                 
+
+                        <p:row>
+                            <p:commandButton value="Reset" type="reset"/>  
+                            <p:commandButton value="Add" update="messages passes" 
+                                             action="#{banquetManagedBean.reinitBanquet}" actionListener="#{banquetManagedBean.banquetCreate}">  
+                                <p:collector value="#{banquetManagedBean.banquet}"   
+                                             addTo="#{banquetManagedBean.banquetList}" />  
+                            </p:commandButton>  
+                        </p:row>
+                    </h:panelGrid>  
+                </p:panel>
+                
+                
+                
+                 <p:outputPanel id="passes">
+
+                     <p:dataTable paginator="true" rows="8" var="pass"  value="#{banquetManagedBean.banquetList}" id="passList" editable="true" rowKey="#{pass.banquetHallName}" selection="#{banquetManagedBean.selectedBanquet}" selectionMode="single"> 
+
+                        <f:facet name="header">  
+                           Banquet Halls
+                        </f:facet>
+                        
+                        <p:ajax event="rowEdit" listener="#{banquetManagedBean.onBanquetEdit}" update=":requestForm:messages" />  
+                        <p:ajax event="rowEditCancel" listener="#{banquetManagedBean.onBanquetCancel}" update=":requestForm:messages" />
+                        
+                        <p:column headerText="Banquet Hall Name"> 
+                            #{pass.banquetHallName}
+                        </p:column>  
+
+                        <p:column headerText="Banquet Location">
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{pass.location}" />  
+                                </f:facet>  
+                                <f:facet name="input">  
+                                 
+                                    <p:inputText value="#{pass.location}" />  
+                            
+                                </f:facet>  
+                            </p:cellEditor> 
+                        </p:column>  
+
+                        <p:column headerText="Banquet Capacity">  
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{pass.capacity}" />  
+                                </f:facet>  
+                                <f:facet name="input">                                  
+                                    <p:inputText value="#{pass.capacity}" />  
+                                </f:facet>  
+                            </p:cellEditor> 
+                        </p:column>  
+                        
+                   <p:column headerText="Edit">
+                            <p:rowEditor/>
+                        </p:column>
+
+                        <p:column headerText="Delete">
+                            <p:commandButton value="Delete" onclick="cd.show();">
+                                <p:dialog  header="Please confirm this operation!" widgetVar="cd" modal="false">
+                                    <h:outputText value="Are you sure about removing this record?"/>
+                                    <p:commandButton value="Yes" actionListener="#{banquetManagedBean.deleteBanquet}" update=":requestForm:passes :requestForm:messages" process=":requestForm:passes" onclick="cd.hide();" >
+                                        <p:collector value="#{banquetManagedBean.selectedBanquet}" removeFrom="#{banquetManagedBean.banquetList}"/>
+                                    </p:commandButton>
+                                    <p:commandButton value="No" onclick="cd.hide();" type="button"/>
+                                </p:dialog>
+                            </p:commandButton>
+                        </p:column> 
+                    </p:dataTable>
+                </p:outputPanel>
+
+            </h:form>
+
+        </f:view>
+    </h:body>
+</html>
+
+
