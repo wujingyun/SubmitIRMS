@@ -114,22 +114,24 @@ public class CustomerAnalysisManagedBean implements Serializable {
             CustomerList = cbb.getCustomerList();
             Maxclv = cirbb.getMaxClv();
             Minclv = cirbb.getMinClv();
-            double g2up = (4/5) * Maxclv + (1/5) * Minclv;
-            double g3up = (3/5) * Maxclv + (2/5) * Minclv;
-            double g4up = (2/5) * Maxclv + (3/5) * Minclv;
-            double g5up = (1/5) * Maxclv + (4/5) * Minclv;
+            double g2up = 0.8 * Maxclv + 0.2 * Minclv;
+            double g3up = 0.6 * Maxclv + 0.4 * Minclv;
+            double g4up = 0.4 * Maxclv + 0.6 * Minclv;
+            double g5up = 0.2 * Maxclv + 0.8 * Minclv;
             System.out.println("CustomerAnalysisManagedBean --> customerClassification"+g2up+g3up+g4up+g5up);
             
             for (int i = 0; i < CustomerList.size(); i++) {
                 Customer = CustomerList.get(i);
                 CLV=Customer.getClv();
                 System.out.println("CustomerAnalysisManagedBean --> customerClassification"+CLV);
-                if(CLV>g2up)Customer.setClassificationGroup("Group1");
-                if((CLV>g3up) && (CLV<=g2up))Customer.setClassificationGroup("Group2");
-                if((CLV>g4up)&& (CLV<=g3up))Customer.setClassificationGroup("Group3");
-                if((CLV>g5up)&& (CLV<=g4up))Customer.setClassificationGroup("Group4");
-                if(CLV<=g5up)Customer.setClassificationGroup("Group5");
-                System.out.println("CustomerAnalysisManagedBean --> customerClassification"+Customer.getClassificationGroup());
+                if(CLV>g2up) cirbb.setCustomerClvGroup(Customer.getId(), "Group1");
+                   
+                if((CLV>g3up) && (CLV<=g2up))cirbb.setCustomerClvGroup(Customer.getId(), "Group2");
+                if((CLV>g4up)&& (CLV<=g3up))cirbb.setCustomerClvGroup(Customer.getId(), "Group3");
+                if((CLV>g5up)&& (CLV<=g4up))cirbb.setCustomerClvGroup(Customer.getId(), "Group4");
+                if(CLV<=g5up)cirbb.setCustomerClvGroup(Customer.getId(), "Group5");
+               
+               // System.out.println("CustomerAnalysisManagedBean --> customerClassification"+Customer.getClassificationGroup());
             }
             
 

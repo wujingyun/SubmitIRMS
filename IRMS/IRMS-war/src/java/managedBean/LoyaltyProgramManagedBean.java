@@ -4,6 +4,7 @@
  */
 package managedBean;
 import ejb.CustomerBeanRemote;
+import ejb.EmailSessionBean;
 import ejb.LoyaltyPlanBeanRemote;
 import entity.Customer;
 import entity.Membership;
@@ -38,7 +39,8 @@ public class LoyaltyProgramManagedBean implements Serializable {
     private LoyaltyPlanBeanRemote lpb;
     @EJB
     private CustomerBeanRemote cbb;
-    
+      @EJB
+    EmailSessionBean emailSessionBean;
     //private List<Membership> MembershipList;
     private Map<String, String> membershipList = new HashMap<String, String>();
     private String rewardPoint;
@@ -49,6 +51,19 @@ public class LoyaltyProgramManagedBean implements Serializable {
     private List<Customer> CustomerList;
     private Customer selectedCustomer;
      private List<PointTrans> TransactionList;
+     
+   private String marketingTitle;
+   private List<String> marketingclsgroup;
+   private List<String> marketingMembership;
+   private List<String> marketingGender;
+   private List<String> marketingAge;
+    private List<Customer> marketingCustomerList;
+    private List<String> marketingEmailList;
+   private String marketingMsg;
+
+     
+     
+     
     public LoyaltyProgramManagedBean() {
     }
 
@@ -111,6 +126,34 @@ public class LoyaltyProgramManagedBean implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Membership updated Successfully", ""));
     }
     
+    
+    public void sendMsg(ActionEvent event) throws IOException, ExistException {
+        try {
+            if(marketingclsgroup==null){  System.out.println("LoyaltyProgramManagedBean --> marketingclsgroupnull)");}
+             System.out.println("LoyaltyProgramManagedBean --> sendMsg");
+        //     System.out.println("LoyaltyProgramManagedBean --> sendMsg"+marketingclsgroup.size()+marketingMembership.size()+marketingGender.size()+marketingAge.size()+
+          //           marketingclsgroup.get(0).toString()+marketingTitle+marketingMsg);
+            marketingEmailList=new ArrayList();
+        marketingCustomerList=new ArrayList();
+           marketingCustomerList= lpb.getMarketingEmailCustomerList(marketingclsgroup,marketingMembership,marketingGender,marketingAge );
+            System.out.println("LoyaltyProgramManagedBean --> getMarketingEmailCustomerList"+marketingCustomerList.size());
+      for (int i=0;i<marketingCustomerList.size();i++){
+      marketingEmailList.add(marketingCustomerList.get(i).getEmail());
+      System.out.println("LoyaltyProgramManagedBean --> sendMarketingEmail");
+       }
+        emailSessionBean.sendMarketingEmail(marketingEmailList,marketingTitle,marketingMsg);
+        
+        }
+            
+
+         catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Fail to send email", ""));
+            return;
+        }
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Email Sent Successfully", ""));
+    }
+
+
     public Customer getSelectedCustomer() {
         return selectedCustomer;
     }
@@ -125,6 +168,70 @@ public class LoyaltyProgramManagedBean implements Serializable {
 
     public List<PointTrans> getTransactionList() {
         return TransactionList;
+    }
+
+    public String getMarketingTitle() {
+        return marketingTitle;
+    }
+
+    public void setMarketingTitle(String marketingTitle) {
+        this.marketingTitle = marketingTitle;
+    }
+
+    public List<String> getMarketingclsgroup() {
+        return marketingclsgroup;
+    }
+
+    public void setMarketingclsgroup(List<String> marketingclsgroup) {
+        this.marketingclsgroup = marketingclsgroup;
+    }
+
+    public List<String> getMarketingMembership() {
+        return marketingMembership;
+    }
+
+    public void setMarketingMembership(List<String> marketingMembership) {
+        this.marketingMembership = marketingMembership;
+    }
+
+    public List<String> getMarketingGender() {
+        return marketingGender;
+    }
+
+    public void setMarketingGender(List<String> marketingGender) {
+        this.marketingGender = marketingGender;
+    }
+
+    public List<String> getMarketingAge() {
+        return marketingAge;
+    }
+
+    public void setMarketingAge(List<String> marketingAge) {
+        this.marketingAge = marketingAge;
+    }
+
+    public List<Customer> getMarketingCustomerList() {
+        return marketingCustomerList;
+    }
+
+    public void setMarketingCustomerList(List<Customer> marketingCustomerList) {
+        this.marketingCustomerList = marketingCustomerList;
+    }
+
+    public List<String> getMarketingEmailList() {
+        return marketingEmailList;
+    }
+
+    public void setMarketingEmailList(List<String> marketingEmailList) {
+        this.marketingEmailList = marketingEmailList;
+    }
+
+    public String getMarketingMsg() {
+        return marketingMsg;
+    }
+
+    public void setMarketingMsg(String marketingMsg) {
+        this.marketingMsg = marketingMsg;
     }
 
     public void setSelectedCustomer(Customer selectedCustomer) {

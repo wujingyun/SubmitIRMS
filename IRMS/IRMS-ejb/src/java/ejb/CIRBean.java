@@ -94,6 +94,16 @@ public class CIRBean implements CIRBeanRemote {
         
         customer.setClv(CLV);
      }
+          @Override
+    public void setCustomerClvGroup(Long customerId,String group) throws ExistException {
+         Query query = em.createQuery( "select c from Customer c where c.Id=?1");
+         query.setParameter(1, customerId);
+        if(query.getResultList().size()==0)
+        {throw new ExistException("No customer find!");}
+         customer= (Customer) query.getSingleResult();
+        
+        customer.setClassificationGroup(group);
+     }
      
      @Override
     public double getMaxClv() {

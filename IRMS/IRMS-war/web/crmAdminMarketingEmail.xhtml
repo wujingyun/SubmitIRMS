@@ -5,50 +5,77 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core">
-    
-  
- <ui:define name="center">
-   <h:form>                      
-      <p:growl id="msgs" showDetail="true"/> 
-            <p:panel  header="Write Marketing Message" >
-                     <div >
-                    <div >
-                        <h:outputText value="To:" /><p:spacer width="10px"/>
 
-                                <h:outputText value="Customer Group: " />  
-                                <p:selectManyCheckbox id="lineDirection" value="#{internalMessageManagedBean.employee}">  
-            <f:selectItem itemLabel="Age Group(lesser than 18)" itemValue="Age Group(lesser than 18)" />  
-            <f:selectItem itemLabel="Age Group(18-25)" itemValue="Age Group (18-25)" />  
-            <f:selectItem itemLabel="Age Group(26-35)" itemValue="Age Group(26-35)" />  
-            <f:selectItem itemLabel="Age Group(36-45)" itemValue="Age Group(36-45)" />  
-            <f:selectItem itemLabel="Age Group(46-65)"  itemValue="Age Group(46-65)" />  
-            
-            <f:selectItem itemLabel="CLV Group1" itemValue="CLV Group1" /> 
-            <f:selectItem itemLabel="CLV Group2" itemValue="CLV Group2" /> 
-            <f:selectItem itemLabel="CLV Group3" itemValue="CLV Group3" /> 
-            <f:selectItem itemLabel="CLV Group4" itemValue="CLV Group4" /> 
-            <f:selectItem itemLabel="CLV Group5" itemValue="CLV Group5" /> 
-            
-             <f:selectItem itemLabel="OPremier Membership" itemValue="Premier Membership" /> 
-            <f:selectItem itemLabel="Gold Membership" itemValue="Gold Membership" /> 
-            <f:selectItem itemLabel="Platinum Membership" itemValue="Platinum Membership" /> 
-            <f:selectItem itemLabel="Diamond Membership" itemValue="Diamond Membership" /> 
-            
-            
-            
-        </p:selectManyCheckbox> 
-                        <h:outputText value="Title:" />
-                        <h:inputText value="#{internalMessageManagedBean.title}" />
 
-                    </div>
-                    <p:editor value="#{internalMessageManagedBean.msg}" widgetVar="editor" />  
+    <ui:define name="center">
+        <h:form>                      
+            <p:growl id="msgs" showDetail="true"/> 
+            <p:panel  header="Send Marketing EMail"  >
+                <h:panelGrid columns="1" cellpadding="5">     <div >
+                        <div >
+                            <p:row>
+                                <h:outputText value="Marketing Email Title:" />
+                                <h:inputText value="#{loyaltyProgramManagedBean.marketingTitle}" />
+                            </p:row>
+                            <p:spacer width="10px"/>
+                            <p:row>
+                                <h:outputText value="CLV Classification Group: " />  
+                                <p:selectManyCheckbox id="classification" value="#{loyaltyProgramManagedBean.marketingclsgroup}">  
+                                    <f:selectItem itemLabel="CLV Group1" itemValue="Group1" /> 
+                                    <f:selectItem itemLabel="CLV Group2" itemValue="Group2" /> 
+                                    <f:selectItem itemLabel="CLV Group3" itemValue="Group3" /> 
+                                    <f:selectItem itemLabel="CLV Group4" itemValue="Group4" /> 
+                                    <f:selectItem itemLabel="CLV Group5" itemValue="Group5" /> 
+                                </p:selectManyCheckbox> 
+                            </p:row>    
+                            <p:row>
+                                <h:outputText value="Membership Group: " />  
+                                <p:selectManyCheckbox id="membership" value="#{loyaltyProgramManagedBean.marketingMembership}">  
+                                    <f:selectItem itemLabel="Premier" itemValue="Premier" /> 
+                                    <f:selectItem itemLabel="Gold" itemValue="Gold" /> 
+                                    <f:selectItem itemLabel="Platinum" itemValue="Platinum" /> 
+                                    <f:selectItem itemLabel="Diamond" itemValue="Diamond" /> 
+                                </p:selectManyCheckbox> 
+                            </p:row>                 
+                            <p:row>
+                                <h:outputText value="Gender Group: " />  
+                                <p:selectManyCheckbox id="gender" value="#{loyaltyProgramManagedBean.marketingGender}">  
+                                    <f:selectItem itemLabel="Female" itemValue="Female" /> 
+                                    <f:selectItem itemLabel="Male" itemValue="Male" /> 
+                                </p:selectManyCheckbox> 
+                            </p:row> 
 
-                    <h:panelGrid columns="2" >  
-                        <p:commandButton value="Send" image="ui-icon ui-icon-mail-closed" update="msgs"  actionListener="#{internalMessageManagedBean.sendMsg}" />  
-                        <p:commandButton value="Reset" type="reset"  image="ui-icon ui-icon-close" />  
-                    </h:panelGrid> 
-                </div>
+                            <p:row>
+                                <h:outputText value="Age Group: " />  
+                                <p:selectManyCheckbox id="age" value="#{loyaltyProgramManagedBean.marketingAge}">  
+                                    <f:selectItem itemLabel="-25" itemValue="-25" /> 
+                                    <f:selectItem itemLabel="25-35" itemValue="25-35" /> 
+                                    <f:selectItem itemLabel="35-45" itemValue="35-45" /> 
+                                    <f:selectItem itemLabel="45-55" itemValue="45-55" />
+                                    <f:selectItem itemLabel="55-" itemValue="55-" /> 
+                                </p:selectManyCheckbox> 
+                            </p:row> 
+
+
+                        </div>
+
+
+                        <p:editor value="#{loyaltyProgramManagedBean.marketingMsg}" widgetVar="editor" />  
+ <h:form>  
+            <h:outputLabel for="messages" value="To update image " >
+                <p:fileUpload fileUploadListener="#{fileUploadManagedBean.handleFileUpload}" mode="advanced" dragDropSupport="false"  
+                              update="messages" sizeLimit="100000" allowTypes="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG)$/"   />  
+            </h:outputLabel>
+            <p:growl id="messages" showDetail="true"/>  
+        </h:form>
+                        <h:panelGrid columns="2" >  
+                            <p:commandButton value="Send" image="ui-icon ui-icon-mail-closed" update="msgs"  actionListener="#{loyaltyProgramManagedBean.sendMsg}" />  
+                            <p:commandButton value="Reset" type="reset"  image="ui-icon ui-icon-close" />  
+                        </h:panelGrid> 
+                    </div></h:panelGrid>
             </p:panel>
         </h:form>
- </ui:define>
+
+       
+    </ui:define>
 </ui:composition>

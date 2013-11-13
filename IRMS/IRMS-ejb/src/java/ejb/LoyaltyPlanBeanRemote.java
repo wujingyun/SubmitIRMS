@@ -4,6 +4,7 @@
  */
 package ejb;
 
+import entity.Customer;
 import entity.Membership;
 import entity.PointTrans;
 import entity.ShowTicketTrans;
@@ -26,4 +27,6 @@ public interface LoyaltyPlanBeanRemote {
        public List<PointTrans> getPointTransByCID(long id) ;
        public int getPointByCID(long id) ;
        public List<ShowTicketTrans>  getShowTicketTransByCID(long id) throws ExistException;
+           public List<Customer> getMarketingEmailCustomerList(List <String> marketingclsgroup,
+    List <String> marketingMembership,List <String> marketingGender,List <String> marketingAge )throws ExistException;
 }
