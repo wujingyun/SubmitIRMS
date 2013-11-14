@@ -71,7 +71,7 @@
                         <p:growl id="growl" showDetail="true" life="3000" />
 
                         <p:dialog id="dialog" header="Customer Portal Login" widgetVar="dlg" resizable="false">
-
+                           
                             <h:panelGrid columns="2" cellpadding="5">
                                 <h:outputLabel for="username" value="Username:" />
                                 <p:inputText value="#{customerLoginBean.username}" 
@@ -80,9 +80,16 @@
                                 <h:outputLabel for="password" value="Password:" />
                                 <h:inputSecret value="#{customerLoginBean.password}" 
                                                id="password" required="true" label="password" />
-
+                                <h:form>  <p:panel   visible="false" id="cap">
+                                        <p:captcha label="Captcha"/> </p:panel> </h:form> 
+                            <f:facet name="footer">
+                                <p:commandButton id="loginButton" value="Login" update="growl" 
+                                                 actionListener="#{customerLoginBean.login}" 
+                                                 oncomplete="handleLoginRequest(xhr, status, args)"/>
+                            </f:facet>
 
                             </h:panelGrid>
+                         
                         </p:dialog>
                     </h:form>
                 </p:layoutUnit>

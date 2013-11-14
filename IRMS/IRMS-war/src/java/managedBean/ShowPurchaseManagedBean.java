@@ -9,7 +9,7 @@ import ejb.CustomerBeanRemote;
 import ejb.InternalMessageBean;
 import ejb.ShowBeanRemote;
 import ejb.ShowExecutionBean;
-import ejb.ShowExecutionBeanLocal;
+import ejb.ShowExecutionBeanRemote;
 import entity.Customer;
 import entity.EntShow;
 import entity.UserAccount;

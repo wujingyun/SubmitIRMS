@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta http-equiv="X-UA-Compatible" content="EmulateIE8" />
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>Coral Island Resort - Entertainment Shows</title>
+            </f:facet>
+
+            <link type="text/css" rel="stylesheet" href="./resources/css/default.css" />
+            <link type="text/css" rel="stylesheet" href="./resources/css/syntaxhighlighter/syntaxhighlighter.css" />
+
+            <style type="text/css">
+             .ui-layout-north {
+                    z-index:20 !important;
+                    overflow:visible !important;
+                }
+
+                .ui-layout-north .ui-layout-unit-content {
+                    overflow:visible !important;
+                    background-color: #4D4749;
+                }
+.ui-layout-west .ui-widget-content{background-color: #E0F8F1;}
+                .ui-top {
+                    background-image: none;
+                    background-color: #4D4749; }
+            </style>
+
+            <script type="text/javascript">
+                function test() {
+// validation here
+                    if (isValidated) {
+                        dlg.show();
+                    }
+                    else
+                        alert('Please fill in the entire form!');
+                }
+            </script>
+        </h:head>
+
+        <script type="text/javascript">
+            function goChangePass() {
+
+                window.location = "http://localhost:8080/IRMS-war/internalChangePass.xhtml";
+            }
+
+        </script>
+        <h:body>
+
+            <p:layout fullPage="true" >
+
+                <p:layoutUnit id="top" position="north" size="80">
+<div class="ui-top">
+                    </div>
+                     <img src="/IRMS-war/resources/img/index.jpg" style="opacity:0.7; margin-top:5px; width:100px; height:60px"/>
+                    
+                     <p style="color:white; margin-top:-35px; margin-left:8%" >
+                      
+                         <b>Entertainment Shows Sub-System  </b>|   Welcome ! , #{loginBean.username} 
+                       
+<p:commandLink  style="color:#B8DCDB" id="logoutButton" value="Logout  |  "
+                                      actionListener="#{internalLogoutManagedBean.logout}" />
+
+                    <p:commandLink style="color:#B8DCDB"  onclick="goChangePass();" value=" Change Password"/>
+                   
+                        <p:commandLink  style="margin-left:55%; color:#B8DCDB" onclick="goIndex();" value="Coral Website" />
+                  
+                    </p>
+                    
+                </p:layoutUnit>
+
+
+
+                <p:layoutUnit id="left" position="west" size="245" resizable="true" closable="true" collapsible="true" header="Options" minSize="180">
+                   <p:menubar>
+                       <p:submenu label="My Profile" icon="ui-icon-pencil">
+                          
+                            <p:menuitem value="Edit Profile" url="/adminEditProfile.xhtml" />
+                         
+                        </p:submenu>
+                        <p:submenu label="Entertainment Shows" icon="ui-icon-image" style="width:200px">
+                            <p:menuitem value="Manage Theatre" url="/showTheatre.xhtml" />
+                            <p:menuitem value="Manage Contract" url="/showContract.xhtml" />
+                            <p:menuitem value="Manage Show" url="/showExecution.xhtml" />
+                            <p:menuitem value="Manage Ticketing" url="/showTicket.xhtml" />
+                        </p:submenu><br></br>
+                          
+                        <p:submenu label="Internal Message" icon="ui-icon-mail-closed">
+                            <p:menuitem value="Send Message" url="/internalSendMessage.xhtml" />
+                            <p:menuitem value="Message Box" url="/internalMessageBox.xhtml"/>
+                        </p:submenu>
+   <p></p>
+
+                    </p:menubar>
+                     <h:panelGrid>
+                      
+                            
+    <p:calendar  mode="inline" id="inlineCal"/> </h:panelGrid>     
+                </p:layoutUnit>
+
+                
+
+                <p:layoutUnit id="center" position="center">
+                    <ui:insert name="center"> 
+                        
+                        
+                    </ui:insert>
+                    
+                </p:layoutUnit>
+
+            </p:layout>
+
+
+
+        </h:body>
+</f:view>
+</html>

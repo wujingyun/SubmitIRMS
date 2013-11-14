@@ -216,7 +216,33 @@ public class AttractionSessionBean implements AttractionSessionBeanRemote {
         em.remove(attractions);
         em.flush();
     }
+ @Override
+    public double getAmount( int quantity, String attractionPassId)throws ExistException {
+ pass = new AttractionPass();double amount=0.0;
+ System.out.println("getAmount");
 
+ pass = em.find(AttractionPass.class, attractionPassId); 
+ System.out.println("getAmount"+pass.getPassType());
+        if (pass == null) {
+            throw new ExistException("Can't find the pass");
+        }
+        System.out.println("getAmount"+pass.getPassType());
+ return amount=pass.getPrice()*quantity;
+ }
+ 
+  @Override
+    public double getTicketAmount( int quantity, String attractionTicketId)throws ExistException {
+ ticket = new AttractionTicket();double amount=0.0;
+ System.out.println("getAmount");
+
+ ticket = em.find(AttractionTicket.class, attractionTicketId); 
+ System.out.println("getAmount"+ticket.getTicketType());
+        if (ticket == null) {
+            throw new ExistException("Can't find the pass");
+        }
+        System.out.println("getAmount"+ticket.getTicketPrice());
+ return amount=ticket.getTicketPrice()*quantity;
+ }
     @Override
     public void buyPass(Long customerId, int quantity, String attractionPassId) throws ExistException {
         attractionPassTrans = new AttractionPassTrans();
@@ -272,7 +298,7 @@ public class AttractionSessionBean implements AttractionSessionBeanRemote {
         if (purchaseCustomer.getTotalAmountSpend() > 5000 && purchaseCustomer.getTotalAmountSpend() < 10000) {
             member = new Membership();
             Query query1 = em.createQuery("SELECT DISTINCT m FROM Membership m WHERE m.membershipType =?1");
-            query.setParameter(1, "Gold");
+            query1.setParameter(1, "Gold");
             member = (Membership) query1.getSingleResult();
             purchaseCustomer.setMembership(member);
             System.err.println("member type is " + member.getMembershipType());
@@ -303,7 +329,7 @@ public class AttractionSessionBean implements AttractionSessionBeanRemote {
     }
 
     @Override
-    public void purchaseTicket(Long customerId, int quantity, String ticketId,Calendar attendDate) throws ExistException {
+    public void purchaseTicket(Long customerId, int quantity, String ticketId,Date attendDate) throws ExistException {
 
         System.out.println("purchaseTicket");
         attractionTicketTrans = new AttractionTicketTrans();
@@ -368,7 +394,7 @@ public class AttractionSessionBean implements AttractionSessionBeanRemote {
         if (purchaseCustomer.getTotalAmountSpend() > 5000 && purchaseCustomer.getTotalAmountSpend() < 10000) {
             member = new Membership();
             Query query1 = em.createQuery("SELECT DISTINCT m FROM Membership m WHERE m.membershipType =?1");
-            query.setParameter(1, "Gold");
+            query1.setParameter(1, "Gold");
             member = (Membership) query1.getSingleResult();
             purchaseCustomer.setMembership(member);
             System.err.println("member type is " + member.getMembershipType());

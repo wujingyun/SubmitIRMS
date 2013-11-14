@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./templet/adminTemplet_Ent.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <ui:define name="center">
+        <f:view>
+            <h:form id="ticketForm">
+
+                <p:growl id="messages" showDetail="true"/>
+
+                <p:panel header="Create a new ticket category" id="createTicketCat" toggleable="true" collapsed="true">  
+                    <h:panelGrid id="grid">  
+                        
+                        <p:row>
+                            <p:column><h:outputLabel value="Show ID : *" for="showId"></h:outputLabel>
+                                <h:selectOneMenu id="showId" value="#{showTicketManagedBean.selectedShowId}" required="true">  
+                                    <f:selectItem itemLabel="Select Show" itemValue=" "/>  
+                                    <f:selectItems value="#{showExecutionManagedBean.showIds}"/>  
+                                </h:selectOneMenu>
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>
+                            <p:column><h:outputLabel value="Category : *" for="ticketCat"></h:outputLabel>
+                                <p:inputText id="ticketCat" value="#{showTicketManagedBean.newTicketCat.catName}" required="true" />
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>
+                            <p:column><h:outputLabel value="Price : *" for="catPrice"></h:outputLabel>  
+                                <p:inputText id="catPrice" required="true" value="#{showTicketManagedBean.newTicketCat.catPrice}"/>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column><h:outputLabel value="Total Number : *" for="totalNum"></h:outputLabel>  
+                                <p:inputText id="totalNum" value="#{showTicketManagedBean.newTicketCat.totalNum}" required="true"/>
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>  
+                            <p:column><h:outputLabel value="Available Number : *" for="availNum"></h:outputLabel> 
+                                <p:inputText id="availNum" required="true" value="#{showTicketManagedBean.newTicketCat.availNum}"/>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:commandButton value="Reset" type="reset"/>  
+                            <p:commandButton id="add" value="Create" update="createTicketCat ticketCats"  
+                                             action="#{showTicketManagedBean.reinit()}" actionListener="#{showTicketManagedBean.createCategory(action)}">  
+                                <p:collector value="#{showTicketManagedBean.newTicketCat}"   
+                                             addTo="#{showTicketManagedBean.ticketCats}" />  
+                            </p:commandButton>  
+                        </p:row>
+                    </h:panelGrid>  
+                </p:panel>  
+
+                <p:outputPanel id="ticketCats">
+
+                    <p:dataTable var="ticketCat" value="#{showTicketManagedBean.ticketCats}" id="categoryList" editable="true" rowKey="#{ticketCat.catId}" selection="#{showTicketManagedBean.selectedTicketCat}" selectionMode="single"> 
+
+                        <f:facet name="header">  
+                            IR Entertainment Show Ticket Categories
+                        </f:facet>
+                        
+                        <p:ajax event="rowEdit" listener="#{showTicketManagedBean.onEdit}" update=":ticketForm:messages" />  
+                        <p:ajax event="rowEditCancel" listener="#{showTicketManagedBean.onCancel}" update=":ticketForm:messages" />
+                        
+                        <p:column headerText="Category Name"> 
+                            #{ticketCat.catName}
+                        </p:column>  
+
+                        <p:column headerText="Category Price">
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{ticketCat.catPrice}" />  
+                                </f:facet>  
+                                <f:facet name="input">  
+                                    <p:inputText value="#{ticketCat.catPrice}" style="width:100%"/>  
+                                </f:facet>  
+                            </p:cellEditor> 
+                        </p:column>  
+
+                        <p:column headerText="Total Number">  
+                            #{ticketCat.totalNum}
+                        </p:column>  
+
+                        <p:column headerText="Available Number"> 
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{ticketCat.availNum}" />  
+                                </f:facet>  
+                                <f:facet name="input">  
+                                    <p:inputText value="#{ticketCat.availNum}" style="width:100%"/>  
+                                </f:facet>  
+                            </p:cellEditor> 
+                        </p:column>
+
+                        <p:column headerText="Edit">
+                            <p:rowEditor/>
+                        </p:column>
+
+                        <p:column headerText="Delete">
+                            <p:commandButton value="Delete" onclick="cd.show();">
+                                <p:dialog  header="Please confirm this operation!" widgetVar="cd" modal="false">
+                                    <h:outputText value="Are you sure about deleteing this category?"/>
+                                    <p:commandButton value="Yes" actionListener="#{showTicketManagedBean.deleteCategory}" update=":ticketForm:ticketCats :ticketForm:messages" process=":ticketForm:ticketCats" onclick="cd.hide();" >
+                                        <p:collector value="#{showTicketManagedBean.selectedTicketCat}" removeFrom="#{showTicketManagedBean.ticketCats}"/>
+                                    </p:commandButton>
+                                    <p:commandButton value="No" onclick="cd.hide();" type="button"/>
+                                </p:dialog>
+                            </p:commandButton>
+                        </p:column> 
+                    </p:dataTable>
+                </p:outputPanel>
+            </h:form>
+        </f:view>
+    </ui:define>
+
+</ui:composition>

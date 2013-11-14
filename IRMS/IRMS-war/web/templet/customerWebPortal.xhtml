@@ -1,55 +1,46 @@
-<?xml version='1.0' encoding='UTF-8' ?> 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
-      
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
-    <f:view>
+    
+    <f:view contentType="text/html">
         <h:head>
+            
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
             <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
             <script type="text/javascript" src="./resources/js/primeui-0.9.6-min.js"></script>  
-
             <link href="./resources/css/bootstrap_1.css" rel="stylesheet" type="text/css" />
-            <link href="./resources/css/bootstrap-responsive.css" rel="stylesheet" type="text/css" />
-  
-           
+            <link href="./resources/css/bootstrap-responsive.css" rel="stylesheet" type="text/css" />            
+            
             <title>Welcome to Coral Island Resort</title>
-            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-            <script src="resources/js/bootstrap.min.js"></script>
-            <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
-            <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-            <script type="text/javascript" src="./resources/js/bootstrap.js"></script>  
+            
+            <style type="text/css">
+                body{background-color: #4D4749;}
+            </style>
+
             <script type="text/javascript">
-                $(document).ready(function() {
-
-                    $('#dialog').dialog({autoOpen: false});
-                    $('#opener').click(function() {
-                        $('#dialog').dialog('open');
-                    });
-                });
-$(function ()    
-{ $("popover").popover();    
-});   
-
-$('#popover').popover({ 
-    
-    html : true,
-    title: function() {
-      return $("#popover-head").html();
-    },
-    content: function() {
-      return $("#popover-content").html();
-    }
-});
-
+                function test() {
+// validation here
+                    if (isValidated) {
+                        dlg.show();
+                    }
+                    else
+                        alert('Please fill in the entire form!');
+                }
             </script>
         </h:head>
+
+        <script type="text/javascript">
+            function goChangePass() {
+
+                window.location = "http://localhost:8080/IRMS-war/internalChangePass.xhtml";
+            }
+
+        </script>
         <h:body>
-
-
+            
             <div id="top" >
                 <div class="container" style="width:75%">
                     <div id="top">    <div class="navbar navbar-inverse">
@@ -59,7 +50,6 @@ $('#popover').popover({
                                     <span class="icon-bar"></span>
                                     <span class="icon-bar"></span>
                                 </a>
-
 
                                 <div class="nav-collapse ">
                                     <ul class="nav pull-left">
@@ -248,36 +238,19 @@ $('#popover').popover({
                     <ui:insert name="top"></ui:insert>
                 </div>
             </div>
-
-
-
-
-
-            <div id="content" class="center_content" >  
-
-               
+            
+            <div id="content" class="center_content" >                 
                 <ui:insert name="content">
-
-
                 </ui:insert>
             </div>
-
-
-
 
             <div id="bottom">
                 <div id="content" class="center_content" >
                     <div class="container" style="width:75%">
-
-                        <footer>
-                            <br/><br/><br/>
-                            <p><center><font color="white" size="1px">About Coral Island Resort | Corporate Social Responsibility | Partners | Press Room | Careers | Legal Information | Sitemap | Contact Us | Feedback </font>       </center></p>
-                      
-                            <p><center><font color="white" size="1px">&copy; 2013 NUS IS3102 - AY 2013/2014 Sem 1. All Rights Reserved.</font>     </center></p>
-                        </footer> 
-
-
                         <ui:insert name="bottom"></ui:insert>
+                         <p style="margin-top:45px"><center><font color="black" size="1px">About Coral Island Resort | Corporate Social Responsibility | Partners | Press Room | Careers | Legal Information | Sitemap | Contact Us | Feedback </font>
+                    </center></p>
+                    <p><center><font color="black" size="1px">&copy; 2013 NUS IS3102 - AY 2013/2014 Sem 1. All Rights Reserved.</font></center></p>
                     </div>
                 </div>
             </div>

@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./templet/customerWebPortal.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+
+        <div id="content" class="center_content" >  
+
+            <div class="container" style="width:75%">
+                <script type="text/javascript">
+                    function handleLoginRequest(xhr, status, args) {
+                        if (args.validationFailed || !args.loggedIn) {
+                            dlg.jq.effect("shake", {times: 5}, 100);
+                        }
+                        else {
+                            dlg.hide();
+                            $('#loginLink').fadeOut();
+                        }
+                    }
+                </script>
+
+                <f:view>
+                    <h:form id="form">
+                        <p:growl id="growl" showDetail="true" life="3000" />
+                        <p:panel>
+                            <h:outputText value="Please login before making payment:"/> <br></br>
+                            <h:outputLink id="loginLink" value="javascript:void(0)" onclick="dlg.show()" title="login" >	
+                                <p:graphicImage value="/resources/img/login22.png"   title="Login"/>
+                            </h:outputLink>
+
+                            <h:outputLink id="forgetPasswordLink" value="/IRMS-war/crmPasswordReset.xhtml"  title="login" >	
+                                <p:graphicImage value="/resources/img/forgetPassword22.png" title="Forget Password"/>
+
+                            </h:outputLink>
+
+                            <h:outputLink id="RegisterLink" value="/IRMS-war/customerRegister.xhtml" title="login" >	
+                                <p:graphicImage value="/resources/img/register22.png"  title="Register Account"/>
+                            </h:outputLink>
+
+                            <p:dialog id="dialog" header="Please login" widgetVar="dlg" resizable="false" modal="false">
+                                <p:panel>
+                                    <h:outputLabel for="username" value="Username:" />
+                                    <p:inputText value="#{attractionPurchaseManagedBean.username}" 
+                                                 id="username" required="true" label="username" />
+                                    <br></br>
+                                    <h:outputLabel for="password" value="Password:" />
+                                    <h:inputSecret value="#{attractionPurchaseManagedBean.password}" 
+                                                   id="password" required="true" label="password" />
+                                    <br></br>
+                                    <p:commandButton id="loginButton" value="Login" update="growl" 
+                                                     actionListener="#{attractionPurchaseManagedBean.loginBuyPass}" 
+                                                     oncomplete="handleLoginRequest(xhr, status, args)"/>
+                                </p:panel>
+                            </p:dialog>
+                        </p:panel>
+                    </h:form>
+                </f:view>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

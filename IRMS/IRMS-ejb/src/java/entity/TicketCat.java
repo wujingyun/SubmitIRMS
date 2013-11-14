@@ -11,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 /**
  * @author Jiao Shen
@@ -19,17 +18,19 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class TicketCat implements Serializable {
- @Id
+
+    @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long catId;
     private String catName;
     private double catPrice;
     private int totalNum;
     private int availNum;
-    @OneToMany(mappedBy="ticketCat",cascade= CascadeType.ALL)
-    private List<TicketSeat> ticketSeat = new ArrayList();
+    
     @ManyToOne
-    private EntShow entshow;
+    private EntShow entShow;
+    @OneToMany(mappedBy="ticketCat", cascade=CascadeType.ALL)
+    private List<TicketSeat> ticketSeats = new ArrayList<TicketSeat>();
     
     public TicketCat() {}
     
@@ -40,36 +41,20 @@ public class TicketCat implements Serializable {
         this.setAvailNum(availNum);
     }
 
+    public Long getCatId() {
+        return catId;
+    }
+
+    public void setCatId(Long catId) {
+        this.catId = catId;
+    }
+
     public String getCatName() {
         return catName;
     }
 
     public void setCatName(String catName) {
         this.catName = catName;
-    }
-
-    public Long getId() {
-        return Id;
-    }
-
-    public void setId(Long Id) {
-        this.Id = Id;
-    }
-
-    public void setTicketSeat(List<TicketSeat> ticketSeat) {
-        this.ticketSeat = ticketSeat;
-    }
-
-    public void setEntshow(EntShow entshow) {
-        this.entshow = entshow;
-    }
-
-    public List<TicketSeat> getTicketSeat() {
-        return ticketSeat;
-    }
-
-    public EntShow getEntshow() {
-        return entshow;
     }
 
     public double getCatPrice() {
@@ -94,6 +79,22 @@ public class TicketCat implements Serializable {
 
     public void setAvailNum(int availNum) {
         this.availNum = availNum;
+    }
+
+    public EntShow getEntShow() {
+        return entShow;
+    }
+
+    public void setEntShow(EntShow entShow) {
+        this.entShow = entShow;
+    }
+
+    public List<TicketSeat> getTicketSeats() {
+        return ticketSeats;
+    }
+
+    public void setTicketSeats(List<TicketSeat> ticketSeats) {
+        this.ticketSeats = ticketSeats;
     }
 
 }

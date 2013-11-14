@@ -1,11 +1,7 @@
 package entity;
 
-import entity.EntShow;
 import java.io.Serializable;
-import java.util.Calendar;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
@@ -17,33 +13,21 @@ import javax.persistence.OneToOne;
 public class Venue implements Serializable {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Long venueId;
+    //@GeneratedValue (strategy = GenerationType.IDENTITY)
+    //private Long venueId;
     private String venueName;
-    //private Calendar date;
-    private String venueStatus;
     private String venueAddr;
     private double prevailingRates;
     
-    //@OneToOne(mappedBy="show")
-    //private Show show;
+    @OneToOne
+    private EntShow entShow;
     
     public Venue() {}
     
-    public void createVenue (String venueName, String venueStatus, String venueAddr, double prevailingRates) {
-        //this.setVenueId(venueId);
+    public void createVenue (String venueName,String venueAddr, double prevailingRates) {
         this.setVenueName(venueName);
-        this.setVenueStatus(venueStatus);
         this.setVenueAddr(venueAddr);
         this.setPrevailingRates(prevailingRates);
-    }
-
-    public Long getVenueId() {
-        return venueId;
-    }
-
-    public void setVenueId(Long venueId) {
-        this.venueId = venueId;
     }
 
     public String getVenueName() {
@@ -52,14 +36,6 @@ public class Venue implements Serializable {
 
     public void setVenueName(String venueName) {
         this.venueName = venueName;
-    }
-
-    public String getVenueStatus() {
-        return venueStatus;
-    }
-
-    public void setVenueStatus(String venueStatus) {
-        this.venueStatus = venueStatus;
     }
 
     public String getVenueAddr() {
@@ -76,6 +52,14 @@ public class Venue implements Serializable {
 
     public void setPrevailingRates(double prevailingRates) {
         this.prevailingRates = prevailingRates;
+    }
+
+    public EntShow getEntShow() {
+        return entShow;
+    }
+
+    public void setEntShow(EntShow entShow) {
+        this.entShow = entShow;
     }
 
 }

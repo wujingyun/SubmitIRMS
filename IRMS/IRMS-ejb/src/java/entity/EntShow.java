@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,40 +20,48 @@ import javax.persistence.Temporal;
  */
 
 @Entity
-public class  EntShow implements Serializable {
+public class EntShow implements Serializable {
 
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long showId;
+    //@Id
     private String showName;
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date showDate;
     private String showVenue;
     @Temporal(javax.persistence.TemporalType.DATE)
+    private Date showDate;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date startSalesDate;
+    //private int startTime;
+    //private int endTime;
     private Long duration;
-    private String language;
+    private String description;
     
-    @OneToOne
+    @OneToOne(mappedBy="entShow")
     private Venue venue;
-    @OneToOne
+    @OneToOne(mappedBy="entShow")
     private ShowRequest showRequest;
-    @OneToOne
+    @OneToOne(mappedBy="entShow")
     private ShowContract showContract;
-    @OneToMany(mappedBy="entshow")
-    private List<TicketCat> ticketCat = new ArrayList();
+    @OneToMany(mappedBy="entShow", cascade=CascadeType.ALL)
+    private List<TicketCat> ticketCats = new ArrayList<TicketCat>();
+
+    public EntShow() {}
     
-    
-    public  EntShow() {}
-    
-    public void createShow (String showName, Date showDate, String showVenue, Date startSalesDate, Long duration, String language) {
+    public void createShow (String showName, String showVenue, Date showDate, Date startSalesDate, Long duration, String description) {
         this.setShowName(showName);
-        this.setShowDate(showDate);
         this.setShowVenue(showVenue);
+        this.setShowDate(showDate);
         this.setStartSalesDate(startSalesDate);
         this.setDuration(duration);
-        this.setLanguage(language);
+        this.setDescription(description);
     }
+    
+    /*
+    public void addTicketCat (TicketCat ticketCat){
+        ticketCats.add(ticketCat);
+    }
+    */
 
     public Long getShowId() {
         return showId;
@@ -60,30 +69,6 @@ public class  EntShow implements Serializable {
 
     public void setShowId(Long showId) {
         this.showId = showId;
-    }
-
-    public void setVenue(Venue venue) {
-        this.venue = venue;
-    }
-
-    public void setShowRequest(ShowRequest showRequest) {
-        this.showRequest = showRequest;
-    }
-
-    public void setTicketCat(List<TicketCat> ticketCat) {
-        this.ticketCat = ticketCat;
-    }
-
-    public Venue getVenue() {
-        return venue;
-    }
-
-    public ShowRequest getShowRequest() {
-        return showRequest;
-    }
-
-    public List<TicketCat> getTicketCat() {
-        return ticketCat;
     }
 
     public String getShowName() {
@@ -94,20 +79,20 @@ public class  EntShow implements Serializable {
         this.showName = showName;
     }
 
-    public Date getShowDate() {
-        return showDate;
-    }
-
-    public void setShowDate(Date showDate) {
-        this.showDate = showDate;
-    }
-
     public String getShowVenue() {
         return showVenue;
     }
 
     public void setShowVenue(String showVenue) {
         this.showVenue = showVenue;
+    }
+
+    public Date getShowDate() {
+        return showDate;
+    }
+
+    public void setShowDate(Date showDate) {
+        this.showDate = showDate;
     }
 
     public Date getStartSalesDate() {
@@ -126,12 +111,28 @@ public class  EntShow implements Serializable {
         this.duration = duration;
     }
 
-    public String getLanguage() {
-        return language;
+    public String getDescription() {
+        return description;
     }
 
-    public void setLanguage(String language) {
-        this.language = language;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Venue getVenue() {
+        return venue;
+    }
+
+    public void setVenue(Venue venue) {
+        this.venue = venue;
+    }
+
+    public ShowRequest getShowRequest() {
+        return showRequest;
+    }
+
+    public void setShowRequest(ShowRequest showRequest) {
+        this.showRequest = showRequest;
     }
 
     public ShowContract getShowContract() {
@@ -141,5 +142,13 @@ public class  EntShow implements Serializable {
     public void setShowContract(ShowContract showContract) {
         this.showContract = showContract;
     }
-        
+
+    public List<TicketCat> getTicketCats() {
+        return ticketCats;
+    }
+
+    public void setTicketCats(List<TicketCat> ticketCats) {
+        this.ticketCats = ticketCats;
+    }
+
 }

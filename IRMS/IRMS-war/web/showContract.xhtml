@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./templet/adminTemplet_Ent.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html">  
+
+    <ui:define name="center">
+        <f:view>
+            <h:form id="contractForm">
+
+                <p:growl id="messages" showDetail="true"/>
+
+                <p:panel header="Create a new contract" id="createContract" toggleable="true" collapsed="true">  
+                    <h:panelGrid id="grid">  
+                        <p:row>
+                            <p:column><h:outputLabel value="Show Name : *" for="showName"></h:outputLabel>
+                                <p:inputText id="showName" value="#{showContractManagedBean.newShowContract.showName}" required="true" />
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>
+                            <p:column><h:outputLabel value="Show Venue : *" for="showVenue"></h:outputLabel>
+                                <h:selectOneMenu id="showVenue" value="#{showContractManagedBean.newShowContract.showVenue}" required="true">  
+                                    <f:selectItem itemLabel="Select Venue" itemValue=" "/>  
+                                    <f:selectItems value="#{showTheatreManagedBean.venueNames}"/>  
+                                </h:selectOneMenu>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column><h:outputLabel value="Show Admin : *" for="showAdmin"></h:outputLabel>  
+                                <p:inputText id="showAdmin" value="#{showContractManagedBean.newShowContract.staffId}" required="true"/>
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>
+                            <p:column><h:outputLabel value="Show Date : *" for="showDate"></h:outputLabel>  
+                                <p:calendar id="showDate" value="#{showContractManagedBean.newShowContract.showDate}" pattern="dd/MM/yyyy HH:mm" showOn="button"/>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column><h:outputLabel value="Sign Date : *" for="signDate"></h:outputLabel> 
+                                <p:calendar id="signDate" required="true" value="#{showContractManagedBean.newShowContract.signDate}" pattern="dd/MM/yyyy" showOn="button"/>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:commandButton value="Reset" type="reset"/>  
+                            <p:commandButton id="add" value="Create" update="createContract showContracts"  
+                                             action="#{showContractManagedBean.reinit()}" actionListener="#{showContractManagedBean.createContract(action)}" ajax="false">  
+                                <p:collector value="#{showContractManagedBean.newShowContract}"   
+                                             addTo="#{showContractManagedBean.showContracts}" />  
+                            </p:commandButton>  
+                        </p:row>
+                    </h:panelGrid>  
+                </p:panel>  
+
+                <p:outputPanel id="showContracts">
+
+                    <p:dataTable var="showContract" value="#{showContractManagedBean.showContracts}" id="contractList" editable="false" rowKey="#{showContract.contractId}" selection="#{showContractManagedBean.selectedContract}" selectionMode="single"> 
+
+                        <f:facet name="header">  
+                            IR Entertainment Show Contracts
+                        </f:facet>
+                         
+                        <p:ajax event="rowEditCancel" listener="#{showContractManagedBean.onCancel}" update=":contractForm:messages" />
+                        
+                        <p:column headerText="Contract ID"> 
+                            #{showContract.contractId}
+                        </p:column>  
+
+                        <p:column headerText="Show Name">
+                            #{showContract.showName}
+                        </p:column>
+                        
+                        <p:column headerText="Show Venue"> 
+                            #{showContract.showVenue}
+                        </p:column>
+                        
+                        <p:column headerText="Show Date">
+                            <h:outputText value="#{showContract.showDate}">
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                           </h:outputText>                            
+                        </p:column>
+
+                        <p:column headerText="Show Admin"> 
+                            #{showContract.staffId}
+                        </p:column>
+
+                        <p:column headerText="Sign Date">
+                            <h:outputText value="#{showContract.signDate}">
+                                <f:convertDateTime pattern="dd-MM-yyyy"/>
+                           </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Delete">
+                            <p:commandButton value="Delete" onclick="cd.show();">
+                                <p:dialog  header="Please confirm this operation!" widgetVar="cd" modal="false">
+                                    <h:outputText value="Are you sure about deleteing this contract?"/>
+                                    <p:commandButton value="Yes" actionListener="#{showContractManagedBean.deleteContract}" update=":contractForm:showContracts :contractForm:messages" process=":contractForm:showContracts" onclick="cd.hide();" >
+                                        <p:collector value="#{showContractManagedBean.selectedContract}" removeFrom="#{showContractManagedBean.showContracts}"/>
+                                    </p:commandButton>
+                                    <p:commandButton value="No" onclick="cd.hide();" type="button"/>
+                                </p:dialog>
+                            </p:commandButton>
+                        </p:column> 
+                    </p:dataTable>
+                </p:outputPanel>
+            </h:form>
+        </f:view>
+    </ui:define>
+
+</ui:composition>

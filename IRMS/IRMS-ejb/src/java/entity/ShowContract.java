@@ -20,33 +20,28 @@ public class ShowContract implements Serializable {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long contractId;
+    //@Id
     private String showName;
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar showDate;
+    private Date showDate;
     private String showVenue;
     private Long staffId;
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar signDate;
+    private Date signDate;
+    //private String status; // "reserved" or "signed"
     
-   // @OneToOne(mappedBy="show")
-   // private Show show;
+    @OneToOne
+    private EntShow entShow;
     
     public ShowContract() {}
     
-    public void createShowContract (String showName, Calendar showDate, String showVenue, Calendar signDate) {
-        //this.setContractId(contractId);
+    public void createShowContract (String showName, Date showDate, String showVenue, Long staffId, Date signDate) {
         this.setShowName(showName);
         this.setShowDate(showDate);
         this.setShowVenue(showVenue);
+        this.setStaffId(staffId);
         this.setSignDate(signDate);
-    }
-
-    public Long getContractId() {
-        return contractId;
-    }
-
-    public void setContractId(Long contractId) {
-        this.contractId = contractId;
+        //this.setStatus(status);
     }
 
     public String getShowName() {
@@ -57,11 +52,11 @@ public class ShowContract implements Serializable {
         this.showName = showName;
     }
 
-    public Calendar getShowDate() {
+    public Date getShowDate() {
         return showDate;
     }
 
-    public void setShowDate(Calendar showDate) {
+    public void setShowDate(Date showDate) {
         this.showDate = showDate;
     }
 
@@ -81,12 +76,28 @@ public class ShowContract implements Serializable {
         this.staffId = staffId;
     }
 
-    public Calendar getSignDate() {
+    public Date getSignDate() {
         return signDate;
     }
 
-    public void setSignDate(Calendar signDate) {
+    public void setSignDate(Date signDate) {
         this.signDate = signDate;
     }
-    
+
+    public Long getContractId() {
+        return contractId;
+    }
+
+    public void setContractId(Long contractId) {
+        this.contractId = contractId;
+    }
+
+    public EntShow getEntShow() {
+        return entShow;
+    }
+
+    public void setEntShow(EntShow entShow) {
+        this.entShow = entShow;
+    }
+
 }

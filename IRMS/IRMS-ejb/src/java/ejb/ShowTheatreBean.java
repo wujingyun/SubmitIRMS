@@ -2,17 +2,18 @@ package ejb;
 
 import entity.Venue;
 import exception.ExistException;
-import java.util.Calendar;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /*
  * @author Jiao Shen
  */
 
 @Stateless
-public class ShowTheatreBean implements ShowTheatreBeanLocal {
+public class ShowTheatreBean implements ShowTheatreBeanRemote {
 
     @PersistenceContext()
     EntityManager em;
@@ -23,13 +24,15 @@ public class ShowTheatreBean implements ShowTheatreBeanLocal {
     }
     
     @Override
-    public void add (String name, String status, String address, double price) throws ExistException{
+    public void add (String name, String address, double price) throws ExistException{
         venue = em.find(Venue.class, name);
         if (venue != null) {
             throw new ExistException("VENUE ALREADY EXISTS.");
         }
         venue = new Venue();
-        venue.createVenue(name, status, address, price);
+        System.out.println("Session-Theatre-1======================================");
+        venue.createVenue(name, address, price);
+        System.out.println("Session-Theatre-2======================================");
         em.persist(venue);
     }
     
@@ -55,6 +58,7 @@ public class ShowTheatreBean implements ShowTheatreBeanLocal {
         em.flush();
     }
     
+    /*
     @Override
     public void updateStatus(String name,String newStatus) throws ExistException{
         venue = em.find(Venue.class, name);
@@ -63,6 +67,13 @@ public class ShowTheatreBean implements ShowTheatreBeanLocal {
         }
         venue.setVenueStatus(newStatus);
         em.flush();
+    }
+    */
+    
+    @Override
+    public List<Venue> getVenues (){
+        Query q = em.createQuery("SELECT v FROM Venue v");
+        return q.getResultList();
     }
     
 }

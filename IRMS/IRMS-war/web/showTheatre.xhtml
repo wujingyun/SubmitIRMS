@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./templet/adminTemplet_Ent.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <ui:define name="center">
+        <f:view>
+            <h:form id="theatreForm">
+
+                <p:growl id="messages" showDetail="true"/>
+
+                <p:panel header="Create a new theatre" id="createTheatre" toggleable="true" collapsed="true">  
+                    <h:panelGrid id="grid">  
+                        <p:row>
+                            <p:column><h:outputLabel value="Theatre Name : *" for="theatreName"></h:outputLabel>
+                                <p:inputText id="theatreName" value="#{showTheatreManagedBean.newVenue.venueName}" required="true" />
+                            </p:column>
+                            <p:column><h:outputLabel value="Address : *" for="theatreAddress"></h:outputLabel>  
+                                <p:inputText id="theatreAddress" required="true" value="#{showTheatreManagedBean.newVenue.venueAddr}"/>
+                            </p:column>
+                            <p:column><h:outputLabel value="Prevailing Rates: *" for="prevailingRates"></h:outputLabel>  
+                                <p:inputText id="prevailingRates" value="#{showTheatreManagedBean.newVenue.prevailingRates}" required="true"/>
+                            </p:column>  
+                        </p:row>
+                        
+                        <p:row>
+                            <p:commandButton value="Reset" type="reset"/>  
+                            <p:commandButton id="add" value="Create" update="createTheatre venues"  
+                                             action="#{showTheatreManagedBean.reinit}" actionListener="#{showTheatreManagedBean.createTheatre}">  
+                                <p:collector value="#{showTheatreManagedBean.newVenue}"   
+                                             addTo="#{showTheatreManagedBean.venues}" />  
+                            </p:commandButton>  
+                        </p:row>
+                    </h:panelGrid>  
+                </p:panel>  
+
+                <p:outputPanel id="venues">
+
+                    <p:dataTable var="venue" value="#{showTheatreManagedBean.venues}" id="venueList" editable="true" rowKey="#{venue.venueName}" selection="#{showTheatreManagedBean.selectedVenue}" selectionMode="single"> 
+
+                        <f:facet name="header">  
+                            IR Entertainment Show Theatres
+                        </f:facet>
+                        
+                        <p:ajax event="rowEdit" listener="#{showTheatreManagedBean.onEdit}" update=":theatreForm:messages" />  
+                        <p:ajax event="rowEditCancel" listener="#{showTheatreManagedBean.onCancel}" update=":theatreForm:messages" />
+                        
+                        <p:column headerText="Theatre Name"> 
+                            #{venue.venueName}
+                        </p:column>  
+
+                        <p:column headerText="Address">
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{venue.venueAddr}" />  
+                                </f:facet>  
+                                <f:facet name="input">  
+                                    <p:inputText value="#{venue.venueAddr}" style="width:100%"/>  
+                                </f:facet>  
+                            </p:cellEditor> 
+                        </p:column>  
+
+                        <p:column headerText="Prevailing Rates"> 
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{venue.prevailingRates}" />  
+                                </f:facet>  
+                                <f:facet name="input">  
+                                    <p:inputText value="#{venue.prevailingRates}" style="width:100%"/>  
+                                </f:facet>  
+                            </p:cellEditor> 
+                        </p:column>
+
+                        <p:column headerText="Edit">
+                            <p:rowEditor/>
+                        </p:column>
+
+                        <p:column headerText="Delete">
+                            <p:commandButton value="Delete" onclick="cd.show();">
+                                <p:dialog  header="Please confirm this operation!" widgetVar="cd" modal="false">
+                                    <h:outputText value="Are you sure about deleteing this theatre?"/>
+                                    <p:commandButton value="Yes" actionListener="#{showTheatreManagedBean.deleteTheatre}" update=":theatreForm:venues :theatreForm:messages" process=":theatreForm:venues" onclick="cd.hide();" >
+                                        <p:collector value="#{showTheatreManagedBean.selectedVenue}" removeFrom="#{showTheatreManagedBean.venues}"/>
+                                    </p:commandButton>
+                                    <p:commandButton value="No" onclick="cd.hide();" type="button"/>
+                                </p:dialog>
+                            </p:commandButton>
+                        </p:column> 
+                    </p:dataTable>
+                </p:outputPanel>
+            </h:form>
+        </f:view>
+    </ui:define>
+
+</ui:composition>

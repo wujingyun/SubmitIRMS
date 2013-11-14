@@ -45,11 +45,12 @@ public class CustomerLoyaltyProgramManagedBean implements Serializable {
   
     private String rewardPoint;
     private String redeemPoint;
- 
+ private List<PointTrans> pointTransList;
     private String msg;
     private Customer user;
    private List <ShowTicketTrans> showTicketTrans;
      private List <TicketSeat> ticketSeat;
+     private int balance;
     public CustomerLoyaltyProgramManagedBean() {
     }
 
@@ -59,21 +60,55 @@ public class CustomerLoyaltyProgramManagedBean implements Serializable {
         long uid = (Long) request.getSession().getAttribute("userId");
         System.out.println(uid+"account edit get user id ================");
         user = cbb.getCustomerById(uid);
-       showTicketTrans=lpb.getShowTicketTransByCID(uid);
-       for (int i=0;i<showTicketTrans.size();i++)
-       {
-       ticketSeat=showTicketTrans.get(i).getTicketSeat();
+         pointTransList=lpb.getPointTransByCID(uid);
+         balance=user.getLoyaltyPointBalance();
+         
+       //showTicketTrans=lpb.getShowTicketTransByCID(uid);
+      
+     //,  for (int i=0;i<showTicketTrans.size();i++)
+     //  {
+      // ticketSeat=showTicketTrans.get(i).getTicketSeat();
       
        }
-           
-           }
 
-    public List<TicketSeat> getTicketSeat() {
-        return ticketSeat;
+    public String getRewardPoint() {
+        return rewardPoint;
     }
 
-    public void setTicketSeat(List<TicketSeat> ticketSeat) {
-        this.ticketSeat = ticketSeat;
+    public int getBalance() {
+        return balance;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
+
+    public void setRewardPoint(String rewardPoint) {
+        this.rewardPoint = rewardPoint;
+    }
+
+    public String getRedeemPoint() {
+        return redeemPoint;
+    }
+
+    public void setRedeemPoint(String redeemPoint) {
+        this.redeemPoint = redeemPoint;
+    }
+
+    public List<PointTrans> getPointTransList() {
+        return pointTransList;
+    }
+
+    public void setPointTransList(List<PointTrans> pointTransList) {
+        this.pointTransList = pointTransList;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
     public Customer getUser() {
@@ -92,64 +127,16 @@ public class CustomerLoyaltyProgramManagedBean implements Serializable {
         this.showTicketTrans = showTicketTrans;
     }
 
-   
-
-    
-    
-    
-    
-   
-
-    public void setLpb(LoyaltyPlanBeanRemote lpb) {
-        this.lpb = lpb;
+    public List<TicketSeat> getTicketSeat() {
+        return ticketSeat;
     }
 
-  
-
-    public void setRewardPoint(String rewardPoint) {
-        this.rewardPoint = rewardPoint;
+    public void setTicketSeat(List<TicketSeat> ticketSeat) {
+        this.ticketSeat = ticketSeat;
     }
-
-    public void setRedeemPoint(String redeemPoint) {
-        this.redeemPoint = redeemPoint;
-    }
-
-    public LoyaltyPlanBeanRemote getLpb() {
-        return lpb;
-    }
-
-    public void setCbb(CustomerBeanRemote cbb) {
-        this.cbb = cbb;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    public void setCustomer(Customer user) {
-        this.user = user;
-    }
-
-    public CustomerBeanRemote getCbb() {
-        return cbb;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public Customer getCustomer() {
-        return user;
-    }
-
-
-    public String getRewardPoint() {
-        return rewardPoint;
-    }
-
-    public String getRedeemPoint() {
-        return redeemPoint;
-    }
+           
+}
 
  
-}
+
+ 

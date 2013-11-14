@@ -27,6 +27,7 @@ public interface LoyaltyPlanBeanRemote {
        public List<PointTrans> getPointTransByCID(long id) ;
        public int getPointByCID(long id) ;
        public List<ShowTicketTrans>  getShowTicketTransByCID(long id) throws ExistException;
+       
            public List<Customer> getMarketingEmailCustomerList(List <String> marketingclsgroup,
     List <String> marketingMembership,List <String> marketingGender,List <String> marketingAge )throws ExistException;
 }

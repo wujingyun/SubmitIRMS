@@ -6,6 +6,7 @@ package entity;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,7 +34,7 @@ public class AttractionTicketTrans implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
      private Calendar purchaseDate;
     @Temporal(javax.persistence.TemporalType.DATE)
-     private Calendar attendDate;
+     private Date attendDate;
     @OneToOne (cascade = {CascadeType.ALL})
        private AttractionTicket attractionTicket; 
     @OneToOne(cascade = {CascadeType.ALL})
@@ -41,7 +42,7 @@ public class AttractionTicketTrans implements Serializable {
      private double amount;
     public AttractionTicketTrans() {
     }
-public void createAttractionTicketTrans (Customer customer,int quantity, Calendar purchaseDate, Calendar attendDate,  AttractionTicket attractionTicket) {
+public void createAttractionTicketTrans (Customer customer,int quantity, Calendar purchaseDate, Date attendDate,  AttractionTicket attractionTicket) {
         this.setCustomer(customer);
         this.setAttractionTicket(attractionTicket);
         this.setPurchaseDate(purchaseDate);
@@ -57,11 +58,11 @@ public void createAttractionTicketTrans (Customer customer,int quantity, Calenda
         this.id = id;
     }
 
-    public Calendar getAttendDate() {
+    public Date getAttendDate() {
         return attendDate;
     }
 
-    public void setAttendDate(Calendar attendDate) {
+    public void setAttendDate(Date attendDate) {
         this.attendDate = attendDate;
     }
 

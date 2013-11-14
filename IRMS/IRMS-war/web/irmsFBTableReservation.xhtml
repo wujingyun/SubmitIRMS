@@ -1,17 +1,38 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+      template="./templet/customerWebPortal.xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core" >
-    <h:head>
-        <title> </title>
-    </h:head>
-    <h:body>  
+    
+<ui:define name="content">
+    
+        <div id="content" class="center_content" >  
+
+            <div class="container" style="width:75%">
+
         <f:view>
+            
   <h:form id="RDishForm">
+      
                 <p:growl id="message"  showDetail="true"/>
+                
+                <p:breadCrumb> 
+                    <p:menuitem value="Coral Home Page" url="/index.xhtml" />  
+                    <p:menuitem value="Food and Beverage" url="#" />  
+                    <p:menuitem value="Table Reservation" url="#" /> 
+                </p:breadCrumb> 
+                
                 <p:panel>
+                    
+                        <h2> Table Reservation </h2>
+
+                        <P>
+                            Please enter required information. Once request is successfully submitted, you will receive a confirmation email.
+                        </P>
+                
+                    
                         <h:panelGrid columns="1" cellpadding="5">  
                    <p:row>
                     <p:outputLabel   value="Select Restaurant: *" />  
@@ -73,9 +94,17 @@
             </h:form>    
              
         </f:view>
-    </h:body>
-</html>
 
+                </div>
+
+
+
+        </div>
+
+                
+                </ui:define>
+
+</ui:composition>
 
 
 

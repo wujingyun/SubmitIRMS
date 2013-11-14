@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./templet/adminTemplet_Ent.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <ui:define name="center">
+        <f:view>
+            <h:form id="entshowForm">
+
+                <p:growl id="messages" showDetail="true"/>
+
+                <p:panel header="Create a new show" id="createShow" toggleable="true" collapsed="true">  
+                    <h:panelGrid id="grid">  
+                        
+                        <p:row>
+                            <p:column><h:outputLabel value="Show Name : *" for="showName"></h:outputLabel>
+                                <p:inputText id="showName" value="#{showExecutionManagedBean.newShow.showName}" required="true" />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column><h:outputLabel value="Show Venue : *" for="showVenue"></h:outputLabel>
+                                <h:selectOneMenu id="showVenue" value="#{showExecutionManagedBean.newShow.showVenue}" required="true">  
+                                    <f:selectItem itemLabel="Select Venue" itemValue=" "/>  
+                                    <f:selectItems value="#{showTheatreManagedBean.venueNames}"/>  
+                                </h:selectOneMenu>
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>
+                            <p:column><h:outputLabel value="Show Date: *" for="showDate"></h:outputLabel>  
+                                <p:calendar id="showDate" value="#{showExecutionManagedBean.newShow.showDate}" pattern="dd/MM/yyyy HH:mm" showOn="button"/>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column><h:outputLabel value="Start Sales Date : *" for="startSalesDate"></h:outputLabel> 
+                                <p:calendar id="startSalesDate" value="#{showExecutionManagedBean.newShow.startSalesDate}" pattern="dd/MM/yyyy" showOn="button"/>
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>
+                            <p:column><h:outputLabel value="Duration (minutes): *" for="duration"></h:outputLabel>  
+                                <p:inputText id="duration" value="#{showExecutionManagedBean.newShow.duration}" required="true"/>
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>
+                            <p:column><h:outputLabel value="Description : *" for="description"></h:outputLabel> 
+                                <p:inputText id="description" required="true" value="#{showExecutionManagedBean.newShow.description}"/>
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>
+                            <p:commandButton value="Reset" type="reset"/>  
+                            <p:commandButton id="add" value="Create" update="createShow shows"  
+                                               action="#{showExecutionManagedBean.reinit}" actionListener="#{showExecutionManagedBean.createShow}">  
+                            </p:commandButton>  
+                        </p:row>
+                        
+                    </h:panelGrid>  
+                </p:panel>  
+
+                <p:outputPanel id="shows">
+
+                    <p:dataTable var="entShow" value="#{showExecutionManagedBean.shows}" id="showList" editable="true" rowKey="#{entShow.showId}" selection="#{showExecutionManagedBean.selectedShow}" selectionMode="single"> 
+
+                        <f:facet name="header">  
+                            IR Entertainment Shows
+                        </f:facet>
+                        
+                        <p:ajax event="rowEdit" listener="#{showExecutionManagedBean.onEdit}" update=":entshowForm:messages" />  
+                        <p:ajax event="rowEditCancel" listener="#{showExecutionManagedBean.onCancel}" update=":entshowForm:messages" />
+                        
+                        <p:column headerText="Show ID"> 
+                            #{entShow.showId}
+                        </p:column>  
+
+                        <p:column headerText="Show Name">
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{entShow.showName}" />  
+                                </f:facet>  
+                                <f:facet name="input">  
+                                    <p:inputText value="#{entShow.showName}" style="width:100%"/>  
+                                </f:facet>  
+                            </p:cellEditor> 
+                        </p:column>
+                        
+                        <p:column headerText="Show Venue">
+                            #{entShow.showVenue}
+                        </p:column>  
+
+                        <p:column headerText="Show Date">  
+                            <h:outputText value="#{entShow.showDate}" styleClass="date">
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                           </h:outputText>   
+                        </p:column>  
+
+                        <p:column headerText="Start Sales Date"> 
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{entShow.startSalesDate}" styleClass="date">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
+                                </f:facet>  
+                                <f:facet name="input">  
+                                    <p:calendar value="#{entShow.startSalesDate}" showOn="button"/>  
+                                </f:facet>  
+                            </p:cellEditor> 
+                        </p:column>
+
+                        <p:column headerText="Duration">
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{entShow.duration}" />  
+                                </f:facet>  
+                                <f:facet name="input">  
+                                    <p:inputText value="#{entShow.duration}" style="width:100%"/>  
+                                </f:facet>  
+                            </p:cellEditor> 
+                        </p:column>
+                        
+                        <p:column headerText="Description">
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{entShow.description}" />  
+                                </f:facet>  
+                                <f:facet name="input">  
+                                    <p:inputText value="#{entShow.description}" style="width:100%"/>  
+                                </f:facet>  
+                            </p:cellEditor> 
+                        </p:column>
+                        
+                        <p:column headerText="Edit">
+                            <p:rowEditor/>
+                        </p:column>
+
+                        <p:column headerText="Delete">
+                            <p:commandButton value="Delete" onclick="cd.show();">
+                                <p:dialog  header="Please confirm this operation!" widgetVar="cd" modal="false">
+                                    <h:outputText value="Are you sure about deleteing this show?"/>
+                                    <p:commandButton value="Yes" actionListener="#{showExecutionManagedBean.deleteShow}" update=":entshowForm:shows :entshowForm:messages" process=":entshowForm:shows" onclick="cd.hide();" >
+                                        <p:collector value="#{showExecutionManagedBean.selectedShow}" removeFrom="#{showExecutionManagedBean.shows}"/>
+                                    </p:commandButton>
+                                    <p:commandButton value="No" onclick="cd.hide();" type="button"/>
+                                </p:dialog>
+                            </p:commandButton>
+                        </p:column> 
+                    </p:dataTable>
+                </p:outputPanel>
+            </h:form>
+        </f:view>
+    </ui:define>
+
+</ui:composition>

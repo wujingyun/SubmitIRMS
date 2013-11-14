@@ -17,17 +17,17 @@ public class TicketSeat implements Serializable {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private long seatId;
-    private boolean seatStatus;
-   
-    @ManyToOne
-        private ShowTicketTrans showTicketTrans;
+    private boolean seatStatus; // true for available; false for reserved
+    private int seatNum; //for every show, seatNum is from 1-N
+    
     @ManyToOne
     private TicketCat ticketCat;
+    @ManyToOne
+    private ShowTicketTrans showTicketTrans;
     
     public TicketSeat() {}
     
     public void createTicketSeat (boolean seatStatus) {
-     
         this.setSeatStatus(seatStatus);
     }
 
@@ -47,8 +47,16 @@ public class TicketSeat implements Serializable {
         this.seatStatus = seatStatus;
     }
 
-    public void setShowTicketTrans(ShowTicketTrans showTicketTrans) {
-        this.showTicketTrans = showTicketTrans;
+    public int getSeatNum() {
+        return seatNum;
+    }
+
+    public void setSeatNum(int seatNum) {
+        this.seatNum = seatNum;
+    }
+
+    public TicketCat getTicketCat() {
+        return ticketCat;
     }
 
     public void setTicketCat(TicketCat ticketCat) {
@@ -59,8 +67,8 @@ public class TicketSeat implements Serializable {
         return showTicketTrans;
     }
 
-    public TicketCat getTicketCat() {
-        return ticketCat;
+    public void setShowTicketTrans(ShowTicketTrans showTicketTrans) {
+        this.showTicketTrans = showTicketTrans;
     }
 
 }

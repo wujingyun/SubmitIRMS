@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="./templet/adminTemplet_2.xhtml"
+                template="./templet/crmTemplet.xhtml"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core">
@@ -11,32 +11,30 @@
     <ui:define name="center">
         <h:form id="form1">
             <p:panel id="msgInbox" header="View Loyalty Program" style="height:500px;">
-
-                <p:dataTable id="myMsg" emptyMessage="No Show Booking in your box" value="#{customerLoyaltyProgramManagedBean.ticketSeat}" selectionMode="single"  rowKey="#{ticketSeat.id}"  selection="#{customerLoyaltyProgramManagedBean.selectedCustomer}"  var ="ticketSeat" paginator="true" rows="5">
+<p:row>
+                                <h:outputText value="Total Loyalty Point:" />
+                                #{customerLoyaltyProgramManagedBean.balance}
+                            </p:row>
+                <p:dataTable id="myMsg" emptyMessage="No Show Booking in your box" value="#{customerLoyaltyProgramManagedBean.pointTransList}" selectionMode="single"  rowKey="#{pointTrans.id}"    var ="pointTrans" paginator="true" rows="5">
 
                     <p:column>
-                        <f:facet name="header">Show Name</f:facet>
-                            #{ticketSeat.ticketCat.entshow.showName}
+                        <f:facet name="header">Transaction Id</f:facet>
+                            #{pointTrans.id}
                     </p:column>
                     <p:column>
-                        <f:facet name="header">Seat ID</f:facet>
-                            #{ticketSeat.seatId}
+                        <f:facet name="header">Transaction Date</f:facet>
+                            #{pointTrans.date_of_pointTrans.time}
+                       
                     </p:column>
                     <p:column>
-                        <f:facet name="header">Seat Category</f:facet>
-                            #{ticketSeat.ticketCat.catName}
+                        <f:facet name="header">Points</f:facet>
+                            #{pointTrans.point}
                     </p:column>
 
-                    <p:column style="font-weight:bold;">
-                        <f:facet name="header">Price</f:facet>
-                            #{ticketSeat.ticketCat.catPrice}
+                    <p:column >
+                        <f:facet name="header">Type</f:facet>
+                            #{pointTrans.type}
                     </p:column>
-
-
-                    
-
-                   
-
 
                 </p:dataTable>
 

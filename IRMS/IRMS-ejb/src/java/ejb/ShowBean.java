@@ -76,12 +76,12 @@ public class ShowBean implements ShowBeanRemote {
             throw new ExistException("No Show EXISTS.");
         }
 
-        ticketCatList = entshow.getTicketCat();
+        ticketCatList = entshow.getTicketCats();
         ticketCatList.size();
         ticketSeatList = new ArrayList();
         for (int i = 0; i < ticketCatList.size(); i++) {
-            for (int j = 0; j < ticketCatList.get(i).getTicketSeat().size(); j++) {
-                ticketSeat = ticketCatList.get(i).getTicketSeat().get(j);
+            for (int j = 0; j < ticketCatList.get(i).getTicketSeats().size(); j++) {
+                ticketSeat = ticketCatList.get(i).getTicketSeats().get(j);
                 ticketSeatList.add(ticketSeat);
             }
 
@@ -101,7 +101,7 @@ public class ShowBean implements ShowBeanRemote {
         if (entshow == null) {
             throw new ExistException("No Show EXISTS.");
         }
-        ticketCatList = (List<TicketCat>) entshow.getTicketCat();
+        ticketCatList = (List<TicketCat>) entshow.getTicketCats();
         ticketCatList.size();
         return ticketCatList;
     }

@@ -1,9 +1,7 @@
 package entity;
 
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,23 +21,19 @@ public class ShowRequest implements Serializable {
     private Long requestId;
     private String showName;
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar showDate;
+    private Date showDate;
     private String showVenue;
-    private long duration;
-    private String language;
     private String organizer;
     
-   // @OneToOne(mappedBy="show")
-   // private Show show;
+    @OneToOne
+    private EntShow entShow;
     
     public ShowRequest() {}
     
-    public void createShow (String showName, Calendar showDate, String showVenue, Long duration, String language, String organizer) {
+    public void createShow (String showName, Date showDate, String showVenue, String organizer) {
         this.setShowName(showName);
         this.setShowDate(showDate);
         this.setShowVenue(showVenue);
-        this.setDuration(duration);
-        this.setLanguage(language);
         this.setOrganizer(organizer);
     }
 
@@ -59,11 +53,11 @@ public class ShowRequest implements Serializable {
         this.showName = showName;
     }
 
-    public Calendar getShowDate() {
+    public Date getShowDate() {
         return showDate;
     }
 
-    public void setShowDate(Calendar showDate) {
+    public void setShowDate(Date showDate) {
         this.showDate = showDate;
     }
 
@@ -75,28 +69,20 @@ public class ShowRequest implements Serializable {
         this.showVenue = showVenue;
     }
 
-    public long getDuration() {
-        return duration;
-    }
-
-    public void setDuration(long duration) {
-        this.duration = duration;
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
     public String getOrganizer() {
         return organizer;
     }
 
     public void setOrganizer(String organizer) {
         this.organizer = organizer;
+    }
+
+    public EntShow getEntShow() {
+        return entShow;
+    }
+
+    public void setEntShow(EntShow entShow) {
+        this.entShow = entShow;
     }
 
 }

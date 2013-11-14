@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./templet/generalWebPortal_1.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="content">
+        <f:view beforePhase="#{templateManagedBean.beforePhaseListener}">
+        <div id="content" class="center_content" >  
+
+            <div class="container" style="width:75%">
+                <h:form>
+                    <p:growl id="msgs" showDetail="true"/>  
+                    <p:panel id="search"  style="height:795px; background-color:#F5F2F3 ">
+
+                        <p:breadCrumb> 
+                            <p:menuitem value="Coral Home Page" url="/Index.xhtml" />  
+                            <p:menuitem value="Entertainment Shows" url="#" />  
+                            <p:menuitem value="Show List" url="#" />  
+                        </p:breadCrumb> 
+                        <h2> Current Shows For Sale </h2>
+
+                        <P>Coral Island Resort offfers you a variety of entertainment shows in which you will enjoy amazing experience! Simply choose whatever show you are interested in, and PURCHASE ticket(s) right now!
+                        </P>
+
+                        <p:outputPanel id="shows">
+                            <p:dataTable var="entShow" value="#{showExecutionManagedBean.shows}"   rowKey="#{entShow.showId}" selection="#{showExecutionManagedBean.selectedShow}" selectionMode="single"> 
+
+                           
+                                <p:column headerText="Show ID" style="text-align: center;"> 
+                                    #{entShow.showId}
+                                </p:column>  
+
+                                <p:column headerText="Show Name" style="text-align: center;">
+                                    #{entShow.showName}
+                                </p:column>
+                        
+                                <p:column headerText="Show Venue" style="text-align: center;">
+                                    #{entShow.showVenue}
+                                </p:column>  
+
+                                <p:column headerText="Show Date" style="text-align: center;">  
+                                    <h:outputText value="#{entShow.showDate}" styleClass="date">
+                                       <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                                    </h:outputText>   
+                                </p:column>  
+                        
+                                <p:column headerText="Description" style="text-align: center;">
+                                      #{entShow.description}
+                                </p:column>
+
+                                <p:column headerText="Purchase" style="text-align: center;">
+                                    
+                               <p:commandButton id="add" value="Buy" 
+                                                actionListener="#{showExecutionManagedBean.selectShow}">  
+                            </p:commandButton> 
+                                </p:column> 
+                                
+                            </p:dataTable>
+                        </p:outputPanel>
+
+ <p style="margin-top:45px"><center><font color="black" size="1px">About Coral Island Resort | Corporate Social Responsibility | Partners | Press Room | Careers | Legal Information | Sitemap | Contact Us | Feedback </font>
+                    </center></p>
+                    <p><center><font color="black" size="1px">&copy; 2013 NUS IS3102 - AY 2013/2014 Sem 1. All Rights Reserved.</font></center></p>
+                    </p:panel>
+                </h:form>
+            </div>
+        </div>
+            </f:view>
+    </ui:define>
+</ui:composition>

@@ -63,7 +63,7 @@ public class CustomerLoginBean implements Serializable {
     private Map<String, String> ageGroups = new HashMap<String, String>();
     private String ageGroup;
     private String gender;
-
+    private boolean exceedMaxAttemp=false;
     public void setSq(String sq) {
         this.sq = sq;
     }
@@ -78,6 +78,14 @@ public class CustomerLoginBean implements Serializable {
 
     public String getAnswer() {
         return answer;
+    }
+
+    public boolean isExceedMaxAttemp() {
+        return exceedMaxAttemp;
+    }
+
+    public void setExceedMaxAttemp(boolean exceedMaxAttemp) {
+        this.exceedMaxAttemp = exceedMaxAttemp;
     }
 
     public CustomerLoginBean() {
@@ -106,7 +114,7 @@ public class CustomerLoginBean implements Serializable {
         String hashPassword = cbb.hashPassword(password);
         //if attmep number lesser than 5, allow login
         //if attemp number larger than 5 and account has locked, only allow login after 5 mins .  
-
+if (cbb.getLoginAttemp(username) >= 3){ exceedMaxAttemp=true;} 
         //attemp number lesser than 5 or it's 5 mins after last attemp, allow login
         if ((cbb.getLoginAttemp(username) <= 2) || (cbb.checkLockOut(username) == true)) {
            // System.out.println("login number============" + cbb.getLoginAttemp(username));

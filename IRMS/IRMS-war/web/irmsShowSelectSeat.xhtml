@@ -1,0 +1,1471 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//Dtd XHTML 1.0 Transitional//EN" "http://www.w3.org/tr/xhtml1/Dtd/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta http-equiv="X-UA-Compatible" content="EmulateIE8" />
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>Show Ticket Booking</title>
+            </f:facet>
+
+
+            <script src="./resources/js/jquery-1.3.1.js" type="text/javascript"></script>
+
+            <style type="text/css">
+                body {
+                    margin: 0px; font-size:12px
+                }
+                A:link {
+                    text-decoration: none
+                }
+                A:visited {
+                    text-decoration: none
+                }
+                A:hover {
+                    text-decoration:underline
+                }
+                A:active {
+                    text-decoration: none
+                }
+                .STYLE1 {
+                    color: #2691c0; font-size: 16px; font-weight:  bold
+                }
+                #Layer1 {
+                    z-index:  1; position: absolute; width:  158px; height: 105px; visibility: visible; top: 177px; left: 359px
+                }
+                body {
+                    font-size: 12px
+                }
+                td {
+                    font-size:  12px
+                }
+                TH {
+                    font-size:  12px
+                }
+            </style>
+        </h:head>
+        <script type="text/javascript">
+
+            $(function() {
+                var parent;
+                // if( $("#td").attr("id")==="Not available")
+                //  {$("#td").attr("bgColor").val("#4A5ECF");}else {$("#td").attr("bgColor").val("#CCA278");}
+                xOffset = 80;
+                yOffset = 110;
+                //加载时，隐藏层
+                $("#ts").hide();
+                //初始化隐藏域的值
+                $("#buyInfo").val("");
+                //选中单过单元格 CATEGORY D
+                $("td[bgColor=#C7DFED]").toggle(
+                        function() {
+                            if ($(this).attr("flag") != "true") {
+                                $(this).attr("flag", "true");
+                                $(this).css("background", "red");
+                            } else {
+                                $(this).attr("flag", "false");
+                                $(this).css("background", "#C7DFED");
+                            }
+                        },
+                        function() {
+                            $(this).attr("flag", "false");
+                            $(this).css("background", "#C7DFED");
+                        }
+                );
+                //选中一行单元格
+                $("td[class=a,bgColor=#C7DFED]").toggle(
+                        function() {
+                            parent = $(this).siblings().find("a").parent("td");
+                            parent.attr("flag", "true");
+                            parent.css("background", "red");
+                        },
+                        function() {
+                            parent = $(this).siblings().find("a").parent("td");
+                            parent.attr("flag", "false");
+                            parent.css("background", "#C7DFED");
+                        }
+                );
+                //隐藏层，显示层
+                $("td[bgColor=#C7DFED]").find("a").hover(
+                        function(e) {
+                            parent = $(this).parent("td");
+                            if (parent.attr("flag") != "true") {
+                                parent.attr("flag", "false");
+                                parent.css("background", "red");
+                            }
+                            $("#seat").html(" " + parent.attr("id"));
+                            $("#price").html(" " + parent.attr("class"));//+"Seat"+$(this).text());
+                            $("#ts").css("top", (e.pageY - yOffset) + "px").css("left", (e.pageX - xOffset) + "px").show();
+                        },
+                        function() {
+                            parent = $(this).parent("td");
+                            if (parent.attr("flag") != "true") {
+                                parent.css("background", "#C7DFED");
+                            }
+                            $("#ts").hide();
+                        }
+                );
+
+                //CATEGORY E
+                $("td[bgColor=#CCA278]").toggle(
+                        function() {
+                            if ($(this).attr("flag") != "true") {
+                                $(this).attr("flag", "true");
+                                $(this).css("background", "red");
+                            } else {
+                                $(this).attr("flag", "false");
+                                $(this).css("background", "#CCA278");
+                            }
+                        },
+                        function() {
+                            $(this).attr("flag", "false");
+                            $(this).css("background", "#CCA278");
+                        }
+                );
+                //选中一行单元格
+                $("td[class=a,bgColor=#CCA278]").toggle(
+                        function() {
+                            parent = $(this).siblings().find("a").parent("td");
+                            parent.attr("flag", "true");
+                            parent.css("background", "red");
+                        },
+                        function() {
+                            parent = $(this).siblings().find("a").parent("td");
+                            parent.attr("flag", "false");
+                            parent.css("background", "#CCA278");
+                        }
+                );
+                //隐藏层，显示层
+                $("td[bgColor=#CCA278]").find("a").hover(
+                        function(e) {
+                            parent = $(this).parent("td");
+                            if (parent.attr("flag") != "true") {
+                                parent.attr("flag", "false");
+                                parent.css("background", "red");
+                            }
+                            $("#seat").html(" " + parent.attr("id"));
+                            $("#price").html(" " + parent.attr("class"));//+"Seat"+$(this).text());
+                            $("#ts").css("top", (e.pageY - yOffset) + "px").css("left", (e.pageX - xOffset) + "px").show();
+                        },
+                        function() {
+                            parent = $(this).parent("td");
+                            if (parent.attr("flag") != "true") {
+                                parent.css("background", "#CCA278");
+                            }
+                            $("#ts").hide();
+                        }
+                );
+
+
+
+                //CATEGORY a
+                $("td[bgColor=#4A5ECF]").toggle(
+                        function() {
+                            if ($(this).attr("flag") != "true") {
+                                $(this).attr("flag", "true");
+                                $(this).css("background", "red");
+                            } else {
+                                $(this).attr("flag", "false");
+                                $(this).css("background", "#4A5ECF");
+                            }
+                        },
+                        function() {
+                            $(this).attr("flag", "false");
+                            $(this).css("background", "#4A5ECF");
+                        }
+                );
+                //选中一行单元格
+                $("td[class=a,bgColor=#4A5ECF]").toggle(
+                        function() {
+                            parent = $(this).siblings().find("a").parent("td");
+                            parent.attr("flag", "true");
+                            parent.css("background", "red");
+                        },
+                        function() {
+                            parent = $(this).siblings().find("a").parent("td");
+                            parent.attr("flag", "false");
+                            parent.css("background", "#4A5ECF");
+                        }
+                );
+                //隐藏层，显示层
+                $("td[bgColor=#4A5ECF]").find("a").hover(
+                        function(e) {
+                            parent = $(this).parent("td");
+                            if (parent.attr("flag") != "true") {
+                                parent.attr("flag", "false");
+                                parent.css("background", "red");
+                            }
+                            $("#seat").html(" " + parent.attr("id"));
+                            $("#price").html(" " + parent.attr("class"));//+"Seat"+$(this).text());
+                            $("#ts").css("top", (e.pageY - yOffset) + "px").css("left", (e.pageX - xOffset) + "px").show();
+                        },
+                        function() {
+                            parent = $(this).parent("td");
+                            if (parent.attr("flag") != "true") {
+                                parent.css("background", "#4A5ECF");
+                            }
+                            $("#ts").hide();
+                        }
+                );
+
+
+
+
+
+
+                //CATEGORY B
+                $("td[bgColor=#9DA7D4]").toggle(
+                        function() {
+                            if ($(this).attr("flag") != "true") {
+                                $(this).attr("flag", "true");
+                                $(this).css("background", "red");
+                            } else {
+                                $(this).attr("flag", "false");
+                                $(this).css("background", "#9DA7D4");
+                            }
+                        },
+                        function() {
+                            $(this).attr("flag", "false");
+                            $(this).css("background", "#9DA7D4");
+                        }
+                );
+                //选中一行单元格
+                $("td[class=a,bgColor=#9DA7D4]").toggle(
+                        function() {
+                            parent = $(this).siblings().find("a").parent("td");
+                            parent.attr("flag", "true");
+                            parent.css("background", "red");
+                        },
+                        function() {
+                            parent = $(this).siblings().find("a").parent("td");
+                            parent.attr("flag", "false");
+                            parent.css("background", "#9DA7D4");
+                        }
+                );
+                //隐藏层，显示层
+                $("td[bgColor=#9DA7D4]").find("a").hover(
+                        function(e) {
+                            parent = $(this).parent("td");
+                            if (parent.attr("flag") != "true") {
+                                parent.attr("flag", "false");
+                                parent.css("background", "red");
+                            }
+                            $("#seat").html(" " + parent.attr("id"));
+                            $("#price").html(" " + parent.attr("class"));//+"Seat"+$(this).text());
+                            $("#ts").css("top", (e.pageY - yOffset) + "px").css("left", (e.pageX - xOffset) + "px").show();
+                        },
+                        function() {
+                            parent = $(this).parent("td");
+                            if (parent.attr("flag") != "true") {
+                                parent.css("background", "#9DA7D4");
+                            }
+                            $("#ts").hide();
+                        }
+                );
+
+
+
+                //CATEGORY C
+                $("td[bgColor=#D9DB95]").toggle(
+                        function() {
+                            if ($(this).attr("flag") != "true") {
+                                $(this).attr("flag", "true");
+                                $(this).css("background", "red");
+                            } else {
+                                $(this).attr("flag", "false");
+                                $(this).css("background", "#D9DB95");
+                            }
+                        },
+                        function() {
+                            $(this).attr("flag", "false");
+                            $(this).css("background", "#D9DB95");
+                        }
+                );
+                //选中一行单元格
+                $("td[class=a,bgColor=#D9DB95]").toggle(
+                        function() {
+                            parent = $(this).siblings().find("a").parent("td");
+                            parent.attr("flag", "true");
+                            parent.css("background", "red");
+                        },
+                        function() {
+                            parent = $(this).siblings().find("a").parent("td");
+                            parent.attr("flag", "false");
+                            parent.css("background", "#D9DB95");
+                        }
+                );
+                //隐藏层，显示层
+                $("td[bgColor=#D9DB95]").find("a").hover(
+                        function(e) {
+                            parent = $(this).parent("td");
+                            if (parent.attr("flag") != "true") {
+                                parent.attr("flag", "false");
+                                parent.css("background", "red");
+                            }
+                            $("#seat").html(" " + parent.attr("id"));
+                            $("#price").html(" " + parent.attr("class"));//+"Seat"+$(this).text());
+                            $("#ts").css("top", (e.pageY - yOffset) + "px").css("left", (e.pageX - xOffset) + "px").show();
+                        },
+                        function() {
+                            parent = $(this).parent("td");
+                            if (parent.attr("flag") != "true") {
+                                parent.css("background", "#D9DB95");
+                            }
+                            $("#ts").hide();
+                        }
+                );
+
+
+                $("#buy").bind("click", function() {
+
+                    $("#showBookingForm").submit();
+                });
+                //purchase
+                $("#quantity").bind("click", function() {
+                    var str = "";
+                    $("td[flag=true]").each(function() {
+                        str += $(this).attr("name") + ",";
+                    })
+                    str = $.trim(str.substring(0, str.length - 1));
+
+                    if (str == "") {
+                        alert("No seat selected, please select!");
+                        return;
+                    }
+                    if (str.indexOf("Not available") !== -1) {
+                        alert("Please select available seat !");
+                        return;
+                    }
+                    else {
+                        // $('#Quantity').html("");
+                        var redir = "";
+                        var showTitle = "";
+                        var showId = "";
+                        $("td[flag=true]").each(function() {
+                            redir += $(this).attr("name") + ",";
+                        });
+                        showTitle = $("#msgInbox").val();
+                        showId = $("#showId").val();
+                      //  $.session.set("selectedSeat", redir);
+                      //  $("#form1:selectedSeat").val() = redir;
+
+                      window.location.href = 'http://localhost:8080/IRMS-war/irmsShowPurchase.xhtml?showId=' + showId + '&amp;seat=' + redir;
+                    }
+
+
+                });
+
+
+            });
+        </script>
+
+
+        <h:body>
+           
+            <div id="ts" style="position:absolute;font-size: 12px;padding: 3px; background-color:#0F0">
+
+                <table width="149" height="99" border="0" cellpadding="0" cellspacing="0">    
+                    <tr>    
+                        <td valign="top" background="images/div.gif">      
+                            <table width="120" border="0" align="center" cellpadding="0" cellspacing="0">    
+                                <tr>           
+                                    <td>&nbsp;</td>        
+                                </tr>   
+                                <tr>           
+                                    <td height="22">Category:<span id="seat"/></td>        
+                                </tr>         
+
+                                <tr>           
+                                    <td height="22">Price：<font color="red"><span id="price"/></font>SGD</td>       
+                                </tr>      
+                            </table>    
+                        </td> 
+                    </tr> 
+                </table>
+            </div> 
+
+            <table border="0" cellSpacing="0" cellPadding="0" width="1003" align="center" height="100%">
+                <tbody>
+                    <tr>
+                        <td height="105" vAlign="top" background="images/bg.gif" align="middle">
+                            <table border="0" cellSpacing="0" cellPadding="0" width="1003" align="center">
+                                <tbody>
+                                    <tr>
+                                       
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br></br>
+                            <table style="BORDER-BOTTOM: #cccccc 1px solid" border="0" cellSpacing="0" 
+                                   cellPadding="0" width="1003" align="center">
+                                <tbody>
+                                    <tr>
+                                        <td height="35" align="middle"><SPAN class="STYLE1">Step 1: Select Seat</SPAN>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br></br>
+
+
+
+                            <table border="0" cellspacing="0" cellpadding="0" width="1003" align="center" height="400">
+                                <tbody>
+                                    <tr>
+                                        <td height="300" width="150" align="left">
+                                            <table border="0" cellspacing="1" width="150" align="middle">
+                                                <tbody>
+                                                    <tr>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(144)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(144)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(144)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(145)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(145)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(145)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(146)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(146)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(146)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(147)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(147)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(147)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(148)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(148)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(148)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(149)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(149)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(149)}</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(150)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(150)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(150)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(151)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(151)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(151)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(152)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(152)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(152)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(153)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(153)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(153)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(154)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(154)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(154)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(155)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(155)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(155)}</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(156)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(156)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(156)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(157)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(157)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(157)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(158)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(158)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(158)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(159)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(159)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(159)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(160)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(160)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(160)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(161)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(161)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(161)}</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(162)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(162)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(162)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(163)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(163)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(163)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(164)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(164)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(164)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(165)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(165)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(165)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(166)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(166)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(166)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(167)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(167)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(167)}</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(168)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(168)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(168)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(169)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(169)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(169)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(170)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(170)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(170)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(171)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(171)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(171)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(172)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(172)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(172)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(173)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(173)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(173)}</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(174)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(174)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(174)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(175)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(175)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(175)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(176)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(176)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(176)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(177)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(177)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(177)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(178)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(178)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(178)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(179)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(179)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(179)}</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(180)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(180)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(180)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(181)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(181)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(181)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(182)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(182)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(182)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(183)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(183)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(183)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(184)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(184)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(184)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(185)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(185)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(185)}</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td bgcolor="#CCA278" id="#{showPurchaseManagedBean.seatAvailabilityList.get(276)}" class="#{showPurchaseManagedBean.fifthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(276)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(276)}</a>
+                                                        </td>
+                                                        <td bgcolor="#CCA278" id="#{showPurchaseManagedBean.seatAvailabilityList.get(277)}" class="#{showPurchaseManagedBean.fifthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(277)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(277)}</a>
+                                                        </td>
+                                                        <td bgcolor="#CCA278" id="#{showPurchaseManagedBean.seatAvailabilityList.get(278)}" class="#{showPurchaseManagedBean.fifthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(278)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(278)}</a>
+                                                        </td>
+                                                        <td bgcolor="#CCA278" id="#{showPurchaseManagedBean.seatAvailabilityList.get(279)}" class="#{showPurchaseManagedBean.fifthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(279)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(279)}</a>
+                                                        </td>
+                                                        <td bgcolor="#CCA278" id="#{showPurchaseManagedBean.seatAvailabilityList.get(280)}" class="#{showPurchaseManagedBean.fifthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(280)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(280)}</a>
+                                                        </td>
+                                                        <td bgcolor="#CCA278" id="#{showPurchaseManagedBean.seatAvailabilityList.get(281)}" class="#{showPurchaseManagedBean.fifthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(281)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(281)}</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td bgcolor="#CCA278" id="#{showPurchaseManagedBean.seatAvailabilityList.get(282)}" class="#{showPurchaseManagedBean.fifthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(282)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(282)}</a>
+                                                        </td>
+                                                        <td bgcolor="#CCA278" id="#{showPurchaseManagedBean.seatAvailabilityList.get(283)}" class="#{showPurchaseManagedBean.fifthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(283)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(283)}</a>
+                                                        </td>
+                                                        <td bgcolor="#CCA278" id="#{showPurchaseManagedBean.seatAvailabilityList.get(284)}" class="#{showPurchaseManagedBean.fifthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(284)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(284)}</a>
+                                                        </td>
+                                                        <td bgcolor="#CCA278" id="#{showPurchaseManagedBean.seatAvailabilityList.get(285)}" class="#{showPurchaseManagedBean.fifthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(285)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(285)}</a>
+                                                        </td>
+                                                        <td bgcolor="#CCA278" id="#{showPurchaseManagedBean.seatAvailabilityList.get(286)}" class="#{showPurchaseManagedBean.fifthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(286)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(286)}</a>
+                                                        </td>
+                                                        <td bgcolor="#CCA278" id="#{showPurchaseManagedBean.seatAvailabilityList.get(287)}" class="#{showPurchaseManagedBean.fifthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(287)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(287)}</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td bgcolor="#CCA278" id="#{showPurchaseManagedBean.seatAvailabilityList.get(288)}" class="#{showPurchaseManagedBean.fifthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(288)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(288)}</a>
+                                                        </td>
+                                                        <td bgcolor="#CCA278" id="#{showPurchaseManagedBean.seatAvailabilityList.get(289)}" class="#{showPurchaseManagedBean.fifthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(289)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(289)}</a>
+                                                        </td>
+                                                        <td bgcolor="#CCA278" id="#{showPurchaseManagedBean.seatAvailabilityList.get(290)}" class="#{showPurchaseManagedBean.fifthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(290)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(290)}</a>
+                                                        </td>
+                                                        <td bgcolor="#CCA278" id="#{showPurchaseManagedBean.seatAvailabilityList.get(291)}" class="#{showPurchaseManagedBean.fifthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(291)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(291)}</a>
+                                                        </td>
+                                                        <td bgcolor="#CCA278" id="#{showPurchaseManagedBean.seatAvailabilityList.get(292)}" class="#{showPurchaseManagedBean.fifthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(292)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(292)}</a>
+                                                        </td>
+                                                        <td bgcolor="#CCA278" id="#{showPurchaseManagedBean.seatAvailabilityList.get(293)}" class="#{showPurchaseManagedBean.fifthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(293)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(293)}</a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td>
+                                            <table border="0" cellspacing="1" width="598" height="234" align="center">
+                                                <tbody>
+                                                    <tr height="26" width="598">
+                                                    </tr>
+                                                    <tr height="26" width="598">
+                                                    </tr>
+                                                    <tr height="26" width="598">
+                                                    </tr>
+                                                    <tr>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(0)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(0)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(0)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(1)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(1)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(1)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(2)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(2)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(2)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(3)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(3)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(3)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(4)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(4)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(4)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(5)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(5)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(5)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(6)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(6)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(6)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(7)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(7)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(7)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(8)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(8)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(8)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(9)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(9)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(9)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(10)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(10)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(10)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(11)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(11)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(11)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(12)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(12)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(12)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(13)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(13)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(13)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(14)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(14)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(14)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(15)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(15)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(15)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(16)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(16)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(16)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(17)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(17)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(17)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(18)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(18)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(18)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(19)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(19)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(19)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(20)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(20)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(20)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(21)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(21)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(21)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(22)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(22)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(22)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(23)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(23)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(23)}</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(24)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(24)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(24)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(25)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(25)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(25)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(26)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(26)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(26)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(27)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(27)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(27)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(28)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(28)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(28)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(29)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(29)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(29)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(30)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(30)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(30)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(31)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(31)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(31)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(32)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(32)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(32)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(33)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(33)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(33)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(34)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(34)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(34)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(35)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(35)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(35)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(36)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(36)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(36)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(37)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(37)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(37)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(38)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(38)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(38)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(39)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(39)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(39)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(40)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(40)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(40)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(41)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(41)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(41)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(42)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(42)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(42)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(43)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(43)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(43)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(44)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(44)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(44)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(45)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(45)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(45)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(46)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(46)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(46)}</a>
+                                                        </td>
+                                                        <td bgcolor="#4A5ECF" id="#{showPurchaseManagedBean.seatAvailabilityList.get(47)}" class="#{showPurchaseManagedBean.firstCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(47)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(47)}</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(48)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(48)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(48)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(49)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(49)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(49)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(50)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(50)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(50)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(51)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(51)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(51)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(52)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(52)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(52)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(53)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(53)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(53)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(54)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(54)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(54)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(55)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(55)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(55)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(56)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(56)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(56)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(57)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(57)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(57)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(58)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(58)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(58)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(59)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(59)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(59)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(60)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(60)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(60)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(61)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(61)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(61)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(62)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(62)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(62)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(63)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(63)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(63)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(64)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(64)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(64)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(65)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(65)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(65)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(66)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(66)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(66)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(67)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(67)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(67)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(68)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(68)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(68)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(69)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(69)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(69)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(70)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(70)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(70)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(71)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(71)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(71)}</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(72)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(72)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(72)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(73)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(73)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(73)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(74)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(74)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(74)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(75)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(75)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(75)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(76)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(76)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(76)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(77)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(77)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(77)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(78)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(78)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(78)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(79)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(79)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(79)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(80)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(80)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(80)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(81)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(81)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(81)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(82)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(82)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(82)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(83)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(83)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(83)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(84)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(84)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(84)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(85)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(85)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(85)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(86)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(86)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(86)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(87)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(87)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(87)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(88)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(88)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(88)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(89)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(89)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(89)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(90)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(90)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(90)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(91)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(91)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(91)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(92)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(92)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(92)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(93)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(93)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(93)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(94)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(94)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(94)}</a>
+                                                        </td>
+                                                        <td bgcolor="#9DA7D4" id="#{showPurchaseManagedBean.seatAvailabilityList.get(95)}" class="#{showPurchaseManagedBean.secondCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(95)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(95)}</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(96)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(96)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(96)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(97)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(97)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(97)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(98)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(98)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(98)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(99)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(99)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(99)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(100)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(100)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(100)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(101)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(101)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(101)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(102)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(102)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(102)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(103)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(103)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(103)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(104)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(104)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(104)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(105)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(105)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(105)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(106)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(106)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(106)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(107)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(107)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(107)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(108)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(108)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(108)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(109)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(109)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(109)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(110)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(110)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(110)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(111)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(111)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(111)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(112)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(112)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(112)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(113)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(113)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(113)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(114)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(114)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(114)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(115)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(115)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(115)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(116)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(116)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(116)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(117)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(117)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(117)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(118)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(118)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(118)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(119)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(119)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(119)}</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(120)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(120)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(120)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(121)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(121)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(121)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(122)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(122)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(122)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(123)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(123)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(123)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(124)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(124)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(124)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(125)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(125)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(125)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(126)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(126)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(126)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(127)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(127)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(127)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(128)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(128)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(128)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(129)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(129)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(129)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(130)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(130)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(130)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(131)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(131)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(131)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(132)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(132)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(132)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(133)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(133)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(133)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(134)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(134)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(134)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(135)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(135)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(135)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(136)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(136)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(136)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(137)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(137)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(137)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(138)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(138)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(138)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(139)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(139)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(139)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(140)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(140)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(140)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(141)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(141)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(141)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(142)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(142)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(142)}</a>
+                                                        </td>
+                                                        <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(143)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(143)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(143)}</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(228)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(228)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(228)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(229)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(229)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(229)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(230)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(230)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(230)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(231)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(231)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(231)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(232)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(232)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(232)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(233)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(233)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(233)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(234)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(234)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(234)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(235)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(235)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(235)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(236)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(236)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(236)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(237)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(237)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(237)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(238)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(238)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(238)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(239)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(239)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(239)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(240)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(240)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(240)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(241)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(241)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(241)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(242)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(242)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(242)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(243)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(243)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(243)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(244)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(244)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(244)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(245)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(245)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(245)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(246)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(246)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(246)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(247)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(247)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(247)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(248)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(248)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(248)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(249)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(249)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(249)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(250)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(250)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(250)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(251)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(251)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(251)}</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(252)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(252)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(252)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(253)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(253)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(253)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(254)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(254)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(254)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(255)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(255)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(255)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(256)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(256)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(256)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(257)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(257)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(257)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(258)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(258)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(258)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(259)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(259)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(259)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(260)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(260)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(260)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(261)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(261)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(261)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(262)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(262)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(262)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(263)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(263)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(263)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(264)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(264)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(264)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(265)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(265)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(265)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(266)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(266)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(266)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(267)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(267)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(267)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(268)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(268)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(268)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(269)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(269)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(269)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(270)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(270)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(270)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(271)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(271)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(271)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(272)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(272)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(272)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(273)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(273)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(273)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(274)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(274)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(274)}</a>
+                                                        </td>
+                                                        <td bgcolor="#C7DFED" id="#{showPurchaseManagedBean.seatAvailabilityList.get(275)}" class="#{showPurchaseManagedBean.forthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(275)}" height="26" width="26" align="middle">
+                                                            <a href="">#{showPurchaseManagedBean.seatIdList.get(275)}</a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                         </td>
+                                                                    <td height="300" width="150" align="right">
+                                                                        <table border="0" cellspacing="1" width="150" align="middle">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(186)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(186)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(186)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(187)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(187)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(187)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(188)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(188)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(188)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(189)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(189)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(189)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(190)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(190)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(190)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(191)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(191)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(191)}</a>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(192)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(192)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(192)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(193)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(193)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(193)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(194)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(194)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(194)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(195)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(195)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(195)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(196)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(196)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(196)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(197)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(197)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(197)}</a>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(198)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(198)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(198)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(199)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(199)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(199)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(200)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(200)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(200)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(201)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(201)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(201)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(202)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(202)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(202)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(203)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(203)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(203)}</a>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(204)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(204)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(204)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(205)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(205)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(205)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(206)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(206)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(206)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(207)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(207)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(207)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(208)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(208)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(208)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(209)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(209)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(209)}</a>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(210)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(210)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(210)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(211)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(211)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(211)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(212)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(212)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(212)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(213)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(213)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(213)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(214)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(214)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(214)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(215)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(215)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(215)}</a>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(216)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(216)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(216)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(217)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(217)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(217)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(218)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(218)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(218)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(219)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(219)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(219)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(220)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(220)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(220)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(221)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(221)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(221)}</a>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(222)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(222)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(222)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(223)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(223)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(223)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(224)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(224)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(224)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(225)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(225)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(225)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(226)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(226)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(226)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#D9DB95" id="#{showPurchaseManagedBean.seatAvailabilityList.get(227)}" class="#{showPurchaseManagedBean.thirdCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(227)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(227)}</a>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td bgcolor="#CCA278" id="#{showPurchaseManagedBean.seatAvailabilityList.get(294)}" class="#{showPurchaseManagedBean.fifthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(294)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(294)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#CCA278" id="#{showPurchaseManagedBean.seatAvailabilityList.get(295)}" class="#{showPurchaseManagedBean.fifthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(295)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(295)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#CCA278" id="#{showPurchaseManagedBean.seatAvailabilityList.get(296)}" class="#{showPurchaseManagedBean.fifthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(296)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(296)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#CCA278" id="#{showPurchaseManagedBean.seatAvailabilityList.get(297)}" class="#{showPurchaseManagedBean.fifthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(297)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(297)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#CCA278" id="#{showPurchaseManagedBean.seatAvailabilityList.get(298)}" class="#{showPurchaseManagedBean.fifthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(298)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(298)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#CCA278" id="#{showPurchaseManagedBean.seatAvailabilityList.get(299)}" class="#{showPurchaseManagedBean.fifthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(299)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(299)}</a>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td bgcolor="#CCA278" id="#{showPurchaseManagedBean.seatAvailabilityList.get(300)}" class="#{showPurchaseManagedBean.fifthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(300)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(300)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#CCA278" id="#{showPurchaseManagedBean.seatAvailabilityList.get(301)}" class="#{showPurchaseManagedBean.fifthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(301)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(301)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#CCA278" id="#{showPurchaseManagedBean.seatAvailabilityList.get(302)}" class="#{showPurchaseManagedBean.fifthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(302)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(302)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#CCA278" id="#{showPurchaseManagedBean.seatAvailabilityList.get(303)}" class="#{showPurchaseManagedBean.fifthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(303)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(303)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#CCA278" id="#{showPurchaseManagedBean.seatAvailabilityList.get(304)}" class="#{showPurchaseManagedBean.fifthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(304)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(304)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#CCA278" id="#{showPurchaseManagedBean.seatAvailabilityList.get(305)}" class="#{showPurchaseManagedBean.fifthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(305)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(305)}</a>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td bgcolor="#CCA278" id="#{showPurchaseManagedBean.seatAvailabilityList.get(306)}" class="#{showPurchaseManagedBean.fifthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(306)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(306)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#CCA278" id="#{showPurchaseManagedBean.seatAvailabilityList.get(307)}" class="#{showPurchaseManagedBean.fifthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(307)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(307)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#CCA278" id="#{showPurchaseManagedBean.seatAvailabilityList.get(308)}" class="#{showPurchaseManagedBean.fifthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(308)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(308)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#CCA278" id="#{showPurchaseManagedBean.seatAvailabilityList.get(309)}" class="#{showPurchaseManagedBean.fifthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(309)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(309)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#CCA278" id="#{showPurchaseManagedBean.seatAvailabilityList.get(310)}" class="#{showPurchaseManagedBean.fifthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(310)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(310)}</a>
+                                                                                    </td>
+                                                                                    <td bgcolor="#CCA278" id="#{showPurchaseManagedBean.seatAvailabilityList.get(311)}" class="#{showPurchaseManagedBean.fifthCat.catPrice}" name="#{showPurchaseManagedBean.seatIdList.get(311)}" height="26" width="26" align="middle">
+                                                                                        <a href="">#{showPurchaseManagedBean.seatIdList.get(311)}</a>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                    </table>
+                                                                    </td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                    </table>
+ <h:form id="form1" style="width:400px; align:center; margin-left:35%">
+
+                <p:panel id="msgInbox" header="All Ticket Type: #{showPurchaseManagedBean.showTitle}">
+
+                    <p:dataTable id="myMsg" emptyMessage="No Message in your box" value="#{showPurchaseManagedBean.catList}" selectionMode="single"  rowKey="#{tickets.catName}"   var ="tickets" paginator="false" rows="5">
+
+                        <p:column>
+                            <f:facet name="header">Category Name</f:facet>
+                                #{tickets.catName}
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">Ticket Price</f:facet>
+                                #{tickets.catPrice}
+                        </p:column>
+
+                    </p:dataTable>
+
+                </p:panel> 
+    <A 
+                    href=""><IMG border="0" 
+                             src="./resources/img/button_1.png" id="quantity" width="96" 
+                             height="30"/></A>
+     
+            </h:form>
+                                                                    </h:body>
+
+                                                                    </f:view>
+                                                                    </html>

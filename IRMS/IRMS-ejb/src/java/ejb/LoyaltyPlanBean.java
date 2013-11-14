@@ -41,6 +41,7 @@ public class LoyaltyPlanBean implements LoyaltyPlanBeanRemote {
     private String point;
     private List<ShowTicketTrans> showTicketTrans;
     private List<Customer> customerList;
+    private List<PointTrans> pointTrans;
 
     @Override
     public List<Membership> getMembersihpType() {
@@ -124,6 +125,7 @@ public class LoyaltyPlanBean implements LoyaltyPlanBeanRemote {
         System.out.println("LoyaltyPlanBean-->getPointTransByCID");
         try {
             PointTransactionsRecord = query.getResultList();
+            PointTransactionsRecord.size();
         } catch (NoResultException ex) {
             ex.printStackTrace();
         }
@@ -163,6 +165,8 @@ public class LoyaltyPlanBean implements LoyaltyPlanBeanRemote {
             return showTicketTrans;
         }
     }
+    
+  
 
     @Override
     public List<Customer> getMarketingEmailCustomerList(List<String> marketingclsgroup,
